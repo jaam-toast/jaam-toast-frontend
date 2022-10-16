@@ -27,6 +27,7 @@
     "no-console": "off",
     "func-names": "off",
     "react/style-prop-object": "warn",
+    "react/jsx-props-no-spreading": "off",
     "react/jsx-filename-extension": [
       1,
       { "extensions": [".js", ".jsx", ".ts", ".tsx"] }

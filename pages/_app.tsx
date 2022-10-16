@@ -1,3 +1,12 @@
-export default function Home() {
-  return <div>jaam-toast-frontend</div>;
+import type { AppProps } from "next/app";
+
+import CssBaseline from "@mui/material/CssBaseline";
+
+export default function App({ Component, pageProps }: AppProps) {
+  return (
+    <>
+      <CssBaseline />
+      <Component {...pageProps} />
+    </>
+  );
 }
