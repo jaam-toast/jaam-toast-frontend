@@ -1,3 +1,1 @@
-export default function Home() {
-  return <div>jaam-toast-frontend</div>;
-}
+// Landing 페이지 + Login 버튼
