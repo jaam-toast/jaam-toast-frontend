@@ -1,13 +1,13 @@
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import ChangeHistoryIcon from "@mui/icons-material/ChangeHistory";
+import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import ChangeHistoryIcon from "@mui/icons-material/ChangeHistory";
 
-export default function NavBar() {
+const navBar = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="inherit" sx={{ boxShadow: "1" }}>
@@ -25,7 +25,18 @@ export default function NavBar() {
             Jaam-Toast
           </Typography>
           <Tooltip title="Log out">
-            <Button size="small" color="inherit">
+            <Button
+              variant="contained"
+              size="small"
+              color="inherit"
+              sx={{
+                bgcolor: "#FFF",
+                ":hover": {
+                  bgcolor: "#FFF",
+                  color: "#000",
+                },
+              }}
+            >
               Log out
             </Button>
           </Tooltip>
@@ -33,4 +44,6 @@ export default function NavBar() {
       </AppBar>
     </Box>
   );
-}
+};
+
+export default navBar;
