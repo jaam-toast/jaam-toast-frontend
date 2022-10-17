@@ -58,6 +58,7 @@
         "variables": false,
         "allowNamedExports": false
       }
-    ]
+    ],
+    "@typescript-eslint/ban-types": "off"
   }
 }
