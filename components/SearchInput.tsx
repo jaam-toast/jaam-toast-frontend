@@ -9,6 +9,7 @@ function SearchInput() {
       label="Search..."
       variant="outlined"
       autoComplete="off"
+      helperText="Please enter your repository name."
       sx={{
         m: 1,
         width: "75%",
