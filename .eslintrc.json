@@ -35,6 +35,7 @@
     "import/no-anonymous-default-export": "warn",
     "react/no-unknown-property": "off",
     "react/react-in-jsx-scope": "off",
+    "react-hooks/rules-of-hooks": "off",
     "react/prop-types": "off",
     "jsx-a11y/alt-text": [
       "warn",
