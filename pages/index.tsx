@@ -1,4 +1,3 @@
-// Landing 페이지 + Login 버튼
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import ButtonLogin from "../components/ButtonLogin";
