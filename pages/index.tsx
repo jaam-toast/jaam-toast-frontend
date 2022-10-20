@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import ButtonLogin from "../components/ButtonLogin";
 
-const pageLanding = () => {
+function PageLanding() {
   return (
     <Container maxWidth="lg">
       <Box
@@ -18,6 +18,6 @@ const pageLanding = () => {
       </Box>
     </Container>
   );
-};
+}
 
-export default pageLanding;
+export default PageLanding;

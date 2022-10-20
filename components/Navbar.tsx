@@ -7,7 +7,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 
-const navBar = () => {
+function NavBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="inherit" sx={{ boxShadow: "1" }}>
@@ -44,6 +44,6 @@ const navBar = () => {
       </AppBar>
     </Box>
   );
-};
+}
 
-export default navBar;
+export default NavBar;

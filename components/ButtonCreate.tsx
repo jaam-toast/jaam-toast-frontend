@@ -1,6 +1,6 @@
 import Button from "@mui/material/Button";
 
-const buttonCreate = () => {
+function ButtonCreate() {
   return (
     <Button
       variant="contained"
@@ -16,6 +16,6 @@ const buttonCreate = () => {
       New Project
     </Button>
   );
-};
+}
 
-export default buttonCreate;
+export default ButtonCreate;

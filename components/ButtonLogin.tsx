@@ -1,7 +1,7 @@
 import Button from "@mui/material/Button";
 import GitHubIcon from "@mui/icons-material/GitHub";
 
-const buttonLogin = () => {
+function ButtonLogin() {
   return (
     <Button
       variant="contained"
@@ -17,6 +17,6 @@ const buttonLogin = () => {
       Log in with GitHub
     </Button>
   );
-};
+}
 
-export default buttonLogin;
+export default ButtonLogin;
