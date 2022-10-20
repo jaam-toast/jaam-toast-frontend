@@ -6,7 +6,7 @@ import Content from "../components/Content";
 import NavBar from "../components/Navbar";
 import SearchInput from "../components/SearchInput";
 
-const dashboard = () => {
+function Dashboard() {
   return (
     <>
       <NavBar />
@@ -27,6 +27,6 @@ const dashboard = () => {
       </Container>
     </>
   );
-};
+}
 
-export default dashboard;
+export default Dashboard;

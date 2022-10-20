@@ -3,14 +3,7 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 
-const card = (
-  <>
-    <CardActions />
-    <CardContent />
-  </>
-);
-
-const content = () => {
+function Content() {
   return (
     <Box
       sx={{
@@ -21,6 +14,13 @@ const content = () => {
       <Card variant="elevation">{card}</Card>
     </Box>
   );
-};
+}
 
-export default content;
+const card = (
+  <>
+    <CardActions />
+    <CardContent />
+  </>
+);
+
+export default Content;

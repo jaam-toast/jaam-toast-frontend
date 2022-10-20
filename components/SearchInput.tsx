@@ -2,7 +2,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 
-const searchInput = () => {
+function SearchInput() {
   return (
     <TextField
       id="outlined-basic"
@@ -22,6 +22,6 @@ const searchInput = () => {
       }}
     />
   );
-};
+}
 
-export default searchInput;
+export default SearchInput;
