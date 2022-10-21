@@ -1,7 +1,6 @@
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-
-import CreateButton from "../components/ButtonCreate";
+import ButtonCreate from "../components/ButtonCreate";
 import Content from "../components/Content";
 import NavBar from "../components/Navbar";
 import SearchInput from "../components/SearchInput";
@@ -21,7 +20,7 @@ function Dashboard() {
           }}
         >
           <SearchInput />
-          <CreateButton />
+          <ButtonCreate />
         </Box>
         <Content />
       </Container>
