@@ -11,11 +11,10 @@ import Typography from "@mui/material/Typography";
 import useModal from "../hooks/useModal";
 
 function ModalCreate() {
+  const { hideModal } = useModal();
   const [organization, setOrganization] = useState("");
   const [repository, setRepository] = useState("");
 
-  const { hideModal } = useModal();
-  const handleClose = () => hideModal();
   const handleChange = (event: SelectChangeEvent) => {
     setOrganization(event.target.value);
   };
@@ -26,7 +25,7 @@ function ModalCreate() {
   return (
     <Modal
       open
-      onClose={handleClose}
+      onClose={() => hideModal()}
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
     >
