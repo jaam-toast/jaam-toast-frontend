@@ -15,6 +15,10 @@ function ModalCreate() {
   const [organization, setOrganization] = useState("");
   const [repository, setRepository] = useState("");
 
+  const isButtonNext = () => {
+    return organization !== "" && repository !== "";
+  };
+
   const handleChange = (event: SelectChangeEvent) => {
     setOrganization(event.target.value);
   };
@@ -41,19 +45,21 @@ function ModalCreate() {
           <Typography id="modal-title" variant="h6" component="h3">
             Create Site
           </Typography>
-          <Button
-            variant="contained"
-            sx={{
-              m: 1,
-              bgcolor: "#000",
-              ":hover": {
-                bgcolor: "#FFF",
-                color: "#000",
-              },
-            }}
-          >
-            Next
-          </Button>
+          {isButtonNext() ? (
+            <Button
+              variant="contained"
+              sx={{
+                m: 1,
+                bgcolor: "#000",
+                ":hover": {
+                  bgcolor: "#FFF",
+                  color: "#000",
+                },
+              }}
+            >
+              Next
+            </Button>
+          ) : null}
         </Box>
         <Box display="flex" sx={{ flexDirection: "row" }}>
           <Box sx={{ width: "50%" }}>
