@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import useModal from "../hooks/useModal";
+
+import useModal from "../lib/hooks/useModal";
 
 function ButtonCreate() {
   const { showModal } = useModal();

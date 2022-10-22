@@ -8,7 +8,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Modal from "@mui/material/Modal";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
-import useModal from "../hooks/useModal";
+
+import useModal from "../lib/hooks/useModal";
 
 function ModalCreate() {
   const { hideModal } = useModal();
