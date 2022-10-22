@@ -1,7 +1,8 @@
 import { useRecoilState } from "recoil";
-import { modalState } from "../recoil/modal";
 import ModalBuild from "./ModalBuild";
 import ModalCreate from "./ModalCreate";
+
+import { modalState } from "../lib/recoil/modal";
 
 function ModalGlobal() {
   const { modalType } = useRecoilState(modalState)[0] || {};
