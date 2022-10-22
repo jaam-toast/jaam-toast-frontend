@@ -1,3 +1,8 @@
+import { useRouter } from "next/router";
+import { useSetRecoilState } from "recoil";
+
+import { removeCookies } from "cookies-next";
+
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -7,7 +12,19 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 
+import loginState from "../lib/recoil/auth";
+
 function NavBar() {
+  const setIsLoggedIn = useSetRecoilState(loginState);
+  const router = useRouter();
+
+  const handleLogout = () => {
+    removeCookies("loginData");
+    setIsLoggedIn(null);
+
+    router.push("/login");
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="inherit" sx={{ boxShadow: "1" }}>
@@ -36,6 +53,7 @@ function NavBar() {
                   color: "#000",
                 },
               }}
+              onClick={handleLogout}
             >
               Log out
             </Button>
