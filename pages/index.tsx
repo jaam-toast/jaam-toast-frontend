@@ -12,19 +12,19 @@ import loginState from "../lib/recoil/auth";
 function PageLanding() {
   const isLoggedIn = useRecoilValue(loginState);
   const router = useRouter();
-  const [isSSR, setIsSSR] = useState(true);
+  const [isRendered, setIsRendered] = useState(false);
 
   useEffect(() => {
     if (isLoggedIn) {
       router.replace("/dashboard");
     }
 
-    setIsSSR(false);
+    setIsRendered(true);
   }, [isLoggedIn, router]);
 
   return (
     <Container>
-      {!isSSR && isLoggedIn ? (
+      {isRendered && isLoggedIn ? (
         <Dashboard />
       ) : (
         <Container maxWidth="lg">

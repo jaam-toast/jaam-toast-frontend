@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 
@@ -15,16 +15,19 @@ import loginState from "../lib/recoil/auth";
 function Dashboard() {
   const isLoggedIn = useRecoilValue(loginState);
   const router = useRouter();
+  const [isRendered, setIsRendered] = useState(false);
 
   useEffect(() => {
     if (!isLoggedIn) {
       router.replace("/login");
     }
+
+    setIsRendered(true);
   }, [isLoggedIn, router]);
 
   return (
     <Container>
-      {isLoggedIn ? (
+      {isRendered && isLoggedIn ? (
         <>
           <NavBar />
           <Container maxWidth="lg">
