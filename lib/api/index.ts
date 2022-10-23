@@ -5,12 +5,12 @@ import Config from "../config";
 
 import { LoginResponse } from "../../types";
 
-const API: AxiosInstance = axios.create({
+const MainClient: AxiosInstance = axios.create({
   baseURL: Config.SERVER_URL,
   timeout: 2500,
 });
 
-API.interceptors.request.use((req: AxiosRequestConfig) => {
+MainClient.interceptors.request.use((req: AxiosRequestConfig) => {
   if (getCookie("loginData")) {
     req.headers = {
       Authorization: `Bearer ${
@@ -22,19 +22,19 @@ API.interceptors.request.use((req: AxiosRequestConfig) => {
   return req;
 });
 
-API.interceptors.response.use(
+MainClient.interceptors.response.use(
   res => {
     return res;
   },
   err => {
-    // if (err.response.status === 401) window.location.href = "/login";
+    if (err.response.status === 401) window.location.href = "/login";
 
     return Promise.reject(err);
   },
 );
 
 export const login = async (code: string) => {
-  const { data } = await API.post<LoginResponse>("/api/login", { code });
+  const { data } = await MainClient.post<LoginResponse>("/login", { code });
 
   return data;
 };
