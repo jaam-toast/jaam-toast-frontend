@@ -12,11 +12,11 @@ import useModal from "../lib/hooks/useModal";
 
 function ModalCreate() {
   const { showModal } = useModal();
-  const [organization, setOrganization] = useState("");
+  const [spaces, setSpaces] = useState("");
   const [repository, setRepository] = useState("");
 
   const isButtonNext = () => {
-    return organization !== "" && repository !== "";
+    return spaces !== "" && repository !== "";
   };
 
   const handleClickModalBuild = () => {
@@ -26,7 +26,7 @@ function ModalCreate() {
   };
 
   const handleChange = (event: SelectChangeEvent) => {
-    setOrganization(event.target.value);
+    setSpaces(event.target.value);
   };
   const handleSecondChange = (event: SelectChangeEvent) => {
     setRepository(event.target.value);
@@ -65,18 +65,18 @@ function ModalCreate() {
       <Box display="flex" sx={{ flexDirection: "row" }}>
         <Box sx={{ width: "50%" }}>
           <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
-            Organization
+            Spaces
           </Typography>
           <Box sx={{ width: "90%", marginTop: 1.5 }}>
             <FormControl size="small" fullWidth>
               <InputLabel id="select-label" sx={{ fontSize: "small" }}>
-                Organization
+                Spaces
               </InputLabel>
               <Select
                 labelId="select-label"
                 id="select"
-                value={organization}
-                label="Organization"
+                value={spaces}
+                label="spaces"
                 sx={{ fontSize: "small" }}
                 onChange={handleChange}
               >
@@ -110,7 +110,7 @@ function ModalCreate() {
                 labelId="select-label"
                 id="select"
                 value={repository}
-                label="Repository"
+                label="repository"
                 sx={{ fontSize: "small" }}
                 onChange={handleSecondChange}
               >

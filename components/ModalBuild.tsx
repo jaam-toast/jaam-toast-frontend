@@ -9,15 +9,15 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
 
 function ModalBuild() {
-  const [organization, setOrganization] = useState("");
+  const [spaces, setSpaces] = useState("");
   const [repository, setRepository] = useState("");
 
   const isButtonNext = () => {
-    return organization !== "" && repository !== "";
+    return spaces !== "" && repository !== "";
   };
 
   const handleChange = (event: SelectChangeEvent) => {
-    setOrganization(event.target.value);
+    setSpaces(event.target.value);
   };
   const handleSecondChange = (event: SelectChangeEvent) => {
     setRepository(event.target.value);
@@ -66,18 +66,18 @@ function ModalBuild() {
       <Box display="flex" sx={{ flexDirection: "row" }}>
         <Box sx={{ width: "50%" }}>
           <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
-            Organization
+            Spaces
           </Typography>
           <Box sx={{ width: "90%", marginTop: 1.5 }}>
             <FormControl size="small" fullWidth>
               <InputLabel id="select-label" sx={{ fontSize: "small" }}>
-                Organization
+                Spaces
               </InputLabel>
               <Select
                 labelId="select-label"
                 id="select"
-                value={organization}
-                label="Organization"
+                value={spaces}
+                label="spaces"
                 sx={{ fontSize: "small" }}
                 onChange={handleChange}
               >
@@ -111,7 +111,7 @@ function ModalBuild() {
                 labelId="select-label"
                 id="select"
                 value={repository}
-                label="Repository"
+                label="repository"
                 sx={{ fontSize: "small" }}
                 onChange={handleSecondChange}
               >
