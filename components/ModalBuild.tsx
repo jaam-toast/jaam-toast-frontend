@@ -1,27 +1,29 @@
 import { useState } from "react";
 
+// import AddIcon from "@mui/icons-material/Add";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 
 function ModalBuild() {
-  const [spaces, setSpaces] = useState("");
-  const [repository, setRepository] = useState("");
+  const [version, setVersion] = useState("");
+  // const [repository, setRepository] = useState("");
 
   const isButtonNext = () => {
-    return spaces !== "" && repository !== "";
+    return version !== ""; // && repository !== ""
   };
 
   const handleChange = (event: SelectChangeEvent) => {
-    setSpaces(event.target.value);
+    setVersion(event.target.value);
   };
-  const handleSecondChange = (event: SelectChangeEvent) => {
-    setRepository(event.target.value);
-  };
+  // const handleSecondChange = (event: SelectChangeEvent) => {
+  //   setRepository(event.target.value);
+  // };
 
   return (
     <Box sx={style}>
@@ -63,34 +65,51 @@ function ModalBuild() {
           </Button>
         ) : null}
       </Box>
+      <Box sx={{ width: "50%" }}>
+        <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
+          Node Version
+        </Typography>
+        <Box sx={{ width: "90%", marginTop: 1.5 }}>
+          <FormControl size="small" fullWidth>
+            <InputLabel id="select-label" sx={{ fontSize: "small" }}>
+              Node Version
+            </InputLabel>
+            <Select
+              labelId="select-label"
+              id="select"
+              value={version}
+              label="version"
+              sx={{ fontSize: "small" }}
+              onChange={handleChange}
+            >
+              <MenuItem value={0} sx={{ fontSize: "small" }}>
+                Node.js 17.0.0
+              </MenuItem>
+              <MenuItem value={1} sx={{ fontSize: "small" }}>
+                Node.js 16.18.0
+              </MenuItem>
+              <MenuItem value={2} sx={{ fontSize: "small" }}>
+                Node.js 16.17.1
+              </MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
+      </Box>
+      {/* <Box display="flex" sx={{ flexDirection: "column" }}> */}
       <Box display="flex" sx={{ flexDirection: "row" }}>
         <Box sx={{ width: "50%" }}>
           <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
-            Spaces
+            Install Command
           </Typography>
           <Box sx={{ width: "90%", marginTop: 1.5 }}>
             <FormControl size="small" fullWidth>
-              <InputLabel id="select-label" sx={{ fontSize: "small" }}>
-                Spaces
-              </InputLabel>
-              <Select
-                labelId="select-label"
-                id="select"
-                value={spaces}
-                label="spaces"
+              <TextField
+                id="outlined-basic"
+                variant="outlined"
+                size="small"
+                autoComplete="false"
                 sx={{ fontSize: "small" }}
-                onChange={handleChange}
-              >
-                <MenuItem value={0} sx={{ fontSize: "small" }}>
-                  Room-Planet
-                </MenuItem>
-                <MenuItem value={1} sx={{ fontSize: "small" }}>
-                  Bumper-Dosi
-                </MenuItem>
-                <MenuItem value={2} sx={{ fontSize: "small" }}>
-                  Design-Pattern
-                </MenuItem>
-              </Select>
+              />
             </FormControl>
           </Box>
         </Box>
@@ -100,31 +119,52 @@ function ModalBuild() {
             variant="body2"
             sx={{ mt: 2, marginLeft: 2 }}
           >
-            Repository
+            Build Command
           </Typography>
           <Box sx={{ width: "90%", marginTop: 1.5, marginLeft: 2 }}>
             <FormControl size="small" fullWidth>
-              <InputLabel id="select-label" sx={{ fontSize: "small" }}>
-                Repository
-              </InputLabel>
-              <Select
-                labelId="select-label"
-                id="select"
-                value={repository}
-                label="repository"
+              <TextField
+                id="outlined-basic"
+                variant="outlined"
+                size="small"
+                autoComplete="false"
                 sx={{ fontSize: "small" }}
-                onChange={handleSecondChange}
-              >
-                <MenuItem value={3} sx={{ fontSize: "small" }}>
-                  Room-Planet
-                </MenuItem>
-                <MenuItem value={4} sx={{ fontSize: "small" }}>
-                  Bumper-Dosi
-                </MenuItem>
-                <MenuItem value={5} sx={{ fontSize: "small" }}>
-                  Design-Pattern
-                </MenuItem>
-              </Select>
+              />
+            </FormControl>
+          </Box>
+        </Box>
+      </Box>
+      {/* </Box> */}
+      {/* <Box display="flex" sx={{ flexDirection: "column" }}> */}
+      <Box display="flex" sx={{ flexDirection: "row" }}>
+        <Box sx={{ width: "40%" }}>
+          <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
+            Environment Variable
+          </Typography>
+          <Box sx={{ width: "90%", marginTop: 1.5 }}>
+            <FormControl size="small" fullWidth>
+              <TextField
+                id="outlined-basic"
+                label="Key"
+                variant="outlined"
+                size="small"
+                autoComplete="false"
+                sx={{ fontSize: "small" }}
+              />
+            </FormControl>
+          </Box>
+        </Box>
+        <Box sx={{ width: "50%", marginTop: 4.5 }}>
+          <Box sx={{ width: "90%", marginTop: 1.5 }}>
+            <FormControl size="small" fullWidth>
+              <TextField
+                id="outlined-basic"
+                label="Value"
+                variant="outlined"
+                size="small"
+                autoComplete="false"
+                sx={{ fontSize: "small" }}
+              />
             </FormControl>
           </Box>
         </Box>
