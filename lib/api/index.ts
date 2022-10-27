@@ -3,7 +3,12 @@ import { getCookie } from "cookies-next";
 
 import Config from "../config";
 
-import { LoginResponse } from "../../types";
+import {
+  GetOrgsResponse,
+  GetRepoReponse,
+  GetReposResponse,
+  LoginResponse,
+} from "../../types";
 
 const MainClient: AxiosInstance = axios.create({
   baseURL: Config.SERVER_URL,
@@ -39,4 +44,28 @@ export const login = async (code: string) => {
   return data;
 };
 
-export const getRepo = () => {};
+export const getRepos = async () => {
+  const { data } = await MainClient.get<GetReposResponse>("/user/repos");
+
+  return data;
+};
+
+export const getOrgs = async () => {
+  const { data } = await MainClient.get<GetOrgsResponse>("/user/orgs");
+
+  return data;
+};
+
+export const getOrgRepos = async (org: string) => {
+  const { data } = await MainClient.get<GetReposResponse>(
+    `/user/orgs/${org}/repos`,
+  );
+
+  return data;
+};
+
+export const getRepo = async (repo: string) => {
+  const { data } = await MainClient.get<GetRepoReponse>(`user/repos/${repo}`);
+
+  return data;
+};
