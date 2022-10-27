@@ -10,3 +10,23 @@ export type LoginResponse = {
   data: UserLoginData;
   accessToken: string;
 };
+
+export type Repo = {};
+
+export type GetReposResponse = {
+  data: Repo[];
+};
+
+export type GetRepoReponse = {
+  data: Repo;
+};
+
+export type Org = {};
+
+export type GetOrgsResponse = {
+  data: Org[];
+};
+
+export type GetOrgReposResponse = {
+  data: Repo[];
+};
