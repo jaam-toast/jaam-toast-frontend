@@ -12,8 +12,8 @@ import useModal from "../lib/hooks/useModal";
 
 function ModalCreate() {
   const { showModal } = useModal();
-  const [spaces, setSpaces] = useState("");
-  const [repository, setRepository] = useState("");
+  const [spaces, setSpaces] = useState<string>("");
+  const [repository, setRepository] = useState<string>("");
 
   const isButtonNext = () => {
     return spaces !== "" && repository !== "";

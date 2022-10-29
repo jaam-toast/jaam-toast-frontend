@@ -15,9 +15,9 @@ import useModal from "../lib/hooks/useModal";
 
 function ModalBuild() {
   const { showModal } = useModal();
-  const [version, setVersion] = useState("");
-  const [install, setInstall] = useState("");
-  const [build, setBuild] = useState("");
+  const [version, setVersion] = useState<string>("");
+  const [install, setInstall] = useState<string>("");
+  const [build, setBuild] = useState<string>("");
 
   const isButtonNext = () => {
     return version !== "" && install !== "" && build !== "";

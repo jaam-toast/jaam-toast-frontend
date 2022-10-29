@@ -4,10 +4,10 @@ import useModal from "../lib/hooks/useModal";
 import ModalBuild from "./ModalBuild";
 import ModalCreate from "./ModalCreate";
 
-import { modalState } from "../lib/recoil/modal";
+import { modalState, ModalType } from "../lib/recoil/modal";
 
 function ModalGlobal() {
-  const { modalType } = useRecoilValue(modalState) || {};
+  const { modalType } = useRecoilValue<ModalType>(modalState) || {};
   const { isModal, hideModal } = useModal();
 
   const renderComponent = () => {
