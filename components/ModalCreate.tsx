@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -10,10 +11,13 @@ import Typography from "@mui/material/Typography";
 
 import useModal from "../lib/hooks/useModal";
 
+import { gitNamespaceList } from "../lib/recoil/git/namespace";
+import { LoginData, GitNamespace, Repo } from "../types";
 function ModalCreate() {
-  const { showModal } = useModal();
+  const gitNamespaces = useRecoilValue<GitNamespace[]>(gitNamespaceList);
   const [spaces, setSpaces] = useState<string>("");
   const [repository, setRepository] = useState<string>("");
+  const { showModal } = useModal();
 
   const isButtonNext = () => {
     return spaces !== "" && repository !== "";
@@ -70,25 +74,25 @@ function ModalCreate() {
           <Box sx={{ width: "90%", marginTop: 1.5 }}>
             <FormControl size="small" fullWidth>
               <InputLabel id="select-label" sx={{ fontSize: "small" }}>
-                Spaces
+                Select a Git Namespace
               </InputLabel>
               <Select
                 labelId="select-label"
                 id="select"
                 value={spaces}
-                label="spaces"
+                label="Select a Git Namespace"
                 sx={{ fontSize: "small" }}
-                onChange={handleChange}
+                onChange={handleSpaceChange}
               >
-                <MenuItem value={0} sx={{ fontSize: "small" }}>
-                  Room-Planet
-                </MenuItem>
-                <MenuItem value={1} sx={{ fontSize: "small" }}>
-                  Bumper-Dosi
-                </MenuItem>
-                <MenuItem value={2} sx={{ fontSize: "small" }}>
-                  Design-Pattern
-                </MenuItem>
+                {gitNamespaces.map(space => (
+                  <MenuItem
+                    key={`${space.spaceName}`}
+                    value={space.spaceUrl}
+                    sx={{ fontSize: "small" }}
+                  >
+                    {space.spaceName}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Box>

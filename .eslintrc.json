@@ -25,6 +25,7 @@
   "rules": {
     "no-unused-vars": "warn",
     "no-console": "off",
+    "no-underscore-dangle": "off",
     "func-names": "off",
     "react/style-prop-object": "warn",
     "react/jsx-props-no-spreading": "off",
@@ -52,6 +53,7 @@
     "@typescript-eslint/no-unsafe-member-access": "off",
     "@typescript-eslint/no-unsafe-call": "off",
     "@typescript-eslint/no-floating-promises": "warn",
+    "@typescript-eslint/no-misused-promises": "warn",
     "@typescript-eslint/no-use-before-define": [
       "error",
       {

@@ -14,12 +14,15 @@ import Tooltip from "@mui/material/Tooltip";
 
 import loginState from "../lib/recoil/auth";
 
+import { LoginData } from "../types";
+
 function NavBar() {
-  const setIsLoggedIn = useSetRecoilState(loginState);
+  const setIsLoggedIn = useSetRecoilState<LoginData | null>(loginState);
   const router = useRouter();
 
   const handleLogout = () => {
     removeCookies("loginData");
+    removeCookies("userOrgs");
     setIsLoggedIn(null);
 
     router.push("/login");
