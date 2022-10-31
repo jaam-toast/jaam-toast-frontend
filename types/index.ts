@@ -5,28 +5,35 @@ export type UserLoginData = {
   userImage?: string;
 };
 
-export type LoginResponse = {
-  result: string;
+export type LoginData = {
   data: UserLoginData;
+  githubAccessToken: string;
   accessToken: string;
 };
 
-export type Repo = {};
-
-export type GetReposResponse = {
-  data: Repo[];
+export type LoginResponse = {
+  result: string;
+  data: UserLoginData;
+  githubAccessToken: string;
+  accessToken: string;
 };
 
-export type GetRepoReponse = {
-  data: Repo;
+export type GitNamespace = {
+  spaceName: string;
+  spaceUrl: string;
+  spaceImage?: string;
 };
-
-export type Org = {};
 
 export type GetOrgsResponse = {
-  data: Org[];
+  data: GitNamespace[];
 };
 
-export type GetOrgReposResponse = {
+export type Repo = {
+  repoName: string;
+  repoCloneUrl: string;
+  repoUpdatedAt: string;
+};
+
+export type GetReposResponse = {
   data: Repo[];
 };

@@ -1,12 +1,7 @@
 import { atom } from "recoil";
 import { getCookie } from "cookies-next";
 
-import { UserLoginData } from "../../../types";
-
-type LoginData = {
-  data: UserLoginData;
-  accessToken: string;
-};
+import { LoginData } from "../../../types";
 
 const loginState = atom<LoginData | null>({
   key: "loginState",
