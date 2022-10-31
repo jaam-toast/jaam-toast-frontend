@@ -11,18 +11,23 @@ import loginState from "../lib/recoil/auth";
 
 import ButtonLogin from "../components/ButtonLogin";
 
+import { LoginData } from "../types";
+
 function Login() {
-  const setLoginState = useSetRecoilState(loginState);
+  const setLoginState = useSetRecoilState<LoginData | null>(loginState);
   const router = useRouter();
   const authCode = router.query.code;
 
   useEffect(() => {
     const handleLogin = async (code: string) => {
       try {
-        const { data, accessToken } = await login(code);
+        const { data, githubAccessToken, accessToken } = await login(code);
 
-        setLoginState({ data, accessToken });
-        setCookies("loginData", JSON.stringify({ data, accessToken }));
+        setLoginState({ data, githubAccessToken, accessToken });
+        setCookies(
+          "loginData",
+          JSON.stringify({ data, githubAccessToken, accessToken }),
+        );
 
         router.replace("/dashboard");
       } catch (error) {

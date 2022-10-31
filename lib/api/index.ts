@@ -22,6 +22,11 @@ MainClient.interceptors.request.use((req: AxiosRequestConfig) => {
         JSON.parse(getCookie("loginData") as string).accessToken as string
       }`,
     };
+
+    req.params = {
+      githubAccessToken: JSON.parse(getCookie("loginData") as string)
+        .githubAccessToken as string,
+    };
   }
 
   return req;
