@@ -7,24 +7,24 @@ import Container from "@mui/material/Container";
 import ButtonLogin from "../components/ButtonLogin";
 
 import Dashboard from "./dashboard";
-import loginState from "../lib/recoil/auth";
+import { isLoggedInState } from "../lib/recoil/auth";
 
 function PageLanding() {
-  const isLoggedIn = useRecoilValue(loginState);
+  const isLoggedIn = useRecoilValue(isLoggedInState);
   const router = useRouter();
-  const [isRendered, setIsRendered] = useState(false);
+  const [isSSR, setIsSSR] = useState(true);
 
   useEffect(() => {
     if (isLoggedIn) {
       router.replace("/dashboard");
     }
 
-    setIsRendered(true);
+    setIsSSR(false);
   }, [isLoggedIn, router]);
 
   return (
     <Container>
-      {isRendered && isLoggedIn ? (
+      {!isSSR && isLoggedIn ? (
         <Dashboard />
       ) : (
         <Container maxWidth="lg">

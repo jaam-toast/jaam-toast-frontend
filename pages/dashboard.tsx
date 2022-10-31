@@ -10,24 +10,24 @@ import NavBar from "../components/Navbar";
 import SearchInput from "../components/SearchInput";
 
 import Login from "./login";
-import loginState from "../lib/recoil/auth";
+import { isLoggedInState } from "../lib/recoil/auth";
 
 function Dashboard() {
-  const isLoggedIn = useRecoilValue(loginState);
+  const isLoggedIn = useRecoilValue(isLoggedInState);
   const router = useRouter();
-  const [isRendered, setIsRendered] = useState(false);
+  const [isSSR, setIsSSR] = useState(true);
 
   useEffect(() => {
     if (!isLoggedIn) {
       router.replace("/login");
     }
 
-    setIsRendered(true);
+    setIsSSR(false);
   }, [isLoggedIn, router]);
 
   return (
     <Container>
-      {isRendered && isLoggedIn ? (
+      {!isSSR && isLoggedIn ? (
         <>
           <NavBar />
           <Container maxWidth="lg">
