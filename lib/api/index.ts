@@ -49,8 +49,10 @@ export const login = async (code: string) => {
   return data;
 };
 
-export const getRepos = async () => {
-  const { data } = await MainClient.get<GetReposResponse>("/user/repos");
+export const getOrgs = async (userId: string) => {
+  const { data } = await MainClient.get<GetOrgsResponse>(
+    `/users/${userId}/orgs`,
+  );
 
   return data;
 };
