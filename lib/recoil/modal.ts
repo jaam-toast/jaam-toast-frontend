@@ -13,9 +13,9 @@ export interface ModalBuildType {
   modalType: typeof MODAL_TYPES.ModalBuild;
 }
 
-export type ModalType = ModalCreateType | ModalBuildType | null;
+export type ModalType = ModalCreateType | ModalBuildType;
 
-export const modalState = atom<ModalType>({
+export const modalState = atom<ModalType | null>({
   key: "modalState",
   default: null,
 });
