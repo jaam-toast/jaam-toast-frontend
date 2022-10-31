@@ -7,7 +7,7 @@ import ModalCreate from "./ModalCreate";
 import { modalState, ModalType } from "../lib/recoil/modal";
 
 function ModalGlobal() {
-  const { modalType } = useRecoilValue<ModalType>(modalState) || {};
+  const { modalType } = useRecoilValue<ModalType | null>(modalState) || {};
   const { isModal, hideModal } = useModal();
 
   const renderComponent = () => {
