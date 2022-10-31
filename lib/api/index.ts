@@ -68,8 +68,10 @@ export const getOrgRepos = async (userId: string, org: string) => {
   return data;
 };
 
-export const getRepo = async (repo: string) => {
-  const { data } = await MainClient.get<GetRepoReponse>(`user/repos/${repo}`);
+export const deployRepo = async (userId: string, cloneUrl: string) => {
+  const { data } = await MainClient.post<GetReposResponse>(`/users/${userId}`, {
+    cloneUrl,
+  });
 
   return data;
 };

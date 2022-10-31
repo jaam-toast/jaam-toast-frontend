@@ -15,6 +15,8 @@ import useModal from "../lib/hooks/useModal";
 import loginState from "../lib/recoil/auth";
 import { gitNamespaceList } from "../lib/recoil/git/namespace";
 import gitRepoState from "../lib/recoil/git/repos";
+import cloneUrlState from "../lib/recoil/git/clone";
+
 import { LoginData, GitNamespace, Repo } from "../types";
 
 function ModalCreate() {
@@ -22,6 +24,8 @@ function ModalCreate() {
     useRecoilValue<LoginData | null>(loginState) || ({} as LoginData);
   const gitNamespaces = useRecoilValue<GitNamespace[]>(gitNamespaceList);
   const [gitRepos, setGitRepos] = useRecoilState<Repo[]>(gitRepoState);
+  const setCloneUrl = useSetRecoilState<string>(cloneUrlState);
+
   const [spaces, setSpaces] = useState<string>("");
   const [repository, setRepository] = useState<string>("");
   const { showModal } = useModal();
@@ -60,8 +64,12 @@ function ModalCreate() {
 
     return setGitRepos(userRepos);
   };
-  const handleSecondChange = (event: SelectChangeEvent) => {
-    setRepository(event.target.value);
+
+  const handleRepoChange = (e: SelectChangeEvent) => {
+    const selectedRepoUrl = e.target.value;
+    setRepository(selectedRepoUrl);
+
+    setCloneUrl(selectedRepoUrl);
   };
 
   return (
