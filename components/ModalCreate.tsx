@@ -9,15 +9,24 @@ import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
 
+import { getOrgRepos, getUserRepos } from "../lib/api";
 import useModal from "../lib/hooks/useModal";
 
+import loginState from "../lib/recoil/auth";
 import { gitNamespaceList } from "../lib/recoil/git/namespace";
+import gitRepoState from "../lib/recoil/git/repos";
 import { LoginData, GitNamespace, Repo } from "../types";
+
 function ModalCreate() {
+  const { data } =
+    useRecoilValue<LoginData | null>(loginState) || ({} as LoginData);
   const gitNamespaces = useRecoilValue<GitNamespace[]>(gitNamespaceList);
+  const [gitRepos, setGitRepos] = useRecoilState<Repo[]>(gitRepoState);
   const [spaces, setSpaces] = useState<string>("");
   const [repository, setRepository] = useState<string>("");
   const { showModal } = useModal();
+
+  const userId = data._id;
 
   const isButtonNext = () => {
     return spaces !== "" && repository !== "";
@@ -29,8 +38,27 @@ function ModalCreate() {
     });
   };
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setSpaces(event.target.value);
+  const handleSpaceChange = async (e: SelectChangeEvent) => {
+    const selectedNamespaceUrl = e.target.value;
+    setSpaces(() => selectedNamespaceUrl);
+
+    const spaceOption = selectedNamespaceUrl
+      .split("https://api.github.com/")[1]
+      .split("/")[0];
+
+    const selectedNamespace = selectedNamespaceUrl
+      .split("https://api.github.com/")[1]
+      .split("/")[1];
+
+    if (spaceOption === "orgs") {
+      const { data: orgRepos } = await getOrgRepos(userId, selectedNamespace);
+
+      return setGitRepos(orgRepos);
+    }
+
+    const { data: userRepos } = await getUserRepos(userId);
+
+    return setGitRepos(userRepos);
   };
   const handleSecondChange = (event: SelectChangeEvent) => {
     setRepository(event.target.value);
@@ -108,7 +136,7 @@ function ModalCreate() {
           <Box sx={{ width: "90%", marginTop: 1.5, marginLeft: 2 }}>
             <FormControl size="small" fullWidth>
               <InputLabel id="select-label" sx={{ fontSize: "small" }}>
-                Repository
+                Select a Repository
               </InputLabel>
               <Select
                 labelId="select-label"
@@ -116,17 +144,17 @@ function ModalCreate() {
                 value={repository}
                 label="repository"
                 sx={{ fontSize: "small" }}
-                onChange={handleSecondChange}
+                onChange={handleRepoChange}
               >
-                <MenuItem value={3} sx={{ fontSize: "small" }}>
-                  Room-Planet
-                </MenuItem>
-                <MenuItem value={4} sx={{ fontSize: "small" }}>
-                  Bumper-Dosi
-                </MenuItem>
-                <MenuItem value={5} sx={{ fontSize: "small" }}>
-                  Design-Pattern
-                </MenuItem>
+                {gitRepos.map(repo => (
+                  <MenuItem
+                    key={`${repo.repoName}`}
+                    value={repo.repoCloneUrl}
+                    sx={{ fontSize: "small" }}
+                  >
+                    {repo.repoName}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Box>
