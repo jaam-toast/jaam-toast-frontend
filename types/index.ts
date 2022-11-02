@@ -37,3 +37,8 @@ export type Repo = {
 export type GetReposResponse = {
   data: Repo[];
 };
+
+export type Env = {
+  key: string;
+  value: string;
+};

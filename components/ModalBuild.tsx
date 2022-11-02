@@ -10,6 +10,7 @@ import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FormControl from "@mui/material/FormControl";
+import IconButton from "@mui/material/IconButton";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -17,14 +18,9 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 
-import IconButton from "@mui/material/IconButton";
 import TextFieldAdd from "./TextFieldAdd";
 import useModal from "../lib/hooks/useModal";
-
-type Env = {
-  key: string;
-  value: string;
-};
+import { Env } from "../types";
 
 function ModalBuild() {
   const { showModal } = useModal();
