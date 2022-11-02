@@ -5,6 +5,7 @@ import ModalBuild from "./ModalBuild";
 import ModalCreate from "./ModalCreate";
 
 import { modalState, ModalType } from "../lib/recoil/modal";
+import ModalDeploy from "./ModalDeploy";
 
 function ModalGlobal() {
   const { modalType } = useRecoilValue<ModalType | null>(modalState) || {};
@@ -16,6 +17,8 @@ function ModalGlobal() {
         return <ModalCreate />;
       case "ModalBuild":
         return <ModalBuild />;
+      case "ModalDeploy":
+        return <ModalDeploy />;
       default:
         return <div />;
     }

@@ -89,7 +89,6 @@ function ModalCreate() {
           <Button
             variant="contained"
             sx={{
-              m: 1,
               bgcolor: "#000",
               ":hover": {
                 bgcolor: "#FFF",
@@ -117,6 +116,7 @@ function ModalCreate() {
                 id="select"
                 value={spaces}
                 label="Select a Git Namespace"
+                autoFocus
                 sx={{ fontSize: "small" }}
                 onChange={handleSpaceChange}
               >
@@ -137,11 +137,11 @@ function ModalCreate() {
           <Typography
             id="modal-description"
             variant="body2"
-            sx={{ mt: 2, marginLeft: 2 }}
+            sx={{ mt: 2, marginLeft: 3 }}
           >
             Repository
           </Typography>
-          <Box sx={{ width: "90%", marginTop: 1.5, marginLeft: 2 }}>
+          <Box sx={{ width: "90%", marginTop: 1.5, marginLeft: 3 }}>
             <FormControl size="small" fullWidth>
               <InputLabel id="select-label" sx={{ fontSize: "small" }}>
                 Select a Repository
