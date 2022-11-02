@@ -3,6 +3,7 @@ import { atom } from "recoil";
 export const MODAL_TYPES = {
   ModalCreate: "ModalCreate",
   ModalBuild: "ModalBuild",
+  ModalDeploy: "ModalDeploy",
 } as const;
 
 export interface ModalCreateType {
@@ -13,7 +14,11 @@ export interface ModalBuildType {
   modalType: typeof MODAL_TYPES.ModalBuild;
 }
 
-export type ModalType = ModalCreateType | ModalBuildType;
+export interface ModalDeployType {
+  modalType: typeof MODAL_TYPES.ModalDeploy;
+}
+
+export type ModalType = ModalCreateType | ModalBuildType | ModalDeployType;
 
 export const modalState = atom<ModalType | null>({
   key: "modalState",
