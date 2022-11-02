@@ -49,10 +49,7 @@ function ModalDeploy() {
         </AccordionSummary>
         <Divider />
         <AccordionDetails sx={{ mt: 1 }}>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
+          <Typography>ModalDeploy</Typography>
         </AccordionDetails>
       </Accordion>
     </Box>
