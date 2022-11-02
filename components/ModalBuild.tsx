@@ -1,23 +1,37 @@
+/* eslint-disable react/no-array-index-key */
 import { useState } from "react";
 
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
 import AddIcon from "@mui/icons-material/Add";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Fab from "@mui/material/Fab";
+import Divider from "@mui/material/Divider";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
+import RemoveIcon from "@mui/icons-material/Remove";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 
+import IconButton from "@mui/material/IconButton";
+import TextFieldAdd from "./TextFieldAdd";
 import useModal from "../lib/hooks/useModal";
+
+type Env = {
+  key: string;
+  value: string;
+};
 
 function ModalBuild() {
   const { showModal } = useModal();
   const [version, setVersion] = useState<string>("");
   const [install, setInstall] = useState<string>("");
   const [build, setBuild] = useState<string>("");
+  const [envs, setEnvs] = useState<Env[]>([{ key: "", value: "" }]);
 
   const isButtonNext = () => {
     return version !== "" && install !== "" && build !== "";
@@ -29,8 +43,27 @@ function ModalBuild() {
     });
   };
 
+  const handleClickModalDeploy = () => {
+    showModal({
+      modalType: "ModalDeploy",
+    });
+  };
+
   const handleChange = (event: SelectChangeEvent) => {
     setVersion(event.target.value);
+  };
+
+  const handleClickEnvAdd = () => {
+    const newEnv = {
+      key: "",
+      value: "",
+    };
+
+    setEnvs(prevEnvs => [...prevEnvs, newEnv]);
+  };
+
+  const handleClickEnvRemove = (envIndex: number) => {
+    setEnvs(prevEnvs => prevEnvs.filter((_, index) => index !== envIndex));
   };
 
   return (
@@ -46,7 +79,6 @@ function ModalBuild() {
         <Button
           variant="contained"
           sx={{
-            m: 1,
             bgcolor: "#FFF",
             color: "#000",
             ":hover": {
@@ -62,15 +94,15 @@ function ModalBuild() {
           <Button
             variant="contained"
             sx={{
-              m: 1,
               bgcolor: "#000",
               ":hover": {
                 bgcolor: "#FFF",
                 color: "#000",
               },
             }}
+            onClick={handleClickModalDeploy}
           >
-            Next
+            Deploy
           </Button>
         ) : null}
       </Box>
@@ -89,6 +121,7 @@ function ModalBuild() {
               value={version}
               label="version"
               sx={{ fontSize: "small" }}
+              autoFocus
               onChange={handleChange}
             >
               <MenuItem value={0} sx={{ fontSize: "small" }}>
@@ -116,7 +149,7 @@ function ModalBuild() {
                 value={install}
                 variant="outlined"
                 size="small"
-                autoComplete="false"
+                autoComplete="off"
                 sx={{ fontSize: "small" }}
                 onChange={event => {
                   setInstall(event.target.value);
@@ -129,18 +162,18 @@ function ModalBuild() {
           <Typography
             id="modal-description"
             variant="body2"
-            sx={{ mt: 2, marginLeft: 2 }}
+            sx={{ mt: 2, marginLeft: 3 }}
           >
             Build Command *
           </Typography>
-          <Box sx={{ width: "90%", marginTop: 1.5, marginLeft: 2 }}>
+          <Box sx={{ width: "90%", marginTop: 1.5, marginLeft: 3 }}>
             <FormControl size="small" fullWidth>
               <TextField
                 id="outlined-basic"
                 value={build}
                 variant="outlined"
                 size="small"
-                autoComplete="false"
+                autoComplete="off"
                 sx={{ fontSize: "small" }}
                 onChange={event => {
                   setBuild(event.target.value);
@@ -150,53 +183,58 @@ function ModalBuild() {
           </Box>
         </Box>
       </Box>
-      <Box display="flex" sx={{ flexDirection: "row" }}>
-        <Box sx={{ width: "40%" }}>
-          <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
-            Environment Variable
-          </Typography>
-          <Box sx={{ width: "90%", marginTop: 1.5 }}>
-            <FormControl size="small" fullWidth>
-              <TextField
-                id="outlined-basic"
-                label="Key"
-                variant="outlined"
-                size="small"
-                autoComplete="false"
-                sx={{ fontSize: "small" }}
-              />
-            </FormControl>
-          </Box>
-        </Box>
-        <Box sx={{ width: "50%", marginTop: 4.5 }}>
-          <Box sx={{ width: "90%", marginTop: 1.5 }}>
-            <FormControl size="small" fullWidth>
-              <TextField
-                id="outlined-basic"
-                label="Value"
-                variant="outlined"
-                size="small"
-                autoComplete="false"
-                sx={{ fontSize: "small" }}
-              />
-            </FormControl>
-          </Box>
-        </Box>
-        <Fab
-          size="small"
-          aria-label="add"
-          sx={{
-            bgcolor: "#000",
-            color: "#FFF",
-            ":hover": {
-              color: "#000",
-            },
-            marginTop: 6,
-          }}
+      <Divider sx={{ mt: 2 }} />
+      <Accordion sx={{ mt: 2 }}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
         >
-          <AddIcon />
-        </Fab>
-      </Box>
+          <Typography id="modal-description" variant="body2">
+            Environment Varialbe
+          </Typography>
+        </AccordionSummary>
+        <Divider />
+        <AccordionDetails sx={{ mt: 1 }}>
+          <>
+            {envs.map((env, index) => (
+              <Box key={index} display="flex" sx={{ flexDirection: "row" }}>
+                <TextFieldAdd />
+                {index === 0 ? (
+                  <IconButton
+                    sx={{
+                      padding: "0",
+                      marginLeft: "1",
+                      color: "#808080",
+                      ":hover": {
+                        color: "#000",
+                      },
+                    }}
+                    onClick={handleClickEnvAdd}
+                  >
+                    <AddIcon />
+                  </IconButton>
+                ) : null}
+                {index !== 0 ? (
+                  <IconButton
+                    sx={{
+                      padding: "0",
+                      marginLeft: "1",
+                      color: "#808080",
+                      ":hover": {
+                        color: "#000",
+                      },
+                    }}
+                    onClick={() => handleClickEnvRemove(index)}
+                  >
+                    <RemoveIcon />
+                  </IconButton>
+                ) : null}
+              </Box>
+            ))}
+          </>
+        </AccordionDetails>
+      </Accordion>
     </Box>
   );
 }
