@@ -187,7 +187,7 @@ function ModalBuild() {
           id="panel1a-header"
         >
           <Typography id="modal-description" variant="body2">
-            Environment Varialbe
+            Environment Variable
           </Typography>
         </AccordionSummary>
         <Divider />
