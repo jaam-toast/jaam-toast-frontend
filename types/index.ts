@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export type UserLoginData = {
   _id: string;
   username: string;
@@ -42,3 +44,22 @@ export type Env = {
   key: string;
   value: string;
 };
+
+export interface EnvsState {
+  envIndex: number;
+  envsState: {
+    envs: Env[];
+    setEnvs: Dispatch<SetStateAction<Env[]>>;
+  };
+}
+
+export interface DeploymentOptions {
+  nodeVersion: string;
+  installCommand?: string;
+  buildCommand?: string;
+  envList?: Env[];
+}
+
+export interface RepoDeployOptions extends Repo, DeploymentOptions {
+  userId: string;
+}
