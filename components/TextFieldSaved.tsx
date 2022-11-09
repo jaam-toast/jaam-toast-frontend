@@ -1,43 +1,16 @@
-import { ChangeEvent, useState } from "react";
-
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
-import AddIcon from "@mui/icons-material/Add";
 import IconButton from "@mui/material/IconButton";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 import { EnvsState } from "../types";
 
-function TextFieldAdd({ envsState }: EnvsState) {
+function TextFieldSaved({ envIndex, envsState }: EnvsState) {
   const { envs, setEnvs } = envsState;
-  const [curEnvKey, setCurEnvKey] = useState<string>("");
-  const [curEnvValue, setCurEnvValue] = useState<string>("");
 
-  const handleKeyChange = (
-    e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-  ) => {
-    const targetKey = e.target.value;
-
-    setCurEnvKey(targetKey.trim());
-  };
-
-  const handleValueChange = (
-    e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-  ) => {
-    const targetValue = e.target.value;
-
-    setCurEnvValue(targetValue.trim());
-  };
-
-  const handleClickEnvAdd = () => {
-    const newEnv = {
-      key: curEnvKey,
-      value: curEnvValue,
-    };
-
-    setEnvs(prevEnvs => [...prevEnvs, newEnv]);
-    setCurEnvKey("");
-    setCurEnvValue("");
+  const handleClickEnvRemove = (curIndex: number) => {
+    setEnvs(prevEnvs => prevEnvs.filter((_, index) => index !== curIndex));
   };
 
   return (
@@ -52,9 +25,9 @@ function TextFieldAdd({ envsState }: EnvsState) {
             autoComplete="off"
             inputProps={{ sx: { fontSize: "small" } }}
             InputLabelProps={{ sx: { fontSize: "small" } }}
-            value={curEnvKey}
-            placeholder="EXAMPLE_KEY"
-            onChange={handleKeyChange}
+            style={{ color: "#333" }}
+            value={envs[envIndex].key}
+            disabled
           />
         </FormControl>
       </Box>
@@ -68,9 +41,9 @@ function TextFieldAdd({ envsState }: EnvsState) {
             autoComplete="off"
             inputProps={{ sx: { fontSize: "small" } }}
             InputLabelProps={{ sx: { fontSize: "small" } }}
-            value={curEnvValue}
-            placeholder="fd1c1c36245869e5c0bb0d"
-            onChange={handleValueChange}
+            style={{ color: "#333" }}
+            value={envs[envIndex].value}
+            disabled
           />
         </FormControl>
       </Box>
@@ -83,13 +56,12 @@ function TextFieldAdd({ envsState }: EnvsState) {
             color: "#000",
           },
         }}
-        onClick={handleClickEnvAdd}
-        disabled={!curEnvKey || !curEnvValue}
+        onClick={() => handleClickEnvRemove(envIndex)}
       >
-        <AddIcon />
+        <RemoveIcon />
       </IconButton>
     </Box>
   );
 }
 
-export default TextFieldAdd;
+export default TextFieldSaved;

@@ -1,36 +1,51 @@
-/* eslint-disable react/no-array-index-key */
 import { useState } from "react";
+import { useRecoilValue } from "recoil";
 
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
-import AddIcon from "@mui/icons-material/Add";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FormControl from "@mui/material/FormControl";
-import IconButton from "@mui/material/IconButton";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import RemoveIcon from "@mui/icons-material/Remove";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 
-import TextFieldAdd from "./TextFieldAdd";
+import { deployRepo } from "../lib/api";
 import useModal from "../lib/hooks/useModal";
-import { Env } from "../types";
+
+import TextFieldAdd from "./TextFieldAdd";
+import TextFieldSaved from "./TextFieldSaved";
+
+import loginState from "../lib/recoil/auth";
+import cloneUrlState, { cloneRepoName } from "../lib/recoil/git/clone";
+
+import { Env, LoginData } from "../types";
 
 function ModalBuild() {
-  const { showModal } = useModal();
+  const { data } =
+    useRecoilValue<LoginData | null>(loginState) || ({} as LoginData);
+  const repoCloneUrl = useRecoilValue<string>(cloneUrlState);
+  const repoName = useRecoilValue<string>(cloneRepoName);
+
   const [version, setVersion] = useState<string>("");
   const [install, setInstall] = useState<string>("");
   const [build, setBuild] = useState<string>("");
   const [envs, setEnvs] = useState<Env[]>([{ key: "", value: "" }]);
+  const { showModal } = useModal();
+
+  const userId = data._id;
+  const envsState = {
+    envs,
+    setEnvs,
+  };
 
   const isButtonNext = () => {
-    return version !== "" && install !== "" && build !== "";
+    return version !== "";
   };
 
   const handleClickModalCreate = () => {
@@ -62,21 +77,10 @@ function ModalBuild() {
     });
   };
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setVersion(event.target.value);
-  };
+  const handleVersionChange = (e: SelectChangeEvent) => {
+    const curNodeVersion = e.target.value;
 
-  const handleClickEnvAdd = () => {
-    const newEnv = {
-      key: "",
-      value: "",
-    };
-
-    setEnvs(prevEnvs => [...prevEnvs, newEnv]);
-  };
-
-  const handleClickEnvRemove = (envIndex: number) => {
-    setEnvs(prevEnvs => prevEnvs.filter((_, index) => index !== envIndex));
+    setVersion(curNodeVersion);
   };
 
   return (
@@ -135,16 +139,13 @@ function ModalBuild() {
               label="version"
               sx={{ fontSize: "small" }}
               autoFocus
-              onChange={handleChange}
+              onChange={handleVersionChange}
             >
-              <MenuItem value={0} sx={{ fontSize: "small" }}>
-                Node.js 17.0.0
+              <MenuItem value="14.x" sx={{ fontSize: "small" }}>
+                Node.js 14.x
               </MenuItem>
-              <MenuItem value={1} sx={{ fontSize: "small" }}>
-                Node.js 16.18.0
-              </MenuItem>
-              <MenuItem value={2} sx={{ fontSize: "small" }}>
-                Node.js 16.17.1
+              <MenuItem value="16.x" sx={{ fontSize: "small" }}>
+                Node.js 16.x
               </MenuItem>
             </Select>
           </FormControl>
@@ -153,7 +154,7 @@ function ModalBuild() {
       <Box display="flex" sx={{ flexDirection: "row" }}>
         <Box sx={{ width: "50%" }}>
           <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
-            Install Command *
+            Install Command
           </Typography>
           <Box sx={{ width: "90%", marginTop: 1.5 }}>
             <FormControl size="small" fullWidth>
@@ -167,6 +168,7 @@ function ModalBuild() {
                 onChange={event => {
                   setInstall(event.target.value);
                 }}
+                placeholder="`npm install`"
               />
             </FormControl>
           </Box>
@@ -177,7 +179,7 @@ function ModalBuild() {
             variant="body2"
             sx={{ mt: 2, marginLeft: 3 }}
           >
-            Build Command *
+            Build Command
           </Typography>
           <Box sx={{ width: "90%", marginTop: 1.5, marginLeft: 3 }}>
             <FormControl size="small" fullWidth>
@@ -191,6 +193,7 @@ function ModalBuild() {
                 onChange={event => {
                   setBuild(event.target.value);
                 }}
+                placeholder="`npm run build`"
               />
             </FormControl>
           </Box>
@@ -210,41 +213,21 @@ function ModalBuild() {
         <Divider />
         <AccordionDetails sx={{ mt: 1 }}>
           <>
-            {envs.map((env, index) => (
-              <Box key={index} display="flex" sx={{ flexDirection: "row" }}>
-                <TextFieldAdd />
-                {index === 0 ? (
-                  <IconButton
-                    sx={{
-                      padding: "0",
-                      marginLeft: "1",
-                      color: "#808080",
-                      ":hover": {
-                        color: "#000",
-                      },
-                    }}
-                    onClick={handleClickEnvAdd}
-                  >
-                    <AddIcon />
-                  </IconButton>
-                ) : null}
-                {index !== 0 ? (
-                  <IconButton
-                    sx={{
-                      padding: "0",
-                      marginLeft: "1",
-                      color: "#808080",
-                      ":hover": {
-                        color: "#000",
-                      },
-                    }}
-                    onClick={() => handleClickEnvRemove(index)}
-                  >
-                    <RemoveIcon />
-                  </IconButton>
-                ) : null}
-              </Box>
-            ))}
+            <Box display="flex" sx={{ flexDirection: "row", marginBottom: 1 }}>
+              <TextFieldAdd envIndex={0} envsState={envsState} />
+            </Box>
+            <Divider sx={{ marginTop: 2.5, marginBottom: 2.5 }} />
+            {envs.map((env, index) =>
+              index === 0 ? null : (
+                <Box
+                  key={`${env.key}-${index}`}
+                  display="flex"
+                  sx={{ flexDirection: "row", marginBottom: 1.5 }}
+                >
+                  <TextFieldSaved envIndex={index} envsState={envsState} />
+                </Box>
+              ),
+            )}
           </>
         </AccordionDetails>
       </Accordion>

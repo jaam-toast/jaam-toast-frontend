@@ -38,6 +38,7 @@
     "react/react-in-jsx-scope": "off",
     "react-hooks/rules-of-hooks": "off",
     "react/prop-types": "off",
+    "react/no-array-index-key": "warn",
     "jsx-a11y/alt-text": [
       "warn",
       {
