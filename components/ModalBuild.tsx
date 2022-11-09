@@ -39,7 +39,24 @@ function ModalBuild() {
     });
   };
 
-  const handleClickModalDeploy = () => {
+  const handleClickModalDeploy = async () => {
+    const filteredEnvs = envs.filter((_, i) => i !== 0);
+
+    const userBuildOptions = {
+      userId,
+      repoName,
+      repoCloneUrl,
+      repoUpdatedAt: "",
+      nodeVersion: version,
+      installCommand: install,
+      buildCommand: build,
+      envList: filteredEnvs,
+    };
+
+    const deployData = await deployRepo(userBuildOptions);
+
+    console.info("deployData", deployData);
+
     showModal({
       modalType: "ModalDeploy",
     });

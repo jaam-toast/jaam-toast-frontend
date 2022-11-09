@@ -3,7 +3,12 @@ import { getCookie } from "cookies-next";
 
 import Config from "../config";
 
-import { GetOrgsResponse, GetReposResponse, LoginResponse } from "../../types";
+import {
+  GetOrgsResponse,
+  GetReposResponse,
+  LoginResponse,
+  RepoDeployOptions,
+} from "../../types";
 
 const MainClient: AxiosInstance = axios.create({
   baseURL: Config.SERVER_URL,
@@ -68,10 +73,28 @@ export const getOrgRepos = async (userId: string, org: string) => {
   return data;
 };
 
-export const deployRepo = async (userId: string, cloneUrl: string) => {
-  const { data } = await MainClient.post<GetReposResponse>(`/users/${userId}`, {
-    cloneUrl,
-  });
+export const deployRepo = async (userBuildOptions: RepoDeployOptions) => {
+  const {
+    userId,
+    repoName,
+    repoCloneUrl,
+    nodeVersion,
+    installCommand,
+    buildCommand,
+    envList,
+  } = userBuildOptions;
+
+  const { data } = await MainClient.post<RepoDeployOptions>(
+    `/deploy/${userId}`,
+    {
+      repoName,
+      repoCloneUrl,
+      nodeVersion,
+      envList,
+      installCommand,
+      buildCommand,
+    },
+  );
 
   return data;
 };
