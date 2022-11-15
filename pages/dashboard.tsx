@@ -4,6 +4,7 @@ import { useRecoilValue } from "recoil";
 
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
+import Divider from "@mui/material/Divider";
 import ButtonCreate from "../components/ButtonCreate";
 import Content from "../components/Content";
 import NavBar from "../components/Navbar";
@@ -26,18 +27,19 @@ function Dashboard() {
   }, [isLoggedIn, router]);
 
   return (
-    <Container>
+    <Container maxWidth={false} disableGutters>
       {!isSSR && isLoggedIn ? (
         <>
           <NavBar />
+          <Divider />
           <Container maxWidth="lg">
             <Box
               display="flex"
               sx={{
+                padding: 1,
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                m: 1,
               }}
             >
               <SearchInput />
