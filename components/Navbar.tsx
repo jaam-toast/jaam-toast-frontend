@@ -30,17 +30,32 @@ function NavBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" color="inherit" sx={{ boxShadow: "1" }}>
+      <AppBar
+        position="relative"
+        color="inherit"
+        elevation={0}
+        sx={{ justifyContent: "center" }}
+      >
         <Toolbar>
           <IconButton
             size="large"
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mr: 2 }}
           >
             <ChangeHistoryIcon fontSize="large" />
           </IconButton>
+          <Typography
+            variant="h4"
+            component="div"
+            sx={{
+              paddingRight: 1.5,
+              marginTop: 0.5,
+              color: "#d3d3d3",
+            }}
+          >
+            /
+          </Typography>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Jaam-Toast
           </Typography>
