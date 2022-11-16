@@ -11,8 +11,7 @@ import {
 } from "../../types";
 
 const MainClient: AxiosInstance = axios.create({
-  baseURL: Config.SERVER_URL,
-  timeout: 2500,
+  baseURL: Config.SERVER_URL_API,
 });
 
 MainClient.interceptors.request.use((req: AxiosRequestConfig) => {
@@ -37,8 +36,6 @@ MainClient.interceptors.response.use(
     return res;
   },
   err => {
-    if (err.response.status === 401) window.location.href = "/login";
-
     return Promise.reject(err);
   },
 );
