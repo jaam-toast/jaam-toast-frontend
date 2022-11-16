@@ -6,9 +6,10 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
 import ButtonCreate from "../components/ButtonCreate";
-import Content from "../components/Content";
+// import Content from "../components/Content";
 import NavBar from "../components/Navbar";
 import SearchInput from "../components/SearchInput";
+import TemplateInitial from "../components/TemplateInitial";
 
 import Login from "./login";
 import { isLoggedInState } from "../lib/recoil/auth";
@@ -32,7 +33,7 @@ function Dashboard() {
         <>
           <NavBar />
           <Divider />
-          <Container maxWidth="lg">
+          <Container fixed maxWidth="lg">
             <Box
               display="flex"
               sx={{
@@ -45,7 +46,10 @@ function Dashboard() {
               <SearchInput />
               <ButtonCreate />
             </Box>
-            <Content />
+            {/* <Content /> */}
+            <Box sx={{ width: "100%" }}>
+              <TemplateInitial />
+            </Box>
           </Container>
         </>
       ) : (
