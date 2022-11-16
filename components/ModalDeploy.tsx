@@ -1,3 +1,8 @@
+import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
+
+import { io, Socket } from "socket.io-client";
+
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -6,9 +11,16 @@ import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Typography from "@mui/material/Typography";
+
+import Config from "../lib/config";
 import useModal from "../lib/hooks/useModal";
 
+import { cloneRepoName } from "../lib/recoil/git/clone";
+
 function ModalDeploy() {
+  const [socket, setSocket] = useState<Socket>();
+  const repoName = useRecoilValue<string>(cloneRepoName);
+
   const { showModal } = useModal();
 
   const handleClickModalCreate = () => {
@@ -16,6 +28,39 @@ function ModalDeploy() {
       modalType: "ModalBuild",
     });
   };
+
+  useEffect(() => {
+    const socketIO = io(`${Config.SERVER_URL}`);
+    setSocket(socketIO);
+
+    return () => {
+      socketIO.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("connect", () => {
+      console.info(
+        `Socket for building log is connected - ${socket.id}`,
+        socket.connected,
+      );
+    });
+
+    socket.on("disconnect", () => {
+      console.info(
+        `Socket for building log is disconnected - ${socket.id}`,
+        socket.connected,
+      );
+    });
+
+    socket.emit("get-building-log", repoName);
+
+    socket.on("new-building-log", data => {
+      console.info(data);
+    });
+  }, [repoName, socket]);
 
   return (
     <Box sx={style}>
