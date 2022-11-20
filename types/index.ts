@@ -27,6 +27,7 @@ export type GitNamespace = {
 };
 
 export type GetOrgsResponse = {
+  result: string;
   data: GitNamespace[];
 };
 
@@ -34,9 +35,11 @@ export type Repo = {
   repoName: string;
   repoCloneUrl: string;
   repoUpdatedAt: string;
+  repoOwner?: string;
 };
 
 export type GetReposResponse = {
+  result: string;
   data: Repo[];
 };
 
@@ -58,8 +61,27 @@ export interface DeploymentOptions {
   installCommand?: string;
   buildCommand?: string;
   envList?: Env[];
+  bulidType?: string;
+  lastCommitMessage: string;
 }
 
 export interface RepoDeployOptions extends Repo, DeploymentOptions {
   userId: string;
+}
+
+export interface UserDeploymentData extends RepoDeployOptions {
+  instanceId: string;
+  deployedUrl?: string;
+  recordId?: string;
+  buildingLog?: (string | undefined)[] | undefined;
+}
+
+export interface DeploymentDataResponse {
+  result: string;
+  data: UserDeploymentData;
+}
+
+export interface DeploymentListResponse {
+  result: string;
+  data: UserDeploymentData[];
 }
