@@ -1,20 +1,23 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useSetRecoilState } from "recoil";
-
-import { setCookies } from "cookies-next";
+import { setCookie } from "cookies-next";
 
 import Container from "@mui/material/Container";
 
-import { login } from "../lib/api";
+import { getUserDeployments, login } from "../lib/api";
 import loginState from "../lib/recoil/auth";
+import userDeploymentsState from "../lib/recoil/userDeployments";
 
 import ButtonLogin from "../components/ButtonLogin";
 
-import { LoginData } from "../types";
+import { LoginData, UserDeploymentData } from "../types";
 
 function Login() {
   const setLoginState = useSetRecoilState<LoginData | null>(loginState);
+  const setUserDeploymentsState =
+    useSetRecoilState<UserDeploymentData[]>(userDeploymentsState);
+
   const router = useRouter();
   const authCode = router.query.code;
 
@@ -24,24 +27,45 @@ function Login() {
         const { data, githubAccessToken, accessToken } = await login(code);
 
         setLoginState({ data, githubAccessToken, accessToken });
-        setCookies(
+        setCookie(
           "loginData",
           JSON.stringify({ data, githubAccessToken, accessToken }),
         );
 
+        const { data: userDeployments } = await getUserDeployments(data._id);
+
+        const filteredUserDeployments = userDeployments.map(deployData => {
+          const filteredDeployData = deployData;
+          filteredDeployData.buildingLog = [];
+
+          return filteredDeployData;
+        });
+
+        setUserDeploymentsState(userDeployments);
+        setCookie("userDeployments", JSON.stringify(filteredUserDeployments));
+
         router.replace("/dashboard");
       } catch (error) {
-        console.log(error);
+        console.info(error);
       }
     };
 
     if (authCode) {
       handleLogin(authCode as string);
     }
-  }, [authCode, router, setLoginState]);
+  }, [authCode, router, setLoginState, setUserDeploymentsState]);
 
   return (
-    <Container maxWidth="lg">
+    <Container
+      maxWidth="lg"
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <ButtonLogin />
     </Container>
   );
