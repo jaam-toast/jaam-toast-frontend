@@ -24,6 +24,7 @@ function NavBar() {
   const handleLogout = () => {
     removeCookies("loginData");
     removeCookies("userOrgs");
+    removeCookies("userDeployments");
     setIsLoggedIn(null);
 
     router.push("/login");
