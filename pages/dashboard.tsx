@@ -1,23 +1,36 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilState } from "recoil";
+import { setCookie } from "cookies-next";
 
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
 import ButtonCreate from "../components/ButtonCreate";
-// import Content from "../components/Content";
+import RepoCardList from "../components/RepoCardList";
 import NavBar from "../components/Navbar";
 import SearchInput from "../components/SearchInput";
 import TemplateInitial from "../components/TemplateInitial";
 
 import Login from "./login";
-import { isLoggedInState } from "../lib/recoil/auth";
+import loginState, { isLoggedInState } from "../lib/recoil/auth";
+import userDeploymentsState from "../lib/recoil/userDeployments";
+
+import { getUserDeployments } from "../lib/api";
+
+import { LoginData, UserDeploymentData } from "../types";
 
 function Dashboard() {
+  const { data } =
+    useRecoilValue<LoginData | null>(loginState) || ({} as LoginData);
   const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [userDeploymentsList, setUserDeploymentsList] =
+    useRecoilState<UserDeploymentData[]>(userDeploymentsState);
+
   const router = useRouter();
   const [isSSR, setIsSSR] = useState(true);
+
+  const userId = data?._id;
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -26,6 +39,28 @@ function Dashboard() {
 
     setIsSSR(false);
   }, [isLoggedIn, router]);
+
+  useEffect(() => {
+    const handleUserDeployments = async () => {
+      try {
+        const { data: userDeployments } = await getUserDeployments(userId);
+
+        const filteredUserDeployments = userDeployments.map(deployData => {
+          const filteredDeployData = deployData;
+          filteredDeployData.buildingLog = [];
+
+          return filteredDeployData;
+        });
+
+        setUserDeploymentsList(userDeployments);
+        setCookie("userDeployments", JSON.stringify(filteredUserDeployments));
+      } catch (error) {
+        console.info(error);
+      }
+    };
+
+    handleUserDeployments();
+  }, [setUserDeploymentsList, userId]);
 
   return (
     <Container maxWidth={false} disableGutters>
@@ -46,10 +81,13 @@ function Dashboard() {
               <SearchInput />
               <ButtonCreate />
             </Box>
-            {/* <Content /> */}
-            <Box sx={{ width: "100%" }}>
-              <TemplateInitial />
-            </Box>
+            {userDeploymentsList.length > 0 ? (
+              <RepoCardList userDeploymentsList={userDeploymentsList} />
+            ) : (
+              <Box sx={{ width: "100%" }}>
+                <TemplateInitial />
+              </Box>
+            )}
           </Container>
         </>
       ) : (
