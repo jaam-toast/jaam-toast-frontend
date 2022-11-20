@@ -4,6 +4,8 @@ import { getCookie } from "cookies-next";
 import Config from "../config";
 
 import {
+  DeploymentDataResponse,
+  DeploymentListResponse,
   GetOrgsResponse,
   GetReposResponse,
   LoginResponse,
@@ -75,22 +77,36 @@ export const deployRepo = async (userBuildOptions: RepoDeployOptions) => {
     userId,
     repoName,
     repoCloneUrl,
+    repoUpdatedAt,
     nodeVersion,
     installCommand,
     buildCommand,
     envList,
+    bulidType,
+    lastCommitMessage,
   } = userBuildOptions;
 
-  const { data } = await MainClient.post<RepoDeployOptions>(
+  const { data } = await MainClient.post<DeploymentDataResponse>(
     `/deploy/${userId}`,
     {
       repoName,
       repoCloneUrl,
+      repoUpdatedAt,
       nodeVersion,
       envList,
       installCommand,
       buildCommand,
+      bulidType,
+      lastCommitMessage,
     },
+  );
+
+  return data;
+};
+
+export const getUserDeployments = async (userId: string) => {
+  const { data } = await MainClient.get<DeploymentListResponse>(
+    `/deploy/${userId}`,
   );
 
   return data;

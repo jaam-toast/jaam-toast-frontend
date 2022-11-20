@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { setCookie } from "cookies-next";
 
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -24,13 +25,16 @@ import TextFieldSaved from "./TextFieldSaved";
 import loginState from "../lib/recoil/auth";
 import cloneUrlState, { cloneRepoName } from "../lib/recoil/git/clone";
 
-import { Env, LoginData } from "../types";
+import { Env, LoginData, UserDeploymentData } from "../types";
+import userDeploymentsState from "../lib/recoil/userDeployments";
 
 function ModalBuild() {
   const { data } =
     useRecoilValue<LoginData | null>(loginState) || ({} as LoginData);
   const repoCloneUrl = useRecoilValue<string>(cloneUrlState);
   const repoName = useRecoilValue<string>(cloneRepoName);
+  const [deploymentList, setDeploymentList] =
+    useRecoilState<UserDeploymentData[]>(userDeploymentsState);
 
   const [version, setVersion] = useState<string>("");
   const [install, setInstall] = useState<string>("");
@@ -57,20 +61,34 @@ function ModalBuild() {
   const handleClickModalDeploy = async () => {
     const filteredEnvs = envs.filter((_, i) => i !== 0);
 
+    const dayTime = new Date().toISOString();
+    const formattedTime = `${dayTime.split("T")[0]} ${
+      dayTime.split("T")[1].split(".")[0]
+    }`;
+
     const userBuildOptions = {
       userId,
       repoName,
       repoCloneUrl,
-      repoUpdatedAt: "",
+      repoUpdatedAt: formattedTime,
       nodeVersion: version,
       installCommand: install,
       buildCommand: build,
       envList: filteredEnvs,
+      bulidType: "",
+      lastCommitMessage: "",
     };
 
-    const deployData = await deployRepo(userBuildOptions);
+    const { data: userDeploymentData } = await deployRepo(userBuildOptions);
 
-    console.info("deployData", deployData);
+    const filteredUserDeployData = userDeploymentData;
+    filteredUserDeployData.buildingLog = [];
+
+    setDeploymentList([...deploymentList, userDeploymentData]);
+    setCookie(
+      "userDeployments",
+      JSON.stringify([...deploymentList, filteredUserDeployData]),
+    );
 
     showModal({
       modalType: "ModalDeploy",
