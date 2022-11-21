@@ -82,7 +82,7 @@ export const deployRepo = async (userBuildOptions: RepoDeployOptions) => {
     installCommand,
     buildCommand,
     envList,
-    bulidType,
+    buildType,
     lastCommitMessage,
   } = userBuildOptions;
 
@@ -96,7 +96,7 @@ export const deployRepo = async (userBuildOptions: RepoDeployOptions) => {
       envList,
       installCommand,
       buildCommand,
-      bulidType,
+      buildType,
       lastCommitMessage,
     },
   );

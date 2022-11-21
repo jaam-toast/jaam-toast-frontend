@@ -61,7 +61,7 @@ export interface DeploymentOptions {
   installCommand?: string;
   buildCommand?: string;
   envList?: Env[];
-  bulidType?: string;
+  buildType?: string;
   lastCommitMessage: string;
 }
 
