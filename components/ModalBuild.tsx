@@ -37,6 +37,7 @@ function ModalBuild() {
     useRecoilState<UserDeploymentData[]>(userDeploymentsState);
 
   const [version, setVersion] = useState<string>("");
+  const [buildType, setBulidType] = useState<string>("");
   const [install, setInstall] = useState<string>("");
   const [build, setBuild] = useState<string>("");
   const [envs, setEnvs] = useState<Env[]>([{ key: "", value: "" }]);
@@ -49,7 +50,7 @@ function ModalBuild() {
   };
 
   const isButtonNext = () => {
-    return version !== "";
+    return version !== "" && buildType !== "";
   };
 
   const handleClickModalCreate = () => {
@@ -75,9 +76,13 @@ function ModalBuild() {
       installCommand: install,
       buildCommand: build,
       envList: filteredEnvs,
-      bulidType: "",
+      buildType,
       lastCommitMessage: "",
     };
+
+    showModal({
+      modalType: "ModalDeploy",
+    });
 
     const { data: userDeploymentData } = await deployRepo(userBuildOptions);
 
@@ -89,16 +94,18 @@ function ModalBuild() {
       "userDeployments",
       JSON.stringify([...deploymentList, filteredUserDeployData]),
     );
-
-    showModal({
-      modalType: "ModalDeploy",
-    });
   };
 
   const handleVersionChange = (e: SelectChangeEvent) => {
     const curNodeVersion = e.target.value;
 
     setVersion(curNodeVersion);
+  };
+
+  const handleBuildTypeChange = (e: SelectChangeEvent) => {
+    const curBuildType = e.target.value;
+
+    setBulidType(curBuildType);
   };
 
   return (
@@ -141,32 +148,65 @@ function ModalBuild() {
           </Button>
         ) : null}
       </Box>
-      <Box sx={{ width: "50%" }}>
-        <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
-          Node Version *
-        </Typography>
-        <Box sx={{ width: "90%", marginTop: 1.5 }}>
-          <FormControl size="small" fullWidth>
-            <InputLabel id="select-label" sx={{ fontSize: "small" }}>
-              Node Version
-            </InputLabel>
-            <Select
-              labelId="select-label"
-              id="select"
-              value={version}
-              label="version"
-              sx={{ fontSize: "small" }}
-              autoFocus
-              onChange={handleVersionChange}
-            >
-              <MenuItem value="14.x" sx={{ fontSize: "small" }}>
-                Node.js 14.x
-              </MenuItem>
-              <MenuItem value="16.x" sx={{ fontSize: "small" }}>
-                Node.js 16.x
-              </MenuItem>
-            </Select>
-          </FormControl>
+      <Box sx={{ width: "50%", display: "flex", flexDirection: "column" }}>
+        <Box sx={{ width: "100%" }}>
+          <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
+            Node Version *
+          </Typography>
+          <Box sx={{ width: "90%", marginTop: 1.5 }}>
+            <FormControl size="small" fullWidth>
+              <InputLabel id="select-label" sx={{ fontSize: "small" }}>
+                Node Version
+              </InputLabel>
+              <Select
+                labelId="select-label"
+                id="select"
+                value={version}
+                label="version"
+                sx={{ fontSize: "small" }}
+                autoFocus
+                onChange={handleVersionChange}
+              >
+                <MenuItem value="14.x" sx={{ fontSize: "small" }}>
+                  Node.js 14.x
+                </MenuItem>
+                <MenuItem value="16.x" sx={{ fontSize: "small" }}>
+                  Node.js 16.x
+                </MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+        </Box>
+        <Box sx={{ width: "100%" }}>
+          <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
+            SSR Options *
+          </Typography>
+          <Box sx={{ width: "90%", marginTop: 1.5 }}>
+            <FormControl size="small" fullWidth>
+              <InputLabel id="select-label" sx={{ fontSize: "small" }}>
+                Is it SPA? or need SSR?
+              </InputLabel>
+              <Select
+                labelId="select-label"
+                id="select"
+                value={buildType}
+                label="version"
+                sx={{ fontSize: "small" }}
+                autoFocus
+                onChange={handleBuildTypeChange}
+              >
+                <MenuItem value="It is a SPA" sx={{ fontSize: "small" }}>
+                  It is a SPA
+                </MenuItem>
+                <MenuItem
+                  value="It needs SSR support"
+                  sx={{ fontSize: "small" }}
+                >
+                  It needs SSR support
+                </MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
         </Box>
       </Box>
       <Box display="flex" sx={{ flexDirection: "row" }}>

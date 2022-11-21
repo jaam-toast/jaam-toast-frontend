@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 
 import { io, Socket } from "socket.io-client";
+import styled from "styled-components";
 
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -87,7 +88,7 @@ function ModalDeploy() {
         </Typography>
       </Box>
       <Divider sx={{ mt: 2 }} />
-      <Accordion sx={{ mt: 2 }}>
+      <Accordion sx={{ mt: 2 }} defaultExpanded>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -97,21 +98,25 @@ function ModalDeploy() {
         </AccordionSummary>
         <Divider />
         <AccordionDetails sx={{ mt: 1 }}>
-          <Typography>ModalDeploy</Typography>
-          <table className="log-table">
-            <tbody className="log-table-body">
-              {bulidingLog.map(log => (
-                <tr
-                  key={`${new Date().valueOf()} - ${log}`}
-                  className="log-table-row"
-                >
-                  <td className="log-table-cell">
-                    <span>{log}</span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <Box
+            component="div"
+            sx={{ height: "40vh", overflow: "auto", flex: "1" }}
+          >
+            <table className="log-table" style={{ width: "100%" }}>
+              <tbody className="log-table-body">
+                {bulidingLog.map((log, i) => (
+                  <Tr
+                    key={`${new Date().valueOf()} - ${i} - ${log}`}
+                    className="log-table-row"
+                  >
+                    <Td className="log-table-cell">
+                      <span style={{ fontSize: "0.8rem" }}>{log}</span>
+                    </Td>
+                  </Tr>
+                ))}
+              </tbody>
+            </table>
+          </Box>
         </AccordionDetails>
       </Accordion>
     </Box>
@@ -123,11 +128,27 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 600,
+  width: "80vw",
   bgcolor: "background.paper",
   border: "1px solid #000",
   boxShadow: 24,
   p: 4,
 };
+
+const Tr = styled.tr`
+  :hover {
+    opacity: 0.8;
+    color: white;
+    background-color: rgba(51, 51, 51, 0.6);
+    transition: background-color 0.15s ease;
+  }
+`;
+
+const Td = styled.td`
+  display: flex;
+  margin-top: 0.1rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+`;
 
 export default ModalDeploy;
