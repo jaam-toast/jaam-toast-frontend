@@ -6,8 +6,12 @@ import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
 
 import { UserDeploymentData } from "../types";
+import timeSince from "../lib/utils/timeSince";
 
 function RepoCard({ cardData }: { cardData: UserDeploymentData }) {
+  const updatedMilliseconds = new Date(cardData.repoUpdatedAt).valueOf();
+  const repoUpdatedSince = timeSince(updatedMilliseconds);
+
   return (
     <CardActionArea>
       <CardContent sx={{ padding: 0, margin: 2 }}>
@@ -28,7 +32,7 @@ function RepoCard({ cardData }: { cardData: UserDeploymentData }) {
           sx={{ flexDirection: "row", marginTop: 2, alignItems: "center" }}
         >
           <Typography fontSize="small" fontWeight="medium">
-            {cardData.repoUpdatedAt} via
+            {repoUpdatedSince} ago via
           </Typography>
           <GitHubIcon fontSize="small" sx={{ marginLeft: 0.5 }} />
         </Box>
