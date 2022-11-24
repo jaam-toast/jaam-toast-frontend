@@ -25,7 +25,7 @@ function PageLanding() {
 
   return (
     <Container maxWidth={false} disableGutters>
-      {!isSSR && !isLoggedIn && (
+      {!isSSR && !isLoggedIn ? (
         <>
           <NavBar />
           <Box
@@ -62,7 +62,7 @@ function PageLanding() {
             </Box>
           </Box>
         </>
-      )}
+      ) : null}
     </Container>
   );
 }
