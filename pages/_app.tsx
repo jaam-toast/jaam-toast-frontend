@@ -1,19 +1,28 @@
 import type { AppProps } from "next/app";
 import { RecoilRoot } from "recoil";
 
-import "../public/fonts/style.css";
-import { ThemeProvider, CssBaseline } from "@mui/material";
-import theme from "../utils/theme";
+import { ThemeProvider, CssBaseline, useMediaQuery } from "@mui/material";
 
+import MobileDefense from "../components/MobileDefense";
 import ModalGlobal from "../components/ModalGlobal";
+import theme from "../utils/theme";
+import "../public/fonts/style.css";
 
 export default function App({ Component, pageProps }: AppProps) {
+  const isMobile = useMediaQuery("(max-width: 1000px)");
+
   return (
     <ThemeProvider theme={theme}>
       <RecoilRoot>
         <CssBaseline />
-        <ModalGlobal />
-        <Component {...pageProps} />
+        {isMobile ? (
+          <MobileDefense />
+        ) : (
+          <>
+            <ModalGlobal />
+            <Component {...pageProps} />
+          </>
+        )}
       </RecoilRoot>
     </ThemeProvider>
   );

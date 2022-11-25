@@ -9,7 +9,7 @@ import ButtonCreate from "../components/ButtonCreate";
 import RepoCardList from "../components/RepoCardList";
 import NavBar from "../components/Navbar";
 import SearchInput from "../components/SearchInput";
-import TemplateInitial from "../components/TemplateInitial";
+// import TemplateInitial from "../components/TemplateInitial";
 
 import Login from "./login";
 

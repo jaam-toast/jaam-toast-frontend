@@ -46,7 +46,7 @@ function NavBar() {
             size="large"
             edge="start"
             color="inherit"
-            aria-label="menu"
+            aria-label="brand-logo"
           >
             <ChangeHistoryIcon fontSize="large" />
           </IconButton>
