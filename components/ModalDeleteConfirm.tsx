@@ -36,6 +36,10 @@ function ModalDeleteConfirm({ ...modalProps }: IUserDeploymentData) {
     setCookie("userDeployments", JSON.stringify(newUserDeploymentList));
 
     hideModal();
+
+    showModal({
+      modalType: "ModalAlert",
+    });
   };
 
   return (
