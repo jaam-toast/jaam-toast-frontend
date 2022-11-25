@@ -1,9 +1,4 @@
-import Box from "@mui/material/Box";
-import CardContent from "@mui/material/CardContent";
-import ChangeHistoryIcon from "@mui/icons-material/ChangeHistory";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import Typography from "@mui/material/Typography";
-import CardActionArea from "@mui/material/CardActionArea";
+import { MouseEvent } from "react";
 
 import { Box, CardContent, CardActionArea, Typography } from "@mui/material";
 import {
@@ -17,16 +12,40 @@ import useModal from "../lib/hooks/useModal";
 
 import { UserDeploymentData } from "../types";
 
-function RepoCard({ cardData }: { cardData: UserDeploymentData }) {
+interface IUserDeploymentData {
+  cardData: UserDeploymentData;
+}
+
+function RepoCard({ cardData }: IUserDeploymentData) {
+  const { showModal } = useModal();
+
   const updatedMilliseconds = new Date(cardData.repoUpdatedAt).valueOf();
   const repoUpdatedSince = timeSince(updatedMilliseconds);
+
+  const handleCardClick = () => {};
+
+  const handleCloseButtonClick = (e: MouseEvent) => {
+    e.stopPropagation();
+
+    showModal({
+      modalType: "ModalDeleteConfirm",
+      modalProps: {
+        cardData,
+      },
+    });
+
+    console.info("Close button is clicked!");
+  };
 
   return (
     <CardActionArea onClick={handleCardClick}>
       <CardContent
         sx={{ position: "relative", padding: "1.5rem", height: 180 }}
       >
-        <CloseIcon sx={{ ...CloseIconStyle }} onClick={handleCloseClick} />
+        <CloseIcon
+          sx={{ ...CloseIconStyle }}
+          onClick={handleCloseButtonClick}
+        />
         <Box
           sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
         >
