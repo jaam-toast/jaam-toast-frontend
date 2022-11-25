@@ -43,7 +43,7 @@ function ModalDeleteConfirm({ ...modalProps }: IUserDeploymentData) {
   };
 
   return (
-    <Box sx={{ ...style }}>
+    <Box sx={{ ...BoxStyle }}>
       <Box
         display="flex"
         sx={{
@@ -77,17 +77,7 @@ function ModalDeleteConfirm({ ...modalProps }: IUserDeploymentData) {
         </Typography>
         <Button
           variant="contained"
-          sx={{
-            mt: 3,
-            bgcolor: "rgba(255, 83, 83, 0.8)",
-            width: "50%",
-            height: "2.5rem",
-            borderRadius: 1,
-            ":hover": {
-              bgcolor: "#FFF",
-              color: "#000",
-            },
-          }}
+          sx={{ ...ButtonStyle }}
           onClick={handleClickDelete}
         >
           Delete
@@ -97,7 +87,7 @@ function ModalDeleteConfirm({ ...modalProps }: IUserDeploymentData) {
   );
 }
 
-const style = {
+const BoxStyle = {
   position: "absolute" as const,
   top: "50%",
   left: "50%",
@@ -108,6 +98,18 @@ const style = {
   borderRadius: 3,
   boxShadow: 24,
   p: 4,
+};
+
+const ButtonStyle = {
+  mt: 3,
+  bgcolor: "rgba(255, 83, 83, 0.8)",
+  width: "50%",
+  height: "2.5rem",
+  borderRadius: 1,
+  ":hover": {
+    bgcolor: "#FFF",
+    color: "#000",
+  },
 };
 
 export default ModalDeleteConfirm;
