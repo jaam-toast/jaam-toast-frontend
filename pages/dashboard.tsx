@@ -67,7 +67,7 @@ function Dashboard() {
         <>
           <NavBar />
           <Divider />
-          <Container fixed maxWidth="lg">
+          <Container fixed maxWidth="lg" sx={{ height: "90vh" }}>
             <Box
               display="flex"
               sx={{
@@ -75,6 +75,7 @@ function Dashboard() {
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
+                marginBottom: "1rem",
               }}
             >
               <SearchInput />

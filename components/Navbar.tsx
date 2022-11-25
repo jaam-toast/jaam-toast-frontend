@@ -32,7 +32,7 @@ function NavBar() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ height: "10vh" }}>
       <AppBar
         position="relative"
         color="inherit"
