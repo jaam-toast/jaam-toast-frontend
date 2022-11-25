@@ -1,26 +1,34 @@
-import { Modal } from "@mui/material";
 import { useRecoilValue } from "recoil";
-import useModal from "../lib/hooks/useModal";
-import ModalBuild from "./ModalBuild";
-import ModalCreate from "./ModalCreate";
 
-import { modalState, ModalType } from "../lib/recoil/modal";
+import { Box, Modal } from "@mui/material";
+
+import useModal from "../lib/hooks/useModal";
+
+import ModalCreate from "./ModalCreate";
+import ModalBuild from "./ModalBuild";
 import ModalDeploy from "./ModalDeploy";
+import ModalDeleteConfirm from "./ModalDeleteConfirm";
+
+import { modalState } from "../lib/recoil/modal";
 
 function ModalGlobal() {
-  const { modalType } = useRecoilValue<ModalType | null>(modalState) || {};
+  const modal = useRecoilValue(modalState);
+  const { modalType, modalProps } = modal || {};
   const { isModal, hideModal } = useModal();
 
   const renderComponent = () => {
     switch (modalType) {
       case "ModalCreate":
-        return <ModalCreate />;
+        return <ModalCreate {...modalProps} />;
       case "ModalBuild":
-        return <ModalBuild />;
+        return <ModalBuild {...modalProps} />;
       case "ModalDeploy":
+        return <ModalDeploy {...modalProps} />;
+      case "ModalDeleteConfirm":
+        return <ModalDeleteConfirm {...modalProps} />;
         return <ModalDeploy />;
       default:
-        return <div />;
+        return null;
     }
   };
 
@@ -31,7 +39,7 @@ function ModalGlobal() {
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
     >
-      {renderComponent()}
+      <Box>{renderComponent()}</Box>
     </Modal>
   );
 }
