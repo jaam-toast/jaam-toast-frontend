@@ -72,6 +72,10 @@ export const getOrgRepos = async (userId: string, org: string) => {
   return data;
 };
 
+export const deleteUserDeployment = async (userId: string, repoId: string) => {
+  await MainClient.delete(`/users/${userId}/${repoId}`);
+};
+
 export const deployRepo = async (userBuildOptions: RepoDeployOptions) => {
   const {
     userId,
