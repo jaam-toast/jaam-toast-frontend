@@ -1,17 +1,13 @@
-import { useState } from "react";
+import { useRecoilValue } from "recoil";
 
 import { Card, Grid } from "@mui/material";
 
 import RepoCard from "./RepoCard";
 
-import { UserDeploymentData } from "../types";
+import userDeploymentsState from "../lib/recoil/userDeployments";
 
-function RepoCardList({
-  userDeploymentsList,
-}: {
-  userDeploymentsList: UserDeploymentData[];
-}) {
-  const [cardDataList] = useState<UserDeploymentData[]>(userDeploymentsList);
+function RepoCardList() {
+  const userDeploymentList = useRecoilValue(userDeploymentsState);
 
   return (
     <Grid

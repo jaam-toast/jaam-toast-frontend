@@ -82,11 +82,9 @@ function Dashboard() {
               <ButtonCreate />
             </Box>
             {userDeploymentsList.length > 0 ? (
-              <RepoCardList userDeploymentsList={userDeploymentsList} />
+              <RepoCardList />
             ) : (
-              <Box sx={{ width: "100%" }}>
-                <TemplateInitial />
-              </Box>
+              <Box sx={{ width: "100%" }}>{/* //   <TemplateInitial /> */}</Box>
             )}
           </Container>
         </>
