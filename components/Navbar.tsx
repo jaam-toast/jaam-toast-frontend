@@ -1,16 +1,17 @@
 import { useRouter } from "next/router";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import { deleteCookie } from "cookies-next";
 
-import { removeCookies } from "cookies-next";
-
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import ChangeHistoryIcon from "@mui/icons-material/ChangeHistory";
-import IconButton from "@mui/material/IconButton";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Tooltip from "@mui/material/Tooltip";
+import {
+  AppBar,
+  Box,
+  Button,
+  IconButton,
+  Toolbar,
+  Typography,
+  Tooltip,
+} from "@mui/material";
+import { ChangeHistory as ChangeHistoryIcon } from "@mui/icons-material";
 
 import loginState, { isLoggedInState } from "../lib/recoil/auth";
 
@@ -22,9 +23,9 @@ function NavBar() {
   const router = useRouter();
 
   const handleLogout = () => {
-    removeCookies("loginData");
-    removeCookies("userOrgs");
-    removeCookies("userDeployments");
+    deleteCookie("loginData");
+    deleteCookie("userOrgs");
+    deleteCookie("userDeployments");
     setIsLoggedIn(null);
 
     router.push("/login");

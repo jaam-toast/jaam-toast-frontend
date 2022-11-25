@@ -1,6 +1,5 @@
-import InputAdornment from "@mui/material/InputAdornment";
-import SearchIcon from "@mui/icons-material/Search";
-import TextField from "@mui/material/TextField";
+import { InputAdornment, TextField } from "@mui/material";
+import { Search as SearchIcon } from "@mui/icons-material";
 
 function SearchInput() {
   return (

@@ -2,12 +2,11 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import { Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 
 import NavBar from "../components/Navbar";
 import ButtonLogin from "../components/ButtonLogin";
+
 import { isLoggedInState } from "../lib/recoil/auth";
 
 function PageLanding() {

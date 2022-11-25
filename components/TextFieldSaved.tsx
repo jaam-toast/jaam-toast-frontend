@@ -1,8 +1,5 @@
-import Box from "@mui/material/Box";
-import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton";
-import RemoveIcon from "@mui/icons-material/Remove";
+import { Box, FormControl, IconButton, TextField } from "@mui/material";
+import { Remove as RemoveIcon } from "@mui/icons-material";
 
 import { EnvsState } from "../types";
 

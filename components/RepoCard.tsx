@@ -5,8 +5,17 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
 
-import { UserDeploymentData } from "../types";
+import { Box, CardContent, CardActionArea, Typography } from "@mui/material";
+import {
+  ChangeHistory as ChangeHistoryIcon,
+  Close as CloseIcon,
+  GitHub as GitHubIcon,
+} from "@mui/icons-material";
+
 import timeSince from "../lib/utils/timeSince";
+import useModal from "../lib/hooks/useModal";
+
+import { UserDeploymentData } from "../types";
 
 function RepoCard({ cardData }: { cardData: UserDeploymentData }) {
   const updatedMilliseconds = new Date(cardData.repoUpdatedAt).valueOf();

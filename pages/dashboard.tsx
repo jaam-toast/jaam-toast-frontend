@@ -3,9 +3,8 @@ import { useRouter } from "next/router";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { setCookie } from "cookies-next";
 
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import Divider from "@mui/material/Divider";
+import { Box, Container, Divider } from "@mui/material";
+
 import ButtonCreate from "../components/ButtonCreate";
 import RepoCardList from "../components/RepoCardList";
 import NavBar from "../components/Navbar";
@@ -13,10 +12,10 @@ import SearchInput from "../components/SearchInput";
 import TemplateInitial from "../components/TemplateInitial";
 
 import Login from "./login";
-import loginState, { isLoggedInState } from "../lib/recoil/auth";
-import userDeploymentsState from "../lib/recoil/userDeployments";
 
 import { getUserDeployments } from "../lib/api";
+import loginState, { isLoggedInState } from "../lib/recoil/auth";
+import userDeploymentsState from "../lib/recoil/userDeployments";
 
 import { LoginData, UserDeploymentData } from "../types";
 

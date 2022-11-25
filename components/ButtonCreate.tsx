@@ -1,9 +1,8 @@
 import { useRecoilValue, useSetRecoilState } from "recoil";
-
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-
 import { setCookie } from "cookies-next";
+
+import { Box, Button } from "@mui/material";
+
 import { getOrgs } from "../lib/api";
 import useModal from "../lib/hooks/useModal";
 

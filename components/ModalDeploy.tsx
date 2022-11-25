@@ -2,16 +2,18 @@ import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 
 import { io, Socket } from "socket.io-client";
-import styled from "styled-components";
 
-import Accordion from "@mui/material/Accordion";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Typography from "@mui/material/Typography";
+import styled from "styled-components";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Button,
+  Divider,
+  Typography,
+} from "@mui/material";
+import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 
 import Config from "../lib/config";
 import useModal from "../lib/hooks/useModal";
