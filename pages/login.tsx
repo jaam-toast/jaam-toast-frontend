@@ -3,11 +3,8 @@ import { useRouter } from "next/router";
 import { useSetRecoilState } from "recoil";
 import { setCookie } from "cookies-next";
 
-import Container from "@mui/material/Container";
+import { Box, Container, Divider, Typography } from "@mui/material";
 
-import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
-import Typography from "@mui/material/Typography";
 import { getUserDeployments, login } from "../lib/api";
 import loginState from "../lib/recoil/auth";
 import userDeploymentsState from "../lib/recoil/userDeployments";

@@ -1,10 +1,7 @@
 import { ChangeEvent, useState } from "react";
 
-import Box from "@mui/material/Box";
-import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
-import AddIcon from "@mui/icons-material/Add";
-import IconButton from "@mui/material/IconButton";
+import { Box, FormControl, IconButton, TextField } from "@mui/material";
+import { Add as AddIcon } from "@mui/icons-material";
 
 import { EnvsState } from "../types";
 
