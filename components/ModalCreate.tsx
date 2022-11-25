@@ -153,7 +153,7 @@ function ModalCreate() {
                 labelId="select-label"
                 id="select"
                 value={repository}
-                label="repository"
+                label="Select a Repository"
                 sx={{ fontSize: "small" }}
                 onChange={handleRepoChange}
               >

@@ -78,7 +78,7 @@ function Login() {
             }}
           >
             <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-              Log in to Vercel
+              Login to Jaam Toast
             </Typography>
             <Box sx={{ padding: 5 }}>
               <ButtonLogin />

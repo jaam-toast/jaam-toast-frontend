@@ -22,32 +22,55 @@ function RepoCard({ cardData }: { cardData: UserDeploymentData }) {
   const repoUpdatedSince = timeSince(updatedMilliseconds);
 
   return (
-    <CardActionArea>
-      <CardContent sx={{ padding: 0, margin: 2 }}>
-        <Box display="flex" sx={{ flexDirection: "row", alignItems: "center" }}>
+    <CardActionArea onClick={handleCardClick}>
+      <CardContent
+        sx={{ position: "relative", padding: "1.5rem", height: 180 }}
+      >
+        <CloseIcon sx={{ ...CloseIconStyle }} onClick={handleCloseClick} />
+        <Box
+          sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+        >
           <ChangeHistoryIcon fontSize="medium" />
-          <Box display="flex" sx={{ flexDirection: "column", marginLeft: 1 }}>
-            <Typography fontSize="large" fontWeight="bold">
+          <Box sx={{ display: "flex", flexDirection: "column", marginLeft: 1 }}>
+            <Typography sx={{ fontSize: "large", fontWeight: "bold" }}>
               {cardData.repoName}
             </Typography>
-            <Typography fontSize="medium">{cardData.deployedUrl}</Typography>
+            <Typography sx={{ fontSize: "medium" }}>
+              {cardData.deployedUrl}
+            </Typography>
           </Box>
         </Box>
-        <Typography fontSize="small" fontWeight="medium" sx={{ marginTop: 2 }}>
+        <Typography sx={{ fontSize: "small", fontWeight: "medium", mt: 2 }}>
           {cardData.lastCommitMessage}
         </Typography>
         <Box
-          display="flex"
-          sx={{ flexDirection: "row", marginTop: 2, alignItems: "center" }}
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            mt: 2,
+          }}
         >
-          <Typography fontSize="small" fontWeight="medium">
+          <Typography sx={{ fontSize: "small", fontWeight: "medium" }}>
             {repoUpdatedSince} ago via
           </Typography>
-          <GitHubIcon fontSize="small" sx={{ marginLeft: 0.5 }} />
+          <GitHubIcon sx={{ fontSize: "small", marginLeft: 0.5 }} />
         </Box>
       </CardContent>
     </CardActionArea>
   );
 }
+
+const CloseIconStyle = {
+  position: "absolute",
+  top: "0.5rem",
+  right: "0.5rem",
+  color: "rgba(51, 51, 51, 0.8)",
+  width: "1.2rem",
+  "&:hover": {
+    color: "rgba(255, 83, 83, 0.8)",
+    backgroundColor: "white",
+  },
+};
 
 export default RepoCard;

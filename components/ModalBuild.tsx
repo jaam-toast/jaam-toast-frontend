@@ -165,7 +165,7 @@ function ModalBuild() {
                 labelId="select-label"
                 id="select"
                 value={version}
-                label="version"
+                label="Node Version"
                 sx={{ fontSize: "small" }}
                 autoFocus
                 onChange={handleVersionChange}
@@ -182,30 +182,30 @@ function ModalBuild() {
         </Box>
         <Box sx={{ width: "100%" }}>
           <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
-            SSR Options *
+            CRA / Next Options *
           </Typography>
           <Box sx={{ width: "90%", marginTop: 1.5 }}>
             <FormControl size="small" fullWidth>
               <InputLabel id="select-label" sx={{ fontSize: "small" }}>
-                Is it SPA? or need SSR?
+                CRA / Next.js
               </InputLabel>
               <Select
                 labelId="select-label"
                 id="select"
                 value={buildType}
-                label="version"
+                label="CRA / Next.js"
                 sx={{ fontSize: "small" }}
                 autoFocus
                 onChange={handleBuildTypeChange}
               >
-                <MenuItem value="It is a SPA" sx={{ fontSize: "small" }}>
-                  It is a SPA
-                </MenuItem>
                 <MenuItem
-                  value="It needs SSR support"
+                  value="Create React App - SPA"
                   sx={{ fontSize: "small" }}
                 >
-                  It needs SSR support
+                  Create React App - SPA
+                </MenuItem>
+                <MenuItem value="Next.js App - SSR" sx={{ fontSize: "small" }}>
+                  Next.js App - SSR
                 </MenuItem>
               </Select>
             </FormControl>
