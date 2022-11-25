@@ -74,6 +74,7 @@ export interface UserDeploymentData extends RepoDeployOptions {
   deployedUrl?: string;
   recordId?: string;
   buildingLog?: (string | undefined)[] | undefined;
+  repoId?: string;
 }
 
 export interface DeploymentDataResponse {
