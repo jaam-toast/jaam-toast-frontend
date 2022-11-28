@@ -1,3 +1,5 @@
+import Head from "next/head";
+
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSetRecoilState } from "recoil";
@@ -66,33 +68,41 @@ function Login() {
   }, [authCode, router, setLoginState, setUserDeploymentsState]);
 
   return (
-    <Container maxWidth={false} disableGutters>
-      {!isSSR ? (
-        <>
-          <NavBar />
-          <Divider />
-          <Box
-            component="div"
-            display="flex"
-            sx={{
-              padding: 15,
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-              Login to Jaam Toast
-            </Typography>
-            <Box sx={{ padding: 5 }}>
-              <ButtonLogin />
-              <Divider sx={{ padding: 1 }} />
+    <>
+      <Head>
+        <title>
+          Jaam Toast - Jamstack App Deployment Service Platform | Deploy Your
+          Own Websites Quick And Easy Like Toasts
+        </title>
+      </Head>
+      <Container maxWidth={false} disableGutters>
+        {!isSSR ? (
+          <>
+            <NavBar />
+            <Divider />
+            <Box
+              component="div"
+              display="flex"
+              sx={{
+                padding: 15,
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+                Login to Jaam Toast
+              </Typography>
+              <Box sx={{ padding: 5 }}>
+                <ButtonLogin />
+                <Divider sx={{ padding: 1 }} />
+              </Box>
             </Box>
-          </Box>
-          <Divider sx={{ marginTop: 20 }} />
-        </>
-      ) : null}
-    </Container>
+            <Divider sx={{ marginTop: 20 }} />
+          </>
+        ) : null}
+      </Container>
+    </>
   );
 }
 
