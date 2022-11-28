@@ -40,7 +40,11 @@ function Login() {
 
         const { data: userDeployments } = await getUserDeployments(data._id);
 
-        const filteredUserDeployments = userDeployments.map(deployData => {
+        const copyUserDeployments: UserDeploymentData[] = JSON.parse(
+          JSON.stringify(userDeployments),
+        );
+
+        const filteredUserDeployments = copyUserDeployments.map(deployData => {
           const filteredDeployData = deployData;
           filteredDeployData.buildingLog = [];
 
