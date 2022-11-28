@@ -10,6 +10,7 @@ import ModalDeploy from "./ModalDeploy";
 import ModalDeleteConfirm from "./ModalDeleteConfirm";
 import { ModalCreateAlert, ModalDeleteAlert } from "./ModalAlert";
 import ModalPreview from "./ModalPreview";
+import ModalRepoDetails from "./ModalRepoDetails";
 
 import { modalState } from "../lib/recoil/modal";
 
@@ -37,6 +38,8 @@ function ModalGlobal() {
             <ModalPreview {...modalProps} />;
           </>
         );
+      case "ModalRepoDetails":
+        return <ModalRepoDetails {...modalProps} />;
       default:
         return null;
     }
