@@ -97,6 +97,13 @@ function ModalBuild() {
       "userDeployments",
       JSON.stringify([...deploymentList, filteredUserDeployData]),
     );
+
+    showModal({
+      modalType: "ModalPreview",
+      modalProps: {
+        previewData: userDeploymentData,
+      },
+    });
   };
 
   const handleVersionChange = (e: SelectChangeEvent) => {
