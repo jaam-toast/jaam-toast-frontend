@@ -76,8 +76,8 @@ function ModalBuild() {
       repoCloneUrl,
       repoUpdatedAt: formattedTime,
       nodeVersion: version,
-      installCommand: install,
-      buildCommand: build,
+      installCommand: `${install === "" ? "npm install" : install}`,
+      buildCommand: `${build === "" ? "npm run build" : build}`,
       envList: filteredEnvs,
       buildType,
       lastCommitMessage: "",
@@ -89,13 +89,13 @@ function ModalBuild() {
 
     const { data: userDeploymentData } = await deployRepo(userBuildOptions);
 
-    const filteredUserDeployData = userDeploymentData;
-    filteredUserDeployData.buildingLog = [];
+    const copyUserDeployData = JSON.parse(JSON.stringify(userDeploymentData));
+    copyUserDeployData.buildingLog = [];
 
     setDeploymentList([...deploymentList, userDeploymentData]);
     setCookie(
       "userDeployments",
-      JSON.stringify([...deploymentList, filteredUserDeployData]),
+      JSON.stringify([...deploymentList, copyUserDeployData]),
     );
 
     showModal({
