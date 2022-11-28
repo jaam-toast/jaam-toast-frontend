@@ -40,7 +40,7 @@ function ModalBuild() {
     useRecoilState<UserDeploymentData[]>(userDeploymentsState);
 
   const [version, setVersion] = useState<string>("");
-  const [buildType, setBulidType] = useState<string>("");
+  const [buildType, setBuildType] = useState<string>("");
   const [install, setInstall] = useState<string>("");
   const [build, setBuild] = useState<string>("");
   const [envs, setEnvs] = useState<Env[]>([{ key: "", value: "" }]);
@@ -108,7 +108,7 @@ function ModalBuild() {
   const handleBuildTypeChange = (e: SelectChangeEvent) => {
     const curBuildType = e.target.value;
 
-    setBulidType(curBuildType);
+    setBuildType(curBuildType);
   };
 
   return (

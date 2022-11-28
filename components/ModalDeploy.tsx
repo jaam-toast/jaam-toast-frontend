@@ -22,7 +22,7 @@ import { cloneRepoName } from "../lib/recoil/git/clone";
 
 function ModalDeploy() {
   const [socket, setSocket] = useState<Socket>();
-  const [bulidingLog, setBuildingLog] = useState<string[]>([]);
+  const [buildingLog, setBuildingLog] = useState<string[]>([]);
   const repoName = useRecoilValue<string>(cloneRepoName);
 
   const { showModal } = useModal();
@@ -106,7 +106,7 @@ function ModalDeploy() {
           >
             <table className="log-table" style={{ width: "100%" }}>
               <tbody className="log-table-body">
-                {bulidingLog.map((log, i) => (
+                {buildingLog.map((log, i) => (
                   <Tr
                     key={`${new Date().valueOf()} - ${i} - ${log}`}
                     className="log-table-row"
