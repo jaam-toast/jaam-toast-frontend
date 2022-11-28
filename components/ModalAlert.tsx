@@ -1,11 +1,10 @@
 import { Alert, AlertTitle } from "@mui/material";
 
-function ModalAlert() {
+export function ModalDeleteAlert() {
   return (
     <Alert severity="success">
-      <AlertTitle>Success</AlertTitle>
-      Deployment is successfully deleted —{" "}
-      <strong>we will wait for your next deployment!</strong>
+      <AlertTitle>Success - Jaam Toast</AlertTitle>A Deployment is successfully
+      deleted — <strong>we will wait for your next deployment!</strong>
     </Alert>
   );
 }

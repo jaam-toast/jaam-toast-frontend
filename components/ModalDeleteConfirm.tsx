@@ -26,7 +26,14 @@ function ModalDeleteConfirm({ ...modalProps }: IUserDeploymentData) {
   const { cardData } = modalProps;
 
   const handleClickDelete = async () => {
-    await deleteUserDeployment(userId, cardData.repoId as string);
+    await deleteUserDeployment(
+      userId,
+      cardData.repoId as string,
+      cardData.instanceId,
+      cardData.repoName,
+      cardData.repoOwner as string,
+      cardData.webhookId as string,
+    );
 
     const newUserDeploymentList = userDeploymentsList.filter(
       item => item.repoCloneUrl !== cardData.repoCloneUrl,
@@ -38,7 +45,7 @@ function ModalDeleteConfirm({ ...modalProps }: IUserDeploymentData) {
     hideModal();
 
     showModal({
-      modalType: "ModalAlert",
+      modalType: "ModalDeleteAlert",
     });
   };
 

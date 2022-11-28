@@ -72,10 +72,6 @@ export const getOrgRepos = async (userId: string, org: string) => {
   return data;
 };
 
-export const deleteUserDeployment = async (userId: string, repoId: string) => {
-  await MainClient.delete(`/users/${userId}/${repoId}`);
-};
-
 export const deployRepo = async (userBuildOptions: RepoDeployOptions) => {
   const {
     userId,
@@ -115,3 +111,22 @@ export const getUserDeployments = async (userId: string) => {
 
   return data;
 };
+
+export const deleteUserDeployment = async (
+  userId: string,
+  repoId: string,
+  instanceId: string,
+  repoName: string,
+  repoOwner: string,
+  webhookId: string,
+) => {
+  await MainClient.delete(`/deploy/${userId}/${repoId}`, {
+    data: {
+      instanceId,
+      repoName,
+      repoOwner,
+      webhookId,
+    },
+  });
+};
+

@@ -63,6 +63,8 @@ export interface DeploymentOptions {
   envList?: Env[];
   buildType?: string;
   lastCommitMessage: string;
+  repoId?: string;
+  webhookId?: string;
 }
 
 export interface RepoDeployOptions extends Repo, DeploymentOptions {

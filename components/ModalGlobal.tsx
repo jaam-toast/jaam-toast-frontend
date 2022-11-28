@@ -8,7 +8,7 @@ import ModalCreate from "./ModalCreate";
 import ModalBuild from "./ModalBuild";
 import ModalDeploy from "./ModalDeploy";
 import ModalDeleteConfirm from "./ModalDeleteConfirm";
-import ModalAlert from "./ModalAlert";
+import { ModalCreateAlert, ModalDeleteAlert } from "./ModalAlert";
 
 import { modalState } from "../lib/recoil/modal";
 
@@ -27,8 +27,8 @@ function ModalGlobal() {
         return <ModalDeploy {...modalProps} />;
       case "ModalDeleteConfirm":
         return <ModalDeleteConfirm {...modalProps} />;
-      case "ModalAlert":
-        return <ModalAlert {...modalProps} />;
+      case "ModalDeleteAlert":
+        return <ModalDeleteAlert {...modalProps} />;
       default:
         return null;
     }
