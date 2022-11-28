@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { Box, Divider, Typography } from "@mui/material";
 
+import TextFieldCommands from "./TextFieldCommands";
 import { Env, UserDeploymentData } from "../types";
 
 interface IUserDeploymentData {
@@ -45,6 +46,10 @@ function ModalPreview({ ...modalProps }: IUserDeploymentData) {
       <Typography id="preview-url" variant="h6" component="h4">
         {`https://${deployedUrl as string}`}
       </Typography>
+      <TextFieldCommands
+        installCommand={installCommand}
+        buildCommand={buildCommand}
+      />
     </Box>
   );
 }
