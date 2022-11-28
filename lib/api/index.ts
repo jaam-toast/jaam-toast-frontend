@@ -130,3 +130,6 @@ export const deleteUserDeployment = async (
   });
 };
 
+export const initiateBuildingLogSocket = async (userId: string) => {
+  await MainClient.get(`/deploy/${userId}/socket`);
+};
