@@ -21,7 +21,7 @@ import useModal from "../lib/hooks/useModal";
 import { cloneRepoName } from "../lib/recoil/git/clone";
 
 function ModalDeploy() {
-  const [socket, setSocket] = useState<Socket>();
+  const [socket, setSocket] = useState<Socket | null>(null);
   const [buildingLog, setBuildingLog] = useState<string[]>([]);
   const repoName = useRecoilValue<string>(cloneRepoName);
 
@@ -43,7 +43,7 @@ function ModalDeploy() {
   }, []);
 
   useEffect(() => {
-    if (!socket) return;
+    if (socket === null) return;
 
     socket.on("connect", () => {
       console.info(
@@ -62,10 +62,12 @@ function ModalDeploy() {
     socket.emit("get-building-log", repoName);
 
     socket.on("new-building-log", data => {
-      console.info(data);
-
       setBuildingLog(prev => [...prev, data as string]);
     });
+
+    return () => {
+      socket.off("new-building-log");
+    };
   }, [repoName, socket]);
 
   return (
