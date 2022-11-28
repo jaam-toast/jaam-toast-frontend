@@ -104,7 +104,13 @@ function ModalDeploy() {
         <AccordionDetails sx={{ mt: 1 }}>
           <Box
             component="div"
-            sx={{ height: "40vh", overflow: "auto", flex: "1" }}
+            sx={{
+              height: "40vh",
+              overflow: "auto",
+              flex: "1",
+              display: "flex",
+              flexDirection: "column-reverse",
+            }}
           >
             <table className="log-table" style={{ width: "100%" }}>
               <tbody className="log-table-body">
