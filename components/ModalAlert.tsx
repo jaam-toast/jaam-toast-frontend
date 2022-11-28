@@ -9,4 +9,12 @@ export function ModalDeleteAlert() {
   );
 }
 
-export default ModalAlert;
+export function ModalCreateAlert() {
+  return (
+    <Alert severity="success">
+      <AlertTitle>Success - Jaam Toast</AlertTitle>A New Deployment is
+      successfully created —{" "}
+      <strong>Congratulation for your new deployment!</strong>
+    </Alert>
+  );
+}
