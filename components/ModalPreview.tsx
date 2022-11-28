@@ -4,6 +4,8 @@ import { Box, Divider, Typography } from "@mui/material";
 
 import TextFieldCommands from "./TextFieldCommands";
 import AccordionEnvs from "./AccordionEnvs";
+import AccordionBuildingLog from "./AccordionBuildingLog";
+
 import { Env, UserDeploymentData } from "../types";
 
 interface IUserDeploymentData {
@@ -52,6 +54,7 @@ function ModalPreview({ ...modalProps }: IUserDeploymentData) {
         buildCommand={buildCommand}
       />
       <AccordionEnvs envs={envs} setEnvs={setEnvs} />
+      <AccordionBuildingLog buildingLog={curBuildingLog} />
     </Box>
   );
 }
