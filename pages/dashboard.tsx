@@ -1,3 +1,5 @@
+import Head from "next/head";
+
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useRecoilValue, useRecoilState } from "recoil";
@@ -76,36 +78,46 @@ function Dashboard() {
   }, [userId]);
 
   return (
-    <Container maxWidth={false} disableGutters>
-      {!isSSR && isLoggedIn ? (
-        <>
-          <NavBar />
-          <Divider />
-          <Container fixed maxWidth="lg" sx={{ height: "90vh" }}>
-            <Box
-              display="flex"
-              sx={{
-                padding: 1,
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                marginBottom: "1rem",
-              }}
-            >
-              <SearchInput />
-              <ButtonCreate />
-            </Box>
-            {userDeploymentsList.length > 0 ? (
-              <RepoCardList />
-            ) : (
-              <Box sx={{ width: "100%" }}>{/* //   <TemplateInitial /> */}</Box>
-            )}
-          </Container>
-        </>
-      ) : (
-        <Login />
-      )}
-    </Container>
+    <>
+      <Head>
+        <title>
+          Jaam Toast - Jamstack App Deployment Service Platform | Deploy Your
+          Own Websites Quick And Easy Like Toasts
+        </title>
+      </Head>
+      <Container maxWidth={false} disableGutters>
+        {!isSSR && isLoggedIn ? (
+          <>
+            <NavBar />
+            <Divider />
+            <Container fixed maxWidth="lg" sx={{ height: "90vh" }}>
+              <Box
+                display="flex"
+                sx={{
+                  padding: 1,
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginBottom: "1rem",
+                }}
+              >
+                <SearchInput />
+                <ButtonCreate />
+              </Box>
+              {userDeploymentsList.length > 0 ? (
+                <RepoCardList />
+              ) : (
+                <Box sx={{ width: "100%" }}>
+                  {/* //   <TemplateInitial /> */}
+                </Box>
+              )}
+            </Container>
+          </>
+        ) : (
+          <Login />
+        )}
+      </Container>
+    </>
   );
 }
 
