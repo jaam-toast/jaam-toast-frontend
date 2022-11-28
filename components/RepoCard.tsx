@@ -22,7 +22,14 @@ function RepoCard({ cardData }: IUserDeploymentData) {
   const updatedMilliseconds = new Date(cardData.repoUpdatedAt).valueOf();
   const repoUpdatedSince = timeSince(updatedMilliseconds);
 
-  const handleCardClick = () => {};
+  const handleCardClick = () => {
+    showModal({
+      modalType: "ModalRepoDetails",
+      modalProps: {
+        previewData: cardData,
+      },
+    });
+  };
 
   const handleCloseButtonClick = (e: MouseEvent) => {
     e.stopPropagation();
@@ -33,6 +40,7 @@ function RepoCard({ cardData }: IUserDeploymentData) {
         cardData,
       },
     });
+  };
 
     console.info("Close button is clicked!");
   };

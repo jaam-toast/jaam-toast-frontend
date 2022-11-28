@@ -7,6 +7,7 @@ export const MODAL_TYPES = {
   ModalDeleteConfirm: "ModalDeleteConfirm",
   ModalDeleteAlert: "ModalDeleteAlert",
   ModalPreview: "ModalPreview",
+  ModalRepoDetails: "ModalRepoDetails",
 } as const;
 
 export interface ModalCreateType {
@@ -38,6 +39,8 @@ export interface ModalPreviewType {
   modalProps?: any;
 }
 
+export interface ModalRepoDetailsType {
+  modalType: typeof MODAL_TYPES.ModalRepoDetails;
   modalProps?: any;
 }
 
@@ -48,6 +51,7 @@ export type ModalType =
   | ModalDeleteType
   | ModalDeleteAlertType
   | ModalPreviewType
+  | ModalRepoDetailsType;
 
 export const modalState = atom<ModalType | null>({
   key: "modalState",
