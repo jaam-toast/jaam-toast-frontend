@@ -42,7 +42,8 @@ function RepoCard({ cardData }: IUserDeploymentData) {
     });
   };
 
-    console.info("Close button is clicked!");
+  const handleClickUrl = (e: MouseEvent) => {
+    e.stopPropagation();
   };
 
   return (
@@ -62,9 +63,21 @@ function RepoCard({ cardData }: IUserDeploymentData) {
             <Typography sx={{ fontSize: "large", fontWeight: "bold" }}>
               {cardData.repoName}
             </Typography>
-            <Typography sx={{ fontSize: "medium" }}>
-              {cardData.deployedUrl}
-            </Typography>
+            <a
+              href={`https://${cardData.deployedUrl as string}`}
+              style={{ color: "#03336a", textDecoration: "none" }}
+              target="_blank"
+              onClick={handleClickUrl}
+              rel="noreferrer"
+            >
+              <Typography
+                sx={{ fontSize: "medium" }}
+                style={{ color: "#03336a" }}
+                onClick={handleClickUrl}
+              >
+                {cardData.deployedUrl}
+              </Typography>
+            </a>
           </Box>
         </Box>
         <Typography sx={{ fontSize: "small", fontWeight: "medium", mt: 2 }}>
