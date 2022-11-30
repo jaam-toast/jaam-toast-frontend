@@ -6,7 +6,7 @@
 
 <aside>
 
-**[☑️ 프론트엔드 배포는 이제 Jaam Toast 에서! ( Click Me )](Jaam Toast - Jamstack App Deployment Service Platform | Deploy Your Own Websites Quick And Easy Like Toasts)**
+**[☑️ 프론트엔드 배포는 이제 Jaam Toast 에서! ( Click Me )](https://www.jaamtoast.app/index)**
 
 </aside>
 
@@ -22,8 +22,7 @@
 ###
 
 > In-House 서비스 개발을 목표로, 웹 프론트엔드 배포 서비스를 기획 및 개발하였습니다.
-> Netlify, Vercel 등 기존의 다양한 배포 서비스를 이용하면서 그 편의성과 유용함을 알게 되었고,
-> `프론트엔드 개발자에게 편리한 배포 서비스 개발`을 이번 프로젝트 주제로 선정하게 되었습니다.
+> <br>Netlify, Vercel 등 기존의 다양한 배포 서비스를 이용하면서 그 편의성과 유용함을 알게 되었고,</br>`프론트엔드 개발자에게 편리한 배포 서비스 개발`을 이번 프로젝트 주제로 선정하게 되었습니다.
 
 ### **실행 방법( How to run )**
 
@@ -70,6 +69,8 @@ Week 2 ~ 6 - 기능 개발
   - TemplateInitial 컴포넌트 구현
 - Modal(Create/Build/Deploy/Global) 컴포넌트 구현
 
+---
+
 - GitHub Oauth 기반의 로그인/로그아웃 기능 구현
 
   - 유저 저장소 접근 => 특정 'Organization - Repository' 선택(배포) 가능
@@ -78,8 +79,6 @@ Week 2 ~ 6 - 기능 개발
   - 앱의 유형에 따라 로직 분리(CRA-`CSR` vs Next.js-`SSR`)
   - AWS 주요 서비스 학습(EC2, Route53, S3, CloudFront, CloudWatch Logs 등)
 
----
-
 `2022년 10월 31일 ~ 2022년 11월 20일`
 
 - Modal(RepoDetails/Preview) 컴포넌트 구현
@@ -87,12 +86,12 @@ Week 2 ~ 6 - 기능 개발
 - AccordionBuildingLog 컴포넌트 구현
 - MobileDefense 컴포넌트 구현 => 모바일📱 환경 대응(UI/UX 개선)
 
+---
+
 - ModalDeploy 컴포넌트 내 Deploy 버튼 클릭에 따른 빌드 및 배포 기능 구현
   - 배포 완료 시, `https://${repoName}.jaamtoast.click` 형태의 Site URL(deployedUrl) 부여
   - Socket.IO-client 활용 => BuildingLog 데이터 표시 및 관련 기능 구현
   - PR 머지 시, GitHub webhook 요청 받아서 배포 자동 업데이트 기능 구현
-
----
 
 Week 7 - 앱 배포 및 README 작성
 
@@ -146,9 +145,9 @@ Week 7 - 앱 배포 및 README 작성
 
 **📌 주요 기능**
 
-| **1. **  | **2. </br>** |
-| :------: | :----------: |
-| ![1. ]() |   ![2. ]()   |
+|    1.    | 2. </br> |
+| :------: | :------: |
+| ![1. ]() | ![2. ]() |
 
 ###
 
@@ -161,3 +160,31 @@ Week 7 - 앱 배포 및 README 작성
 ### 🙇‍♀️ 팀원
 
 ---
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/taewanseoul">
+        <img src="https://user-images.githubusercontent.com/59520911/204722492-42092426-703f-4e7b-83ec-a393da7c4e09.png" alt="임태완 프로필" width="200px" height="200px" />
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/krystarline">
+	      <img src="https://user-images.githubusercontent.com/93423531/204848937-f5ab49f0-f062-4138-aabb-1bb4b9fbf3cf.png" width="200px" height="200px" />
+    </td>
+  </tr>
+  <tr>
+    <td>
+    <ul>
+      <li><a href="https://github.com/taewanseoul">Taewan Lim 임태완</a></li>
+		<li>taewan.seoul@gmail.com</li>
+	</ul>
+    </td>
+    <td>
+    <ul>
+      <li><a href="https://github.com/krystarline">Sujeong Park 박수정</a></li>
+		<li>krystarline@gmail.com</li>
+	</ul>
+    </td>
+  </tr>
+</table>
