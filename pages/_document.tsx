@@ -23,6 +23,8 @@ export default class MyDocument extends Document {
           />
           <meta property="og:site_name" content="Jaam Toast" />
           <meta property="og:locale" content="en_US" />
+          <meta property="og:image" content="/images/jaamtoast-logo.svg" />
+          <link rel="icon" href="/images/jaamtoast-favicon.svg" />
         </Head>
         <body>
           <Main />

@@ -1,4 +1,6 @@
 import { useRouter } from "next/router";
+import Image from "next/image";
+
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { deleteCookie } from "cookies-next";
 
@@ -11,7 +13,6 @@ import {
   Typography,
   Tooltip,
 } from "@mui/material";
-import { ChangeHistory as ChangeHistoryIcon } from "@mui/icons-material";
 
 import loginState, { isLoggedInState } from "../lib/recoil/auth";
 
@@ -31,6 +32,10 @@ function NavBar() {
     router.push("/login");
   };
 
+  const handleLogoClick = () => {
+    router.push("/");
+  };
+
   return (
     <Box sx={{ height: "10vh" }}>
       <AppBar
@@ -42,14 +47,22 @@ function NavBar() {
         }}
       >
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="brand-logo"
-          >
-            <ChangeHistoryIcon fontSize="large" />
-          </IconButton>
+          <Box sx={{ height: "100%" }}>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="brand-logo"
+              onClick={handleLogoClick}
+            >
+              <Image
+                src="/images/jaamtoast-logo.svg"
+                alt="Jaamtoast logo"
+                width="50%"
+                height="50%"
+              />
+            </IconButton>
+          </Box>
           <Typography
             variant="h4"
             component="div"
