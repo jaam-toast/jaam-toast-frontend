@@ -72,6 +72,7 @@ Week 2 ~ 6 - 기능 개발
 ---
 
 - GitHub Oauth 기반의 로그인/로그아웃 기능 구현
+- 유저 GitHub 데이터 관련 엔드포인트 세팅
 
   - 유저 저장소 접근 => 특정 'Organization - Repository' 선택(배포) 가능
 
@@ -97,7 +98,7 @@ Week 7 - 앱 배포 및 README 작성
 
 `2022년 11월 21일 ~ 2022년 11월 27일`
 
-- 기능상 버그 수정
+- 기능상 버그 수정 및 유저 배포 데이터 삭제 추가 기능 구현
 - README 작성
 - 최종 배포 완료
 
@@ -251,7 +252,7 @@ GitHub 계정과 연동하여 원하는 repository를 클릭 한번에 배포할
 
 배포 과정을 보여줄 수 있는 Building log를 전달해주기 위해 Socket.io를 활용하였습니다. 그러나 Express 동작 기저 내에서 어떻게 필요에 따라 동일 Socket instance를 가져와 사용할 수 있을지에 대한 의문이 있었고, 그렇게 Singleton 디자인패턴을 알게 되었습니다.
 
-이제 관련 log를 어떻게 한 번에 하나씩 순차적으로 보내줄 수 있을지에 대해 고민하였고, 디버깅 작업을 위해 미리 만들어 사용하고 있던 debug 함수 활용의 아이디어가 떠올랐습니다. 작업 순서 확인을 위해 debug 함수로 곳곳의 log를 받아와 `process.stderr.write`를 진행중이었는데, 이때 해당 log가 특정 파일에 보관되게 함으로써, 이후 log가 기록될 때마다 Socket instance에서 그러한 파일 변화를 감지해, 결과적으로 클라이언트에 log를 보내줄 수 있는 방식이었습니다. 더불어 Node.js `File system` 모듈에서 제공하는 API( `fs.open()`, `fs.write()`, `fs.watch()` ) 활용을 더해, 앞서 유추한 방식을 토대로 관련 기능 구현을 완료하였습니다.
+이제 관련 log를 어떻게 한 번에 하나씩 순차적으로 보내줄 수 있을지에 대해 고민하였고, 디버깅 작업을 위해 미리 만들어 사용하고 있던 debug 함수 활용의 아이디어가 떠올랐습니다. 작업 순서 확인을 위해 debug 함수로 곳곳의 배포 작업 log를 받아와 process.stderr.write로 log 확인 작업을 진행중이었는데, 이때 해당 log가 특정 파일에 보관되게 함으로써, 이후 log가 기록될 때마다 Socket instance에서 그러한 파일 변화를 감지해, 결과적으로 클라이언트에 log를 보내줄 수 있는 방식이었습니다. 더불어 Node.js `File system` 모듈에서 제공하는 API( `fs.open()`, `fs.write()`, `fs.watch()` ) 활용을 더해, 앞서 유추한 방식을 토대로 관련 기능 구현을 완료하였습니다.
 
 #### **배포 기능 로직을 담은 함수 리팩토링**
 
@@ -261,7 +262,7 @@ GitHub 계정과 연동하여 원하는 repository를 클릭 한번에 배포할
 
 따라서 원활한 유지보수는 물론, 에러 핸들링과 상황에 맞춰 필요한 에러 관련 데이터의 롤백도 불가할 것으로 판단하였기에 해당 함수의 리팩토링을 추가적으로 진행하였습니다. 더불어 로직의 경우 이중 `try catch` 및 `setInterval`과 `setTimeout`도 함께 섞여 있었기에 그에 따른 로직 관리의 효용성, 그리고 배포 기능의 보다 안정적인 동작 개선을 위해 함수 리팩토링을 택하게 되었습니다.
 
-결과적으로 기존의 필요 데이터 사용을 위해 미들웨어에서 접근 가능한 `request object(req)`에 새로운 커스텀 타입을 지정하고 사용하는 대신, 미들웨어 하나당 배포 기능 내 하나의 역할만 담당하도록 이를 분리하였습니다. 즉 미들웨어 내 `await`가 필요한 함수의 경우 원하는 타이밍에 `resolve()` 할 수 있도록 `Promise`를 리턴하는 식으로 리팩토링함으로써 클라이언트가 필요로 하는 데이터를 배포 요청에 따른 응답으로서 담아 보낼 수 있었습니다.
+결과적으로 기존의 필요 데이터 사용을 위해 미들웨어에서 접근 가능한 `request object(req)`에 새로운 커스텀 타입을 지정하고 사용하면서 미들웨어 하나당 배포 기능 내 하나의 역할만 담당하도록 이를 분리하였습니다. 또한 미들웨어 내 await가 필요한 함수의 경우는 원하는 타이밍에 `resolve()` 할 수 있도록 `Promise`를 리턴하는 식으로 리팩토링함으로써 클라이언트가 필요로 하는 데이터를 배포 요청에 따른 응답으로서 담아 보낼 수 있었습니다.
 
 #### **Origin 서버 배포 이후 에러**
 
@@ -281,25 +282,25 @@ GitHub, Nginx, 그리고 AWS 등의 공식 문서를 꼼꼼히 살펴봄으로�
 
 ---
 
-- [`EC2` instance 휴면 처리](https://www.notion.so/3f3d986f202242b8924c36e90bf15777)
+- [`EC2` instance 휴면 처리](https://taewan.notion.site/3f3d986f202242b8924c36e90bf15777)
 
   > 배포 요청에 의해 생성된 `EC2` 수가 많아져, 예상치 못한 이슈가 발생할 것에 대비하여 `EC2` instance 생성 시 `hibernation` 옵션을 활성화시키는 방법을 고려하였습니다. 그러나 저희가 사용하는 무료 `t2-micro` `EC2` instance에서는 `hibernation` 옵션이 지원되지 않아, 결과적으로 적용하진 못하였습니다. ( 또한 `hibernation` 사용 조건으로 Amazon `EBS` root volume이 encrypt 되어 있어야 합니다. )
 
-- [`EC2` instance 가 많아질 경우를 대비한 scale 대비 instance 설정](https://www.notion.so/scale-instance-2b4ce2d4ce3948bfa7c190451b4de04c)
+- [`EC2` instance 가 많아질 경우를 대비한 scale 대비 instance 설정](https://taewan.notion.site/scale-instance-2b4ce2d4ce3948bfa7c190451b4de04c)
 
-  > 휴면 처리가 불가한 문제를 해결하기 위해 `EC2` instance 상태를 `stopped`와 `running` 둘 중, 필요 시에만 변경해주는 방법도 고려하였습니다. `hibernation`과 달리 `stopped`로 바꿨을 때 `EC2` 환경 관련 데이터는 삭제되지만, 명령어를 재실행시켜 줌으로써 관련 내역 전부를 재설치하면 되지 않을까 하는 생각 때문이었습니다. 그러나 해당 instance가 `stopped`에서 `running` 상태로 바뀔 경우 instance Public IP address가 변경되기에 고정된 IP 주소를 갖는 AWS Elastic IP address가 제한될 우려가 있어 이 또한 적용하지 못하였습니다.(`[five Elastic IP addresses per Region](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-limit)`)
+  > 휴면 처리가 불가한 문제를 해결하기 위해 `EC2` instance 상태를 `stopped`와 `running` 둘 중, 필요 시에만 변경해주는 방법도 고려하였습니다. `hibernation`과 달리 `stopped`로 바꿨을 때 `EC2` 환경 관련 데이터는 삭제되지만, 명령어를 재실행시켜 줌으로써 관련 내역 전부를 재설치하면 되지 않을까 하는 생각 때문이었습니다. 그러나 해당 instance가 stopped에서 running 상태로 바뀔 경우 instance Public IP address 또한 변경되기에 해결 방안으로서 적절치 않았습니다. 더불어 고정된 IP 주소를 갖는 AWS Elastic IP address는 region별 개수 제한이 있어, 이 또한 적용하지 못 하였습니다. [five Elastic IP addresses per Region](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-limit)
 
-- [https 인증 요청을 위한 대기시간 줄이기 (Let’s Encrypt—`Certbot` 요청 전 대기)](https://www.notion.so/scale-instance-2b4ce2d4ce3948bfa7c190451b4de04c)
+- [https 인증 요청을 위한 대기시간 줄이기 (Let’s Encrypt—`Certbot` 요청 전 대기)](https://taewan.notion.site/scale-instance-2b4ce2d4ce3948bfa7c190451b4de04c)
 
   > `Certbot`으로 https 인증 요청을 하려면 `EC2` instance와 `Route53` record가 완전히 준비된 상태여야 하기에 인터벌로 ping을 보내, 두 요소 간 상태 확인을 우선하였습니다. 그러나 두 요소의 상태가 각각 `RUNNING` / `INSYNC`로 변경 완료된 것을 확인한 뒤 요청을 날렸음에도 불구하고, 계속적으로 https 인증에 실패하였습니다. 여러 방법을 시도해 본 끝에, 변경이 확인된 이후에도 강제로 일정 시간을 `setTimeout`으로 대기했을 때 성공할 수 있었습니다. 배포 자체의 시간이 길어지는 문제점은 있지만, 의존성이 높은 부분이라 해결 방안을 명확히 모색하기 어려웠습니다.
   >
-  > - https 인증 요청 대기 문제와 위에서 언급한 scale 대비 instance 설정을 동시에 해결하기 위한 방안으로 [배포요청이 들어왔을 때 로직을 추가](https://www.notion.so/scale-instance-2b4ce2d4ce3948bfa7c190451b4de04c)를 더해 보았습니다. 요약은 다음과 같습니다.
-  >   - ~~미리 `EC2` instance (`stopped`) 와 `Route53` A record 들을 생성해서 mongoDB 저장~~
-  >   - ~~배포 요청이 들어오면 만들어둔 instance 를 `running` 으로 변경 요청~~
-  >   - ~~A record 로 instance 상태 변경에 따라 새로 만들어진 Public IP Address 를 가리킴~~
-  >   - ~~배포 요청한 repo 이름으로 record (CNAME) 하나 만들어서 미리 만들어둔 A record 가리킴~~
-  >   - ~~생성한 record 들 포함해서 Nginx 세팅과 certbot https 인증 요청 실행~~
-  >   - ~~instance 안 build 파일 실행을 위해 필요한 명령어들 실행~~
+  > - https 인증 요청 대기 문제와 위에서 언급한 scale 대비 instance 설정을 동시에 해결하기 위한 방안으로 [배포요청이 들어왔을 때 로직을 추가](https://taewan.notion.site/scale-instance-2b4ce2d4ce3948bfa7c190451b4de04c)를 더해 보았습니다. 요약은 다음과 같습니다.
+  >   - 미리 EC2 instance(stopped)와 Route53 A record들을 생성해서 mongoDB 저장
+  >   - 배포 요청이 들어오면 만들어둔 instance 중 하나를 선택해서 상태를 running으로 변경 요청
+  >   - instance 상태 변경에 따라 A record가 새로 만들어진 Public IP Address를 가리키게 설정
+  >   - 배포 요청한 repo 이름으로 record(CNAME) 하나 만들어서 미리 만들어둔 A record 가리키게 설정
+  >   - 생성한 record들 포함해서 Nginx 세팅과 certbot https 인증 요청 명령어 instance로 전달해서 자동 실행
+  >   - instance 내부의 build 파일 실행을 위해 필요한 명령어들 instance로 전달해서 자동 실행
   > - 그러나 `EC2` instance의 상태가 변경되면 Public IP address 또한 변경되기에 미리 만들어둔 record A가 준비됐다 하더라도, 새롭게 실행되는 instance 때문에 결국 https 인증 요청을 하기 전에 강제로 일정 시간을 대기해야 될 것으로 짐작되어, 다소 아쉬운 이슈로 남게 되었습니다.
 
 ### **After Project**
