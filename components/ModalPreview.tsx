@@ -46,9 +46,16 @@ function ModalPreview({ ...modalProps }: IUserDeploymentData) {
           />
         </Box>
       </Box>
-      <Typography id="preview-url" variant="h6" component="h4">
-        {`https://${deployedUrl as string}`}
-      </Typography>
+      <a
+        href={`https://${deployedUrl as string}`}
+        style={{ color: "#03336a", textDecoration: "none" }}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <Typography id="preview-url" variant="h6" component="h4">
+          {`https://${deployedUrl as string}`}
+        </Typography>
+      </a>
       <TextFieldCommands
         installCommand={installCommand}
         buildCommand={buildCommand}

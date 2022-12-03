@@ -98,12 +98,16 @@ function ModalBuild() {
       JSON.stringify([...deploymentList, copyUserDeployData]),
     );
 
-    showModal({
-      modalType: "ModalPreview",
-      modalProps: {
-        previewData: userDeploymentData,
-      },
-    });
+    setTimeout(
+      () =>
+        showModal({
+          modalType: "ModalPreview",
+          modalProps: {
+            previewData: userDeploymentData,
+          },
+        }),
+      4000,
+    );
   };
 
   const handleVersionChange = (e: SelectChangeEvent) => {
