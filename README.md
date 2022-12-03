@@ -1,6 +1,6 @@
-### **프로젝트 소개( Introduction )**
+# **프로젝트 소개( Introduction )**
 
----
+<img src="https://user-images.githubusercontent.com/59520911/205429514-5171a3f9-e0cd-47e9-985a-5a190060d619.svg" width="250" />
 
 ###
 
@@ -15,7 +15,9 @@
 
 ![Jaam Toast 시연 영상](https://user-images.githubusercontent.com/93423531/205428305-8a82e734-4157-45df-840a-167b6b406f99.gif)
 
-### **프로젝트 동기( Motivation )**
+<br/>
+
+## **프로젝트 동기( Motivation )**
 
 ---
 
@@ -24,7 +26,9 @@
 > In-House 서비스 개발을 목표로, 웹 프론트엔드 배포 서비스를 기획 및 개발하였습니다.
 > <br>Netlify, Vercel 등 기존의 다양한 배포 서비스를 이용하면서 그 편의성과 유용함을 알게 되었고,</br>`프론트엔드 개발자에게 편리한 배포 서비스 개발`을 이번 프로젝트 주제로 선정하게 되었습니다.
 
-### **실행 방법( How to run )**
+<br/>
+
+## **실행 방법( How to run )**
 
 ---
 
@@ -38,10 +42,13 @@
 
   ```
   $ yarn install
+  $ yarn build
   $ yarn start
   ```
 
-### **프로젝트 일정( Schedule )**
+<br/>
+
+## **프로젝트 일정( Schedule )**
 
 ---
 
@@ -49,7 +56,7 @@
 
 **📆 전체 기간** ( `2022년 10월 10일 ~ 2022년 11월 27일` )
 
-Week 1 - 기획 및 설계
+**Week 1 - 기획 및 설계**
 
 `2022년 10월 10일 ~ 2022년 10월 16일`
 
@@ -58,7 +65,9 @@ Week 1 - 기획 및 설계
 - 칸반(KANBAN) 작성
 - GitHub 레포 설정(+ Git 및 코드 컨벤션)
 
-Week 2 ~ 6 - 기능 개발
+<br/>
+
+**Week 2 ~ 6 - 기능 개발**
 
 `2022년 10월 17일 ~ 2022년 10월 30일`
 
@@ -68,9 +77,6 @@ Week 2 ~ 6 - 기능 개발
   - Repo(Card/CardList) 컴포넌트 구현
   - TemplateInitial 컴포넌트 구현
 - Modal(Create/Build/Deploy/Global) 컴포넌트 구현
-
----
-
 - GitHub Oauth 기반의 로그인/로그아웃 기능 구현
 - 유저 GitHub 데이터 관련 엔드포인트 세팅
 
@@ -86,15 +92,14 @@ Week 2 ~ 6 - 기능 개발
   - 배포 완료 후, 생성된 RepoCard 클릭 시 ModalRepoDetails(상세페이지) 확인 가능
 - AccordionBuildingLog 컴포넌트 구현
 - MobileDefense 컴포넌트 구현 => 모바일📱 환경 대응(UI/UX 개선)
-
----
-
 - ModalDeploy 컴포넌트 내 Deploy 버튼 클릭에 따른 빌드 및 배포 기능 구현
   - 배포 완료 시, `https://${repoName}.jaamtoast.click` 형태의 Site URL(deployedUrl) 부여
   - Socket.IO-client 활용 => BuildingLog 데이터 표시 및 관련 기능 구현
   - PR 머지 시, GitHub webhook 요청 받아서 배포 자동 업데이트 기능 구현
 
-Week 7 - 앱 배포 및 README 작성
+<br/>
+
+**Week 7 - 앱 배포 및 README 작성**
 
 `2022년 11월 21일 ~ 2022년 11월 27일`
 
@@ -102,15 +107,15 @@ Week 7 - 앱 배포 및 README 작성
 - README 작성
 - 최종 배포 완료
 
-### **프로젝트 설명( How to play )**
+<br/>
+
+## **프로젝트 설명( How to play )**
 
 ---
 
-###
+### **🎨 기술 스택**
 
-**🎨 기술 스택**
-
-### _FrontEnd_
+#### **_FrontEnd_**
 
 - ES6+
 - NextJS
@@ -121,7 +126,7 @@ Week 7 - 앱 배포 및 README 작성
 - Styled-components
 - Jest
 
-### _BackEnd_
+#### **_BackEnd_**
 
 - Node.js
 - Express
@@ -137,14 +142,14 @@ Week 7 - 앱 배포 및 README 작성
 - MongoDB with Atlas and Mongoose
 - Jest
 
-### _Infra_
+#### **_Infra_**
 
 - [FE] Vercel
 - [BE] AWS EC2 / Route53 / Nginx
 
-###
+<br/>
 
-**📌 주요 기능**
+### **📌 주요 기능**
 
 |                                                      1. Deploy 버튼 클릭에 따른 빌드 및 배포 기능                                                      |                                                   2. PR 머지 시, 배포 자동 업데이트 기능 </br>                                                   |
 | :----------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------: |
@@ -218,9 +223,130 @@ GitHub 계정과 연동하여 원하는 repository를 클릭 한번에 배포할
 
   > - PR 관련한 action이 있을 때, origin 서버로 POST ping이 날아오고 PR이 merge 된 경우에는 `aws-cli ssm`으로 배포된 웹사이트 업데이트하는 명령어 instance에 전달 (`aws-cli ssm`은 Node.js `child_process`로 실행)
 
-###
+<br/>
 
-**🚀 Our Challenge**
+## **Folder Structure**
+
+---
+
+<details><summary>배포 기능 관련 폴더 구조</summary>
+```bash
+.
+├── api
+│   ├── controllers
+│   │   ├── auth.ts
+│   │   ├── deployController
+│   │   │   ├── deployCertbot.ts
+│   │   │   ├── deployDomain.ts
+│   │   │   ├── deployFilterData.ts
+│   │   │   ├── deployInstance.ts
+│   │   │   ├── deployLogs.ts
+│   │   │   ├── deploySaveData.ts
+│   │   │   ├── getUserDeployList.ts
+│   │   │   └── index.ts
+│   │   ├── updateController
+│   │   │   ├── deleteDeployment.ts
+│   │   │   ├── index.ts
+│   │   │   └── updateDeployment.ts
+│   │   └── user.ts
+│   ├── github
+│   │   ├── client.ts
+│   │   └── oauth.ts
+│   ├── index.ts
+│   ├── middlewares
+│   │   ├── errorHandler.ts
+│   │   ├── morganMiddleware.ts
+│   │   ├── validateSchema.ts
+│   │   ├── verifyGithubCode.ts
+│   │   ├── verifyGithubSignature.ts
+│   │   └── verifyToken.ts
+│   └── routes
+│       ├── deploy.ts
+│       ├── login.ts
+│       ├── repos.ts
+│       └── users.ts
+├── app.ts
+├── bin
+│   └── www.ts
+├── config
+│   └── index.ts
+├── deploy
+│   ├── aws
+│   │   ├── config
+│   │   │   ├── cloudwatch-agent-config.json
+│   │   │   ├── nginx-config-default.sh
+│   │   │   └── setNginxScript.ts
+│   │   ├── cwl_deletelogstream.ts
+│   │   ├── cwl_describelogstreams.ts
+│   │   ├── cwl_filterlogeventscommand.ts
+│   │   ├── ec2_createinstances.ts
+│   │   ├── ec2_describeinstances.ts
+│   │   ├── ec2_terminateinstances.ts
+│   │   ├── libs
+│   │   │   ├── cloudWatchLogsClient.ts
+│   │   │   ├── ec2Client.ts
+│   │   │   ├── route53Client.ts
+│   │   │   └── s3Client.ts
+│   │   ├── route53_changerecord.ts
+│   │   ├── route53_describerecord.ts
+│   │   └── s3_upload_object.ts
+│   ├── build-utils
+│   │   ├── buildDeploymentCommands.ts
+│   │   ├── createDeploymentInstance.ts
+│   │   ├── getLogStreamStatus.ts
+│   │   ├── getRecordInstanceStatus.ts
+│   │   ├── runCertbot.ts
+│   │   └── runGetFilteredLogEvents.ts
+│   ├── cli
+│   │   ├── runCertbotCommands.ts
+│   │   └── runUpdateDeploymentCommands.ts
+│   └── socket
+│       ├── buildingLogSocket.ts
+│       ├── index.ts
+│       └── socketSingleton.ts
+├── loaders
+│   ├── express.ts
+│   ├── index.ts
+│   ├── logger.ts
+│   └── mongoose.ts
+├── models
+│   ├── Repo.ts
+│   └── User.ts
+├── public
+│   └── stylesheets
+│       └── style.css
+├── types
+│   ├── custom
+│   │   └── index.d.ts
+│   └── express
+│       └── index.d.ts
+└── utils
+    ├── asyncHandler.ts
+    ├── createDebug.ts
+    ├── errors.ts
+    └── temp
+        ├── readDir.ts
+        └── runBuildCommand.ts
+```
+</details>
+
+<br/>
+
+## **Service Architecture**
+
+---
+
+### **전체 플로우**
+
+![jaamtoast-flow-whole-architecture](https://user-images.githubusercontent.com/59520911/205441872-5d665aeb-ed09-4207-b8e7-095b32300ee4.svg)
+
+### **배포 기능 프로세스**
+
+![jaamtoast-flow-deployment-feature](https://user-images.githubusercontent.com/59520911/205441891-fea2104e-31c3-46c1-a43f-7ea5e73e5096.svg)
+
+<br/>
+
+## **🚀 Our Challenge**
 
 프로젝트 기획부터 구현까지, 무엇을 어떻게 접근하면 좋을지 몰라 이번 프로젝트는 그 자체로 단계별 넘어야 할 산이자 도전이었습니다. 그 중 배포 기능과 관련한 주요 이슈를 위주로 다음과 같이 정리하였습니다. ( 저희 백엔드 서버는 “origin 서버”, 그리고 유저의 웹사이트를 배포해주는 기능은 “배포 기능” 이라 하겠습니다. )
 
@@ -303,7 +429,9 @@ GitHub, Nginx, 그리고 AWS 등의 공식 문서를 꼼꼼히 살펴봄으로�
   >   - instance 내부의 build 파일 실행을 위해 필요한 명령어들 instance로 전달해서 자동 실행
   > - 그러나 `EC2` instance의 상태가 변경되면 Public IP address 또한 변경되기에 미리 만들어둔 record A가 준비됐다 하더라도, 새롭게 실행되는 instance 때문에 결국 https 인증 요청을 하기 전에 강제로 일정 시간을 대기해야 될 것으로 짐작되어, 다소 아쉬운 이슈로 남게 되었습니다.
 
-### **After Project**
+<br/>
+
+## **After Project**
 
 ---
 
@@ -313,7 +441,9 @@ GitHub, Nginx, 그리고 AWS 등의 공식 문서를 꼼꼼히 살펴봄으로�
 
 돌아보면 하나부터 열까지 몰랐던, 한 단계 한 단계가 넘어야 할 산처럼 느껴진 프로젝트라 그 자체로 도전이었습니다. ( 예를 들면 bash script 명령어들을 `EC2` Amazon Linux 2 instance에서 자동 실행시키기 위해서 origin 서버에서 `EC2` instance로 전달하는 기능 등 ) 프로젝트 기간 초반에는 배포를 해주는 메인 기능에 관해 어떻게 구현을 할 수 있을지 감이 오지 않을뿐더러 Node.js와 Express를 처음 TypeScript와 함께 ES modules 스타일로 초기 설정하는 부분도 쉽지 않았습니다.
 
-하지만 결과적으로 프론트엔드의 경계를 넘어 이전에 해보지 않았던 부분을 학습하고 구현해야 했던 프로젝트를 도전한 경험을 통해 새로운 것을 시도하고 적용해보는 자신감을 얻을 수 있었습니다. 그리고 처음에 어떻게 풀어가야 할지 감이 오지 않던 배포기능과 관련해서 단계별로 문제를 하나씩 해결할 때마다 성취감을 느낄 수 있었고, 어떤 문제의 해결책을 찾아서 한 번에 해결한 것이 아닌 프로젝트를 진행하면서 쌓은 지식과 찾은 정보들을 조합해서 생각한 방법으로 구현한 코드가 들어맞아 문제를 해결했을 때는 뿌듯한 개발 경험이었습니다. 메인 기능을 이미 만들어진 AWS 서비스들을 잘 연결해서 자동으로 실행시키는 방식으로 구현했기 때문에, 의존성으로 해결하지 못한 부분도 있고 개선할 점도 정말 많은 프로젝트였습니다. 나중에 다른 개발자들에게 도움 되는 더 나은 성능의 서비스를 만드는 것을 목표로 더 공부하고 싶습니다.
+하지만 결과적으로 프론트엔드의 경계를 넘어 이전에 해보지 않았던 부분을 학습하고 구현해야 했던 프로젝트를 도전한 경험을 통해 새로운 것을 시도하고 적용해보는 자신감을 얻을 수 있었습니다. 그리고 처음에 어떻게 풀어가야 할지 감이 오지 않던 배포기능과 관련해서 단계별로 문제를 하나씩 해결할 때마다 성취감을 느낄 수 있었고, 어떤 문제의 해결책을 찾아서 한 번에 해결한 것이 아닌 프로젝트를 진행하면서 쌓은 지식과 찾은 정보들을 조합해서 생각한 방법으로 구현한 코드가 들어맞아 문제를 해결했을 때는 뿌듯한 개발 경험이었습니다.
+
+프로덕트가 만들어지고 배포되기까지 하나의 큰 사이클 안에서 이전에는 모르던 만큼 막연하게 여겨졌던 배포 과정을 다루어본 작업은 시야를 넓힐 수 있는 학습의 기회가 되었지만, 메인기능을 AWS 서비스들을 잘 연결해서 자동으로 실행시키는 방식으로 구현했기 때문에 의존성으로 해결하지 못한 부분도 있고 개선할 점도 정말 많은 프로젝트였습니다. 앞으로 다른 개발자들에게 도움 되는 더 나은 성능의 서비스를 만드는 것을 목표로 더 공부하고 싶습니다.
 
 </details>
 
@@ -327,7 +457,9 @@ GitHub, Nginx, 그리고 AWS 등의 공식 문서를 꼼꼼히 살펴봄으로�
 
 </details>
 
-### 🙇‍♀️ 팀원
+<br/>
+
+## 🙇‍♀️ 팀원
 
 ---
 
