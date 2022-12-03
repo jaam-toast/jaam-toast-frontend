@@ -15,7 +15,7 @@ import SearchInput from "../components/SearchInput";
 
 import Login from "./login";
 
-import { getUserDeployments, initiateBuildingLogSocket } from "../lib/api";
+import { getUserDeployments } from "../lib/api";
 import loginState, { isLoggedInState } from "../lib/recoil/auth";
 import userDeploymentsState from "../lib/recoil/userDeployments";
 
@@ -66,16 +66,6 @@ function Dashboard() {
 
     handleUserDeployments();
   }, [setUserDeploymentsList, userId]);
-
-  useEffect(() => {
-    if (!userId) return;
-
-    const initiateSocket = async () => {
-      await initiateBuildingLogSocket(userId);
-    };
-
-    initiateSocket();
-  }, [userId]);
 
   return (
     <>
