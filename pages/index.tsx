@@ -34,8 +34,8 @@ function PageLanding() {
           property="og:url"
           content="https://jaam-toast-frontend.vercel.app/"
         />
-        <meta property="og:image" content="/images/jaamtoast-logo.svg" />
-        <link rel="icon" href="/images/jaamtoast-favicon.svg" />
+        <meta property="og:image" content="/images/jaamtoast-logo-image.png" />
+        <link rel="icon" href="/images/jaamtoast-favicon-image.png" />
       </Head>
       <Container maxWidth={false} disableGutters>
         {!isSSR && !isLoggedIn ? (
