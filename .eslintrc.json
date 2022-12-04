@@ -35,6 +35,7 @@
       { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
     ],
     "import/no-anonymous-default-export": "warn",
+    "import/extensions": ["error", "always", { "ignorePackages": true }],
     "react/no-unknown-property": "off",
     "react/react-in-jsx-scope": "off",
     "react-hooks/rules-of-hooks": "off",
@@ -67,5 +68,16 @@
       }
     ],
     "@typescript-eslint/ban-types": "off"
-  }
+  },
+  "root": true,
+  "plugins": ["testing-library"],
+  "overrides": [
+    {
+      "files": [
+        "**/__tests__/**/*.[jt]s?(x)",
+        "**/?(*.)+(spec|test).[jt]s?(x)"
+      ],
+      "extends": ["plugin:testing-library/react"]
+    }
+  ]
 }
