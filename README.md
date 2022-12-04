@@ -1,4 +1,6 @@
-# **프로젝트 소개( Introduction )**
+## **Jaam Toast 프로젝트 소개( Introduction )**
+
+---
 
 <img src="https://user-images.githubusercontent.com/59520911/205429514-5171a3f9-e0cd-47e9-985a-5a190060d619.svg" width="250" />
 
