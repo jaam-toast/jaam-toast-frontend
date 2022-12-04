@@ -1,7 +1,5 @@
 ## **Jaam Toast 프로젝트 소개( Introduction )**
 
----
-
 <img src="https://user-images.githubusercontent.com/59520911/205429514-5171a3f9-e0cd-47e9-985a-5a190060d619.svg" width="250" />
 
 ###
@@ -21,8 +19,6 @@
 
 ## **프로젝트 동기( Motivation )**
 
----
-
 ###
 
 > In-House 서비스 개발을 목표로, 웹 프론트엔드 배포 서비스를 기획 및 개발하였습니다.
@@ -31,8 +27,6 @@
 <br/>
 
 ## **실행 방법( How to run )**
-
----
 
 - git clone
 
@@ -51,8 +45,6 @@
 <br/>
 
 ## **프로젝트 일정( Schedule )**
-
----
 
 ###
 
@@ -112,8 +104,6 @@
 <br/>
 
 ## **프로젝트 설명( How to play )**
-
----
 
 ### **🎨 기술 스택**
 
@@ -229,8 +219,6 @@ GitHub 계정과 연동하여 원하는 repository를 클릭 한번에 배포할
 
 ## **Folder Structure**
 
----
-
 <details><summary>배포 기능 관련 폴더 구조</summary>
 
 ```bash
@@ -338,8 +326,6 @@ GitHub 계정과 연동하여 원하는 repository를 클릭 한번에 배포할
 
 ## **Service Architecture**
 
----
-
 ### **전체 플로우**
 
 ![jaamtoast-flow-whole-architecture](https://user-images.githubusercontent.com/59520911/205441872-5d665aeb-ed09-4207-b8e7-095b32300ee4.svg)
@@ -437,8 +423,6 @@ GitHub, Nginx, 그리고 AWS 등의 공식 문서를 꼼꼼히 살펴봄으로�
 
 ## **After Project**
 
----
-
 <details><summary>임태완</summary>
 
 ---
@@ -464,8 +448,6 @@ GitHub, Nginx, 그리고 AWS 등의 공식 문서를 꼼꼼히 살펴봄으로�
 <br/>
 
 ## 🙇‍♀️ 팀원
-
----
 
 <table>
   <tr>
