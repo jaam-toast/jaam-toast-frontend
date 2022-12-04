@@ -232,6 +232,7 @@ GitHub 계정과 연동하여 원하는 repository를 클릭 한번에 배포할
 ---
 
 <details><summary>배포 기능 관련 폴더 구조</summary>
+
 ```bash
 .
 ├── api
@@ -330,6 +331,7 @@ GitHub 계정과 연동하여 원하는 repository를 클릭 한번에 배포할
         ├── readDir.ts
         └── runBuildCommand.ts
 ```
+
 </details>
 
 <br/>
