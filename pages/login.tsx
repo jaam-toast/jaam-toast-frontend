@@ -1,71 +1,22 @@
 import Head from "next/head";
-
-import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useSetRecoilState } from "recoil";
-import { setCookie } from "cookies-next";
-
+import { useEffect, useState } from "react";
 import { Box, Container, Divider, Typography } from "@mui/material";
-
-import { getUserDeployments, login } from "../src/lib/api";
-import loginState from "../src/lib/recoil/auth";
-import userDeploymentsState from "../src/lib/recoil/userDeployments";
 
 import ButtonLogin from "../src/components/ButtonLogin";
 import NavBar from "../src/components/Navbar";
-
-import { LoginData, UserDeploymentData } from "../src/types";
+import useLogin from "src/lib/hooks/useAuth";
 
 function Login() {
   const [isSSR, setIsSSR] = useState(true);
-  const setLoginState = useSetRecoilState<LoginData | null>(loginState);
-  const setUserDeploymentsState =
-    useSetRecoilState<UserDeploymentData[]>(userDeploymentsState);
-
   const router = useRouter();
-  const authCode = router.query.code;
+  const authCode: string | string[] | undefined = router.query.code;
+
+  useLogin(authCode);
 
   useEffect(() => {
     setIsSSR(false);
   }, []);
-
-  useEffect(() => {
-    const handleLogin = async (code: string) => {
-      try {
-        const { data, githubAccessToken, accessToken } = await login(code);
-
-        setLoginState({ data, githubAccessToken, accessToken });
-        setCookie(
-          "loginData",
-          JSON.stringify({ data, githubAccessToken, accessToken }),
-        );
-
-        const { data: userDeployments } = await getUserDeployments(data._id);
-
-        const copyUserDeployments: UserDeploymentData[] = JSON.parse(
-          JSON.stringify(userDeployments),
-        );
-
-        const filteredUserDeployments = copyUserDeployments.map(deployData => {
-          const filteredDeployData = deployData;
-          filteredDeployData.buildingLog = [];
-
-          return filteredDeployData;
-        });
-
-        setUserDeploymentsState(userDeployments);
-        setCookie("userDeployments", JSON.stringify(filteredUserDeployments));
-
-        router.replace("/dashboard");
-      } catch (error) {
-        console.info(error);
-      }
-    };
-
-    if (authCode) {
-      handleLogin(authCode as string);
-    }
-  }, [authCode, router, setLoginState, setUserDeploymentsState]);
 
   return (
     <>
