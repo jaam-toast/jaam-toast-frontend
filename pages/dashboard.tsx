@@ -1,36 +1,29 @@
 import Head from "next/head";
-
-import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useRecoilValue, useRecoilState } from "recoil";
-import { setCookie } from "cookies-next";
-
+import { useState, useEffect } from "react";
+import { useRecoilValue } from "recoil";
 import { Box, Container, Divider } from "@mui/material";
 
+import Login from "./login";
 import ButtonCreate from "../src/components/ButtonCreate";
 import RepoCardList from "../src/components/RepoCardList";
 import NavBar from "../src/components/Navbar";
 import SearchInput from "../src/components/SearchInput";
 
-import Login from "./login";
-
-import { getUserDeployments } from "../src/lib/api";
+import { TITLE } from "../src/lib/constants/metadata";
+import useFetchDeployment from "../src/lib/hooks/useFetchDeployment";
 import loginState, { isLoggedInState } from "../src/lib/recoil/auth";
-import userDeploymentsState from "../src/lib/recoil/userDeployments";
 
-import { LoginData, UserDeploymentData } from "../src/types";
+import { LoginData } from "../src/types";
 
 function Dashboard() {
-  const { data } =
+  const { data: user } =
     useRecoilValue<LoginData | null>(loginState) || ({} as LoginData);
   const isLoggedIn = useRecoilValue(isLoggedInState);
-  const [userDeploymentsList, setUserDeploymentsList] =
-    useRecoilState<UserDeploymentData[]>(userDeploymentsState);
 
-  const router = useRouter();
   const [isSSR, setIsSSR] = useState(true);
-
-  const userId = data?._id;
+  const router = useRouter();
+  const userDeploymentsList = useFetchDeployment(user?._id);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -40,39 +33,10 @@ function Dashboard() {
     setIsSSR(false);
   }, [isLoggedIn, router]);
 
-  useEffect(() => {
-    const handleUserDeployments = async () => {
-      try {
-        const { data: userDeployments } = await getUserDeployments(userId);
-
-        const copyUserDeployments: UserDeploymentData[] = JSON.parse(
-          JSON.stringify(userDeployments),
-        );
-
-        const filteredUserDeployments = copyUserDeployments.map(deployData => {
-          const filteredDeployData = deployData;
-          filteredDeployData.buildingLog = [];
-
-          return filteredDeployData;
-        });
-
-        setUserDeploymentsList(userDeployments);
-        setCookie("userDeployments", JSON.stringify(filteredUserDeployments));
-      } catch (error) {
-        console.info(error);
-      }
-    };
-
-    handleUserDeployments();
-  }, [setUserDeploymentsList, userId]);
-
   return (
     <>
       <Head>
-        <title>
-          Jaam Toast - Jamstack App Deployment Service Platform | Deploy Your
-          Own Websites Quick And Easy Like Toasts
-        </title>
+        <title>{TITLE}</title>
       </Head>
       <Container maxWidth={false} disableGutters>
         {!isSSR && isLoggedIn ? (
