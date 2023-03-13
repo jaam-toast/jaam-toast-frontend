@@ -1,7 +1,8 @@
 import React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
-
 import { ServerStyleSheets } from "@mui/styles";
+
+import { TITLE, DESCRIPTION } from "../src/lib/constants/metadata";
 
 export default class MyDocument extends Document {
   render() {
@@ -9,18 +10,9 @@ export default class MyDocument extends Document {
       <Html>
         <Head>
           <meta property="og:type" content="website" />
-          <meta
-            property="og:title"
-            content="Jaam Toast - Jamstack App Deployment Service Platform | Deploy Your Own Websites Quick And Easy Like Toasts"
-          />
-          <meta
-            name="description"
-            content="Bring your jamstack app, and make your products get deployed like an easy toast."
-          />
-          <meta
-            property="og:description"
-            content="Bring your jamstack app, and make your products get deployed like an easy toast."
-          />
+          <meta property="og:title" content={TITLE} />
+          <meta name="description" content={DESCRIPTION} />
+          <meta property="og:description" content={DESCRIPTION} />
           <meta property="og:site_name" content="Jaam Toast" />
           <meta property="og:locale" content="en_US" />
           <meta
