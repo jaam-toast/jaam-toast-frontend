@@ -7,14 +7,14 @@ import { setCookie } from "cookies-next";
 
 import { Box, Container, Divider, Typography } from "@mui/material";
 
-import { getUserDeployments, login } from "../lib/api";
-import loginState from "../lib/recoil/auth";
-import userDeploymentsState from "../lib/recoil/userDeployments";
+import { getUserDeployments, login } from "../src/lib/api";
+import loginState from "../src/lib/recoil/auth";
+import userDeploymentsState from "../src/lib/recoil/userDeployments";
 
-import ButtonLogin from "../components/ButtonLogin";
-import NavBar from "../components/Navbar";
+import ButtonLogin from "../src/components/ButtonLogin";
+import NavBar from "../src/components/Navbar";
 
-import { LoginData, UserDeploymentData } from "../types";
+import { LoginData, UserDeploymentData } from "../src/types";
 
 function Login() {
   const [isSSR, setIsSSR] = useState(true);

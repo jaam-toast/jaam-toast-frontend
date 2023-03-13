@@ -12,7 +12,7 @@ import { ModalCreateAlert, ModalDeleteAlert } from "./ModalAlert";
 import ModalPreview from "./ModalPreview";
 import ModalRepoDetails from "./ModalRepoDetails";
 
-import { modalState } from "../lib/recoil/modal";
+import { modalState } from "../types/modal";
 
 function ModalGlobal() {
   const modal = useRecoilValue(modalState);
