@@ -6,9 +6,9 @@ import { ThemeProvider, CssBaseline } from "@mui/material";
 
 import { isMobile } from "react-device-detect";
 
-import MobileDefense from "../components/MobileDefense";
-import ModalGlobal from "../components/ModalGlobal";
-import theme from "../utils/theme";
+import MobileDefense from "../src/components/MobileDefense";
+import ModalGlobal from "../src/components/ModalGlobal";
+import theme from "../src/utils/theme";
 import "../public/fonts/style.css";
 
 export default function App({ Component, pageProps }: AppProps) {

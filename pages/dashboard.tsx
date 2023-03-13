@@ -7,19 +7,19 @@ import { setCookie } from "cookies-next";
 
 import { Box, Container, Divider } from "@mui/material";
 
-import ButtonCreate from "../components/ButtonCreate";
-import RepoCardList from "../components/RepoCardList";
-import NavBar from "../components/Navbar";
-import SearchInput from "../components/SearchInput";
+import ButtonCreate from "../src/components/ButtonCreate";
+import RepoCardList from "../src/components/RepoCardList";
+import NavBar from "../src/components/Navbar";
+import SearchInput from "../src/components/SearchInput";
 // import TemplateInitial from "../components/TemplateInitial";
 
 import Login from "./login";
 
-import { getUserDeployments } from "../lib/api";
-import loginState, { isLoggedInState } from "../lib/recoil/auth";
-import userDeploymentsState from "../lib/recoil/userDeployments";
+import { getUserDeployments } from "../src/lib/api";
+import loginState, { isLoggedInState } from "../src/lib/recoil/auth";
+import userDeploymentsState from "../src/lib/recoil/userDeployments";
 
-import { LoginData, UserDeploymentData } from "../types";
+import { LoginData, UserDeploymentData } from "../src/types";
 
 function Dashboard() {
   const { data } =

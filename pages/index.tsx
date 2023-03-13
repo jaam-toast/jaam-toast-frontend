@@ -5,10 +5,10 @@ import { useRecoilValue } from "recoil";
 import { Box, Container, Typography } from "@mui/material";
 
 import Head from "next/head";
-import NavBar from "../components/Navbar";
-import ButtonLogin from "../components/ButtonLogin";
+import NavBar from "../src/components/Navbar";
+import ButtonLogin from "../src/components/ButtonLogin";
 
-import { isLoggedInState } from "../lib/recoil/auth";
+import { isLoggedInState } from "../src/lib/recoil/auth";
 
 function PageLanding() {
   const isLoggedIn = useRecoilValue(isLoggedInState);
