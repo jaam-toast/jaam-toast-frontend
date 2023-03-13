@@ -11,7 +11,6 @@ import ButtonCreate from "../src/components/ButtonCreate";
 import RepoCardList from "../src/components/RepoCardList";
 import NavBar from "../src/components/Navbar";
 import SearchInput from "../src/components/SearchInput";
-// import TemplateInitial from "../components/TemplateInitial";
 
 import Login from "./login";
 
@@ -94,13 +93,7 @@ function Dashboard() {
                 <SearchInput />
                 <ButtonCreate />
               </Box>
-              {userDeploymentsList.length > 0 ? (
-                <RepoCardList />
-              ) : (
-                <Box sx={{ width: "100%" }}>
-                  {/* //   <TemplateInitial /> */}
-                </Box>
-              )}
+              {userDeploymentsList.length > 0 && <RepoCardList />}
             </Container>
           </>
         ) : (
