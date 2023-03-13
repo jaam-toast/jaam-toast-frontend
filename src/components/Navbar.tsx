@@ -15,19 +15,16 @@ import {
 } from "@mui/material";
 
 import loginState, { isLoggedInState } from "../lib/recoil/auth";
-
-import { LoginData } from "../types";
+import useAuth from "src/lib/hooks/useAuth";
+import { isLoggedInState } from "../lib/recoil/auth";
 
 function NavBar() {
   const isLoggedIn = useRecoilValue(isLoggedInState);
-  const setIsLoggedIn = useSetRecoilState<LoginData | null>(loginState);
   const router = useRouter();
+  const { handleLogout } = useAuth();
 
-  const handleLogout = () => {
-    deleteCookie("loginData");
-    deleteCookie("userOrgs");
-    deleteCookie("userDeployments");
-    setIsLoggedIn(null);
+  const handleLogoutClick = () => {
+    handleLogout();
 
     router.push("/login");
   };
