@@ -1,4 +1,6 @@
-import { Box, FormControl, TextField } from "@mui/material";
+import { Box, FormControl } from "@mui/material";
+
+import TextField from "./@shared/TextField";
 
 import { EnvsState } from "../types";
 
@@ -10,11 +12,8 @@ function TextFieldPreview({ envIndex, envsState }: EnvsState) {
       <Box sx={{ width: "50%" }}>
         <FormControl size="small" fullWidth>
           <TextField
-            id="outlined-basic"
             label="Key"
-            variant="outlined"
             size="small"
-            autoComplete="off"
             inputProps={{ sx: { fontSize: "small" } }}
             InputLabelProps={{ sx: { fontSize: "small" } }}
             style={{ color: "#333" }}
@@ -26,11 +25,8 @@ function TextFieldPreview({ envIndex, envsState }: EnvsState) {
       <Box sx={{ width: "50%", marginLeft: 2 }}>
         <FormControl size="small" fullWidth>
           <TextField
-            id="outlined-basic"
             label="Value"
-            variant="outlined"
             size="small"
-            autoComplete="off"
             inputProps={{ sx: { fontSize: "small" } }}
             InputLabelProps={{ sx: { fontSize: "small" } }}
             style={{ color: "#333" }}

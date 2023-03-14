@@ -1,23 +1,20 @@
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-
 import { io, Socket } from "socket.io-client";
-
 import styled from "styled-components";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Box,
-  Button,
   Divider,
   Typography,
 } from "@mui/material";
 import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 
+import Button from "./@shared/Button";
 import Config from "../lib/config";
 import useModal from "../lib/hooks/useModal";
-
 import { cloneRepoName } from "../lib/recoil/git/clone";
 
 function ModalDeploy() {
@@ -74,14 +71,7 @@ function ModalDeploy() {
     <Box sx={style}>
       <Button
         variant="contained"
-        sx={{
-          bgcolor: "#FFF",
-          color: "#000",
-          ":hover": {
-            bgcolor: "#000",
-            color: "#FFF",
-          },
-        }}
+        color="light"
         onClick={handleClickModalCreate}
       >
         Prev

@@ -1,20 +1,16 @@
 import { useRouter } from "next/router";
 import Image from "next/image";
-
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { deleteCookie } from "cookies-next";
-
+import { useRecoilValue } from "recoil";
 import {
   AppBar,
-  Box,
   Button,
+  Box,
   IconButton,
   Toolbar,
   Typography,
   Tooltip,
 } from "@mui/material";
 
-import loginState, { isLoggedInState } from "../lib/recoil/auth";
 import useAuth from "src/lib/hooks/useAuth";
 import { isLoggedInState } from "../lib/recoil/auth";
 
@@ -81,13 +77,12 @@ function NavBar() {
                 size="small"
                 color="inherit"
                 sx={{
-                  bgcolor: "#FFF",
+                  bgcolor: "light.main",
                   ":hover": {
-                    bgcolor: "#FFF",
-                    color: "#000",
+                    bgcolor: "light.main",
                   },
                 }}
-                onClick={handleLogout}
+                onClick={handleLogoutClick}
               >
                 Log out
               </Button>

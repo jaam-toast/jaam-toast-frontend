@@ -1,7 +1,8 @@
 import { ChangeEvent, useState } from "react";
-
-import { Box, FormControl, IconButton, TextField } from "@mui/material";
+import { Box, FormControl, IconButton } from "@mui/material";
 import { Add as AddIcon } from "@mui/icons-material";
+
+import TextField from "./@shared/TextField";
 
 import { EnvsState } from "../types";
 
@@ -42,11 +43,8 @@ function TextFieldAdd({ envsState }: EnvsState) {
       <Box sx={{ width: "40%" }}>
         <FormControl size="small" fullWidth>
           <TextField
-            id="outlined-basic"
             label="Key"
-            variant="outlined"
             size="small"
-            autoComplete="off"
             inputProps={{ sx: { fontSize: "small" } }}
             InputLabelProps={{ sx: { fontSize: "small" } }}
             value={curEnvKey}
@@ -58,11 +56,8 @@ function TextFieldAdd({ envsState }: EnvsState) {
       <Box sx={{ width: "55%", marginLeft: 2 }}>
         <FormControl size="small" fullWidth>
           <TextField
-            id="outlined-basic"
             label="Value"
-            variant="outlined"
             size="small"
-            autoComplete="off"
             inputProps={{ sx: { fontSize: "small" } }}
             InputLabelProps={{ sx: { fontSize: "small" } }}
             value={curEnvValue}

@@ -1,11 +1,10 @@
 import { useRecoilState, useRecoilValue } from "recoil";
 import { setCookie } from "cookies-next";
+import { Box, Typography } from "@mui/material";
 
-import { Box, Button, Typography } from "@mui/material";
-
+import Button from "./@shared/Button";
 import { deleteUserDeployment } from "../lib/api";
 import useModal from "../lib/hooks/useModal";
-
 import loginState from "../lib/recoil/auth";
 import userDeploymentsState from "../lib/recoil/userDeployments";
 

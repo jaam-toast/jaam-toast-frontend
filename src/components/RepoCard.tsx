@@ -1,5 +1,4 @@
 import { MouseEvent } from "react";
-
 import { Box, CardContent, CardActionArea, Typography } from "@mui/material";
 import {
   ChangeHistory as ChangeHistoryIcon,

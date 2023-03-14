@@ -1,11 +1,10 @@
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { setCookie } from "cookies-next";
+import { Box } from "@mui/material";
 
-import { Box, Button } from "@mui/material";
-
+import Button from "./@shared/Button";
 import { getOrgs } from "../lib/api";
 import useModal from "../lib/hooks/useModal";
-
 import loginState from "../lib/recoil/auth";
 import gitNamespaceState from "../lib/recoil/git/namespace";
 
@@ -35,14 +34,8 @@ function ButtonCreate() {
     <Box sx={{ marginBottom: 3 }}>
       <Button
         variant="contained"
-        sx={{
-          m: 1,
-          bgcolor: "#000",
-          ":hover": {
-            bgcolor: "#FFF",
-            color: "#000",
-          },
-        }}
+        color="dark"
+        sx={{ m: 1 }}
         onClick={handleClickModalCreate}
       >
         New Project

@@ -1,6 +1,9 @@
-import { InputAdornment, TextField } from "@mui/material";
+import { ChangeEvent } from "react";
+import { useSetRecoilState } from "recoil";
+import { InputAdornment } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
 
+import TextField from "./shared/TextField";
 function SearchInput() {
   return (
     <TextField

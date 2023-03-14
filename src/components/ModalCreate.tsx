@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-
 import {
   Box,
-  Button,
   FormControl,
   InputLabel,
   MenuItem,
@@ -12,9 +10,9 @@ import {
   Typography,
 } from "@mui/material";
 
+import Button from "./@shared/Button";
 import { getOrgRepos, getUserRepos } from "../lib/api";
 import useModal from "../lib/hooks/useModal";
-
 import loginState from "../lib/recoil/auth";
 import { gitNamespaceList } from "../lib/recoil/git/namespace";
 import gitRepoState from "../lib/recoil/git/repos";
@@ -91,13 +89,7 @@ function ModalCreate() {
         {isButtonNext() ? (
           <Button
             variant="contained"
-            sx={{
-              bgcolor: "#000",
-              ":hover": {
-                bgcolor: "#FFF",
-                color: "#000",
-              },
-            }}
+            color="dark"
             onClick={handleClickModalBuild}
           >
             Next
