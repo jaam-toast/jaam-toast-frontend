@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { setCookie } from "cookies-next";
-
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Box,
-  Button,
   Divider,
   FormControl,
   InputLabel,
@@ -29,6 +27,7 @@ import cloneUrlState, { cloneRepoName } from "./../lib/recoil/git/clone";
 import userDeploymentsState from "./../lib/recoil/userDeployments";
 
 import { Env, LoginData, UserDeploymentData } from "./../types";
+import getFormattedKoreaTime from "src/lib/utils/getFormattedKoreaTime";
 
 function ModalBuild() {
   const { data } =
@@ -64,10 +63,7 @@ function ModalBuild() {
   const handleClickModalDeploy = async () => {
     const filteredEnvs = envs.filter((_, i) => i !== 0);
 
-    const dayTime = new Date().toISOString();
-    const formattedTime = `${dayTime.split("T")[0]} ${
-      dayTime.split("T")[1].split(".")[0]
-    }`;
+    const formattedTime = getFormattedKoreaTime(new Date());
 
     const userBuildOptions = {
       userId,
@@ -217,11 +213,8 @@ function ModalBuild() {
           <Box sx={{ width: "90%", marginTop: 1.5 }}>
             <FormControl size="small" fullWidth>
               <TextField
-                id="outlined-basic"
                 value={install}
-                variant="outlined"
                 size="small"
-                autoComplete="off"
                 sx={{ fontSize: "small" }}
                 onChange={event => {
                   setInstall(event.target.value);
@@ -242,11 +235,8 @@ function ModalBuild() {
           <Box sx={{ width: "90%", marginTop: 1.5, marginLeft: 3 }}>
             <FormControl size="small" fullWidth>
               <TextField
-                id="outlined-basic"
                 value={build}
-                variant="outlined"
                 size="small"
-                autoComplete="off"
                 sx={{ fontSize: "small" }}
                 onChange={event => {
                   setBuild(event.target.value);
