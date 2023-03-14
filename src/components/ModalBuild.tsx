@@ -14,22 +14,21 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
-  TextField,
   Typography,
 } from "@mui/material";
 import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 
-import { deployRepo } from "../lib/api";
-import useModal from "../lib/hooks/useModal";
-
-import loginState from "../lib/recoil/auth";
-import cloneUrlState, { cloneRepoName } from "../lib/recoil/git/clone";
-import userDeploymentsState from "../lib/recoil/userDeployments";
-
+import Button from "./@shared/Button";
+import TextField from "./@shared/TextField";
 import TextFieldAdd from "./TextFieldAdd";
 import TextFieldSaved from "./TextFieldSaved";
+import { deployRepo } from "./../lib/api";
+import useModal from "./../lib/hooks/useModal";
+import loginState from "./../lib/recoil/auth";
+import cloneUrlState, { cloneRepoName } from "./../lib/recoil/git/clone";
+import userDeploymentsState from "./../lib/recoil/userDeployments";
 
-import { Env, LoginData, UserDeploymentData } from "../types";
+import { Env, LoginData, UserDeploymentData } from "./../types";
 
 function ModalBuild() {
   const { data } =
@@ -134,14 +133,7 @@ function ModalBuild() {
       >
         <Button
           variant="contained"
-          sx={{
-            bgcolor: "#FFF",
-            color: "#000",
-            ":hover": {
-              bgcolor: "#000",
-              color: "#FFF",
-            },
-          }}
+          color="light"
           onClick={handleClickModalCreate}
         >
           Prev
@@ -149,13 +141,7 @@ function ModalBuild() {
         {isButtonNext() ? (
           <Button
             variant="contained"
-            sx={{
-              bgcolor: "#000",
-              ":hover": {
-                bgcolor: "#FFF",
-                color: "#000",
-              },
-            }}
+            color="light"
             onClick={handleClickModalDeploy}
           >
             Deploy

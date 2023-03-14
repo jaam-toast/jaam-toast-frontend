@@ -1,4 +1,6 @@
-import { Box, FormControl, TextField, Typography } from "@mui/material";
+import { Box, FormControl, Typography } from "@mui/material";
+
+import TextField from "./@shared/TextField";
 
 type ITextFieldCommands = {
   installCommand: string | undefined;
@@ -18,11 +20,8 @@ function TextFieldCommands({
         <Box sx={{ width: "90%", marginTop: 1.5 }}>
           <FormControl size="small" fullWidth>
             <TextField
-              id="outlined-basic"
               value={installCommand}
-              variant="outlined"
               size="small"
-              autoComplete="off"
               sx={{ fontSize: "small" }}
               placeholder="`npm install`"
               disabled
@@ -41,11 +40,8 @@ function TextFieldCommands({
         <Box sx={{ width: "90%", marginTop: 1.5, marginLeft: 3 }}>
           <FormControl size="small" fullWidth>
             <TextField
-              id="outlined-basic"
               value={buildCommand}
-              variant="outlined"
               size="small"
-              autoComplete="off"
               sx={{ fontSize: "small" }}
               placeholder="`npm run build`"
               disabled

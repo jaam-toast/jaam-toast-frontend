@@ -1,5 +1,7 @@
-import { Box, FormControl, IconButton, TextField } from "@mui/material";
+import { Box, FormControl, IconButton } from "@mui/material";
 import { Remove as RemoveIcon } from "@mui/icons-material";
+
+import TextField from "./@shared/TextField";
 
 import { EnvsState } from "../types";
 
@@ -15,11 +17,8 @@ function TextFieldSaved({ envIndex, envsState }: EnvsState) {
       <Box sx={{ width: "40%" }}>
         <FormControl size="small" fullWidth>
           <TextField
-            id="outlined-basic"
             label="Key"
-            variant="outlined"
             size="small"
-            autoComplete="off"
             inputProps={{ sx: { fontSize: "small" } }}
             InputLabelProps={{ sx: { fontSize: "small" } }}
             style={{ color: "#333" }}
@@ -31,11 +30,8 @@ function TextFieldSaved({ envIndex, envsState }: EnvsState) {
       <Box sx={{ width: "55%", marginLeft: 2 }}>
         <FormControl size="small" fullWidth>
           <TextField
-            id="outlined-basic"
             label="Value"
-            variant="outlined"
             size="small"
-            autoComplete="off"
             inputProps={{ sx: { fontSize: "small" } }}
             InputLabelProps={{ sx: { fontSize: "small" } }}
             style={{ color: "#333" }}

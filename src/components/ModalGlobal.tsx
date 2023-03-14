@@ -1,8 +1,5 @@
 import { useRecoilValue } from "recoil";
-
 import { Box, Modal } from "@mui/material";
-
-import useModal from "../lib/hooks/useModal";
 
 import ModalCreate from "./ModalCreate";
 import ModalBuild from "./ModalBuild";
@@ -11,6 +8,7 @@ import ModalDeleteConfirm from "./ModalDeleteConfirm";
 import { ModalCreateAlert, ModalDeleteAlert } from "./ModalAlert";
 import ModalPreview from "./ModalPreview";
 import ModalRepoDetails from "./ModalRepoDetails";
+import useModal from "../lib/hooks/useModal";
 
 import { modalState } from "../types/modal";
 
