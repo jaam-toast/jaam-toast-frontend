@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react";
-import { Box, FormControl, IconButton } from "@mui/material";
+import { Box, IconButton, TextField } from "@mui/material";
 import { Add as AddIcon } from "@mui/icons-material";
 
 import TextField from "./@shared/TextField";
@@ -39,47 +39,51 @@ function TextFieldAdd({ envsState }: EnvsState) {
   };
 
   return (
-    <Box display="flex" sx={{ flexDirection: "row", width: "100%" }}>
-      <Box sx={{ width: "40%" }}>
-        <FormControl size="small" fullWidth>
-          <TextField
-            label="Key"
-            size="small"
-            inputProps={{ sx: { fontSize: "small" } }}
-            InputLabelProps={{ sx: { fontSize: "small" } }}
-            value={curEnvKey}
-            placeholder="EXAMPLE_KEY"
-            onChange={handleKeyChange}
-          />
-        </FormControl>
+    <Box display="flex" sx={{ flexDirection: "row", marginBottom: 1 }}>
+      <Box display="flex" sx={{ flexDirection: "row", width: "100%" }}>
+        <Box sx={{ width: "40%" }}>
+          <Form>
+            <TextField
+              label="Key"
+              placeholder="EXAMPLE_KEY"
+              value={curEnvKey}
+              onChange={handleKeyChange}
+              InputProps={{ sx: { fontSize: "small" } }}
+              InputLabelProps={{ sx: { fontSize: "small" } }}
+              size="small"
+              sx={{ fontSize: "small" }}
+            />
+          </Form>
+        </Box>
+        <Box sx={{ width: "55%", marginLeft: 2 }}>
+          <Form>
+            <TextField
+              label="Value"
+              placeholder="fd1c1c36245869e5c0bb0d"
+              value={curEnvValue}
+              onChange={handleValueChange}
+              InputProps={{ sx: { fontSize: "small" } }}
+              InputLabelProps={{ sx: { fontSize: "small" } }}
+              size="small"
+              sx={{ fontSize: "small" }}
+            />
+          </Form>
+        </Box>
+        <IconButton
+          sx={{
+            padding: "0",
+            marginLeft: "1",
+            color: "#808080",
+            ":hover": {
+              color: "#000",
+            },
+          }}
+          onClick={handleClickEnvAdd}
+          disabled={!curEnvKey || !curEnvValue}
+        >
+          <AddIcon />
+        </IconButton>
       </Box>
-      <Box sx={{ width: "55%", marginLeft: 2 }}>
-        <FormControl size="small" fullWidth>
-          <TextField
-            label="Value"
-            size="small"
-            inputProps={{ sx: { fontSize: "small" } }}
-            InputLabelProps={{ sx: { fontSize: "small" } }}
-            value={curEnvValue}
-            placeholder="fd1c1c36245869e5c0bb0d"
-            onChange={handleValueChange}
-          />
-        </FormControl>
-      </Box>
-      <IconButton
-        sx={{
-          padding: "0",
-          marginLeft: "1",
-          color: "#808080",
-          ":hover": {
-            color: "#000",
-          },
-        }}
-        onClick={handleClickEnvAdd}
-        disabled={!curEnvKey || !curEnvValue}
-      >
-        <AddIcon />
-      </IconButton>
     </Box>
   );
 }

@@ -17,7 +17,8 @@ import {
 import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 
 import Button from "./@shared/Button";
-import TextField from "./@shared/TextField";
+import FormSelectBox from "./@shared/FormSelectBox";
+import FormTextBox from "./@shared/FormTextBox";
 import TextFieldAdd from "./TextFieldAdd";
 import TextFieldSaved from "./TextFieldSaved";
 import { deployRepo } from "./../lib/api";
@@ -150,27 +151,14 @@ function ModalBuild() {
             Node Version *
           </Typography>
           <Box sx={{ width: "90%", marginTop: 1.5 }}>
-            <FormControl size="small" fullWidth>
-              <InputLabel id="select-label" sx={{ fontSize: "small" }}>
-                Node Version
-              </InputLabel>
-              <Select
-                labelId="select-label"
-                id="select"
-                value={version}
-                label="Node Version"
-                sx={{ fontSize: "small" }}
-                autoFocus
-                onChange={handleVersionChange}
-              >
-                <MenuItem value="14.x" sx={{ fontSize: "small" }}>
-                  Node.js 14.x
-                </MenuItem>
-                <MenuItem value="16.x" sx={{ fontSize: "small" }}>
-                  Node.js 16.x
-                </MenuItem>
-              </Select>
-            </FormControl>
+            <FormSelectBox
+              label="Node Version"
+              type="nodeVersionChange"
+              datas={[
+                { version: "14.x", versionText: "Node.js 14.x" },
+                { version: "16.x", versionText: "Node.js 16.x" },
+              ]}
+            />
           </Box>
         </Box>
         <Box sx={{ width: "100%" }}>
@@ -178,30 +166,14 @@ function ModalBuild() {
             CRA / Next Options *
           </Typography>
           <Box sx={{ width: "90%", marginTop: 1.5 }}>
-            <FormControl size="small" fullWidth>
-              <InputLabel id="select-label" sx={{ fontSize: "small" }}>
-                CRA / Next.js
-              </InputLabel>
-              <Select
-                labelId="select-label"
-                id="select"
-                value={buildType}
-                label="CRA / Next.js"
-                sx={{ fontSize: "small" }}
-                autoFocus
-                onChange={handleBuildTypeChange}
-              >
-                <MenuItem
-                  value="Create React App - SPA"
-                  sx={{ fontSize: "small" }}
-                >
-                  Create React App - SPA
-                </MenuItem>
-                <MenuItem value="Next.js App - SSR" sx={{ fontSize: "small" }}>
-                  Next.js App - SSR
-                </MenuItem>
-              </Select>
-            </FormControl>
+            <FormSelectBox
+              label="CRA / Next.js"
+              type="buildTypeChange"
+              datas={[
+                { type: "Create React App - SPA" },
+                { type: "Next.js App - SSR" },
+              ]}
+            />
           </Box>
         </Box>
       </Box>
@@ -211,17 +183,10 @@ function ModalBuild() {
             Install Command
           </Typography>
           <Box sx={{ width: "90%", marginTop: 1.5 }}>
-            <FormControl size="small" fullWidth>
-              <TextField
-                value={install}
-                size="small"
-                sx={{ fontSize: "small" }}
-                onChange={event => {
-                  setInstall(event.target.value);
-                }}
-                placeholder="`npm install`"
-              />
-            </FormControl>
+            <FormTextBox
+              placeholder="`npm install`"
+              type="installCommandChange"
+            />
           </Box>
         </Box>
         <Box sx={{ width: "50%" }}>
@@ -233,17 +198,10 @@ function ModalBuild() {
             Build Command
           </Typography>
           <Box sx={{ width: "90%", marginTop: 1.5, marginLeft: 3 }}>
-            <FormControl size="small" fullWidth>
-              <TextField
-                value={build}
-                size="small"
-                sx={{ fontSize: "small" }}
-                onChange={event => {
-                  setBuild(event.target.value);
-                }}
-                placeholder="`npm run build`"
-              />
-            </FormControl>
+            <FormTextBox
+              placeholder="`npm run build`"
+              type="buildCommandChange"
+            />
           </Box>
         </Box>
       </Box>
