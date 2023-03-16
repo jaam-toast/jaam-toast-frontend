@@ -9,12 +9,15 @@ import loginState from "../lib/recoil/auth";
 import gitNamespaceState from "../lib/recoil/git/namespace";
 
 import { GitNamespace, LoginData } from "../types";
+import cloneUrlState from "src/lib/recoil/git/clone";
 
 function ButtonCreate() {
   const { data } =
     useRecoilValue<LoginData | null>(loginState) || ({} as LoginData);
   const setGitNamespaceState =
     useSetRecoilState<GitNamespace[]>(gitNamespaceState);
+  const setCloneUrl = useSetRecoilState<string>(cloneUrlState);
+
   const { showModal } = useModal();
 
   const userId = data._id;
@@ -24,6 +27,7 @@ function ButtonCreate() {
 
     setCookie("userOrgs", JSON.stringify(userOrgs));
     setGitNamespaceState(userOrgs);
+    setCloneUrl("");
 
     showModal({
       modalType: "ModalCreate",
