@@ -1,14 +1,5 @@
-import { useState } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import {
-  Box,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Typography,
-} from "@mui/material";
+import { useRecoilValue } from "recoil";
+import { Box, Typography } from "@mui/material";
 
 import Button from "./@shared/Button";
 import FormSelectBox from "./@shared/FormSelectBox";
@@ -24,53 +15,17 @@ function ModalCreate() {
   const { data } =
     useRecoilValue<LoginData | null>(loginState) || ({} as LoginData);
   const gitNamespaces = useRecoilValue<GitNamespace[]>(gitNamespaceList);
-  const [gitRepos, setGitRepos] = useRecoilState<Repo[]>(gitRepoState);
-  const setCloneUrl = useSetRecoilState<string>(cloneUrlState);
+  const gitRepos = useRecoilValue<Repo[]>(gitRepoState);
+  const cloneUrl = useRecoilValue<string>(cloneUrlState);
 
-  const [spaces, setSpaces] = useState<string>("");
-  const [repository, setRepository] = useState<string>("");
   const { showModal } = useModal();
 
   const userId = data._id;
-
-  const isButtonNext = () => {
-    return spaces !== "" && repository !== "";
-  };
 
   const handleClickModalBuild = () => {
     showModal({
       modalType: "ModalBuild",
     });
-  };
-
-  const handleSpaceChange = async (e: SelectChangeEvent) => {
-    const selectedNamespaceUrl = e.target.value;
-    setSpaces(() => selectedNamespaceUrl);
-
-    const spaceOption = selectedNamespaceUrl
-      .split("https://api.github.com/")[1]
-      .split("/")[0];
-
-    const selectedNamespace = selectedNamespaceUrl
-      .split("https://api.github.com/")[1]
-      .split("/")[1];
-
-    if (spaceOption === "orgs") {
-      const { data: orgRepos } = await getOrgRepos(userId, selectedNamespace);
-
-      return setGitRepos(orgRepos);
-    }
-
-    const { data: userRepos } = await getUserRepos(userId);
-
-    return setGitRepos(userRepos);
-  };
-
-  const handleRepoChange = (e: SelectChangeEvent) => {
-    const selectedRepoUrl = e.target.value;
-    setRepository(selectedRepoUrl);
-
-    setCloneUrl(selectedRepoUrl);
   };
 
   return (
@@ -86,7 +41,7 @@ function ModalCreate() {
         <Typography id="modal-title" variant="h6" component="h3">
           Create Site
         </Typography>
-        {isButtonNext() ? (
+        {cloneUrl ? (
           <Button
             variant="contained"
             color="dark"

@@ -7,6 +7,8 @@ const cloneRepoName = selector<string>({
   get: ({ get }) => {
     const cloneUrl = get(cloneUrlState);
 
+    if (!cloneUrl) return cloneUrl;
+
     const repoName = cloneUrl
       .split("https://github.com/")[1]
       .split("/")[1]

@@ -1,17 +1,16 @@
-import { Box, FormControl, IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import { Remove as RemoveIcon } from "@mui/icons-material";
 
 import Form from "./@shared/Form";
 import TextField from "./@shared/TextField";
+import useDeployEventHandler from "../lib/hooks/useDeployEventHandler";
 
 import { EnvsState } from "../types";
 
 function TextFieldSaved({ envIndex, envsState }: EnvsState) {
-  const { envs, setEnvs } = envsState;
-
-  const handleClickEnvRemove = (curIndex: number) => {
-    setEnvs(prevEnvs => prevEnvs.filter((_, index) => index !== curIndex));
-  };
+  const handleRemoveEnvClick = useDeployEventHandler("removeEnvClick") as (
+    curIndex: number,
+  ) => void;
 
   return (
     <Box display="flex" sx={{ flexDirection: "row", width: "100%" }}>
@@ -48,7 +47,7 @@ function TextFieldSaved({ envIndex, envsState }: EnvsState) {
             color: "#000",
           },
         }}
-        onClick={() => handleClickEnvRemove(envIndex)}
+        onClick={() => handleRemoveEnvClick(envIndex)}
       >
         <RemoveIcon />
       </IconButton>
