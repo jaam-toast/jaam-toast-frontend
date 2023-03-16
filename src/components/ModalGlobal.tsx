@@ -1,4 +1,4 @@
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useResetRecoilState } from "recoil";
 import { Box, Modal } from "@mui/material";
 
 import ModalCreate from "./ModalCreate";
@@ -11,9 +11,12 @@ import ModalRepoDetails from "./ModalRepoDetails";
 import useModal from "../lib/hooks/useModal";
 
 import { modalState } from "../types/modal";
+import buildOptionState from "src/lib/recoil/userBuildOptions";
 
 function ModalGlobal() {
   const modal = useRecoilValue(modalState);
+  const resetBuildOption = useResetRecoilState(buildOptionState);
+
   const { modalType, modalProps } = modal || {};
   const { isModal, hideModal } = useModal();
 
@@ -43,10 +46,15 @@ function ModalGlobal() {
     }
   };
 
+  const handleCloseModal = () => {
+    hideModal();
+    resetBuildOption();
+  };
+
   return (
     <Modal
       open={isModal != null}
-      onClose={() => hideModal()}
+      onClose={handleCloseModal}
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
     >
