@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 
 import Button from "./@shared/Button";
-import { getOrgRepos, getUserRepos } from "../lib/api";
+import FormSelectBox from "./@shared/FormSelectBox";
 import useModal from "../lib/hooks/useModal";
 import loginState from "../lib/recoil/auth";
 import { gitNamespaceList } from "../lib/recoil/git/namespace";
@@ -102,30 +102,12 @@ function ModalCreate() {
             Spaces
           </Typography>
           <Box sx={{ width: "90%", marginTop: 1.5 }}>
-            <FormControl size="small" fullWidth>
-              <InputLabel id="select-label" sx={{ fontSize: "small" }}>
-                Select a Git Namespace
-              </InputLabel>
-              <Select
-                labelId="select-label"
-                id="select"
-                value={spaces}
-                label="Select a Git Namespace"
-                autoFocus
-                sx={{ fontSize: "small" }}
-                onChange={handleSpaceChange}
-              >
-                {gitNamespaces.map(space => (
-                  <MenuItem
-                    key={`${space.spaceName}`}
-                    value={space.spaceUrl}
-                    sx={{ fontSize: "small" }}
-                  >
-                    {space.spaceName}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <FormSelectBox
+              label="Select a Git Namespace"
+              userId={userId}
+              type="spaceChange"
+              datas={gitNamespaces}
+            />
           </Box>
         </Box>
         <Box sx={{ width: "50%" }}>
@@ -137,29 +119,12 @@ function ModalCreate() {
             Repository
           </Typography>
           <Box sx={{ width: "90%", marginTop: 1.5, marginLeft: 3 }}>
-            <FormControl size="small" fullWidth>
-              <InputLabel id="select-label" sx={{ fontSize: "small" }}>
-                Select a Repository
-              </InputLabel>
-              <Select
-                labelId="select-label"
-                id="select"
-                value={repository}
-                label="Select a Repository"
-                sx={{ fontSize: "small" }}
-                onChange={handleRepoChange}
-              >
-                {gitRepos.map(repo => (
-                  <MenuItem
-                    key={`${repo.repoName}`}
-                    value={repo.repoCloneUrl}
-                    sx={{ fontSize: "small" }}
-                  >
-                    {repo.repoName}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <FormSelectBox
+              label="Select a Git Namespace"
+              userId={userId}
+              type="repoChange"
+              datas={gitRepos}
+            />
           </Box>
         </Box>
       </Box>

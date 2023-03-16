@@ -1,5 +1,6 @@
-import { Box, FormControl, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
+import Form from "./@shared/Form";
 import TextField from "./@shared/TextField";
 
 type ITextFieldCommands = {
@@ -18,15 +19,13 @@ function TextFieldCommands({
           Install Command
         </Typography>
         <Box sx={{ width: "90%", marginTop: 1.5 }}>
-          <FormControl size="small" fullWidth>
+          <Form>
             <TextField
-              value={installCommand}
-              size="small"
-              sx={{ fontSize: "small" }}
+              value={installCommand || ""}
               placeholder="`npm install`"
-              disabled
+              disabled={true}
             />
-          </FormControl>
+          </Form>
         </Box>
       </Box>
       <Box sx={{ width: "50%" }}>
@@ -38,15 +37,13 @@ function TextFieldCommands({
           Build Command
         </Typography>
         <Box sx={{ width: "90%", marginTop: 1.5, marginLeft: 3 }}>
-          <FormControl size="small" fullWidth>
+          <Form>
             <TextField
-              value={buildCommand}
-              size="small"
-              sx={{ fontSize: "small" }}
+              value={buildCommand || ""}
               placeholder="`npm run build`"
-              disabled
+              disabled={true}
             />
-          </FormControl>
+          </Form>
         </Box>
       </Box>
     </Box>
