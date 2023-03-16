@@ -1,17 +1,10 @@
-import { useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { setCookie } from "cookies-next";
+import { useRecoilValue } from "recoil";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Box,
   Divider,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
   Typography,
 } from "@mui/material";
 import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
@@ -21,101 +14,31 @@ import FormSelectBox from "./@shared/FormSelectBox";
 import FormTextBox from "./@shared/FormTextBox";
 import TextFieldAdd from "./TextFieldAdd";
 import TextFieldSaved from "./TextFieldSaved";
-import { deployRepo } from "./../lib/api";
-import useModal from "./../lib/hooks/useModal";
-import loginState from "./../lib/recoil/auth";
-import cloneUrlState, { cloneRepoName } from "./../lib/recoil/git/clone";
-import userDeploymentsState from "./../lib/recoil/userDeployments";
+import useModal from "../lib/hooks/useModal";
+import useDeployEventHandler from "src/lib/hooks/useDeployEventHandler";
+import loginState from "../lib/recoil/auth";
+import buildOptionState from "src/lib/recoil/userBuildOptions";
 
-import { Env, LoginData, UserDeploymentData } from "./../types";
-import getFormattedKoreaTime from "src/lib/utils/getFormattedKoreaTime";
+import { BuildOption, LoginData } from "../types";
 
 function ModalBuild() {
   const { data } =
     useRecoilValue<LoginData | null>(loginState) || ({} as LoginData);
-  const repoCloneUrl = useRecoilValue<string>(cloneUrlState);
-  const repoName = useRecoilValue<string>(cloneRepoName);
-  const [deploymentList, setDeploymentList] =
-    useRecoilState<UserDeploymentData[]>(userDeploymentsState);
+  const buildOption = useRecoilValue<BuildOption>(buildOptionState);
 
-  const [version, setVersion] = useState<string>("");
-  const [buildType, setBuildType] = useState<string>("");
-  const [install, setInstall] = useState<string>("");
-  const [build, setBuild] = useState<string>("");
-  const [envs, setEnvs] = useState<Env[]>([{ key: "", value: "" }]);
   const { showModal } = useModal();
 
   const userId = data._id;
-  const envsState = {
-    envs,
-    setEnvs,
-  };
+  const handleClickModalDeploy = useDeployEventHandler("deployClick", userId);
 
   const isButtonNext = () => {
-    return version !== "" && buildType !== "";
+    return buildOption.nodeVersion !== "" && buildOption.buildType !== "";
   };
 
   const handleClickModalCreate = () => {
     showModal({
       modalType: "ModalCreate",
     });
-  };
-
-  const handleClickModalDeploy = async () => {
-    const filteredEnvs = envs.filter((_, i) => i !== 0);
-
-    const formattedTime = getFormattedKoreaTime(new Date());
-
-    const userBuildOptions = {
-      userId,
-      repoName,
-      repoCloneUrl,
-      repoUpdatedAt: formattedTime,
-      nodeVersion: version,
-      installCommand: `${install === "" ? "npm install" : install}`,
-      buildCommand: `${build === "" ? "npm run build" : build}`,
-      envList: filteredEnvs,
-      buildType,
-      lastCommitMessage: "",
-    };
-
-    showModal({
-      modalType: "ModalDeploy",
-    });
-
-    const { data: userDeploymentData } = await deployRepo(userBuildOptions);
-
-    const copyUserDeployData = JSON.parse(JSON.stringify(userDeploymentData));
-    copyUserDeployData.buildingLog = [];
-
-    setDeploymentList([...deploymentList, userDeploymentData]);
-    setCookie(
-      "userDeployments",
-      JSON.stringify([...deploymentList, copyUserDeployData]),
-    );
-
-    setTimeout(
-      () =>
-        showModal({
-          modalType: "ModalPreview",
-          modalProps: {
-            previewData: userDeploymentData,
-          },
-        }),
-      4000,
-    );
-  };
-
-  const handleVersionChange = (e: SelectChangeEvent) => {
-    const curNodeVersion = e.target.value;
-
-    setVersion(curNodeVersion);
-  };
-
-  const handleBuildTypeChange = (e: SelectChangeEvent) => {
-    const curBuildType = e.target.value;
-
-    setBuildType(curBuildType);
   };
 
   return (
@@ -139,7 +62,7 @@ function ModalBuild() {
           <Button
             variant="contained"
             color="light"
-            onClick={handleClickModalDeploy}
+            onClick={handleClickModalDeploy as () => Promise<void>}
           >
             Deploy
           </Button>
@@ -219,21 +142,17 @@ function ModalBuild() {
         <Divider />
         <AccordionDetails sx={{ mt: 1 }}>
           <>
-            <Box display="flex" sx={{ flexDirection: "row", marginBottom: 1 }}>
-              <TextFieldAdd envIndex={0} envsState={envsState} />
-            </Box>
+            <TextFieldAdd />
             <Divider sx={{ marginTop: 2.5, marginBottom: 2.5 }} />
-            {envs.map((env, index) =>
-              index === 0 ? null : (
-                <Box
-                  key={`${env.key}-${index}`}
-                  display="flex"
-                  sx={{ flexDirection: "row", marginBottom: 1.5 }}
-                >
-                  <TextFieldSaved envIndex={index} envsState={envsState} />
-                </Box>
-              ),
-            )}
+            {buildOption?.envs.map((env, index) => (
+              <Box
+                key={`${env.key}-${index}`}
+                display="flex"
+                sx={{ flexDirection: "row", marginBottom: 1.5 }}
+              >
+                <TextFieldSaved envIndex={index} envsState={buildOption.envs} />
+              </Box>
+            ))}
           </>
         </AccordionDetails>
       </Accordion>

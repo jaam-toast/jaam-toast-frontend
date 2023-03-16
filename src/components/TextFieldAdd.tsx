@@ -2,14 +2,16 @@ import { ChangeEvent, useState } from "react";
 import { Box, IconButton, TextField } from "@mui/material";
 import { Add as AddIcon } from "@mui/icons-material";
 
-import TextField from "./@shared/TextField";
+import Form from "./@shared/Form";
+import useDeployEventHandler from "../lib/hooks/useDeployEventHandler";
 
-import { EnvsState } from "../types";
-
-function TextFieldAdd({ envsState }: EnvsState) {
-  const { envs, setEnvs } = envsState;
+function TextFieldAdd() {
   const [curEnvKey, setCurEnvKey] = useState<string>("");
   const [curEnvValue, setCurEnvValue] = useState<string>("");
+  const addEnvClick = useDeployEventHandler("addEnvClick") as (
+    key: string,
+    value: string,
+  ) => void;
 
   const handleKeyChange = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -28,12 +30,8 @@ function TextFieldAdd({ envsState }: EnvsState) {
   };
 
   const handleClickEnvAdd = () => {
-    const newEnv = {
-      key: curEnvKey,
-      value: curEnvValue,
-    };
+    addEnvClick(curEnvKey, curEnvValue);
 
-    setEnvs(prevEnvs => [...prevEnvs, newEnv]);
     setCurEnvKey("");
     setCurEnvValue("");
   };
