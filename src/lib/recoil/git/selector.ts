@@ -1,14 +1,32 @@
 import { selector } from "recoil";
 import { getCookie } from "cookies-next";
 
-import gitNamespaceAtom from "./atom";
+import { cloneUrlState, gitNamespaceState } from "./atom";
+import { UserLoginData, LoginResponse } from "../../../types/auth";
+import { GitNamespace } from "../../../types/projectOption";
 
-import { GitNamespace, UserLoginData, LoginResponse } from "../../../../types";
+const cloneRepoName = selector<string>({
+  key: "cloneRepoName",
+  get: ({ get }) => {
+    const cloneUrl = get(cloneUrlState);
+
+    if (!cloneUrl) return cloneUrl;
+
+    const repoName = cloneUrl
+      .split("https://github.com/")[1]
+      .split("/")[1]
+      .split(".git")[0]
+      .replace(/[^a-zA-Z0-9-]/g, "")
+      .toLowerCase();
+
+    return repoName;
+  },
+});
 
 const gitNamespaceList = selector<GitNamespace[]>({
   key: "gitNamespaceList",
   get: ({ get }) => {
-    const orgsSpaceList = get(gitNamespaceAtom);
+    const orgsSpaceList = get(gitNamespaceState);
 
     const userSpace: GitNamespace = {
       spaceName: "",
@@ -29,4 +47,4 @@ const gitNamespaceList = selector<GitNamespace[]>({
   },
 });
 
-export default gitNamespaceList;
+export { cloneRepoName, gitNamespaceList };

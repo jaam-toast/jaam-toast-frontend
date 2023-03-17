@@ -2,10 +2,7 @@ import { ChangeEvent } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { SelectChangeEvent } from "@mui/material";
 
-import gitRepoState from "../recoil/git/repos";
-import cloneUrlState from "../recoil/git/clone";
-import buildOptionState from "../recoil/userBuildOptions";
-import { getOrgRepos, getUserRepos } from "../api";
+import { gitRepoState, cloneUrlState, cloneRepoName } from "../recoil/git";
 
 import {
   Repo,

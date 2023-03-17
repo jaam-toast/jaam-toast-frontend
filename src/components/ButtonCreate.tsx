@@ -6,7 +6,7 @@ import Button from "./@shared/Button";
 import { getOrgs } from "../lib/api";
 import useModal from "../lib/hooks/useModal";
 import loginState from "../lib/recoil/auth";
-import gitNamespaceState from "../lib/recoil/git/namespace";
+import { gitNamespaceState, cloneUrlState } from "../lib/recoil/git";
 
 import { GitNamespace, LoginData } from "../types";
 import cloneUrlState from "src/lib/recoil/git/clone";
