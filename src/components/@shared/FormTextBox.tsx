@@ -10,12 +10,14 @@ import { EventHandlerName } from "../../types/projectOption";
 
 interface Prop extends StandardTextFieldProps {
   userId?: string;
-  type: EventHandlerType;
+  type: EventHandlerName;
 }
 
 function FormTextBox({ userId, type, ...props }: Prop) {
   const [inputValue, setInputValue] = useState<string>("");
-  const eventHandler = useDeployEventHandler(type, userId);
+  const eventHandler = useDeployEventHandler(type, userId) as (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => void;
 
   const handleChange = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,

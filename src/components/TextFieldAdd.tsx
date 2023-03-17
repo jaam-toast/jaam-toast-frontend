@@ -2,7 +2,7 @@ import { ChangeEvent, useState } from "react";
 import { Box, IconButton, TextField } from "@mui/material";
 import { Add as AddIcon } from "@mui/icons-material";
 
-import Form from "./@shared/Form";
+import { Form } from "./@shared";
 import useDeployEventHandler from "../lib/hooks/useDeployEventHandler";
 
 function TextFieldAdd() {

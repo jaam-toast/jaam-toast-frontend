@@ -1,7 +1,6 @@
 import { Box, Typography } from "@mui/material";
 
-import Form from "./@shared/Form";
-import TextField from "./@shared/TextField";
+import { Form, TextField } from "./@shared";
 
 type ITextFieldCommands = {
   installCommand: string | undefined;

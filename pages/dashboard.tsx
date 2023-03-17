@@ -14,7 +14,7 @@ import { TITLE } from "../src/lib/constants/metadata";
 import useFetchDeployment from "../src/lib/hooks/useFetchDeployment";
 import loginState, { isLoggedInState } from "../src/lib/recoil/auth";
 
-import { LoginData } from "../src/types";
+import { LoginData } from "../src/types/auth";
 
 function Dashboard() {
   const { data: user } =

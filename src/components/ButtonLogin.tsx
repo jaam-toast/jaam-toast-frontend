@@ -1,7 +1,7 @@
 import Link from "next/link";
 import GitHubIcon from "@mui/icons-material/GitHub";
 
-import Button from "./@shared/Button";
+import { Button } from "./@shared";
 import { GITHUB_LOGIN_OAUTH_URI } from "../lib/config";
 
 function ButtonLogin() {

@@ -2,7 +2,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { setCookie } from "cookies-next";
 import { Box, Typography } from "@mui/material";
 
-import Button from "./@shared/Button";
+import { Button } from "./@shared";
 import { deleteUserDeployment } from "../lib/api";
 import useModal from "../lib/hooks/useModal";
 import loginState from "../lib/recoil/auth";
