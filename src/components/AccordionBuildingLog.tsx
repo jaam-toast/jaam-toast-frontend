@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import styled from "styled-components";
 import {
   Accordion,
@@ -16,8 +14,6 @@ interface IBuildingLog {
 }
 
 function AccordionBuildingLog({ buildingLog }: IBuildingLog) {
-  const [curBuildingLog, setCurBuildingLog] = useState<string[]>(buildingLog);
-
   return (
     <Accordion sx={{ mt: 2 }} defaultExpanded>
       <AccordionSummary
@@ -37,7 +33,7 @@ function AccordionBuildingLog({ buildingLog }: IBuildingLog) {
         >
           <table className="log-table" style={{ width: "100%" }}>
             <tbody className="log-table-body">
-              {curBuildingLog.map((log, i) => (
+              {buildingLog.map((log, i) => (
                 <Tr
                   key={`${new Date().valueOf()} - ${i} - ${log}`}
                   className="log-table-row"
