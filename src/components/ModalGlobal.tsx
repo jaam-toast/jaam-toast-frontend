@@ -12,11 +12,10 @@ import buildOptionsState from "../lib/recoil/userBuildOptions";
 import useModal from "../lib/hooks/useModal";
 
 import { modalState } from "../types/modal";
-import buildOptionState from "src/lib/recoil/userBuildOptions";
 
 function ModalGlobal() {
   const modal = useRecoilValue(modalState);
-  const resetBuildOption = useResetRecoilState(buildOptionState);
+  const resetBuildOption = useResetRecoilState(buildOptionsState);
 
   const { modalType, modalProps } = modal || {};
   const { isModal, hideModal } = useModal();

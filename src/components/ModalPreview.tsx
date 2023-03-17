@@ -13,15 +13,18 @@ interface IUserDeploymentData {
 }
 
 function ModalPreview({ ...modalProps }: IUserDeploymentData) {
-  const [curBuildingLog, setCurBuildingLog] = useState<string[]>(
-    modalProps.previewData.buildingLog || [],
-  );
-  const [envs, setEnvs] = useState<Env[]>(
-    modalProps.previewData.envList as Env[],
-  );
+  const [envs, setEnvs] = useState<Env[]>(modalProps.previewData?.envList);
 
-  const { previewData } = modalProps;
-  const { installCommand, buildCommand, deployedUrl } = previewData;
+  // TODO ModalPreview 페이지 진입 전에 modalProps.previewData 없을 경우 대응 추가
+
+  const {
+    previewData: {
+      buildingLog: curBuildingLog,
+      installCommand,
+      buildCommand,
+      deployedUrl,
+    },
+  } = modalProps;
 
   return (
     <Box sx={WrapperBoxStyle}>
@@ -61,7 +64,7 @@ function ModalPreview({ ...modalProps }: IUserDeploymentData) {
         buildCommand={buildCommand}
       />
       <AccordionEnvs envs={envs} setEnvs={setEnvs} />
-      <AccordionBuildingLog buildingLog={curBuildingLog} />
+      <AccordionBuildingLog buildingLog={curBuildingLog || []} />
     </Box>
   );
 }
