@@ -1,4 +1,4 @@
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useResetRecoilState } from "recoil";
 import {
   Accordion,
   AccordionDetails,
@@ -17,29 +17,66 @@ import { cloneUrlState } from "../lib/recoil/git";
 import buildOptionsState from "../lib/recoil/userBuildOptions";
 import useModal from "../lib/hooks/useModal";
 import useDeployEventHandler from "src/lib/hooks/useDeployEventHandler";
-import loginState from "../lib/recoil/auth";
-import buildOptionState from "src/lib/recoil/userBuildOptions";
 
-import { BuildOption, LoginData } from "../types";
+import { LoginData } from "../types/auth";
+import { BuildOptions } from "../types/projectOption";
+import { useEffect, useState } from "react";
+import { UserDeploymentData } from "src/types/deployment";
 
 function ModalBuild() {
   const { data } =
     useRecoilValue<LoginData | null>(loginState) || ({} as LoginData);
-  const buildOption = useRecoilValue<BuildOption>(buildOptionState);
-
+  const buildOption = useRecoilValue<BuildOptions>(buildOptionsState);
+  const resetBuildOptions = useResetRecoilState(buildOptionsState);
+  const resetCloneUrl = useResetRecoilState(cloneUrlState);
+  const [timer, setTimer] = useState<number>(0);
   const { showModal } = useModal();
-
   const userId = data._id;
-  const handleClickModalDeploy = useDeployEventHandler("deployClick", userId);
+  const runDeploy = useDeployEventHandler(
+    "deployClick",
+    userId,
+  ) as () => Promise<UserDeploymentData | undefined>;
+
+  useEffect(() => {
+    if (!timer) return;
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [timer]);
 
   const isButtonNext = () => {
     return buildOption.nodeVersion !== "" && buildOption.buildType !== "";
   };
 
   const handleClickModalCreate = () => {
+    resetBuildOptions();
+    resetCloneUrl();
     showModal({
       modalType: "ModalCreate",
     });
+  };
+
+  const handleClickModalDeploy = async () => {
+    showModal({
+      modalType: "ModalDeploy",
+    });
+
+    const userDeploymentData = await runDeploy();
+
+    // TODO userDeploymentData 데이터 없거나 에러났을 경우 대응 필요
+    const timer = window.setTimeout(
+      () =>
+        showModal({
+          modalType: "ModalPreview",
+          modalProps: {
+            previewData: userDeploymentData,
+          },
+        }),
+      4000,
+    );
+
+    setTimer(timer);
   };
 
   return (
@@ -63,7 +100,7 @@ function ModalBuild() {
           <Button
             variant="contained"
             color="light"
-            onClick={handleClickModalDeploy as () => Promise<void>}
+            onClick={handleClickModalDeploy}
           >
             Deploy
           </Button>
@@ -145,13 +182,16 @@ function ModalBuild() {
           <>
             <TextFieldAdd />
             <Divider sx={{ marginTop: 2.5, marginBottom: 2.5 }} />
-            {buildOption?.envs.map((env, index) => (
+            {buildOption?.envList.map((env, index) => (
               <Box
                 key={`${env.key}-${index}`}
                 display="flex"
                 sx={{ flexDirection: "row", marginBottom: 1.5 }}
               >
-                <TextFieldSaved envIndex={index} envsState={buildOption.envs} />
+                <TextFieldSaved
+                  envIndex={index}
+                  envsState={buildOption.envList}
+                />
               </Box>
             ))}
           </>
