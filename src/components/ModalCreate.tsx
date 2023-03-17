@@ -5,9 +5,12 @@ import Button from "./@shared/Button";
 import FormSelectBox from "./@shared/FormSelectBox";
 import useModal from "../lib/hooks/useModal";
 import loginState from "../lib/recoil/auth";
-import { gitNamespaceList } from "../lib/recoil/git/namespace";
-import gitRepoState from "../lib/recoil/git/repos";
-import cloneUrlState from "../lib/recoil/git/clone";
+import {
+  gitRepoState,
+  cloneUrlState,
+  gitNamespaceList,
+} from "../lib/recoil/git";
+import buildOptionsState from "../lib/recoil/userBuildOptions";
 
 import { LoginData, GitNamespace, Repo } from "../types";
 
