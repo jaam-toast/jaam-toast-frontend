@@ -5,14 +5,14 @@ import { Box, Container, Divider, Typography } from "@mui/material";
 
 import ButtonLogin from "../src/components/ButtonLogin";
 import NavBar from "../src/components/Navbar";
-import useLogin from "src/lib/hooks/useAuth";
+import useAuth from "../src/lib/hooks/useAuth";
 
 function Login() {
   const [isSSR, setIsSSR] = useState(true);
   const router = useRouter();
   const authCode: string | string[] | undefined = router.query.code;
 
-  useLogin(authCode);
+  useAuth(authCode);
 
   useEffect(() => {
     setIsSSR(false);
