@@ -10,9 +10,9 @@ import {
   cloneUrlState,
   gitNamespaceList,
 } from "../lib/recoil/git";
-import buildOptionsState from "../lib/recoil/userBuildOptions";
 
-import { LoginData, GitNamespace, Repo } from "../types";
+import { LoginData } from "../types/auth";
+import { GitNamespace, Repo } from "../types/projectOption";
 
 function ModalCreate() {
   const { data } =

@@ -9,7 +9,7 @@ import {
 import timeSince from "../lib/utils/timeSince";
 import useModal from "../lib/hooks/useModal";
 
-import { UserDeploymentData } from "../types";
+import { UserDeploymentData } from "../types/deployment";
 
 interface IUserDeploymentData {
   cardData: UserDeploymentData;

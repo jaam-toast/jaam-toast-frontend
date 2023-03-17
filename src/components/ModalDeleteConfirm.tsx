@@ -8,7 +8,8 @@ import useModal from "../lib/hooks/useModal";
 import loginState from "../lib/recoil/auth";
 import userDeploymentsState from "../lib/recoil/userDeployments";
 
-import { LoginData, UserDeploymentData } from "../types";
+import { UserDeploymentData } from "../types/deployment";
+import { LoginData } from "../types/auth";
 
 interface IUserDeploymentData {
   cardData: UserDeploymentData;

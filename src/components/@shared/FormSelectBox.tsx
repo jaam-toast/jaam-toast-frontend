@@ -10,8 +10,8 @@ import {
   NodeVersion,
   Repo,
   BuildType,
-  EventHandlerType,
-} from "../../types";
+  EventHandlerForSelect,
+} from "../../types/projectOption";
 
 interface Mode {
   [index: string]: MenuItemOption;

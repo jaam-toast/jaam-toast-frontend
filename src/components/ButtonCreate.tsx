@@ -8,8 +8,8 @@ import useModal from "../lib/hooks/useModal";
 import loginState from "../lib/recoil/auth";
 import { gitNamespaceState, cloneUrlState } from "../lib/recoil/git";
 
-import { GitNamespace, LoginData } from "../types";
-import cloneUrlState from "src/lib/recoil/git/clone";
+import { LoginData } from "../types/auth";
+import { GitNamespace } from "../types/projectOption";
 
 function ButtonCreate() {
   const { data } =

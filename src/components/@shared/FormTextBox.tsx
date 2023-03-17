@@ -6,7 +6,7 @@ import Form from "./Form";
 import TextField from "./TextField";
 import useDeployEventHandler from "../../lib/hooks/useDeployEventHandler";
 
-import { EventHandlerType } from "../../types";
+import { EventHandlerName } from "../../types/projectOption";
 
 interface Prop extends StandardTextFieldProps {
   userId?: string;
