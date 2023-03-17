@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 
-import Button from "./@shared/Button";
+import { Button } from "./@shared";
 import Config from "../lib/config";
 import useModal from "../lib/hooks/useModal";
 import { cloneRepoName } from "../lib/recoil/git";

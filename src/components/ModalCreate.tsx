@@ -1,8 +1,7 @@
 import { useRecoilValue } from "recoil";
 import { Box, Typography } from "@mui/material";
 
-import Button from "./@shared/Button";
-import FormSelectBox from "./@shared/FormSelectBox";
+import { Button, FormSelectBox } from "./@shared";
 import useModal from "../lib/hooks/useModal";
 import loginState from "../lib/recoil/auth";
 import {

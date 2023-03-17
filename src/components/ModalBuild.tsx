@@ -9,9 +9,7 @@ import {
 } from "@mui/material";
 import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 
-import Button from "./@shared/Button";
-import FormSelectBox from "./@shared/FormSelectBox";
-import FormTextBox from "./@shared/FormTextBox";
+import { Button, FormSelectBox, FormTextBox } from "./@shared";
 import TextFieldAdd from "./TextFieldAdd";
 import TextFieldSaved from "./TextFieldSaved";
 import loginState from "../lib/recoil/auth";

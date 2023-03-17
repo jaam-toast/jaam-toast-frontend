@@ -1,7 +1,12 @@
 import { ReactNode } from "react";
 import { FormControl, InputLabel } from "@mui/material";
 
-function Form({ children, label }: { children: ReactNode; label?: string }) {
+interface FormProps {
+  children: ReactNode;
+  label?: string;
+}
+
+function Form({ children, label }: FormProps) {
   return (
     <FormControl size="small" fullWidth>
       {label && (
