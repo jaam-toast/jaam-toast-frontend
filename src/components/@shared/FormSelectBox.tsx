@@ -13,57 +13,41 @@ import {
   EventHandlerForSelect,
 } from "../../types/projectOption";
 
-interface Mode {
-  [index: string]: MenuItemOption;
-  spaceChange: MenuItemOption;
-  repoChange: MenuItemOption;
-  buildTypeChange: MenuItemOption;
-}
-
-type MenuItemOption = {
-  key: string;
+interface MenuItemProp {
   value: string;
   text: string;
-};
-
-const Mode: Mode = {
-  spaceChange: {
-    key: "spaceName",
-    value: "spaceUrl",
-    text: "spaceName",
-  },
-  repoChange: {
-    key: "repoName",
-    value: "repoCloneUrl",
-    text: "repoName",
-  },
-  nodeVersionChange: {
-    key: "version",
-    value: "version",
-    text: "versionText",
-  },
-  buildTypeChange: {
-    key: "type",
-    value: "type",
-    text: "type",
-  },
-};
-
-interface Prop {
-  label: string;
-  userId?: string;
-  type: EventHandlerType;
-  datas: GitNamespace[] | Repo[] | NodeVersion[] | BuildType[];
 }
 
-function FormSelectBox({ label, userId, type, datas, ...props }: Prop) {
-  const [inputValue, setInputValue] = useState<string>("");
-  const eventHandler = useDeployEventHandler(type, userId);
+interface FormSelectBoxProps {
+  type: EventHandlerForSelect;
+  label: string;
+  datas: GitNamespace[] | Repo[] | NodeVersion[] | BuildType[];
+  userId?: string;
+}
 
-  const { key, value, text } = Mode[type];
+const MenuItemPropTypes: Record<EventHandlerForSelect, MenuItemProp> = {
+  spaceChange: { value: "spaceUrl", text: "spaceName" },
+  repoChange: { value: "repoCloneUrl", text: "repoName" },
+  nodeVersionChange: { value: "version", text: "versionText" },
+  buildTypeChange: { value: "type", text: "type" },
+};
+
+function FormSelectBox({
+  type,
+  label,
+  datas,
+  userId,
+  ...props
+}: FormSelectBoxProps) {
+  const [inputValue, setInputValue] = useState<string>("");
+  const eventHandler = useDeployEventHandler(type, userId) as (
+    e: SelectChangeEvent,
+  ) => void;
+
+  const { value, text } = MenuItemPropTypes[type];
 
   const handleChange = (e: SelectChangeEvent) => {
-    if (eventHandler) eventHandler(e);
+    eventHandler(e);
 
     setInputValue(e.target.value);
   };
@@ -83,7 +67,7 @@ function FormSelectBox({ label, userId, type, datas, ...props }: Prop) {
           {datas &&
             datas.map((data: any) => (
               <MenuItem
-                key={`${data[key]}`}
+                key={`${data[value]}`}
                 value={`${data[value]}`}
                 sx={{ fontSize: "small" }}
               >
