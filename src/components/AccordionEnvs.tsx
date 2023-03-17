@@ -10,7 +10,7 @@ import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 
 import TextFieldPreview from "./TextFieldPreveiw";
 
-import { EnvsState } from "../types";
+import { EnvsState } from "../types/projectOption";
 
 function AccordionEnvs({ envs, setEnvs }: EnvsState["envsState"]) {
   const envsState = {

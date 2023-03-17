@@ -7,7 +7,8 @@ import AccordionEnvs from "./AccordionEnvs";
 import AccordionBuildingLog from "./AccordionBuildingLog";
 import userDeploymentsState from "../lib/recoil/userDeployments";
 
-import { Env, UserDeploymentData } from "../types";
+import { UserDeploymentData } from "../types/deployment";
+import { Env } from "../types/projectOption";
 
 interface IUserDeploymentData {
   previewData: UserDeploymentData;

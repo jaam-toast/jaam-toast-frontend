@@ -11,7 +11,7 @@ import {
   Tooltip,
 } from "@mui/material";
 
-import useAuth from "src/lib/hooks/useAuth";
+import useAuth from "../lib/hooks/useAuth";
 import { isLoggedInState } from "../lib/recoil/auth";
 
 function NavBar() {

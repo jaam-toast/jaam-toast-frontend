@@ -5,7 +5,7 @@ import Form from "./@shared/Form";
 import TextField from "./@shared/TextField";
 import useDeployEventHandler from "../lib/hooks/useDeployEventHandler";
 
-import { EnvsState } from "../types";
+import { Env } from "../types/projectOption";
 
 function TextFieldSaved({ envIndex, envsState }: EnvsState) {
   const handleRemoveEnvClick = useDeployEventHandler("removeEnvClick") as (
