@@ -1,3 +1,3 @@
-import buildOptionState from "./atoms";
+import buildOptionsState from "./atoms";
 
-export default buildOptionState;
+export default buildOptionsState;

@@ -1,16 +1,16 @@
 import { atom } from "recoil";
 
-import { BuildOption } from "src/types";
+import { BuildOptions } from "../../../types/projectOption";
 
-const buildOptionState = atom<BuildOption>({
+const buildOptionsState = atom<BuildOptions>({
   key: "buildOption",
   default: {
     nodeVersion: "",
-    installCommand: "",
-    buildCommand: "",
+    installCommand: "npm install",
+    buildCommand: "npm run build",
     buildType: "",
-    envs: [],
+    envList: [],
   },
 });
 
-export default buildOptionState;
+export default buildOptionsState;
