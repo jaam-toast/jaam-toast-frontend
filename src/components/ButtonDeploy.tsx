@@ -35,6 +35,7 @@ function ButtonDeploy({ userId }: ButtonDeployProps) {
       repoName,
       repoCloneUrl,
       repoUpdatedAt: formattedTime,
+      subDomain: buildOption.subDomain,
       nodeVersion: buildOption.nodeVersion,
       installCommand: buildOption.installCommand,
       buildCommand: buildOption.buildCommand,
