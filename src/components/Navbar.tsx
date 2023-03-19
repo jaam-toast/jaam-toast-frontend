@@ -3,7 +3,6 @@ import Image from "next/image";
 import { useRecoilValue } from "recoil";
 import {
   AppBar,
-  Button,
   Box,
   IconButton,
   Toolbar,
@@ -11,6 +10,7 @@ import {
   Tooltip,
 } from "@mui/material";
 
+import { Button } from "./@shared";
 import useAuth from "lib/hooks/useAuth";
 import { isLoggedInState } from "lib/recoil/auth";
 
@@ -72,20 +72,22 @@ function NavBar() {
           </Typography>
           {isLoggedIn ? (
             <Tooltip title="Log out">
-              <Button
-                variant="contained"
-                size="small"
-                color="inherit"
-                sx={{
-                  bgcolor: "light.main",
-                  ":hover": {
+              <span>
+                <Button
+                  size="small"
+                  color="light"
+                  sx={{
                     bgcolor: "light.main",
-                  },
-                }}
-                onClick={handleLogoutClick}
-              >
-                Log out
-              </Button>
+                    ":hover": {
+                      color: "dark.main",
+                      bgcolor: "light.main",
+                    },
+                  }}
+                  onClick={handleLogoutClick}
+                >
+                  Log out
+                </Button>
+              </span>
             </Tooltip>
           ) : null}
         </Toolbar>

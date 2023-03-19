@@ -7,8 +7,9 @@ function TextField({ ...props }: TextFieldProps) {
       id="outlined-basic"
       variant="outlined"
       autoComplete="off"
-      size="small"
-      sx={{ fontSize: "small" }}
+      sx={{
+        fontSize: "small",
+      }}
       {...props}
     />
   );
