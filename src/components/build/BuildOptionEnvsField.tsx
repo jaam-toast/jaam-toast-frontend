@@ -1,12 +1,14 @@
 import { AccordionDetails, Divider } from "@mui/material";
 import { Box } from "@mui/system";
+
+import BuildOptionEnvsTextField from "./BuildOptionEnvsTextField";
 import buildOptionsState from "lib/recoil/userBuildOptions";
 import { useRecoilValue } from "recoil";
 import BuildOptionEnvsSavedTextField from "./BuildOptionEnvsSavedTextField";
-import BuildOptionEnvsTextField from "./BuildOptionEnvsTextField";
 
 function BuildOptionEnvsField() {
   const buildOption = useRecoilValue(buildOptionsState);
+
   return (
     <AccordionDetails sx={{ mt: 1 }}>
       <>

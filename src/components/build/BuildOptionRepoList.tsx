@@ -16,29 +16,22 @@ import { Button, BorderBox } from "../@shared";
 import searchWordState from "lib/recoil/searchWord/atom";
 import {
   cloneUrlState,
-  currentNamespaceState,
   gitRepoState,
 } from "lib/recoil/git/atom";
-import useDeployEventHandler from "lib/hooks/useDeployEventHandler";
 
 import { Repo } from "types/projectOption";
 
 function BuildOptionRepoList() {
   const gitRepos = useRecoilValue<Repo[]>(gitRepoState);
   const searchWord = useRecoilValue(searchWordState);
-  const currentNamespace = useRecoilValue(currentNamespaceState);
   const setCloneUrl = useSetRecoilState<string>(cloneUrlState);
 
   const [viewListCount, setViewListCount] = useState<number>(5);
   const [buttonName, setButtonName] = useState<string>("View All");
-  const [clickedRepo, setClickedRepo] = useState();
   const router = useRouter();
-  const addRepo = useDeployEventHandler("repoClick") as (repo: Repo) => void;
-  const { userName } = router.query;
 
   const handleImportClick = (repo: Repo) => {
-    // setCloneUrl();
-    addRepo(repo);
+    setCloneUrl(repo.repoCloneUrl);
     router.push(`/new/${repo.repoName}`);
   };
 
