@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { ChangeEvent } from "react";
 import { useSetRecoilState } from "recoil";
 import { SelectChangeEvent } from "@mui/material";
@@ -11,6 +12,7 @@ import { Repo, BuildOptions, EventHandlerName } from "types/projectOption";
 function useDeployEventHandler(type: EventHandlerName, userId?: string) {
   const setBuildOption = useSetRecoilState<BuildOptions>(buildOptionsState);
   const setGitRepos = useSetRecoilState<Repo[]>(gitRepoState);
+  const router = useRouter();
 
   switch (type) {
     case "spaceChange": {
@@ -47,9 +49,7 @@ function useDeployEventHandler(type: EventHandlerName, userId?: string) {
       };
     }
     case "projectNameChange": {
-      return (e: SelectChangeEvent) => {
-        const subDomain = e.target.value;
-
+      return async (subDomain: string) => {
         setBuildOption(prev => ({ ...prev, subDomain }));
       };
     }

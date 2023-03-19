@@ -1,19 +1,20 @@
-import { useCallback } from "react";
+import { useState } from "react";
 
-function debounce<Params extends any[]>(func: Function, delay?: number) {
-  let timeout: ReturnType<typeof setTimeout>;
+type SomeFunction = (...args: any[]) => void;
+type Timer = ReturnType<typeof setTimeout>;
 
-  const debounced = (...args: Params) => {
-    clearTimeout(timeout);
+function useDebounce<Func extends SomeFunction>(func: Func, delay?: number) {
+  const [timer, setTimer] = useState<Timer>();
 
-    timeout = setTimeout(() => func(...args), delay || 500);
-  };
+  const debouncedFunction = ((...args) => {
+    const newTimer = setTimeout(() => {
+      func(...args);
+    }, delay || 500);
+    clearTimeout(timer);
+    setTimer(newTimer);
+  }) as Func;
 
-  return debounced;
-}
-
-function useDebounce(func: Function, delay?: number) {
-  return debounce(useCallback(func, [func, delay]), delay);
+  return debouncedFunction;
 }
 
 export default useDebounce;
