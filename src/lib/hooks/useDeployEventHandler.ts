@@ -6,11 +6,7 @@ import { getOrgRepos, getUserRepos } from "lib/api";
 import { gitRepoState } from "lib/recoil/git";
 import buildOptionsState from "lib/recoil/userBuildOptions";
 
-import {
-  Repo,
-  BuildOptions,
-  EventHandlerName,
-} from "types/projectOption";
+import { Repo, BuildOptions, EventHandlerName } from "types/projectOption";
 
 function useDeployEventHandler(type: EventHandlerName, userId?: string) {
   const setBuildOption = useSetRecoilState<BuildOptions>(buildOptionsState);
@@ -48,6 +44,13 @@ function useDeployEventHandler(type: EventHandlerName, userId?: string) {
         setGitRepos(userRepos);
 
         return;
+      };
+    }
+    case "projectNameChange": {
+      return (e: SelectChangeEvent) => {
+        const subDomain = e.target.value;
+
+        setBuildOption(prev => ({ ...prev, subDomain }));
       };
     }
     case "nodeVersionChange": {
