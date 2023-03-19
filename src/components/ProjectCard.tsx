@@ -15,7 +15,7 @@ interface IUserDeploymentData {
   cardData: UserDeploymentData;
 }
 
-function RepoCard({ cardData }: IUserDeploymentData) {
+function ProjectCard({ cardData }: IUserDeploymentData) {
   const { showModal } = useModal();
 
   const updatedMilliseconds = new Date(cardData.repoUpdatedAt).valueOf();
@@ -112,4 +112,4 @@ const CloseIconStyle = {
   },
 };
 
-export default RepoCard;
+export default ProjectCard;

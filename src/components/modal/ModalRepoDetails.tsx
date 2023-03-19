@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { Box, Divider, Typography } from "@mui/material";
 
-import TextFieldCommands from "./TextFieldCommands";
-import AccordionEnvs from "./AccordionEnvs";
-import AccordionBuildingLog from "./AccordionBuildingLog";
+import TextFieldCommands from "../preview/PreviewCommandsTextField";
+import AccordionEnvs from "../preview/PreviewEnvList";
+import AccordionBuildingLog from "../build/BuildingLog";
 import userDeploymentsState from "lib/recoil/userDeployments";
 
 import { UserDeploymentData } from "types/deployment";
@@ -60,7 +60,7 @@ function ModalRepoDetails({ ...modalProps }: IUserDeploymentData) {
         installCommand={installCommand}
         buildCommand={buildCommand}
       />
-      <AccordionEnvs envs={envs} setEnvs={setEnvs} />
+      <AccordionEnvs envsList={envs} />
       <AccordionBuildingLog buildingLog={curBuildingLog} />
     </Box>
   );
