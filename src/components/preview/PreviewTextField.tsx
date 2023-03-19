@@ -1,12 +1,10 @@
 import { Box } from "@mui/material";
 
-import { Form, TextField } from "./@shared";
+import { Form, TextField } from "../@shared";
 
 import { EnvsState } from "types/projectOption";
 
-function TextFieldPreview({ envIndex, envsState }: EnvsState) {
-  const { envs, setEnvs } = envsState;
-
+function PreviewTextField({ envIndex, envsList }: EnvsState) {
   return (
     <Box display="flex" sx={{ flexDirection: "row", width: "100%" }}>
       <Box sx={{ width: "50%" }}>
@@ -16,7 +14,7 @@ function TextFieldPreview({ envIndex, envsState }: EnvsState) {
             InputProps={{ sx: { fontSize: "small" } }}
             InputLabelProps={{ sx: { fontSize: "small" } }}
             style={{ color: "#333" }}
-            value={envs[envIndex].key}
+            value={envsList[envIndex].key}
             disabled
           />
         </Form>
@@ -28,7 +26,7 @@ function TextFieldPreview({ envIndex, envsState }: EnvsState) {
             InputProps={{ sx: { fontSize: "small" } }}
             InputLabelProps={{ sx: { fontSize: "small" } }}
             style={{ color: "#333" }}
-            value={envs[envIndex].value}
+            value={envsList[envIndex].value}
             disabled
           />
         </Form>
@@ -37,4 +35,4 @@ function TextFieldPreview({ envIndex, envsState }: EnvsState) {
   );
 }
 
-export default TextFieldPreview;
+export default PreviewTextField;

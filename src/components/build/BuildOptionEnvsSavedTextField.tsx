@@ -1,7 +1,7 @@
 import { Box, IconButton } from "@mui/material";
 import { Remove as RemoveIcon } from "@mui/icons-material";
 
-import { Form, TextField } from "./@shared";
+import { Form, TextField } from "../@shared";
 import useDeployEventHandler from "lib/hooks/useDeployEventHandler";
 
 import { Env } from "types/projectOption";
@@ -11,7 +11,7 @@ interface EnvsData {
   envsState: Env[];
 }
 
-function TextFieldSaved({ envIndex, envsState }: EnvsData) {
+function BuildOptionEnvsSavedTextField({ envIndex, envsState }: EnvsData) {
   const handleRemoveEnvClick = useDeployEventHandler("removeEnvClick") as (
     curIndex: number,
   ) => void;
@@ -59,4 +59,4 @@ function TextFieldSaved({ envIndex, envsState }: EnvsData) {
   );
 }
 
-export default TextFieldSaved;
+export default BuildOptionEnvsSavedTextField;

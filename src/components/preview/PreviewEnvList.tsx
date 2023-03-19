@@ -8,16 +8,11 @@ import {
 } from "@mui/material";
 import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 
-import TextFieldPreview from "./TextFieldPreveiw";
+import TextFieldPreview from "./PreviewTextField";
 
-import { EnvsState } from "types/projectOption";
+import { Env } from "types/projectOption";
 
-function AccordionEnvs({ envs, setEnvs }: EnvsState["envsState"]) {
-  const envsState = {
-    envs,
-    setEnvs,
-  };
-
+function PreviewEnvList({ envsList }: { envsList: Env[] }) {
   return (
     <Accordion sx={{ mt: 2 }} defaultExpanded>
       <AccordionSummary
@@ -31,13 +26,13 @@ function AccordionEnvs({ envs, setEnvs }: EnvsState["envsState"]) {
       </AccordionSummary>
       <Divider />
       <AccordionDetails sx={{ mt: 1 }}>
-        {envs.map((env, index) => (
+        {envsList.map((env, index) => (
           <Box
             key={`${env.key}-${index}`}
             display="flex"
             sx={{ flexDirection: "row", marginBottom: 1.5 }}
           >
-            <TextFieldPreview envIndex={index} envsState={envsState} />
+            <TextFieldPreview envIndex={index} envsList={envsList} />
           </Box>
         ))}
       </AccordionDetails>
@@ -45,4 +40,4 @@ function AccordionEnvs({ envs, setEnvs }: EnvsState["envsState"]) {
   );
 }
 
-export default AccordionEnvs;
+export default PreviewEnvList;

@@ -2,10 +2,10 @@ import { ChangeEvent, useState } from "react";
 import { Box, IconButton, TextField } from "@mui/material";
 import { Add as AddIcon } from "@mui/icons-material";
 
-import { Form } from "./@shared";
+import { Form } from "../@shared";
 import useDeployEventHandler from "lib/hooks/useDeployEventHandler";
 
-function TextFieldAdd() {
+function BuildOptionEnvsTextField() {
   const [curEnvKey, setCurEnvKey] = useState<string>("");
   const [curEnvValue, setCurEnvValue] = useState<string>("");
   const addEnvClick = useDeployEventHandler("addEnvClick") as (
@@ -86,4 +86,4 @@ function TextFieldAdd() {
   );
 }
 
-export default TextFieldAdd;
+export default BuildOptionEnvsTextField;

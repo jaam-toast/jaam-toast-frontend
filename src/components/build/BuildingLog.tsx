@@ -13,7 +13,7 @@ interface IBuildingLog {
   buildingLog: string[];
 }
 
-function AccordionBuildingLog({ buildingLog }: IBuildingLog) {
+function BuildingLog({ buildingLog }: IBuildingLog) {
   return (
     <Accordion sx={{ mt: 2 }} defaultExpanded>
       <AccordionSummary
@@ -67,4 +67,4 @@ const Td = styled.td`
   padding-right: 0.5rem;
 `;
 
-export default AccordionBuildingLog;
+export default BuildingLog;

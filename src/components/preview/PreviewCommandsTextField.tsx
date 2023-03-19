@@ -1,13 +1,13 @@
 import { Box, Typography } from "@mui/material";
 
-import { Form, TextField } from "./@shared";
+import { Form, TextField } from "../@shared";
 
 type ITextFieldCommands = {
   installCommand: string | undefined;
   buildCommand: string | undefined;
 };
 
-function TextFieldCommands({
+function PreviewCommandsTextField({
   installCommand,
   buildCommand,
 }: ITextFieldCommands) {
@@ -49,4 +49,4 @@ function TextFieldCommands({
   );
 }
 
-export default TextFieldCommands;
+export default PreviewCommandsTextField;
