@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useRecoilValue, useResetRecoilState } from "recoil";
 import {
   Accordion,
@@ -12,16 +13,15 @@ import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 import { Button, FormSelectBox, FormTextBox } from "./@shared";
 import TextFieldAdd from "./TextFieldAdd";
 import TextFieldSaved from "./TextFieldSaved";
-import loginState from "../lib/recoil/auth";
-import { cloneUrlState } from "../lib/recoil/git";
-import buildOptionsState from "../lib/recoil/userBuildOptions";
-import useModal from "../lib/hooks/useModal";
-import useDeployEventHandler from "src/lib/hooks/useDeployEventHandler";
+import loginState from "lib/recoil/auth";
+import { cloneUrlState } from "lib/recoil/git";
+import buildOptionsState from "lib/recoil/userBuildOptions";
+import useModal from "lib/hooks/useModal";
+import useDeployEventHandler from "lib/hooks/useDeployEventHandler";
 
-import { LoginData } from "../types/auth";
-import { BuildOptions } from "../types/projectOption";
-import { useEffect, useState } from "react";
-import { UserDeploymentData } from "src/types/deployment";
+import { LoginData } from "types/auth";
+import { BuildOptions } from "types/projectOption";
+import { UserDeploymentData } from "types/deployment";
 
 function ModalBuild() {
   const { data } =

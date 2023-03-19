@@ -2,16 +2,16 @@ import { useRecoilValue } from "recoil";
 import { Box, Typography } from "@mui/material";
 
 import { Button, FormSelectBox } from "./@shared";
-import useModal from "../lib/hooks/useModal";
-import loginState from "../lib/recoil/auth";
+import useModal from "lib/hooks/useModal";
+import loginState from "lib/recoil/auth";
 import {
   gitRepoState,
   cloneUrlState,
   gitNamespaceList,
-} from "../lib/recoil/git";
+} from "lib/recoil/git";
 
-import { LoginData } from "../types/auth";
-import { GitNamespace, Repo } from "../types/projectOption";
+import { LoginData } from "types/auth";
+import { GitNamespace, Repo } from "types/projectOption";
 
 function ModalCreate() {
   const { data } =

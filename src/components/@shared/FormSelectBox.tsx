@@ -3,7 +3,7 @@ import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { Box } from "@mui/system";
 
 import Form from "./Form";
-import useDeployEventHandler from "../../lib/hooks/useDeployEventHandler";
+import useDeployEventHandler from "lib/hooks/useDeployEventHandler";
 
 import {
   GitNamespace,
@@ -11,7 +11,7 @@ import {
   Repo,
   BuildType,
   EventHandlerForSelect,
-} from "../../types/projectOption";
+} from "types/projectOption";
 
 interface MenuItemProp {
   value: string;

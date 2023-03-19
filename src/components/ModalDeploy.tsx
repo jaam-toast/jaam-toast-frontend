@@ -13,9 +13,9 @@ import {
 import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 
 import { Button } from "./@shared";
-import Config from "../lib/config";
-import useModal from "../lib/hooks/useModal";
-import { cloneRepoName } from "../lib/recoil/git";
+import Config from "lib/config";
+import useModal from "lib/hooks/useModal";
+import { cloneRepoName } from "lib/recoil/git";
 
 function ModalDeploy() {
   const [socket, setSocket] = useState<Socket | null>(null);

@@ -4,9 +4,9 @@ import { StandardTextFieldProps } from "@mui/material";
 
 import Form from "./Form";
 import TextField from "./TextField";
-import useDeployEventHandler from "../../lib/hooks/useDeployEventHandler";
+import useDeployEventHandler from "lib/hooks/useDeployEventHandler";
 
-import { EventHandlerName } from "../../types/projectOption";
+import { EventHandlerName } from "types/projectOption";
 
 interface Prop extends StandardTextFieldProps {
   userId?: string;

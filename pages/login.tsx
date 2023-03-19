@@ -3,9 +3,10 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Box, Container, Divider, Typography } from "@mui/material";
 
-import ButtonLogin from "../src/components/ButtonLogin";
-import NavBar from "../src/components/Navbar";
-import useAuth from "../src/lib/hooks/useAuth";
+import ButtonLogin from "src/components/ButtonLogin";
+import NavBar from "src/components/Navbar";
+import useAuth from "lib/hooks/useAuth";
+import { TITLE } from "lib/constants/metadata";
 
 function Login() {
   const [isSSR, setIsSSR] = useState(true);
@@ -19,17 +20,13 @@ function Login() {
   }, []);
 
   return (
-    <>
+  <>
       <Head>
-        <title>
-          Jaam Toast - Jamstack App Deployment Service Platform | Deploy Your
-          Own Websites Quick And Easy Like Toasts
-        </title>
+        <title>{TITLE}</title>
       </Head>
       <Container maxWidth={false} disableGutters>
         {!isSSR ? (
           <>
-            <NavBar />
             <Divider />
             <Box
               component="div"

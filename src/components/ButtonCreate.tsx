@@ -3,13 +3,13 @@ import { setCookie } from "cookies-next";
 import { Box } from "@mui/material";
 
 import { Button } from "./@shared";
-import { getOrgs } from "../lib/api";
-import useModal from "../lib/hooks/useModal";
-import loginState from "../lib/recoil/auth";
-import { gitNamespaceState, cloneUrlState } from "../lib/recoil/git";
+import { getOrgs } from "lib/api";
+import useModal from "lib/hooks/useModal";
+import loginState from "lib/recoil/auth";
+import { gitNamespaceState, cloneUrlState } from "lib/recoil/git";
 
-import { LoginData } from "../types/auth";
-import { GitNamespace } from "../types/projectOption";
+import { LoginData } from "types/auth";
+import { GitNamespace } from "types/projectOption";
 
 function ButtonCreate() {
   const { data } =

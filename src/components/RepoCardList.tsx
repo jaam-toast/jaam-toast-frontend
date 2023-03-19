@@ -1,9 +1,9 @@
 import { useRecoilValue } from "recoil";
-
 import { Card, Grid } from "@mui/material";
 
 import RepoCard from "./RepoCard";
-import userDeploymentsState from "../lib/recoil/userDeployments";
+import userDeploymentsState from "lib/recoil/userDeployments";
+import searchWordState from "lib/recoil/searchWord/atom";
 
 function RepoCardList() {
   const userDeploymentList = useRecoilValue(userDeploymentsState);

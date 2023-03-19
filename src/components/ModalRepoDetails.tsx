@@ -5,10 +5,10 @@ import { Box, Divider, Typography } from "@mui/material";
 import TextFieldCommands from "./TextFieldCommands";
 import AccordionEnvs from "./AccordionEnvs";
 import AccordionBuildingLog from "./AccordionBuildingLog";
-import userDeploymentsState from "../lib/recoil/userDeployments";
+import userDeploymentsState from "lib/recoil/userDeployments";
 
-import { UserDeploymentData } from "../types/deployment";
-import { Env } from "../types/projectOption";
+import { UserDeploymentData } from "types/deployment";
+import { Env } from "types/projectOption";
 
 interface IUserDeploymentData {
   previewData: UserDeploymentData;

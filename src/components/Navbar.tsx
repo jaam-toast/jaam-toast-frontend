@@ -11,8 +11,8 @@ import {
   Tooltip,
 } from "@mui/material";
 
-import useAuth from "../lib/hooks/useAuth";
-import { isLoggedInState } from "../lib/recoil/auth";
+import useAuth from "lib/hooks/useAuth";
+import { isLoggedInState } from "lib/recoil/auth";
 
 function NavBar() {
   const isLoggedIn = useRecoilValue(isLoggedInState);
