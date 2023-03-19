@@ -6,10 +6,10 @@ import {
   GitHub as GitHubIcon,
 } from "@mui/icons-material";
 
-import timeSince from "../lib/utils/timeSince";
-import useModal from "../lib/hooks/useModal";
+import timeSince from "lib/utils/timeSince";
+import useModal from "lib/hooks/useModal";
 
-import { UserDeploymentData } from "../types/deployment";
+import { UserDeploymentData } from "types/deployment";
 
 interface IUserDeploymentData {
   cardData: UserDeploymentData;

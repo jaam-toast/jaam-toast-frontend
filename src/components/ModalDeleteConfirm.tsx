@@ -3,13 +3,13 @@ import { setCookie } from "cookies-next";
 import { Box, Typography } from "@mui/material";
 
 import { Button } from "./@shared";
-import { deleteUserDeployment } from "../lib/api";
-import useModal from "../lib/hooks/useModal";
-import loginState from "../lib/recoil/auth";
-import userDeploymentsState from "../lib/recoil/userDeployments";
+import { deleteUserDeployment } from "lib/api";
+import useModal from "lib/hooks/useModal";
+import loginState from "lib/recoil/auth";
+import userDeploymentsState from "lib/recoil/userDeployments";
 
-import { UserDeploymentData } from "../types/deployment";
-import { LoginData } from "../types/auth";
+import { UserDeploymentData } from "types/deployment";
+import { LoginData } from "types/auth";
 
 interface IUserDeploymentData {
   cardData: UserDeploymentData;

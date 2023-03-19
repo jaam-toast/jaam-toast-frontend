@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 
 import { Form, TextField } from "./@shared";
 
-import { EnvsState } from "../types/projectOption";
+import { EnvsState } from "types/projectOption";
 
 function TextFieldPreview({ envIndex, envsState }: EnvsState) {
   const { envs, setEnvs } = envsState;

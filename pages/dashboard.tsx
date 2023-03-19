@@ -5,16 +5,16 @@ import { useRecoilValue } from "recoil";
 import { Box, Container, Divider } from "@mui/material";
 
 import Login from "./login";
-import ButtonCreate from "../src/components/ButtonCreate";
-import RepoCardList from "../src/components/RepoCardList";
-import NavBar from "../src/components/Navbar";
-import SearchInput from "../src/components/SearchInput";
+import ButtonCreate from "src/components/ButtonCreate";
+import RepoCardList from "src/components/RepoCardList";
+import NavBar from "src/components/Navbar";
+import SearchInput from "src/components/SearchInput";
 
-import { TITLE } from "../src/lib/constants/metadata";
-import useFetchDeployment from "../src/lib/hooks/useFetchDeployment";
-import loginState, { isLoggedInState } from "../src/lib/recoil/auth";
+import { TITLE } from "lib/constants/metadata";
+import useFetchDeployment from "lib/hooks/useFetchDeployment";
+import loginState, { isLoggedInState } from "lib/recoil/auth";
 
-import { LoginData } from "../src/types/auth";
+import { LoginData } from "types/auth";
 
 function Dashboard() {
   const { data: user } =

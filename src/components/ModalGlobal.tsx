@@ -8,10 +8,10 @@ import ModalDeleteConfirm from "./ModalDeleteConfirm";
 import { ModalCreateAlert, ModalDeleteAlert } from "./ModalAlert";
 import ModalPreview from "./ModalPreview";
 import ModalRepoDetails from "./ModalRepoDetails";
-import buildOptionsState from "../lib/recoil/userBuildOptions";
-import useModal from "../lib/hooks/useModal";
+import buildOptionsState from "lib/recoil/userBuildOptions";
+import useModal from "lib/hooks/useModal";
 
-import { modalState } from "../types/modal";
+import { modalState } from "types/modal";
 
 function ModalGlobal() {
   const modal = useRecoilValue(modalState);

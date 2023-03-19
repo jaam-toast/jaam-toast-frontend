@@ -1,7 +1,11 @@
+import { ChangeEvent } from "react";
+import { useSetRecoilState } from "recoil";
 import { InputAdornment } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
 
 import { TextField } from "./@shared";
+import searchWordState from "lib/recoil/searchWord/atom";
+import useDebounce from "lib/hooks/useDebounce";
 
 function SearchInput() {
   return (

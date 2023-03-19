@@ -5,8 +5,8 @@ import TextFieldCommands from "./TextFieldCommands";
 import AccordionEnvs from "./AccordionEnvs";
 import AccordionBuildingLog from "./AccordionBuildingLog";
 
-import type { UserDeploymentData } from "../types/deployment";
-import type { Env } from "../types/projectOption";
+import type { UserDeploymentData } from "types/deployment";
+import type { Env } from "types/projectOption";
 
 interface IUserDeploymentData {
   previewData: UserDeploymentData;
