@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { setCookie } from "cookies-next";
 
-import { getUserDeployments } from "./../api/index";
-import userDeploymentsState from "../recoil/userDeployments";
+import { getUserDeployments } from "lib/api/index";
+import userDeploymentsState from "lib/recoil/userDeployments";
 
-import { UserDeploymentData } from "./../../types/index";
+import { UserDeploymentData } from "types/deployment";
 
 function useFetchDeployment(userId: string) {
   const [userDeploymentsList, setUserDeploymentsList] =

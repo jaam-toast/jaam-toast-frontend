@@ -1,17 +1,14 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { useRecoilValue } from "recoil";
-import { Box, Container, Divider } from "@mui/material";
+import { useRecoilValue, useResetRecoilState } from "recoil";
+import { Box, Container } from "@mui/material";
 
 import Login from "./login";
 import ButtonCreate from "src/components/ButtonCreate";
-import RepoCardList from "src/components/RepoCardList";
-import NavBar from "src/components/Navbar";
-import SearchInput from "src/components/SearchInput";
-
+import RepoCardList from "src/components/ProjectList";
+import { SearchInput } from "src/components/@shared";
 import { TITLE } from "lib/constants/metadata";
-import useFetchDeployment from "lib/hooks/useFetchDeployment";
 import loginState, { isLoggedInState } from "lib/recoil/auth";
 
 import { LoginData } from "types/auth";

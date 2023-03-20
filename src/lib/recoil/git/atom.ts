@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 
-import { GitNamespace, Repo } from "../../../types/projectOption";
+import { GitNamespace, Repo } from "types/projectOption";
 
 const cloneUrlState = atom({
   key: "cloneUrlState",

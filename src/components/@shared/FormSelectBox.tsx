@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import {
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  SelectProps,
+} from "@mui/material";
 import { Box } from "@mui/system";
 
 import Form from "./Form";
@@ -18,16 +23,15 @@ interface MenuItemProp {
   text: string;
 }
 
-interface FormSelectBoxProps {
+interface FormSelectBoxProps extends SelectProps {
   type: EventHandlerForSelect;
-  label: string;
+  label?: string;
   datas: GitNamespace[] | Repo[] | NodeVersion[] | BuildType[];
   userId?: string;
 }
 
 const MenuItemPropTypes: Record<EventHandlerForSelect, MenuItemProp> = {
   spaceChange: { value: "spaceUrl", text: "spaceName" },
-  repoChange: { value: "repoCloneUrl", text: "repoName" },
   nodeVersionChange: { value: "version", text: "versionText" },
   buildTypeChange: { value: "type", text: "type" },
 };
@@ -45,20 +49,25 @@ function FormSelectBox({
   ) => void;
 
   const { value, text } = MenuItemPropTypes[type];
+  const firstDataText = datas[0][text];
 
-  const handleChange = (e: SelectChangeEvent) => {
-    eventHandler(e);
+  const handleChange = (e: SelectChangeEvent<unknown>) => {
+    eventHandler(e as SelectChangeEvent);
 
-    setInputValue(e.target.value);
+    setInputValue(e.target.value as string);
   };
 
   return (
     <Box>
       <Form label={label}>
         <Select
+          // renderValue={() => firstDataText || }
           labelId="select-label"
           id="select"
-          sx={{ fontSize: "small" }}
+          sx={{
+            fontSize: "small",
+            width: "100%",
+          }}
           label={label}
           value={inputValue}
           onChange={handleChange}
