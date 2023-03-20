@@ -1,24 +1,22 @@
+import { useRouter } from "next/router";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { setCookie } from "cookies-next";
 import { Box } from "@mui/material";
 
 import { Button } from "./@shared";
 import { getOrgs } from "lib/api";
-import useModal from "lib/hooks/useModal";
 import loginState from "lib/recoil/auth";
-import { gitNamespaceState, cloneUrlState } from "lib/recoil/git";
+import { cloneUrlState } from "lib/recoil/git";
 
 import { LoginData } from "types/auth";
-import { GitNamespace } from "types/projectOption";
+import { buildStepState } from "lib/recoil/buildOptions";
 
 function ButtonCreate() {
   const { data } =
     useRecoilValue<LoginData | null>(loginState) || ({} as LoginData);
-  const setGitNamespaceState =
-    useSetRecoilState<GitNamespace[]>(gitNamespaceState);
   const setCloneUrl = useSetRecoilState<string>(cloneUrlState);
-
-  const { showModal } = useModal();
+  const setBuildStep = useSetRecoilState<number>(buildStepState);
+  const router = useRouter();
 
   const userId = data._id;
 
@@ -26,12 +24,10 @@ function ButtonCreate() {
     const { data: userOrgs } = await getOrgs(userId);
 
     setCookie("userOrgs", JSON.stringify(userOrgs));
-    setGitNamespaceState(userOrgs);
     setCloneUrl("");
+    setBuildStep(1);
 
-    showModal({
-      modalType: "ModalCreate",
-    });
+    router.push(`/new/${data.username}`);
   };
 
   return (

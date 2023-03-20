@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { deleteCookie, setCookie } from "cookies-next";
 
-import { login } from "../api";
-import loginState from "../recoil/auth";
+import { login } from "lib/api";
+import loginState from "lib/recoil/auth";
 
-import { LoginData, UserLoginData } from "../../types/index";
+import { LoginData, UserLoginData } from "types/auth";
 
 function useAuth(authCode?: string | string[] | undefined) {
   const setLoginState = useSetRecoilState<LoginData | null>(loginState);

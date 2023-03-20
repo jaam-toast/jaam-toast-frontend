@@ -18,11 +18,11 @@ import { BorderBox, CenterBox } from "src/components/@shared";
 import BuildStepCard from "src/components/build/BuildStepCards";
 import { cloneRepoName, cloneUrlState } from "src/lib/recoil/git";
 import userDeploymentsState from "lib/recoil/userDeployments";
+import Config from "lib/config";
 import isEmpty from "lib/utils/isEmpty";
 
 import { UserDeploymentData } from "types/deployment";
 import test from "../../../../test.json";
-import Config from "lib/config";
 function Deploy() {
   const userDeploymentList =
     useRecoilValue<UserDeploymentData[]>(userDeploymentsState);
@@ -48,7 +48,7 @@ function Deploy() {
 
     const { userName, repo } = router.query;
 
-    const timer = window.setTimeout(() => {
+    const timer: ReturnType<typeof setTimeout> = setTimeout(() => {
       router.push(`/new/${userName}/${repo}/preview`);
     }, 4000);
 

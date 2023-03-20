@@ -5,7 +5,7 @@ import { SelectChangeEvent } from "@mui/material";
 
 import { getOrgRepos, getUserRepos } from "lib/api";
 import { gitRepoState } from "lib/recoil/git";
-import buildOptionsState from "lib/recoil/userBuildOptions";
+import { buildOptionsState } from "lib/recoil/buildOptions";
 
 import { Repo, BuildOptions, EventHandlerName } from "types/projectOption";
 

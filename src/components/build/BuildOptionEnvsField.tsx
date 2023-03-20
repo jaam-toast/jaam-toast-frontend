@@ -2,7 +2,7 @@ import { AccordionDetails, Divider } from "@mui/material";
 import { Box } from "@mui/system";
 
 import BuildOptionEnvsTextField from "./BuildOptionEnvsTextField";
-import buildOptionsState from "lib/recoil/userBuildOptions";
+import { buildOptionsState } from "lib/recoil/buildOptions";
 import { useRecoilValue } from "recoil";
 import BuildOptionEnvsSavedTextField from "./BuildOptionEnvsSavedTextField";
 
