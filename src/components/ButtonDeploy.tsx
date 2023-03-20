@@ -5,7 +5,7 @@ import { Button } from "./@shared";
 import { deployRepo } from "lib/api";
 import { cloneRepoName, cloneUrlState } from "lib/recoil/git";
 import { buildOptionsState, buildStepState } from "lib/recoil/buildOptions";
-import userDeploymentsState from "lib/recoil/userDeployments";
+import { userDeploymentsState } from "lib/recoil/userDeployments";
 import getFormattedKoreaTime from "lib/utils/getFormattedKoreaTime";
 
 import { UserDeploymentData } from "types/deployment";

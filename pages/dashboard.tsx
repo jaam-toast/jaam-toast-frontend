@@ -10,8 +10,9 @@ import RepoCardList from "src/components/ProjectList";
 import { SearchInput } from "src/components/@shared";
 import { TITLE } from "lib/constants/metadata";
 import loginState, { isLoggedInState } from "lib/recoil/auth";
-import { LoginData } from "types/auth";
 import useResetBuildOption from "lib/hooks/useResetBuildOption";
+
+import { LoginData } from "types/auth";
 
 function Dashboard() {
   const { data: user } =

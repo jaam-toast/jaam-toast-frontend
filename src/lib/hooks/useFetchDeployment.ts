@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil";
 import { setCookie } from "cookies-next";
 
 import { getUserDeployments } from "lib/api/index";
-import userDeploymentsState from "lib/recoil/userDeployments";
+import { userDeploymentsState } from "lib/recoil/userDeployments";
 
 import { UserDeploymentData } from "types/deployment";
 

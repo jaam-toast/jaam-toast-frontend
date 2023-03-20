@@ -1,3 +1,3 @@
-import userDeploymentsState from "./atom";
+import { userDeploymentsState, selectedProject } from "./atom";
 
-export default userDeploymentsState;
+export { userDeploymentsState, selectedProject };

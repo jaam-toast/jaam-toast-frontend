@@ -12,4 +12,28 @@ const userDeploymentsState = atom<UserDeploymentData[]>({
     : [],
 });
 
-export default userDeploymentsState;
+const selectedProject = atom<UserDeploymentData>({
+  key: "selectedProject",
+  default: {
+    subDomain: "",
+    nodeVersion: "",
+    installCommand: "",
+    buildCommand: "",
+    buildType: "",
+    envList: [],
+    lastCommitMessage: "",
+    repoId: "",
+    webhookId: "",
+    repoName: "string",
+    repoCloneUrl: "string",
+    repoUpdatedAt: "string",
+    repoOwner: "string",
+    userId: "",
+    instanceId: "string",
+    deployedUrl: "string",
+    recordId: "string",
+    buildingLog: [],
+  },
+});
+
+export { userDeploymentsState, selectedProject };

@@ -18,6 +18,7 @@ import {
 } from "src/components/@shared";
 import ButtonDeploy from "src/components/ButtonDeploy";
 import BuildStepCard from "src/components/build/BuildStepCards";
+import BuildOptionProjectName from "src/components/build/BuildOptionProjectName";
 import BuildOptionSelectBox from "src/components/build/BuildOptionSelectBox";
 import BuildOptionTextBox from "src/components/build/BuildOptionTextBox";
 import BuildOptionEnvsField from "src/components/build/BuildOptionEnvsField";
@@ -26,7 +27,6 @@ import loginState from "src/lib/recoil/auth";
 
 import { LoginData } from "types/auth";
 import { BuildOptions } from "types/projectOption";
-import BuildOptionProjectName from "src/components/build/BuildOptionProjectName";
 
 function BuildOption() {
   const { data } =

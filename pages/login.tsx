@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { Box, Container, Divider, Typography } from "@mui/material";
 
 import ButtonLogin from "src/components/ButtonLogin";
-import NavBar from "src/components/Navbar";
 import useAuth from "lib/hooks/useAuth";
 import { TITLE } from "lib/constants/metadata";
 
