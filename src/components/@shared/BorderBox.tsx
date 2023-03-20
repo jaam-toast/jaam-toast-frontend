@@ -10,7 +10,6 @@ function BorderBox({ ...props }) {
         flexDirection: "column",
         alignItems: "center",
         width: "100%",
-        height: "100%",
         bgcolor: "background.paper",
         borderRadius: "10px",
         border: "1px solid #78787833",
