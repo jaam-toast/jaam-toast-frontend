@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 
-import { BuildOptions } from "../../../types/projectOption";
+import { BuildOptions } from "types/projectOption";
 
 const buildOptionsState = atom<BuildOptions>({
   key: "buildOption",

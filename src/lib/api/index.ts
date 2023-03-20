@@ -6,13 +6,13 @@ import Config from "../config";
 import {
   DeploymentDataResponse,
   DeploymentListResponse,
-} from "../../types/deployment";
+} from "types/deployment";
 import {
   GetOrgsResponse,
   GetReposResponse,
   RepoDeployOptions,
-} from "../../types/projectOption";
-import { LoginResponse } from "../../types/auth";
+} from "types/projectOption";
+import { LoginResponse } from "types/auth";
 
 const MainClient: AxiosInstance = axios.create({
   baseURL: Config.SERVER_URL_API,
