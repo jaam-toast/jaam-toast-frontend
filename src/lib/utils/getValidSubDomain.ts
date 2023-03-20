@@ -1,7 +1,7 @@
 import Config from "lib/config";
 import axios from "axios";
 
-var regId = /[^a-z|A-Z|0-9]/g;
+const regId = /[^a-z|A-Z|0-9]/g;
 
 async function getValidSubDomain(data?: string): Promise<string | undefined> {
   try {

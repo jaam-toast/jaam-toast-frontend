@@ -37,7 +37,7 @@ function New() {
         <title>{TITLE}</title>
       </Head>
       <Container fixed maxWidth="lg" sx={{ height: "90vh", p: 4 }}>
-        {!isSSR ? (
+        {!isSSR && (
           <>
             <Box>
               <Typography id="modal-title" variant="h4" component="h3">
@@ -113,7 +113,7 @@ function New() {
               </BorderBox>
             </CenterBox>
           </>
-        ) : null}
+        )}
       </Container>
     </>
   );
