@@ -80,6 +80,7 @@ export const deployRepo = async (userBuildOptions: RepoDeployOptions) => {
     repoName,
     repoCloneUrl,
     repoUpdatedAt,
+    subDomain,
     nodeVersion,
     installCommand,
     buildCommand,
@@ -88,12 +89,14 @@ export const deployRepo = async (userBuildOptions: RepoDeployOptions) => {
     lastCommitMessage,
   } = userBuildOptions;
 
+  // * subdomain 추가
   const { data } = await MainClient.post<DeploymentDataResponse>(
     `/deploy/${userId}`,
     {
       repoName,
       repoCloneUrl,
       repoUpdatedAt,
+      subDomain,
       nodeVersion,
       envList,
       installCommand,

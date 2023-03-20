@@ -1,5 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
-
 export type GitNamespace = {
   [index: string]: string | undefined;
   spaceName: string;
@@ -13,6 +11,7 @@ export type GetOrgsResponse = {
 };
 
 export type Repo = {
+  [index: string]: string | undefined | Env[] | string[];
   repoName: string;
   repoCloneUrl: string;
   repoUpdatedAt: string;
@@ -25,11 +24,13 @@ export type GetReposResponse = {
 };
 
 export type NodeVersion = {
+  [index: string]: string | undefined;
   version: string;
   versionText: string;
 };
 
 export type BuildType = {
+  [index: string]: string | undefined;
   type: string;
 };
 
@@ -40,13 +41,11 @@ export type Env = {
 
 export interface EnvsState {
   envIndex: number;
-  envsState: {
-    envs: Env[];
-    setEnvs: Dispatch<SetStateAction<Env[]>>;
-  };
+  envsList: Env[];
 }
 
 export interface BuildOptions {
+  subDomain: string;
   nodeVersion: string;
   installCommand?: string;
   buildCommand?: string;
@@ -66,14 +65,13 @@ export interface RepoDeployOptions extends Repo, DeploymentOptions {
 
 export type EventHandlerName =
   | EventHandlerForSelect
+  | "projectNameChange"
   | "installCommandChange"
   | "buildCommandChange"
   | "addEnvClick"
-  | "removeEnvClick"
-  | "deployClick";
+  | "removeEnvClick";
 
 export type EventHandlerForSelect =
   | "spaceChange"
-  | "repoChange"
   | "nodeVersionChange"
   | "buildTypeChange";
