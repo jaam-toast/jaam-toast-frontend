@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   Accordion,
   AccordionSummary,
@@ -21,24 +21,27 @@ import BuildStepCard from "src/components/build/BuildStepCards";
 import BuildOptionSelectBox from "src/components/build/BuildOptionSelectBox";
 import BuildOptionTextBox from "src/components/build/BuildOptionTextBox";
 import BuildOptionEnvsField from "src/components/build/BuildOptionEnvsField";
+import { buildOptionsState, buildStepState } from "src/lib/recoil/buildOptions";
 import loginState from "src/lib/recoil/auth";
-import buildOptionsState from "src/lib/recoil/userBuildOptions";
 
 import { LoginData } from "types/auth";
 import { BuildOptions } from "types/projectOption";
+import BuildOptionProjectName from "src/components/build/BuildOptionProjectName";
 
 function BuildOption() {
   const { data } =
     useRecoilValue<LoginData | null>(loginState) || ({} as LoginData);
   const buildOption = useRecoilValue<BuildOptions>(buildOptionsState);
-  const userId = data._id;
+  const setBuildStep = useSetRecoilState<number>(buildStepState);
   const router = useRouter();
+  const userId = data._id;
 
   const isButtonNext = () => {
     return buildOption.nodeVersion !== "" && buildOption.buildType !== "";
   };
 
   const handleClickPrev = () => {
+    setBuildStep(1);
     router.back();
   };
 
@@ -63,12 +66,7 @@ function BuildOption() {
                 </Button>
                 {isButtonNext() ? <ButtonDeploy userId={userId} /> : null}
               </FlexRowCenterBox>
-              <BuildOptionTextBox
-                title="Project Name"
-                type="projectNameChange"
-                placeholder="`Project Name`"
-                sx={{ width: "100%" }}
-              />
+              <BuildOptionProjectName />
               <Box sx={{ width: "100%" }}>
                 <Typography
                   id="modal-description"

@@ -5,25 +5,30 @@ const tan = "tan";
 const lightRed = "#f99";
 const red = "red";
 const offBlack = "#444";
-const white = "white";
 
 const theme = createTheme({
   typography: {
     fontFamily: "Pretendard-Regular",
   },
   palette: {
+    primary: {
+      main: "#00ff62",
+      light: "#00ff62",
+      dark: "#4d00ff",
+    },
     light: {
       main: "#FFF",
     },
     dark: {
       main: "#000",
+      light: "",
+      dark: "",
     },
     common: {
       tan,
       lightRed,
       red,
       offBlack,
-      white,
     },
   },
   components: {
@@ -49,6 +54,49 @@ const theme = createTheme({
               backgroundColor: "#FFF",
               color: "#000",
             },
+          },
+        },
+      ],
+    },
+    MuiAvatar: {
+      variants: [
+        {
+          props: { color: "default" },
+          style: {
+            backgroundColor: "#8c8c8c",
+          },
+        },
+        {
+          props: { color: "point" },
+          style: {
+            backgroundColor: lightRed,
+          },
+        },
+      ],
+    },
+    MuiCardHeader: {
+      variants: [
+        {
+          props: { color: "default" },
+          style: {
+            backgroundColor: "#b8ffd3",
+          },
+        },
+        {
+          props: { color: "point" },
+          style: {
+            backgroundColor: tan,
+          },
+        },
+      ],
+    },
+    MuiInputBase: {
+      variants: [
+        {
+          props: { size: "small" },
+          style: {
+            height: "35px",
+            width: "100%",
           },
         },
       ],
