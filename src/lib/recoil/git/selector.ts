@@ -2,9 +2,9 @@ import { selector } from "recoil";
 import { getCookie } from "cookies-next";
 
 import { cloneUrlState, gitNamespaceState } from "./atom";
-import { UserLoginData, LoginResponse } from "../../../types/auth";
-import { GitNamespace } from "../../../types/projectOption";
-import isEmpty from "../../utils/isEmpty";
+import { UserLoginData, LoginResponse } from "types/auth";
+import { GitNamespace } from "types/projectOption";
+import isEmpty from "lib/utils/isEmpty";
 
 const cloneRepoName = selector<string>({
   key: "cloneRepoName",

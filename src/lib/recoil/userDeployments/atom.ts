@@ -1,7 +1,7 @@
 import { atom } from "recoil";
 import { getCookie } from "cookies-next";
 
-import { UserDeploymentData } from "../../../types/deployment";
+import { UserDeploymentData } from "types/deployment";
 
 const userDeploymentsState = atom<UserDeploymentData[]>({
   key: "userDeploymentsState",
