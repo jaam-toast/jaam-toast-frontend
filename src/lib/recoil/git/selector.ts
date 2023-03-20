@@ -4,6 +4,7 @@ import { getCookie } from "cookies-next";
 import { cloneUrlState, gitNamespaceState } from "./atom";
 import { UserLoginData, LoginResponse } from "../../../types/auth";
 import { GitNamespace } from "../../../types/projectOption";
+import isEmpty from "../../utils/isEmpty";
 
 const cloneRepoName = selector<string>({
   key: "cloneRepoName",
@@ -26,7 +27,17 @@ const cloneRepoName = selector<string>({
 const gitNamespaceList = selector<GitNamespace[]>({
   key: "gitNamespaceList",
   get: ({ get }) => {
-    const orgsSpaceList = get(gitNamespaceState);
+    let orgsSpaceList: GitNamespace[] | undefined = [];
+
+    if (get(gitNamespaceState)) {
+      orgsSpaceList = get(gitNamespaceState);
+    }
+
+    if (isEmpty(orgsSpaceList) && getCookie("userOrgs")) {
+      const orgsCookieData = JSON.parse(getCookie("userOrgs") as string);
+
+      orgsSpaceList = orgsCookieData as GitNamespace[];
+    }
 
     const userSpace: GitNamespace = {
       spaceName: "",

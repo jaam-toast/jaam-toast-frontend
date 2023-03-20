@@ -10,6 +10,7 @@ import { cloneUrlState } from "lib/recoil/git";
 
 import { LoginData } from "types/auth";
 import { buildStepState } from "lib/recoil/buildOptions";
+import useResetBuildOption from "lib/hooks/useResetBuildOption";
 
 function ButtonCreate() {
   const { data } =
@@ -17,6 +18,7 @@ function ButtonCreate() {
   const setCloneUrl = useSetRecoilState<string>(cloneUrlState);
   const setBuildStep = useSetRecoilState<number>(buildStepState);
   const router = useRouter();
+  useResetBuildOption();
 
   const userId = data._id;
 

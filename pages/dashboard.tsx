@@ -10,17 +10,16 @@ import RepoCardList from "src/components/ProjectList";
 import { SearchInput } from "src/components/@shared";
 import { TITLE } from "lib/constants/metadata";
 import loginState, { isLoggedInState } from "lib/recoil/auth";
-
 import { LoginData } from "types/auth";
+import useResetBuildOption from "lib/hooks/useResetBuildOption";
 
 function Dashboard() {
   const { data: user } =
     useRecoilValue<LoginData | null>(loginState) || ({} as LoginData);
   const isLoggedIn = useRecoilValue(isLoggedInState);
-
   const [isSSR, setIsSSR] = useState(true);
   const router = useRouter();
-  const userDeploymentsList = useFetchDeployment(user?._id);
+  useResetBuildOption();
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -38,8 +37,6 @@ function Dashboard() {
       <Container maxWidth={false} disableGutters>
         {!isSSR && isLoggedIn ? (
           <>
-            <NavBar />
-            <Divider />
             <Container fixed maxWidth="lg" sx={{ height: "90vh" }}>
               <Box
                 display="flex"
@@ -51,10 +48,17 @@ function Dashboard() {
                   marginBottom: "1rem",
                 }}
               >
-                <SearchInput />
+                <SearchInput
+                  placeholder="Search..."
+                  helperText="Please enter your Project name."
+                  sx={{
+                    m: 1,
+                    width: "75%",
+                  }}
+                />
                 <ButtonCreate />
               </Box>
-              {userDeploymentsList.length > 0 && <RepoCardList />}
+              <RepoCardList userId={user._id} />
             </Container>
           </>
         ) : (
