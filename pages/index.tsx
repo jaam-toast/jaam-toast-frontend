@@ -5,10 +5,8 @@ import { useRecoilValue } from "recoil";
 
 import { Box, Container, Typography } from "@mui/material";
 
-import NavBar from "src/components/Navbar";
 import ButtonLogin from "src/components/ButtonLogin";
 import { isLoggedInState } from "lib/recoil/auth";
-
 
 function PageLanding() {
   const isLoggedIn = useRecoilValue(isLoggedInState);
@@ -40,7 +38,6 @@ function PageLanding() {
       <Container maxWidth={false} disableGutters>
         {!isSSR && !isLoggedIn ? (
           <>
-            <NavBar />
             <Box
               component="div"
               display="flex"
