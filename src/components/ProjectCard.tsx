@@ -1,4 +1,6 @@
+import { useRouter } from "next/router";
 import { MouseEvent } from "react";
+import { useSetRecoilState } from "recoil";
 import { Box, CardContent, CardActionArea, Typography } from "@mui/material";
 import {
   ChangeHistory as ChangeHistoryIcon,
@@ -10,24 +12,32 @@ import timeSince from "lib/utils/timeSince";
 import useModal from "lib/hooks/useModal";
 
 import { UserDeploymentData } from "types/deployment";
+import { selectedProject } from "lib/recoil/userDeployments";
 
 interface IUserDeploymentData {
   cardData: UserDeploymentData;
 }
 
 function ProjectCard({ cardData }: IUserDeploymentData) {
+  const setSelectedProject = useSetRecoilState(selectedProject);
   const { showModal } = useModal();
 
   const updatedMilliseconds = new Date(cardData.repoUpdatedAt).valueOf();
   const repoUpdatedSince = timeSince(updatedMilliseconds);
+  const router = useRouter();
 
   const handleCardClick = () => {
-    showModal({
-      modalType: "ModalRepoDetails",
-      modalProps: {
-        previewData: cardData,
-      },
-    });
+    // showModal({
+    //   modalType: "ModalRepoDetails",
+    //   modalProps: {
+    //     previewData: cardData,
+    //   },
+    // });
+
+    const { repoOwner, repoName } = cardData;
+
+    setSelectedProject(cardData);
+    router.push(`/${repoOwner}/${repoName}`);
   };
 
   const handleCloseButtonClick = (e: MouseEvent) => {
