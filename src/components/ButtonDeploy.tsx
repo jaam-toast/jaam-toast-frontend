@@ -1,10 +1,10 @@
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { setCookie } from "cookies-next";
 
 import { Button } from "./@shared";
 import { deployRepo } from "lib/api";
 import { cloneRepoName, cloneUrlState } from "lib/recoil/git";
-import buildOptionsState from "lib/recoil/userBuildOptions";
+import { buildOptionsState, buildStepState } from "lib/recoil/buildOptions";
 import userDeploymentsState from "lib/recoil/userDeployments";
 import getFormattedKoreaTime from "lib/utils/getFormattedKoreaTime";
 
@@ -22,6 +22,7 @@ function ButtonDeploy({ userId }: ButtonDeployProps) {
   const buildOption = useRecoilValue<BuildOptions>(buildOptionsState);
   const [deploymentList, setDeploymentList] =
     useRecoilState<UserDeploymentData[]>(userDeploymentsState);
+  const setBuildStep = useSetRecoilState<number>(buildStepState);
   const router = useRouter();
 
   const runDeploy = async () => {
@@ -60,6 +61,8 @@ function ButtonDeploy({ userId }: ButtonDeployProps) {
 
   const handleClickDeploy = async () => {
     const { userName, repo } = router.query;
+
+    setBuildStep(3);
     router.push(`/new/${userName}/${repo}/deploy`);
 
     try {
