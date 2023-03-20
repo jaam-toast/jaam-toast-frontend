@@ -2,10 +2,10 @@ import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { Box, Divider, Typography } from "@mui/material";
 
-import TextFieldCommands from "../preview/PreviewCommandsTextField";
-import AccordionEnvs from "../preview/PreviewEnvList";
-import AccordionBuildingLog from "../build/BuildingLog";
-import userDeploymentsState from "lib/recoil/userDeployments";
+import PreviewCommandsTextField from "../preview/PreviewCommandsTextField";
+import PreviewEnvList from "../preview/PreviewEnvList";
+import BuildingLog from "../build/BuildingLog";
+import { userDeploymentsState } from "lib/recoil/userDeployments";
 
 import { UserDeploymentData } from "types/deployment";
 import { Env } from "types/projectOption";
@@ -56,12 +56,12 @@ function ModalRepoDetails({ ...modalProps }: IUserDeploymentData) {
       <Typography id="preview-url" variant="h6" component="h4">
         {`https://${deployedUrl as string}`}
       </Typography>
-      <TextFieldCommands
+      <PreviewCommandsTextField
         installCommand={installCommand}
         buildCommand={buildCommand}
       />
-      <AccordionEnvs envsList={envs} />
-      <AccordionBuildingLog buildingLog={curBuildingLog} />
+      <PreviewEnvList envsList={envs} />
+      <BuildingLog buildingLog={curBuildingLog} />
     </Box>
   );
 }

@@ -17,7 +17,7 @@ import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 import { BorderBox, CenterBox } from "src/components/@shared";
 import BuildStepCard from "src/components/build/BuildStepCards";
 import { cloneRepoName, cloneUrlState } from "src/lib/recoil/git";
-import userDeploymentsState from "lib/recoil/userDeployments";
+import { userDeploymentsState } from "lib/recoil/userDeployments";
 import Config from "lib/config";
 import isEmpty from "lib/utils/isEmpty";
 
