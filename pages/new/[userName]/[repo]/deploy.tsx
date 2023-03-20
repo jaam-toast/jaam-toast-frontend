@@ -22,7 +22,7 @@ import Config from "lib/config";
 import isEmpty from "lib/utils/isEmpty";
 
 import { UserDeploymentData } from "types/deployment";
-import test from "../../../../test.json";
+import deployMockData from "../../../../__test__/mock/deployData.json";
 
 function Deploy() {
   const userDeploymentList =
@@ -36,7 +36,7 @@ function Deploy() {
 
   useEffect(() => {
     // * test 용도 목데이터 적용
-    setBuildingLog(test[0].buildingLog);
+    setBuildingLog(deployMockData[0].buildingLog);
 
     // * ButtonDeploy에서 요청 보낸 후 응답오면 setDeploymentList실행
     // * userDeploymentList에 추가되면 확인 후 4초 뒤에 preview로 이동

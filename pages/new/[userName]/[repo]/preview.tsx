@@ -8,13 +8,13 @@ import PreviewEnvList from "src/components/preview/PreviewEnvList";
 
 import { userDeploymentsState } from "lib/recoil/userDeployments";
 
-import test from "../../../../test.json";
+import deployMockData from "../../../../__test__/mock/deployData.json";
 
 function Preview() {
   const deploymentData = useRecoilValue(userDeploymentsState);
 
   // * test mock 데이터 적용 (위 deploymentData로 바꾸면 됨)
-  const deploymentDataTest = test;
+  const deploymentDataTest = deployMockData;
 
   const {
     buildingLog: curBuildingLog,
