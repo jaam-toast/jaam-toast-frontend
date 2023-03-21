@@ -26,57 +26,55 @@ function Preview() {
 
   return (
     <Container fixed maxWidth="lg" sx={{ height: "90vh", p: 4 }}>
-      <>
-        <Box>
-          <Typography id="modal-title" variant="h4" component="h3">
-            Congratulations!
-          </Typography>
-          <Typography id="modal-title" variant="body2" gutterBottom>
-            You just deployed a new Project to Vercel.
-          </Typography>
-        </Box>
-        <CenterBox>
-          <BorderBox sx={{ boxShadow: 24, p: 4 }}>
-            <Box sx={{ width: "100%", maxWidth: 800 }}>
-              <FlexRowCenterBox>
-                <Box>
-                  <Box sx={{ ...IframeBoxStyle }}>
-                    <Box sx={{ ...IframeStyle }}>
-                      <iframe
-                        title="jaam-toast-preview"
-                        src={`https://${deployedUrl as string}`}
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                        }}
-                        sandbox="allow-scripts"
-                        loading="eager"
-                        frameBorder="0"
-                      />
-                    </Box>
+      <Box>
+        <Typography id="modal-title" variant="h4" component="h3">
+          Congratulations!
+        </Typography>
+        <Typography id="modal-title" variant="body2" gutterBottom>
+          You just deployed a new Project to Vercel.
+        </Typography>
+      </Box>
+      <CenterBox>
+        <BorderBox sx={{ boxShadow: 24, p: 4 }}>
+          <Box sx={{ width: "100%", maxWidth: 800 }}>
+            <FlexRowCenterBox>
+              <Box>
+                <Box sx={{ ...IframeBoxStyle }}>
+                  <Box sx={{ ...IframeStyle }}>
+                    <iframe
+                      title="jaam-toast-preview"
+                      src={`https://${deployedUrl as string}`}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                      }}
+                      sandbox="allow-scripts"
+                      loading="eager"
+                      frameBorder="0"
+                    />
                   </Box>
-                  <a
-                    href={`https://${deployedUrl as string}`}
-                    style={{ color: "#03336a", textDecoration: "none" }}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <Typography id="preview-url" variant="h6" component="h4">
-                      {`https://${deployedUrl as string}`}
-                    </Typography>
-                  </a>
-                  <PreviewCommandsTextField
-                    installCommand={installCommand}
-                    buildCommand={buildCommand}
-                  />
-                  <PreviewEnvList envsList={envList} />
-                  <BuildingLog buildingLog={curBuildingLog || []} />
                 </Box>
-              </FlexRowCenterBox>
-            </Box>
-          </BorderBox>
-        </CenterBox>
-      </>
+                <a
+                  href={`https://${deployedUrl as string}`}
+                  style={{ color: "#03336a", textDecoration: "none" }}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Typography id="preview-url" variant="h6" component="h4">
+                    {`https://${deployedUrl as string}`}
+                  </Typography>
+                </a>
+                <PreviewCommandsTextField
+                  installCommand={installCommand}
+                  buildCommand={buildCommand}
+                />
+                <PreviewEnvList envsList={envList} />
+                <BuildingLog buildingLog={curBuildingLog || []} />
+              </Box>
+            </FlexRowCenterBox>
+          </Box>
+        </BorderBox>
+      </CenterBox>
     </Container>
   );
 }

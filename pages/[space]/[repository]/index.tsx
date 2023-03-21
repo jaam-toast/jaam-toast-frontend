@@ -9,7 +9,6 @@ import { selectedProject } from "src/recoil/userDeployments";
 
 function ProjectDashBoard() {
   const currentProject = useRecoilValue(selectedProject);
-
   const { installCommand, buildCommand, deployedUrl } = currentProject;
 
   return (
@@ -51,20 +50,6 @@ function ProjectDashBoard() {
     </Container>
   );
 }
-
-const WrapperBoxStyle = {
-  position: "absolute" as const,
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  height: "85vh",
-  width: "70vw",
-  bgcolor: "background.paper",
-  border: "1px solid #000",
-  boxShadow: 24,
-  p: 4,
-  overflow: "auto",
-};
 
 const IframeBoxStyle = {
   position: "relative",
