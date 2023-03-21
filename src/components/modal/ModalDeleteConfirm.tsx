@@ -40,7 +40,7 @@ function ModalDeleteConfirm({ ...modalProps }: IUserDeploymentData) {
     );
 
     setUserDeploymentsList(newUserDeploymentList);
-    setCookie("userDeployments", JSON.stringify(newUserDeploymentList));
+    // setCookie("userDeployments", JSON.stringify(newUserDeploymentList));
 
     hideModal();
 

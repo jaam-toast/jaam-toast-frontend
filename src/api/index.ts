@@ -19,18 +19,18 @@ const MainClient: AxiosInstance = axios.create({
 });
 
 MainClient.interceptors.request.use((req: AxiosRequestConfig) => {
-  if (getCookie("loginData")) {
-    req.headers = {
-      Authorization: `Bearer ${
-        JSON.parse(getCookie("loginData") as string).accessToken as string
-      }`,
-    };
+  // if (getCookie("loginData")) {
+  //   req.headers = {
+  //     Authorization: `Bearer ${
+  //       JSON.parse(getCookie("loginData") as string).accessToken as string
+  //     }`,
+  //   };
 
-    req.params = {
-      githubAccessToken: JSON.parse(getCookie("loginData") as string)
-        .githubAccessToken as string,
-    };
-  }
+  //   req.params = {
+  //     githubAccessToken: JSON.parse(getCookie("loginData") as string)
+  //       .githubAccessToken as string,
+  //   };
+  // }
 
   return req;
 });

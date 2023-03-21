@@ -23,10 +23,10 @@ function useAuth(authCode?: string | string[] | undefined) {
         setLoginData(data);
 
         setLoginState({ data, githubAccessToken, accessToken });
-        setCookie(
-          "loginData",
-          JSON.stringify({ data, githubAccessToken, accessToken }),
-        );
+        // setCookie(
+        //   "loginData",
+        //   JSON.stringify({ data, githubAccessToken, accessToken }),
+        // );
 
         router.push("/dashboard");
       } catch (error) {
@@ -38,9 +38,9 @@ function useAuth(authCode?: string | string[] | undefined) {
   }, [authCode, router, setLoginState]);
 
   const handleLogout = () => {
-    deleteCookie("loginData");
-    deleteCookie("userOrgs");
-    deleteCookie("userDeployments");
+    // deleteCookie("loginData");
+    // deleteCookie("userOrgs");
+    // deleteCookie("userDeployments");
     setLoginState(null);
 
     router.push("/login");

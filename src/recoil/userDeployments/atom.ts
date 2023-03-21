@@ -5,11 +5,13 @@ import { UserDeploymentData } from "types/deployment";
 
 const userDeploymentsState = atom<UserDeploymentData[]>({
   key: "userDeploymentsState",
-  default: getCookie("userDeployments")
-    ? (JSON.parse(
-        getCookie("userDeployments") as string,
-      ) as UserDeploymentData[])
-    : [],
+  default:
+    // getCookie("userDeployments")
+    //   ? (JSON.parse(
+    //       getCookie("userDeployments") as string,
+    //     ) as UserDeploymentData[])
+    //   :
+    [],
 });
 
 const selectedProject = atom<UserDeploymentData>({

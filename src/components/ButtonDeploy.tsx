@@ -51,10 +51,10 @@ function ButtonDeploy({ userId }: ButtonDeployProps) {
     copyUserDeployData.buildingLog = [];
 
     setDeploymentList(prev => [...prev, userDeploymentData]);
-    setCookie(
-      "userDeployments",
-      JSON.stringify([...deploymentList, copyUserDeployData]),
-    );
+    // setCookie(
+    //   "userDeployments",
+    //   JSON.stringify([...deploymentList, copyUserDeployData]),
+    // );
 
     return userDeploymentData;
   };

@@ -25,7 +25,7 @@ function ButtonCreate() {
   const handleClickModalCreate = async () => {
     const { data: userOrgs } = await getOrgs(userId);
 
-    setCookie("userOrgs", JSON.stringify(userOrgs));
+    // setCookie("userOrgs", JSON.stringify(userOrgs));
     setCloneUrl("");
     setBuildStep(1);
 

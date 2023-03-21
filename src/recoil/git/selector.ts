@@ -33,26 +33,26 @@ const gitNamespaceList = selector<GitNamespace[]>({
       orgsSpaceList = get(gitNamespaceState);
     }
 
-    if (isEmpty(orgsSpaceList) && getCookie("userOrgs")) {
-      const orgsCookieData = JSON.parse(getCookie("userOrgs") as string);
+    // if (isEmpty(orgsSpaceList) && getCookie("userOrgs")) {
+    //   const orgsCookieData = JSON.parse(getCookie("userOrgs") as string);
 
-      orgsSpaceList = orgsCookieData as GitNamespace[];
-    }
+    //   orgsSpaceList = orgsCookieData as GitNamespace[];
+    // }
 
     const userSpace: GitNamespace = {
       spaceName: "",
       spaceUrl: "",
     };
 
-    if (getCookie("loginData")) {
-      const { data: loggedInUserData }: { data: UserLoginData } = JSON.parse(
-        getCookie("loginData") as string,
-      ) as LoginResponse;
+    // if (getCookie("loginData")) {
+    //   const { data: loggedInUserData }: { data: UserLoginData } = JSON.parse(
+    //     getCookie("loginData") as string,
+    //   ) as LoginResponse;
 
-      userSpace.spaceName = loggedInUserData.username;
-      userSpace.spaceUrl = loggedInUserData.userGithubUri;
-      userSpace.spaceImage = loggedInUserData.userImage;
-    }
+    //   userSpace.spaceName = loggedInUserData.username;
+    //   userSpace.spaceUrl = loggedInUserData.userGithubUri;
+    //   userSpace.spaceImage = loggedInUserData.userImage;
+    // }
 
     return [userSpace, ...orgsSpaceList];
   },

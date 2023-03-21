@@ -15,7 +15,7 @@ import { LoginData } from "types/auth";
 function Dashboard() {
   const { data: user } =
     useRecoilValue<LoginData | null>(loginState) || ({} as LoginData);
-  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const isLoggedIn = false;
   const router = useRouter();
   useResetBuildOption();
 
@@ -27,33 +27,29 @@ function Dashboard() {
 
   return (
     <Container maxWidth={false} disableGutters>
-      {isLoggedIn ? (
-        <Container fixed maxWidth="lg" sx={{ height: "90vh" }}>
-          <Box
-            display="flex"
+      <Container fixed maxWidth="lg" sx={{ height: "90vh" }}>
+        <Box
+          display="flex"
+          sx={{
+            padding: 1,
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            marginBottom: "1rem",
+          }}
+        >
+          <SearchInput
+            placeholder="Search..."
+            helperText="Please enter your Project name."
             sx={{
-              padding: 1,
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              marginBottom: "1rem",
+              m: 1,
+              width: "75%",
             }}
-          >
-            <SearchInput
-              placeholder="Search..."
-              helperText="Please enter your Project name."
-              sx={{
-                m: 1,
-                width: "75%",
-              }}
-            />
-            <ButtonCreate />
-          </Box>
-          <RepoCardList userId={user._id} />
-        </Container>
-      ) : (
-        <Login />
-      )}
+          />
+          <ButtonCreate />
+        </Box>
+        <RepoCardList userId={user._id} />
+      </Container>
     </Container>
   );
 }

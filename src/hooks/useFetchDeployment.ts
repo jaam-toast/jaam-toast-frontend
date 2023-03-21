@@ -30,7 +30,7 @@ function useFetchDeployment(userId: string) {
         });
 
         setUserDeploymentsList(userDeployments);
-        setCookie("userDeployments", JSON.stringify(filteredUserDeployments));
+        // setCookie("userDeployments", JSON.stringify(filteredUserDeployments));
       } catch (error) {
         console.info(error);
       }
