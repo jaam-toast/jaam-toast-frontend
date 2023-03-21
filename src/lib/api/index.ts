@@ -109,6 +109,54 @@ export const deployRepo = async (userBuildOptions: RepoDeployOptions) => {
   return data;
 };
 
+type projectCreateOptions = {
+  userId: string;
+  space: string;
+  repoName: string;
+  repoCloneUrl: string;
+  subDomain: string;
+  nodeVersion: string;
+  installCommand: string;
+  buildCommand: string;
+  envList: string;
+  buildType: string;
+};
+
+export const createProject = async (options: projectCreateOptions) => {
+  const {
+    userId,
+    space,
+    repoName,
+    repoCloneUrl,
+    subDomain,
+    nodeVersion,
+    installCommand,
+    buildCommand,
+    envList,
+    buildType,
+  } = options;
+
+  try {
+    const { data } = await MainClient.post<DeploymentDataResponse>(
+      `/deploy/${space}/${repoName}`,
+      {
+        userId,
+        repoCloneUrl,
+        subDomain,
+        nodeVersion,
+        installCommand,
+        buildCommand,
+        envList,
+        buildType,
+      },
+    );
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getUserDeployments = async (userId: string) => {
   const { data } = await MainClient.get<DeploymentListResponse>(
     `/deploy/${userId}`,
