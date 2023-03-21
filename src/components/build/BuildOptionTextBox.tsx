@@ -2,7 +2,7 @@ import { ChangeEvent, useState } from "react";
 import { Box, SxProps, Theme, Typography } from "@mui/material";
 
 import { Form, TextField } from "../@shared";
-import useDeployEventHandler from "lib/hooks/useDeployEventHandler";
+import useDeployEventHandler from "src/hooks/useDeployEventHandler";
 
 import { EventHandlerName } from "types/projectOption";
 

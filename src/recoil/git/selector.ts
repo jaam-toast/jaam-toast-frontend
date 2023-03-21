@@ -4,7 +4,7 @@ import { getCookie } from "cookies-next";
 import { cloneUrlState, gitNamespaceState } from "./atom";
 import { UserLoginData, LoginResponse } from "types/auth";
 import { GitNamespace } from "types/projectOption";
-import isEmpty from "lib/utils/isEmpty";
+import isEmpty from "src/utils/isEmpty";
 
 const cloneRepoName = selector<string>({
   key: "cloneRepoName",

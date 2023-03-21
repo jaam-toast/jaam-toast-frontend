@@ -2,11 +2,11 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { setCookie } from "cookies-next";
 
 import { Button } from "./@shared";
-import { deployRepo } from "lib/api";
-import { cloneRepoName, cloneUrlState } from "lib/recoil/git";
-import { buildOptionsState, buildStepState } from "lib/recoil/buildOptions";
-import { userDeploymentsState } from "lib/recoil/userDeployments";
-import getFormattedKoreaTime from "lib/utils/getFormattedKoreaTime";
+import { deployRepo } from "src/api";
+import { cloneRepoName, cloneUrlState } from "src/recoil/git";
+import { buildOptionsState, buildStepState } from "src/recoil/buildOptions";
+import { userDeploymentsState } from "src/recoil/userDeployments";
+import getFormattedKoreaTime from "src/utils/getFormattedKoreaTime";
 
 import { UserDeploymentData } from "types/deployment";
 import { BuildOptions } from "types/projectOption";

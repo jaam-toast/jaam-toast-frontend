@@ -2,8 +2,8 @@ import { useRecoilValue } from "recoil";
 import { Card, Grid } from "@mui/material";
 
 import ProjectCard from "./ProjectCard";
-import searchWordState from "lib/recoil/searchWord/atom";
-import useFetchDeployment from "lib/hooks/useFetchDeployment";
+import searchWordState from "src/recoil/searchWord/atom";
+import useFetchDeployment from "src/hooks/useFetchDeployment";
 
 interface RepoCardListPropsProps {
   userId: string;

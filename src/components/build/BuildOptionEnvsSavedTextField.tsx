@@ -2,7 +2,7 @@ import { Box, IconButton } from "@mui/material";
 import { Remove as RemoveIcon } from "@mui/icons-material";
 
 import { Form, TextField } from "../@shared";
-import useDeployEventHandler from "lib/hooks/useDeployEventHandler";
+import useDeployEventHandler from "src/hooks/useDeployEventHandler";
 
 import { Env } from "types/projectOption";
 

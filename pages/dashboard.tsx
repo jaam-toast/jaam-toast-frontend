@@ -8,9 +8,9 @@ import Login from "./login";
 import ButtonCreate from "src/components/ButtonCreate";
 import RepoCardList from "src/components/ProjectList";
 import { SearchInput } from "src/components/@shared";
-import { TITLE } from "lib/constants/metadata";
-import loginState, { isLoggedInState } from "lib/recoil/auth";
-import useResetBuildOption from "lib/hooks/useResetBuildOption";
+import { TITLE } from "src/constants/metadata";
+import loginState, { isLoggedInState } from "src/recoil/auth";
+import useResetBuildOption from "src/hooks/useResetBuildOption";
 
 import { LoginData } from "types/auth";
 

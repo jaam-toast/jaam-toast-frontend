@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { Box, Container, Divider, Typography } from "@mui/material";
 
 import ButtonLogin from "src/components/ButtonLogin";
-import useAuth from "lib/hooks/useAuth";
-import { TITLE } from "lib/constants/metadata";
+import useAuth from "src/hooks/useAuth";
+import { TITLE } from "src/constants/metadata";
 
 function Login() {
   const [isSSR, setIsSSR] = useState(true);
@@ -19,7 +19,7 @@ function Login() {
   }, []);
 
   return (
-  <>
+    <>
       <Head>
         <title>{TITLE}</title>
       </Head>

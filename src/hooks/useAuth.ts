@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { deleteCookie, setCookie } from "cookies-next";
 
-import { login } from "lib/api";
-import loginState from "lib/recoil/auth";
+import { login } from "src/api";
+import loginState from "src/recoil/auth";
 
 import { LoginData, UserLoginData } from "types/auth";
 

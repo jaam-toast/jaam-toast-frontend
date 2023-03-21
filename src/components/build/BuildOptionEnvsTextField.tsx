@@ -3,7 +3,7 @@ import { Box, IconButton, TextField } from "@mui/material";
 import { Add as AddIcon } from "@mui/icons-material";
 
 import { Form } from "../@shared";
-import useDeployEventHandler from "lib/hooks/useDeployEventHandler";
+import useDeployEventHandler from "src/hooks/useDeployEventHandler";
 
 function BuildOptionEnvsTextField() {
   const [curEnvKey, setCurEnvKey] = useState<string>("");

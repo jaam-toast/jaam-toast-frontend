@@ -6,7 +6,7 @@ import BuildingLog from "src/components/build/BuildingLog";
 import PreviewCommandsTextField from "src/components/preview/PreviewCommandsTextField";
 import PreviewEnvList from "src/components/preview/PreviewEnvList";
 
-import { userDeploymentsState } from "lib/recoil/userDeployments";
+import { userDeploymentsState } from "src/recoil/userDeployments";
 
 import deployMockData from "../../../../__test__/mock/deployData.json";
 

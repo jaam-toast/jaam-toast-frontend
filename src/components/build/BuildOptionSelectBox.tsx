@@ -8,7 +8,7 @@ import {
 import { Box } from "@mui/system";
 
 import { Form } from "../@shared";
-import useDeployEventHandler from "lib/hooks/useDeployEventHandler";
+import useDeployEventHandler from "src/hooks/useDeployEventHandler";
 
 import {
   GitNamespace,

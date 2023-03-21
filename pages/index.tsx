@@ -6,7 +6,7 @@ import { useRecoilValue } from "recoil";
 import { Box, Container, Typography } from "@mui/material";
 
 import ButtonLogin from "src/components/ButtonLogin";
-import { isLoggedInState } from "lib/recoil/auth";
+import { isLoggedInState } from "src/recoil/auth";
 
 function PageLanding() {
   const isLoggedIn = useRecoilValue(isLoggedInState);

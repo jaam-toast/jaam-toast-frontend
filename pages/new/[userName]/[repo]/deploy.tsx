@@ -16,10 +16,10 @@ import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 
 import { BorderBox, CenterBox } from "src/components/@shared";
 import BuildStepCard from "src/components/build/BuildStepCards";
-import { cloneRepoName, cloneUrlState } from "src/lib/recoil/git";
-import { userDeploymentsState } from "lib/recoil/userDeployments";
-import Config from "lib/config";
-import isEmpty from "lib/utils/isEmpty";
+import { cloneRepoName, cloneUrlState } from "src/recoil/git";
+import { userDeploymentsState } from "src/recoil/userDeployments";
+import Config from "src/config";
+import isEmpty from "src/utils/isEmpty";
 
 import { UserDeploymentData } from "types/deployment";
 import deployMockData from "../../../../__test__/mock/deployData.json";

@@ -12,9 +12,9 @@ import {
 import BuildStepCards from "src/components/build/BuildStepCards";
 import BuildOptionRepoList from "src/components/build/BuildOptionRepoList";
 import BuildOptionSelectBox from "src/components/build/BuildOptionSelectBox";
-import { TITLE } from "src/lib/constants/metadata";
-import loginState from "src/lib/recoil/auth";
-import { gitNamespaceList } from "src/lib/recoil/git";
+import { TITLE } from "src/constants/metadata";
+import loginState from "src/recoil/auth";
+import { gitNamespaceList } from "src/recoil/git";
 
 import { LoginData } from "src/types/auth";
 import { GitNamespace } from "src/types/projectOption";

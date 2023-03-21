@@ -5,7 +5,7 @@ import { Box, Divider, Typography } from "@mui/material";
 import PreviewCommandsTextField from "../preview/PreviewCommandsTextField";
 import PreviewEnvList from "../preview/PreviewEnvList";
 import BuildingLog from "../build/BuildingLog";
-import { userDeploymentsState } from "lib/recoil/userDeployments";
+import { userDeploymentsState } from "src/recoil/userDeployments";
 
 import { UserDeploymentData } from "types/deployment";
 import { Env } from "types/projectOption";

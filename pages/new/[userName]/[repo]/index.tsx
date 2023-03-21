@@ -22,8 +22,8 @@ import BuildOptionProjectName from "src/components/build/BuildOptionProjectName"
 import BuildOptionSelectBox from "src/components/build/BuildOptionSelectBox";
 import BuildOptionTextBox from "src/components/build/BuildOptionTextBox";
 import BuildOptionEnvsField from "src/components/build/BuildOptionEnvsField";
-import { buildOptionsState, buildStepState } from "src/lib/recoil/buildOptions";
-import loginState from "src/lib/recoil/auth";
+import { buildOptionsState, buildStepState } from "src/recoil/buildOptions";
+import loginState from "src/recoil/auth";
 
 import { LoginData } from "types/auth";
 import { BuildOptions } from "types/projectOption";

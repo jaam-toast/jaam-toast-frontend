@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { setCookie } from "cookies-next";
 
-import { getUserDeployments } from "lib/api/index";
-import { userDeploymentsState } from "lib/recoil/userDeployments";
+import { getUserDeployments } from "src/api/index";
+import { userDeploymentsState } from "src/recoil/userDeployments";
 
 import { UserDeploymentData } from "types/deployment";
 

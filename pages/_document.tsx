@@ -2,7 +2,7 @@ import React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import { ServerStyleSheets } from "@mui/styles";
 
-import { TITLE, DESCRIPTION } from "lib/constants/metadata";
+import { TITLE, DESCRIPTION } from "src/constants/metadata";
 
 export default class MyDocument extends Document {
   render() {

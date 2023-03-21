@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { Avatar, Box, Card, CardHeader } from "@mui/material";
 
-import { buildStepState } from "lib/recoil/buildOptions";
+import { buildStepState } from "src/recoil/buildOptions";
 
 function BuildStepCards() {
   const [currentStep, setCurrentStep] = useRecoilState<number>(buildStepState);

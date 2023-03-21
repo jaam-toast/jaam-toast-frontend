@@ -8,11 +8,11 @@ import {
   GitHub as GitHubIcon,
 } from "@mui/icons-material";
 
-import timeSince from "lib/utils/timeSince";
-import useModal from "lib/hooks/useModal";
+import timeSince from "src/utils/timeSince";
+import useModal from "src/hooks/useModal";
 
 import { UserDeploymentData } from "types/deployment";
-import { selectedProject } from "lib/recoil/userDeployments";
+import { selectedProject } from "src/recoil/userDeployments";
 
 interface IUserDeploymentData {
   cardData: UserDeploymentData;

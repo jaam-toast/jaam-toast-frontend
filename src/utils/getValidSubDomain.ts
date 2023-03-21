@@ -1,4 +1,4 @@
-import Config from "lib/config";
+import Config from "src/config";
 import axios from "axios";
 
 const regId = /[^a-z|A-Z|0-9]/g;

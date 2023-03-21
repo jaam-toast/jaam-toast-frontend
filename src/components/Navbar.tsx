@@ -11,8 +11,8 @@ import {
 } from "@mui/material";
 
 import { Button } from "./@shared";
-import useAuth from "lib/hooks/useAuth";
-import { isLoggedInState } from "lib/recoil/auth";
+import useAuth from "src/hooks/useAuth";
+import { isLoggedInState } from "src/recoil/auth";
 
 function NavBar() {
   const isLoggedIn = useRecoilValue(isLoggedInState);

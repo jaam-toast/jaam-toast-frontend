@@ -5,7 +5,7 @@ import PreviewCommandsTextField from "src/components/preview/PreviewCommandsText
 import PreviewEnvList from "src/components/preview/PreviewEnvList";
 import BuildingLog from "src/components/build/BuildingLog";
 import { BorderBox } from "src/components/@shared";
-import { selectedProject } from "lib/recoil/userDeployments";
+import { selectedProject } from "src/recoil/userDeployments";
 
 function ProjectDashBoard() {
   const currentProject = useRecoilValue(selectedProject);
