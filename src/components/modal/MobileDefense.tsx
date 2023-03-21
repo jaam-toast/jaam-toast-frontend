@@ -1,6 +1,8 @@
 import { Container, Box, IconButton, Typography } from "@mui/material";
 import { ChangeHistory as ChangeHistoryIcon } from "@mui/icons-material";
 
+import { WHITE } from "src/constants/colors";
+
 function MobileDefense() {
   return (
     <Container fixed sx={{ height: "10vh", padding: 1 }}>
@@ -61,7 +63,7 @@ const style = {
   alignContent: "center",
   border: 3,
   borderRadius: 2,
-  borderColor: "#d3d3d3",
+  borderColor: WHITE,
 };
 
 export default MobileDefense;

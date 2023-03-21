@@ -5,6 +5,7 @@ import { BorderBox, CenterBox, FlexRowCenterBox } from "src/components/@shared";
 import BuildingLog from "src/components/build/BuildingLog";
 import PreviewCommandsTextField from "src/components/preview/PreviewCommandsTextField";
 import PreviewEnvList from "src/components/preview/PreviewEnvList";
+import { BLUE } from "src/constants/colors";
 
 import { userDeploymentsState } from "src/recoil/userDeployments";
 
@@ -56,7 +57,7 @@ function Preview() {
                 </Box>
                 <a
                   href={`https://${deployedUrl as string}`}
-                  style={{ color: "#03336a", textDecoration: "none" }}
+                  style={{ color: BLUE, textDecoration: "none" }}
                   target="_blank"
                   rel="noreferrer"
                 >

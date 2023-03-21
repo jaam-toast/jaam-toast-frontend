@@ -5,6 +5,7 @@ import { useRecoilValue } from "recoil";
 import { Box, Container, Typography } from "@mui/material";
 
 import ButtonLogin from "src/components/ButtonLogin";
+import { WHITE } from "src/constants/colors";
 
 function PageLanding() {
   const isLoggedIn = false;
@@ -43,7 +44,7 @@ function PageLanding() {
             variant="subtitle1"
             sx={{
               padding: 1,
-              fontColor: "#d3d3d3",
+              fontColor: WHITE,
             }}
           >
             Every deployment from the 2022 edition of <b>jaam-toast.</b>

@@ -3,6 +3,7 @@ import { Remove as RemoveIcon } from "@mui/icons-material";
 
 import { Form, TextField } from "../@shared";
 import useDeployEventHandler from "src/hooks/useDeployEventHandler";
+import { BLACK, GREY } from "src/constants/colors";
 
 import { Env } from "types/projectOption";
 
@@ -24,7 +25,7 @@ function BuildOptionEnvsSavedTextField({ envIndex, envsState }: EnvsData) {
             label="Key"
             InputProps={{ sx: { fontSize: "small" } }}
             InputLabelProps={{ sx: { fontSize: "small" } }}
-            style={{ color: "#333" }}
+            style={{ color: BLACK }}
             value={envsState[envIndex].key}
             disabled
           />
@@ -36,7 +37,7 @@ function BuildOptionEnvsSavedTextField({ envIndex, envsState }: EnvsData) {
             label="Value"
             InputProps={{ sx: { fontSize: "small" } }}
             InputLabelProps={{ sx: { fontSize: "small" } }}
-            style={{ color: "#333" }}
+            style={{ color: BLACK }}
             value={envsState[envIndex].value}
             disabled
           />
@@ -46,9 +47,9 @@ function BuildOptionEnvsSavedTextField({ envIndex, envsState }: EnvsData) {
         sx={{
           padding: "0",
           marginLeft: "1",
-          color: "#808080",
+          color: GREY,
           ":hover": {
-            color: "#000",
+            color: BLACK,
           },
         }}
         onClick={() => handleRemoveEnvClick(envIndex)}

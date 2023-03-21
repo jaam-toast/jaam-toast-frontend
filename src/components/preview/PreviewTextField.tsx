@@ -1,8 +1,9 @@
 import { Box } from "@mui/material";
 
 import { Form, TextField } from "../@shared";
+import { BLACK } from "src/constants/colors";
 
-import { EnvsState } from "types/projectOption";
+import type { EnvsState } from "types/projectOption";
 
 function PreviewTextField({ envIndex, envsList }: EnvsState) {
   return (
@@ -13,7 +14,7 @@ function PreviewTextField({ envIndex, envsList }: EnvsState) {
             label="Key"
             InputProps={{ sx: { fontSize: "small" } }}
             InputLabelProps={{ sx: { fontSize: "small" } }}
-            style={{ color: "#333" }}
+            style={{ color: BLACK }}
             value={envsList[envIndex].key}
             disabled
           />
@@ -25,7 +26,7 @@ function PreviewTextField({ envIndex, envsList }: EnvsState) {
             label="Value"
             InputProps={{ sx: { fontSize: "small" } }}
             InputLabelProps={{ sx: { fontSize: "small" } }}
-            style={{ color: "#333" }}
+            style={{ color: BLACK }}
             value={envsList[envIndex].value}
             disabled
           />

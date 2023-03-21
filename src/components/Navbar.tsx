@@ -11,6 +11,7 @@ import {
 
 import { Button } from "./@shared";
 import useAuth from "src/hooks/useAuth";
+import { WHITE } from "src/constants/colors";
 
 function NavBar() {
   const isLoggedIn = false;
@@ -60,7 +61,7 @@ function NavBar() {
             sx={{
               paddingRight: 1.5,
               marginTop: 0.5,
-              color: "#d3d3d3",
+              color: WHITE,
             }}
           >
             /
