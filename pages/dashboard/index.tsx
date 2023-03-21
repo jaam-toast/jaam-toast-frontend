@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { Box, Container } from "@mui/material";
 
-import Login from "./login";
+import Login from "../login";
 import ButtonCreate from "src/components/ButtonCreate";
 import RepoCardList from "src/components/ProjectList";
 import { SearchInput } from "src/components/@shared";
