@@ -114,7 +114,7 @@ type projectCreateOptions = {
   space: string;
   repoName: string;
   repoCloneUrl: string;
-  subDomain: string;
+  subdomain: string;
   nodeVersion: string;
   installCommand: string;
   buildCommand: string;
@@ -128,7 +128,7 @@ export const createProject = async (options: projectCreateOptions) => {
     space,
     repoName,
     repoCloneUrl,
-    subDomain,
+    subdomain,
     nodeVersion,
     installCommand,
     buildCommand,
@@ -142,7 +142,7 @@ export const createProject = async (options: projectCreateOptions) => {
       {
         userId,
         repoCloneUrl,
-        subDomain,
+        subdomain,
         nodeVersion,
         installCommand,
         buildCommand,
