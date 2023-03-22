@@ -22,7 +22,7 @@ import Config from "src/config";
 import isEmpty from "src/utils/isEmpty";
 
 import { UserDeploymentData } from "types/deployment";
-import deployMockData from "../../../../__test__/mock/deployData.json";
+import deployMockData from "../../../../../__test__/mock/deployData.json";
 
 function Deploy() {
   const userDeploymentList =

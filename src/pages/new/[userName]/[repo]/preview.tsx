@@ -9,7 +9,7 @@ import { BLUE } from "src/constants/colors";
 
 import { userDeploymentsState } from "src/recoil/userDeployments";
 
-import deployMockData from "../../../../__test__/mock/deployData.json";
+import deployMockData from "../../../../../__test__/mock/deployData.json";
 
 function Preview() {
   const deploymentData = useRecoilValue(userDeploymentsState);
