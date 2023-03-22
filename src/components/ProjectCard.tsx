@@ -8,11 +8,12 @@ import {
   GitHub as GitHubIcon,
 } from "@mui/icons-material";
 
-import timeSince from "lib/utils/timeSince";
-import useModal from "lib/hooks/useModal";
+import timeSince from "src/utils/timeSince";
+import useModal from "src/hooks/useModal";
+import { selectedProject } from "src/recoil/userDeployments";
+import { BLUE } from "src/constants/colors";
 
 import { UserDeploymentData } from "types/deployment";
-import { selectedProject } from "lib/recoil/userDeployments";
 
 interface IUserDeploymentData {
   cardData: UserDeploymentData;
@@ -74,14 +75,14 @@ function ProjectCard({ cardData }: IUserDeploymentData) {
             </Typography>
             <a
               href={`https://${cardData.deployedUrl as string}`}
-              style={{ color: "#03336a", textDecoration: "none" }}
+              style={{ color: BLUE, textDecoration: "none" }}
               target="_blank"
               onClick={handleClickUrl}
               rel="noreferrer"
             >
               <Typography
                 sx={{ fontSize: "medium" }}
-                style={{ color: "#03336a" }}
+                style={{ color: BLUE }}
                 onClick={handleClickUrl}
               >
                 {cardData.deployedUrl}

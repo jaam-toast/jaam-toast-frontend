@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { useRecoilValue } from "recoil";
 import {
   AppBar,
   Box,
@@ -11,11 +10,11 @@ import {
 } from "@mui/material";
 
 import { Button } from "./@shared";
-import useAuth from "lib/hooks/useAuth";
-import { isLoggedInState } from "lib/recoil/auth";
+import useAuth from "src/hooks/useAuth";
+import { WHITE } from "src/constants/colors";
 
 function NavBar() {
-  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const isLoggedIn = false;
   const router = useRouter();
   const { handleLogout } = useAuth();
 
@@ -62,7 +61,7 @@ function NavBar() {
             sx={{
               paddingRight: 1.5,
               marginTop: 0.5,
-              color: "#d3d3d3",
+              color: WHITE,
             }}
           >
             /
@@ -70,7 +69,7 @@ function NavBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Jaam-Toast
           </Typography>
-          {isLoggedIn ? (
+          {isLoggedIn && (
             <Tooltip title="Log out">
               <span>
                 <Button
@@ -89,7 +88,7 @@ function NavBar() {
                 </Button>
               </span>
             </Tooltip>
-          ) : null}
+          )}
         </Toolbar>
       </AppBar>
     </Box>

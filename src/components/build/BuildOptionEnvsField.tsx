@@ -4,7 +4,7 @@ import { Box } from "@mui/system";
 
 import BuildOptionEnvsTextField from "./BuildOptionEnvsTextField";
 import BuildOptionEnvsSavedTextField from "./BuildOptionEnvsSavedTextField";
-import { buildOptionsState } from "lib/recoil/buildOptions";
+import { buildOptionsState } from "src/recoil/buildOptions";
 
 function BuildOptionEnvsField() {
   const buildOption = useRecoilValue(buildOptionsState);

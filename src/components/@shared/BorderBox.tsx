@@ -1,5 +1,7 @@
 import { Box } from "@mui/material";
 
+import { GREY_CLEAR } from "src/constants/colors";
+
 function BorderBox({ ...props }) {
   const { sx, ...otherProps } = props;
 
@@ -12,7 +14,7 @@ function BorderBox({ ...props }) {
         width: "100%",
         bgcolor: "background.paper",
         borderRadius: "10px",
-        border: "1px solid #78787833",
+        border: `1px solid ${GREY_CLEAR}`,
         margin: "3rem 0",
         ...sx,
       }}

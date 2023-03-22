@@ -1,10 +1,12 @@
 import { createTheme } from "@mui/material/styles";
-
-// custom 컬러 예시
-const tan = "tan";
-const lightRed = "#f99";
-const red = "red";
-const offBlack = "#444";
+import {
+  BLACK,
+  BLACK_OFF,
+  RED,
+  RED_LIGHT,
+  TAN,
+  WHITE,
+} from "src/constants/colors";
 
 const theme = createTheme({
   typography: {
@@ -17,18 +19,18 @@ const theme = createTheme({
       dark: "#4d00ff",
     },
     light: {
-      main: "#FFF",
+      main: WHITE,
     },
     dark: {
-      main: "#000",
+      main: BLACK,
       light: "",
       dark: "",
     },
     common: {
-      tan,
-      lightRed,
-      red,
-      offBlack,
+      tan: TAN,
+      lightRed: RED_LIGHT,
+      red: RED,
+      offBlack: BLACK_OFF,
     },
   },
   components: {
@@ -37,22 +39,22 @@ const theme = createTheme({
         {
           props: { color: "light" },
           style: {
-            backgroundColor: "#FFF",
-            color: "#000",
+            backgroundColor: WHITE,
+            color: BLACK,
             "&:hover": {
-              backgroundColor: "#000",
-              color: "#FFF",
+              backgroundColor: BLACK,
+              color: WHITE,
             },
           },
         },
         {
           props: { color: "dark" },
           style: {
-            backgroundColor: "#000",
-            color: "#FFF",
+            backgroundColor: BLACK,
+            color: WHITE,
             "&:hover": {
-              backgroundColor: "#FFF",
-              color: "#000",
+              backgroundColor: WHITE,
+              color: BLACK,
             },
           },
         },
@@ -69,7 +71,7 @@ const theme = createTheme({
         {
           props: { color: "point" },
           style: {
-            backgroundColor: lightRed,
+            backgroundColor: RED_LIGHT,
           },
         },
       ],
@@ -85,7 +87,7 @@ const theme = createTheme({
         {
           props: { color: "point" },
           style: {
-            backgroundColor: tan,
+            backgroundColor: TAN,
           },
         },
       ],

@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 
 import { RecoilRoot } from "recoil";
 
-import PageLanding from "@/pages/index";
+import PageLanding from "src/pages/index";
 
 describe("PageLanding", () => {
   it("renders PageLanding unchanged", () => {

@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 
 import { RecoilRoot } from "recoil";
 
-import Login from "@/pages/login";
+import Login from "src/pages/login";
 
 jest.mock("next/router", () => ({
   useRouter() {

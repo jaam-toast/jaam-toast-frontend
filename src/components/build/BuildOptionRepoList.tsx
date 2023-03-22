@@ -13,9 +13,9 @@ import {
 import GitHubIcon from "@mui/icons-material/GitHub";
 
 import { Button, BorderBox } from "../@shared";
-import { buildStepState } from "lib/recoil/buildOptions";
-import searchWordState from "lib/recoil/searchWord/atom";
-import { cloneUrlState, gitRepoState } from "lib/recoil/git/atom";
+import { buildStepState } from "src/recoil/buildOptions";
+import searchWordState from "src/recoil/searchWord/atom";
+import { cloneUrlState, gitRepoState } from "src/recoil/git/atom";
 
 import { Repo } from "types/projectOption";
 

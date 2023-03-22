@@ -4,8 +4,8 @@ import { InputAdornment } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
 
 import { TextField } from ".";
-import useDebounce from "lib/hooks/useDebounce";
-import searchWordState from "lib/recoil/searchWord/atom";
+import useDebounce from "src/hooks/useDebounce";
+import searchWordState from "src/recoil/searchWord/atom";
 
 function SearchInput({ ...props }) {
   const [inputValue, setInputValue] = useState("");

@@ -4,8 +4,8 @@ import { Box, Modal } from "@mui/material";
 import ModalDeleteConfirm from "./ModalDeleteConfirm";
 import { ModalCreateAlert, ModalDeleteAlert } from "./ModalAlert";
 import ModalRepoDetails from "./ModalRepoDetails";
-import { buildOptionsState } from "lib/recoil/buildOptions";
-import useModal from "lib/hooks/useModal";
+import { buildOptionsState } from "src/recoil/buildOptions";
+import useModal from "src/hooks/useModal";
 
 import { modalState } from "types/modal";
 

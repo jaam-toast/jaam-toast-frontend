@@ -3,9 +3,9 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 
 import { Form, TextField } from "../@shared";
-import useDebounce from "lib/hooks/useDebounce";
-import useDeployEventHandler from "lib/hooks/useDeployEventHandler";
-import getValidSubDomain from "lib/utils/getValidSubDomain";
+import useDebounce from "src/hooks/useDebounce";
+import useDeployEventHandler from "src/hooks/useDeployEventHandler";
+import getValidSubDomain from "src/utils/getValidSubDomain";
 
 function BuildOptionProjectName() {
   const router = useRouter();
@@ -30,7 +30,7 @@ function BuildOptionProjectName() {
     (async () => {
       const validSubDomain = await getValidSubDomain(repo as string);
 
-      const subDomain = validSubDomain || repo as string;
+      const subDomain = validSubDomain || (repo as string);
 
       setInputValue(subDomain);
       changeProjectName(subDomain);

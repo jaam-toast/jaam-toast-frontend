@@ -5,10 +5,11 @@ import { Box, Divider, Typography } from "@mui/material";
 import PreviewCommandsTextField from "../preview/PreviewCommandsTextField";
 import PreviewEnvList from "../preview/PreviewEnvList";
 import BuildingLog from "../build/BuildingLog";
-import { userDeploymentsState } from "lib/recoil/userDeployments";
+import { userDeploymentsState } from "src/recoil/userDeployments";
+import { BLACK } from "src/constants/colors";
 
-import { UserDeploymentData } from "types/deployment";
-import { Env } from "types/projectOption";
+import type { UserDeploymentData } from "types/deployment";
+import type { Env } from "types/projectOption";
 
 interface IUserDeploymentData {
   previewData: UserDeploymentData;
@@ -74,7 +75,7 @@ const WrapperBoxStyle = {
   height: "85vh",
   width: "70vw",
   bgcolor: "background.paper",
-  border: "1px solid #000",
+  border: `1px solid ${BLACK}`,
   boxShadow: 24,
   p: 4,
   overflow: "auto",

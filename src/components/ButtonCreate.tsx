@@ -4,13 +4,13 @@ import { setCookie } from "cookies-next";
 import { Box } from "@mui/material";
 
 import { Button } from "./@shared";
-import { getOrgs } from "lib/api";
-import loginState from "lib/recoil/auth";
-import { cloneUrlState } from "lib/recoil/git";
+import { getOrgs } from "src/api";
+import loginState from "src/recoil/auth";
+import { cloneUrlState } from "src/recoil/git";
 
 import { LoginData } from "types/auth";
-import { buildStepState } from "lib/recoil/buildOptions";
-import useResetBuildOption from "lib/hooks/useResetBuildOption";
+import { buildStepState } from "src/recoil/buildOptions";
+import useResetBuildOption from "src/hooks/useResetBuildOption";
 
 function ButtonCreate() {
   const { data } =
@@ -25,7 +25,7 @@ function ButtonCreate() {
   const handleClickModalCreate = async () => {
     const { data: userOrgs } = await getOrgs(userId);
 
-    setCookie("userOrgs", JSON.stringify(userOrgs));
+    // setCookie("userOrgs", JSON.stringify(userOrgs));
     setCloneUrl("");
     setBuildStep(1);
 

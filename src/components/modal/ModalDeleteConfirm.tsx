@@ -3,13 +3,14 @@ import { setCookie } from "cookies-next";
 import { Box, Typography } from "@mui/material";
 
 import { Button } from "../@shared";
-import { deleteUserDeployment } from "lib/api";
-import useModal from "lib/hooks/useModal";
-import loginState from "lib/recoil/auth";
-import { userDeploymentsState } from "lib/recoil/userDeployments";
+import { deleteUserDeployment } from "src/api";
+import useModal from "src/hooks/useModal";
+import loginState from "src/recoil/auth";
+import { userDeploymentsState } from "src/recoil/userDeployments";
+import { BLACK, WHITE } from "src/constants/colors";
 
-import { UserDeploymentData } from "types/deployment";
-import { LoginData } from "types/auth";
+import type { UserDeploymentData } from "types/deployment";
+import type { LoginData } from "types/auth";
 
 interface IUserDeploymentData {
   cardData: UserDeploymentData;
@@ -40,7 +41,7 @@ function ModalDeleteConfirm({ ...modalProps }: IUserDeploymentData) {
     );
 
     setUserDeploymentsList(newUserDeploymentList);
-    setCookie("userDeployments", JSON.stringify(newUserDeploymentList));
+    // setCookie("userDeployments", JSON.stringify(newUserDeploymentList));
 
     hideModal();
 
@@ -101,7 +102,7 @@ const BoxStyle = {
   transform: "translate(-50%, -50%)",
   width: "50vw",
   bgcolor: "background.paper",
-  border: "1px solid #000",
+  border: `1px solid ${BLACK}`,
   borderRadius: 3,
   boxShadow: 24,
   p: 4,
@@ -114,8 +115,8 @@ const ButtonStyle = {
   height: "2.5rem",
   borderRadius: 1,
   ":hover": {
-    bgcolor: "#FFF",
-    color: "#000",
+    bgcolor: WHITE,
+    color: BLACK,
   },
 };
 
