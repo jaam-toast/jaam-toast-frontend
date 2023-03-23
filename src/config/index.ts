@@ -10,8 +10,4 @@ const Config = {
   API_SCOPE: process.env.NEXT_PUBLIC_GITHUB_SCOPE,
 };
 
-const GITHUB_LOGIN_OAUTH_URI = `${Config.GITHUB_OAUTH_URI}?client_id=${Config.CLIENT_ID}&redirect_uri=${Config.REDIRECT_URI}&scope=${Config.API_SCOPE}`;
-
-export { GITHUB_LOGIN_OAUTH_URI };
-
 export default Config;
