@@ -4,7 +4,7 @@ import { ServerStyleSheets } from "@mui/styles";
 
 import { TITLE, DESCRIPTION } from "src/constants/metadata";
 
-export default class MyDocument extends Document {
+class MyDocument extends Document {
   render() {
     return (
       <Html>
@@ -53,3 +53,5 @@ MyDocument.getInitialProps = async ctx => {
     ],
   };
 };
+
+export default MyDocument;

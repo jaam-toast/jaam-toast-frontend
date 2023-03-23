@@ -13,7 +13,7 @@ import "../../public/fonts/style.css";
 
 import type { AppProps } from "next/app";
 
-export default function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
@@ -40,3 +40,5 @@ export default function App({ Component, pageProps }: AppProps) {
     </>
   );
 }
+
+export default App;
