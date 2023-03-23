@@ -1,27 +1,24 @@
-import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { useRecoilValue } from "recoil";
-
 import { Box, Container, Typography } from "@mui/material";
+import { getCookie } from "cookies-next";
 
 import ButtonLogin from "src/components/ButtonLogin";
 import { WHITE } from "src/constants/colors";
-import { GetServerSideProps } from "next";
-import { getCookie } from "cookies-next";
+import Config from "src/config";
+
+import type { GetServerSideProps } from "next";
 
 function PageLanding() {
-  // const isLoggedIn = false;
-  // const router = useRouter();
+  const router = useRouter();
 
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     router.replace("/dashboard");
-  //   }
-  // }, [isLoggedIn, router]);
+  const handleLoginClick = () => {
+    const githubOauthLoginUrl = `${Config.GITHUB_OAUTH_URI}?client_id=${Config.CLIENT_ID}&redirect_uri=${Config.REDIRECT_URI}&scope=${Config.API_SCOPE}`;
+    router.push(githubOauthLoginUrl);
+  };
 
   return (
     <Container maxWidth={false} disableGutters>
-      {/* {!isLoggedIn && ( */}
+      // TODO: add variant(flex-center-column)
       <Box
         component="div"
         display="flex"
@@ -52,10 +49,10 @@ function PageLanding() {
           Every deployment from the 2022 edition of <b>jaam-toast.</b>
         </Typography>
         <Box sx={{ padding: 1 }}>
+          // TODO: pull out the button.
           <ButtonLogin />
         </Box>
       </Box>
-      {/* )} */}
     </Container>
   );
 }
@@ -69,7 +66,7 @@ export const getServerSideProps: GetServerSideProps<{}> = async ({
   if (!!loginCookieData) {
     return {
       redirect: {
-        destination: "/dashboard",
+        destination: "/projects",
         permanent: false,
       },
     };
