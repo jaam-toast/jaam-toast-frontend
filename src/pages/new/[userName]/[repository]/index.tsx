@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   Accordion,
   AccordionSummary,
@@ -23,10 +22,7 @@ import BuildOptionProjectName from "src/components/build/BuildOptionProjectName"
 import BuildOptionSelectBox from "src/components/build/BuildOptionSelectBox";
 import BuildOptionTextBox from "src/components/build/BuildOptionTextBox";
 import BuildOptionEnvsField from "src/components/build/BuildOptionEnvsField";
-import { buildOptionsState, buildStepState } from "src/recoil/buildOptions";
-import loginState from "src/recoil/auth";
 
-import { LoginData } from "types/auth";
 import type { BuildOptions } from "types/projectOption";
 
 type BuildOptionProps = {
@@ -34,12 +30,7 @@ type BuildOptionProps = {
 };
 
 function BuildOption({ defaultSubDomain }: BuildOptionProps) {
-  // const { data } =
-  //   useRecoilValue<LoginData | null>(loginState) || ({} as LoginData);
-  // const buildOption = useRecoilValue<BuildOptions>(buildOptionsState);
-  // const setBuildStep = useSetRecoilState<number>(buildStepState);
   const router = useRouter();
-  // const userId = data._id;
 
   const [buildOptions, setBuildOptions] = useState<BuildOptions>({
     subDomain: defaultSubDomain,
@@ -47,14 +38,29 @@ function BuildOption({ defaultSubDomain }: BuildOptionProps) {
     envList: [],
   });
 
-  const isButtonNext =
-    buildOptions.nodeVersion !== null && buildOptions.buildType !== "";
-
   const handleClickPrev = () => {
-    // setBuildStep(1);
     router.back();
   };
 
+  const handleClickDeploy = async () => {
+    const { userName, repo } = router.query;
+
+    // setBuildStep(3);
+    router.push(`/new/${userName}/${repo}/deploy`);
+
+    try {
+      // const userDeploymentData = await runDeploy();
+      // if (!userDeploymentData) throw new Error("error");
+      // setDeploymentList(prev => [...prev, userDeploymentData]);
+    } catch (err) {
+      //TODO error 토스트
+    }
+  };
+
+  const isButtonNext =
+    buildOptions.nodeVersion !== null && buildOptions.buildType !== "";
+
+  // TODO: fetch default domain & check duplication check logic.
   return (
     <Container fixed maxWidth="lg" sx={{ height: "90vh", p: 4 }}>
       <Box>
@@ -65,7 +71,7 @@ function BuildOption({ defaultSubDomain }: BuildOptionProps) {
           Please follow the steps to configure your Project and deploy it.
         </Typography>
       </Box>
-      <BuildStepCard />
+      <BuildStepCard step={2} />
       <CenterBox>
         <BorderBox sx={{ boxShadow: 24, p: 4 }}>
           <Box sx={{ width: "100%", maxWidth: 800 }}>
@@ -84,7 +90,7 @@ function BuildOption({ defaultSubDomain }: BuildOptionProps) {
                 <BuildOptionSelectBox
                   label="Node Version"
                   type="nodeVersionChange"
-                  datas={[
+                  options={[
                     { version: "14.x", versionText: "Node.js 14.x" },
                     { version: "16.x", versionText: "Node.js 16.x" },
                   ]}
@@ -102,7 +108,7 @@ function BuildOption({ defaultSubDomain }: BuildOptionProps) {
                   <BuildOptionSelectBox
                     label="CRA / Next.js"
                     type="buildTypeChange"
-                    datas={[
+                    options={[
                       { type: "Create React App - SPA" },
                       { type: "Next.js App - SSR" },
                     ]}
@@ -115,6 +121,14 @@ function BuildOption({ defaultSubDomain }: BuildOptionProps) {
                 title="Install Command"
                 type="installCommandChange"
                 placeholder="`npm install`"
+                sx={{ width: "100%" }}
+              />
+            </Box>
+            <Box display="flex" sx={{ flexDirection: "row" }}>
+              <BuildOptionTextBox
+                title="Build Command"
+                type="installCommandChange"
+                placeholder="`npm start`"
                 sx={{ width: "100%" }}
               />
             </Box>

@@ -1,37 +1,18 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { Box, Container, Button } from "@mui/material";
-import { getCookie } from "cookies-next";
 
 import ProjectList from "src/components/ProjectList";
 import { SearchInput } from "src/components/@shared";
+import useUser from "src/hooks/useUser";
 
-import type { GetServerSideProps } from "next";
-
-type GithubUserData = {
-  _id: string;
-  username: string;
-  userGithubUri: string;
-  userImage: string;
-};
-
-type LoginData = {
-  data?: GithubUserData;
-  githubAccessToken?: string;
-  accessToken?: string;
-};
-
-type DashboardProps = {
-  username: string;
-};
-
-// TODO: remove username
-function UserProjects({ username }: DashboardProps) {
+function UserProjects() {
+  const { user } = useUser();
   const router = useRouter();
   const [searchword, setSearchword] = useState<string>("");
 
   const handleCreateProjectClick = () => {
-    router.push(`/new/${username}`);
+    router.push(`/new/${user.name}`);
   };
 
   return (
@@ -74,31 +55,5 @@ function UserProjects({ username }: DashboardProps) {
     </Container>
   );
 }
-
-export const getServerSideProps: GetServerSideProps<DashboardProps> = async ({
-  req,
-  res,
-}) => {
-  const loginCookieData = getCookie("loginData", { req, res });
-
-  if (!loginCookieData) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
-
-  const loginData: LoginData =
-    typeof loginCookieData === "boolean" ? {} : JSON.parse(loginCookieData);
-  const username = loginData?.data?.username ?? "";
-
-  return {
-    props: {
-      username,
-    },
-  };
-};
 
 export default UserProjects;

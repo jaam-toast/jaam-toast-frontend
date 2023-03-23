@@ -1,6 +1,6 @@
-import { useRecoilValue } from "recoil";
+import { useState } from "react";
 import { Box, Container, Typography } from "@mui/material";
-import { getCookie } from "cookies-next";
+import { useRouter } from "next/router";
 
 import {
   BorderBox,
@@ -11,15 +11,12 @@ import {
 import BuildStepCards from "src/components/build/BuildStepCards";
 import BuildOptionRepoList from "src/components/build/BuildOptionRepoList";
 import BuildOptionSelectBox from "src/components/build/BuildOptionSelectBox";
-import loginState from "src/recoil/auth";
 
-import { LoginData } from "src/types/auth";
 import type { GitNamespace } from "src/types/projectOption";
 import type { GetServerSideProps } from "next";
-import { useState } from "react";
 
 type NewProps = {
-  spaces: string[];
+  spaces: GitNamespace[];
 };
 
 export type Repository = {
@@ -27,39 +24,13 @@ export type Repository = {
 };
 
 function New({ spaces }: NewProps) {
-  // const { data } =
-  //   useRecoilValue<LoginData | null>(loginState) || ({} as LoginData);
-  // const gitNamespaces = useRecoilValue<GitNamespace[]>(gitNamespaceList);
-
-  // const userId = data._id;
-
-  const [currentSpace, setCurrentSpace] = useState<GitNamespace | null>(null);
-  const [repos, setRepos] = useState<Repository[]>([]);
+  const router = useRouter();
+  const [currentSpace, setCurrentSpace] = useState<string | null>(null);
   const [searchWord, setSearchWord] = useState<string>("");
 
-  const handleSpaceClick = async () => {
-    setCurrentSpace({
-      spaceUrl: "space example spaceUrl 1",
-      spaceName: "space example spaceName 1",
-    });
-
-    // TODO: fetch repositories.
-    const repositoris: Repository[] = [
-      {
-        repoName: "example repository 1",
-      },
-      {
-        repoName: "example repository 2",
-      },
-      {
-        repoName: "example repository 3",
-      },
-      {
-        repoName: "example repository 4",
-      },
-    ];
-
-    setRepos(repositoris);
+  const setRepositoryClick = (repo: string) => {
+    const { userName } = router.query;
+    router.push(`${userName}/${repo}`);
   };
 
   return (
@@ -72,7 +43,7 @@ function New({ spaces }: NewProps) {
           To deploy a new Project, import an existing Git Repository and Enjoy!
         </Typography>
       </Box>
-      <BuildStepCards />
+      <BuildStepCards step={1} />
       <CenterBox>
         <BorderBox sx={{ boxShadow: 24, p: 4 }}>
           <Box sx={{ width: "100%", maxWidth: 800 }}>
@@ -98,10 +69,10 @@ function New({ spaces }: NewProps) {
                   </Typography>
                   <Box sx={{ marginTop: 1.5 }}>
                     <BuildOptionSelectBox
+                      handleOptionClick={setCurrentSpace}
                       label="Select a Git Namespace"
                       type="spaceChange"
-                      datas={spaces}
-                      handleOptionClick={handleSpaceClick}
+                      options={spaces}
                     />
                   </Box>
                 </Box>
@@ -121,6 +92,7 @@ function New({ spaces }: NewProps) {
                   </Typography>
                   <Box sx={{ marginTop: 1.5 }}>
                     <SearchInput
+                      onSearchInputChange={setSearchWord}
                       placeholder="Search.."
                       size="small"
                       sx={{
@@ -131,7 +103,11 @@ function New({ spaces }: NewProps) {
                   </Box>
                 </Box>
               </FlexRowCenterBox>
-              <BuildOptionRepoList repos={repos} searchWord={searchWord} />
+              <BuildOptionRepoList
+                space={currentSpace}
+                searchWord={searchWord}
+                onOptionClick={setRepositoryClick}
+              />
             </Box>
           </Box>
         </BorderBox>
@@ -140,21 +116,10 @@ function New({ spaces }: NewProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps<any> = async ({
+export const getServerSideProps: GetServerSideProps<NewProps> = async ({
   req,
   res,
 }) => {
-  const loginCookieData = getCookie("loginData", { req, res });
-
-  if (!loginCookieData) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
-
   // TODO: fetch user spaces.
   const spaces: GitNamespace[] = [
     {

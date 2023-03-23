@@ -8,7 +8,6 @@ import {
 import { Box } from "@mui/system";
 
 import { Form } from "../@shared";
-import useDeployEventHandler from "src/hooks/useDeployEventHandler";
 
 import {
   GitNamespace,
@@ -26,9 +25,9 @@ interface MenuItemProp {
 interface BuildOptionSelectBoxProps extends SelectProps {
   type: EventHandlerForSelect;
   label?: string;
-  datas: GitNamespace[] | Repo[] | NodeVersion[] | BuildType[] | string[];
+  options: GitNamespace[] | Repo[] | NodeVersion[] | BuildType[] | string[];
   userId?: string;
-  handleOptionClick?: () => Promise<void>;
+  handleOptionClick?: (option: string) => void;
 }
 
 const MenuItemPropTypes: Record<EventHandlerForSelect, MenuItemProp> = {
@@ -40,20 +39,14 @@ const MenuItemPropTypes: Record<EventHandlerForSelect, MenuItemProp> = {
 function BuildOptionSelectBox({
   type,
   label,
-  datas,
+  options,
+  handleOptionClick,
   ...props
 }: BuildOptionSelectBoxProps) {
   const [inputValue, setInputValue] = useState<string>("");
-  // const eventHandler = useDeployEventHandler(type, userId) as (
-  //   e: SelectChangeEvent,
-  // ) => void;
-
   const { value, text } = MenuItemPropTypes[type];
-  // const defaultValue = datas[0][text];
 
   const handleChange = (e: SelectChangeEvent<unknown>) => {
-    // eventHandler(e as SelectChangeEvent);
-
     setInputValue(e.target.value as string);
   };
 
@@ -61,7 +54,6 @@ function BuildOptionSelectBox({
     <Box>
       <Form label={label}>
         <Select
-          // renderValue={() => firstDataText || }
           labelId="select-label"
           id="select"
           sx={{
@@ -73,8 +65,8 @@ function BuildOptionSelectBox({
           onChange={handleChange}
           {...props}
         >
-          {datas &&
-            datas.map((data: any) => (
+          {options &&
+            options.map((data: any) => (
               <MenuItem
                 key={`${data[value]}`}
                 value={`${data[value]}`}
