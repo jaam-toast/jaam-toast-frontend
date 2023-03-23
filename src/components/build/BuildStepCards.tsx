@@ -6,22 +6,23 @@ import { Avatar, Box, Card, CardHeader } from "@mui/material";
 import { buildStepState } from "src/recoil/buildOptions";
 
 function BuildStepCards() {
-  const [currentStep, setCurrentStep] = useRecoilState<number>(buildStepState);
+  // const [currentStep, setCurrentStep] = useRecoilState<number>(buildStepState);
   const router = useRouter();
+  const currentStep = 1;
 
   const { repo } = router.query;
 
   useEffect(() => {
-    if (!repo) {
-      setCurrentStep(1);
-      return;
-    }
-    if (repo && !router.pathname.includes("deploy")) {
-      setCurrentStep(2);
-      return;
-    } else {
-      setCurrentStep(3);
-    }
+    // if (!repo) {
+    //   setCurrentStep(1);
+    //   return;
+    // }
+    // if (repo && !router.pathname.includes("deploy")) {
+    //   setCurrentStep(2);
+    //   return;
+    // } else {
+    //   setCurrentStep(3);
+    // }
   }, []);
 
   function getStatus(cardStep: number): string {

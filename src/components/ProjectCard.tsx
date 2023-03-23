@@ -13,17 +13,16 @@ import useModal from "src/hooks/useModal";
 import { selectedProject } from "src/recoil/userDeployments";
 import { BLUE } from "src/constants/colors";
 
-import { UserDeploymentData } from "types/deployment";
-
-interface IUserDeploymentData {
-  cardData: UserDeploymentData;
+import type { Project } from "./ProjectList";
+interface ProjectCardProps {
+  project: Project;
 }
 
-function ProjectCard({ cardData }: IUserDeploymentData) {
+function ProjectCard({ project }: ProjectCardProps) {
   const setSelectedProject = useSetRecoilState(selectedProject);
   const { showModal } = useModal();
 
-  const updatedMilliseconds = new Date(cardData.repoUpdatedAt).valueOf();
+  const updatedMilliseconds = new Date(project.repoUpdatedAt).valueOf();
   const repoUpdatedSince = timeSince(updatedMilliseconds);
   const router = useRouter();
 
@@ -31,13 +30,13 @@ function ProjectCard({ cardData }: IUserDeploymentData) {
     // showModal({
     //   modalType: "ModalRepoDetails",
     //   modalProps: {
-    //     previewData: cardData,
+    //     previewData: project,
     //   },
     // });
 
-    const { repoOwner, repoName } = cardData;
+    const { repoOwner, repoName } = project;
 
-    setSelectedProject(cardData);
+    // setSelectedProject(project);
     router.push(`/${repoOwner}/${repoName}`);
   };
 
@@ -47,7 +46,7 @@ function ProjectCard({ cardData }: IUserDeploymentData) {
     showModal({
       modalType: "ModalDeleteConfirm",
       modalProps: {
-        cardData,
+        project,
       },
     });
   };
@@ -71,10 +70,10 @@ function ProjectCard({ cardData }: IUserDeploymentData) {
           <ChangeHistoryIcon fontSize="medium" />
           <Box sx={{ display: "flex", flexDirection: "column", marginLeft: 1 }}>
             <Typography sx={{ fontSize: "large", fontWeight: "bold" }}>
-              {cardData.repoName}
+              {project.repoName}
             </Typography>
             <a
-              href={`https://${cardData.deployedUrl as string}`}
+              href={`https://${project.deployedUrl as string}`}
               style={{ color: BLUE, textDecoration: "none" }}
               target="_blank"
               onClick={handleClickUrl}
@@ -85,13 +84,13 @@ function ProjectCard({ cardData }: IUserDeploymentData) {
                 style={{ color: BLUE }}
                 onClick={handleClickUrl}
               >
-                {cardData.deployedUrl}
+                {project.deployedUrl}
               </Typography>
             </a>
           </Box>
         </Box>
         <Typography sx={{ fontSize: "small", fontWeight: "medium", mt: 2 }}>
-          {cardData.lastCommitMessage}
+          {project.lastCommitMessage}
         </Typography>
         <Box
           sx={{

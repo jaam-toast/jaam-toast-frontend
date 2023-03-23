@@ -13,23 +13,21 @@ import { buildStepState } from "src/recoil/buildOptions";
 import useResetBuildOption from "src/hooks/useResetBuildOption";
 
 function ButtonCreate() {
-  const { data } =
-    useRecoilValue<LoginData | null>(loginState) || ({} as LoginData);
-  const setCloneUrl = useSetRecoilState<string>(cloneUrlState);
-  const setBuildStep = useSetRecoilState<number>(buildStepState);
+  // const { data } =
+  //   useRecoilValue<LoginData | null>(loginState) || ({} as LoginData);
+  // const setCloneUrl = useSetRecoilState<string>(cloneUrlState);
+  // const setBuildStep = useSetRecoilState<number>(buildStepState);
   const router = useRouter();
-  useResetBuildOption();
-
-  const userId = data._id;
+  // useResetBuildOption();
 
   const handleClickModalCreate = async () => {
-    const { data: userOrgs } = await getOrgs(userId);
+    // const { data: userOrgs } = await getOrgs(userId);
 
     // setCookie("userOrgs", JSON.stringify(userOrgs));
-    setCloneUrl("");
-    setBuildStep(1);
+    // setCloneUrl("");
+    // setBuildStep(1);
 
-    router.push(`/new/${data.username}`);
+    router.push(`/new/${"username"}`);
   };
 
   return (

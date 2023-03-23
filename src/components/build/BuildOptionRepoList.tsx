@@ -18,34 +18,42 @@ import searchWordState from "src/recoil/searchWord/atom";
 import { cloneUrlState, gitRepoState } from "src/recoil/git/atom";
 
 import { Repo } from "types/projectOption";
+import { Repository } from "src/pages/new/[userName]";
 
-function BuildOptionRepoList() {
-  const gitRepos = useRecoilValue<Repo[]>(gitRepoState);
-  const searchWord = useRecoilValue(searchWordState);
-  const setCloneUrl = useSetRecoilState<string>(cloneUrlState);
-  const setBuildStep = useSetRecoilState<number>(buildStepState);
+type BuildOptionRepoListProps = {
+  repos: Repository[];
+  searchWord: string;
+};
 
-  const [viewListCount, setViewListCount] = useState<number>(5);
+function BuildOptionRepoList({ repos, searchWord }: BuildOptionRepoListProps) {
+  // const gitRepos = useRecoilValue<Repo[]>(gitRepoState);
+  // const searchWord = useRecoilValue(searchWordState);
+  // const setCloneUrl = useSetRecoilState<string>(cloneUrlState);
+  // const setBuildStep = useSetRecoilState<number>(buildStepState);
+
+  // const [viewListCount, setViewListCount] = useState<number>(5);
   const [buttonName, setButtonName] = useState<string>("View All");
   const router = useRouter();
 
   const handleImportClick = (repo: Repo) => {
-    setCloneUrl(repo.repoCloneUrl);
-    setBuildStep(2);
+    // setCloneUrl(repo.repoCloneUrl);
+    // setBuildStep(2);
 
     router.push(`/new/${repo.repoName}`);
   };
 
   const handleAllClick = async () => {
-    setViewListCount(buttonName === "View All" ? gitRepos.length : 5);
-    setButtonName(() => (buttonName === "View All" ? "Fold" : "View All"));
+    // setViewListCount(buttonName === "View All" ? gitRepos.length : 5);
+    setButtonName(buttonName === "View All" ? "Fold" : "View All");
   };
+
+  const viewListCount = buttonName === "View All" ? repos.length : 5;
 
   return (
     <Box
       sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
-      {!!gitRepos.length && (
+      {!!repos.length && (
         <>
           <BorderBox>
             <List
@@ -55,11 +63,11 @@ function BuildOptionRepoList() {
               component="nav"
               aria-label="repository-list"
             >
-              {gitRepos
+              {repos
                 .filter(repo =>
                   searchWord ? repo.repoName.includes(searchWord) : true,
                 )
-                .slice(0, searchWord ? gitRepos.length : viewListCount)
+                .slice(0, buttonName === "View All" ? repos.length : 5)
                 .map((repo, index) => (
                   <div key={repo.repoName + index}>
                     <ListSubheader id="repository-list" />
@@ -78,13 +86,13 @@ function BuildOptionRepoList() {
                         Import
                       </Button>
                     </ListItem>
-                    {index !== gitRepos.slice(0, viewListCount).length - 1 &&
+                    {index !== repos.slice(0, viewListCount).length - 1 &&
                       !searchWord && <Divider />}
                   </div>
                 ))}
             </List>
           </BorderBox>
-          {gitRepos.length > 5 && (
+          {repos.length > 5 && (
             <Button
               color="light"
               onClick={handleAllClick}

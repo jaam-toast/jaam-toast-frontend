@@ -9,45 +9,41 @@ import loginState from "src/recoil/auth";
 import { userDeploymentsState } from "src/recoil/userDeployments";
 import { BLACK, WHITE } from "src/constants/colors";
 
-import type { UserDeploymentData } from "types/deployment";
+// import type { UserDeploymentData } from "types/deployment";
 import type { LoginData } from "types/auth";
 
-interface IUserDeploymentData {
-  cardData: UserDeploymentData;
+interface UserDeploymentData {
+  cardData?: UserDeploymentData;
 }
 
-function ModalDeleteConfirm({ ...modalProps }: IUserDeploymentData) {
-  const { data } =
-    useRecoilValue<LoginData | null>(loginState) || ({} as LoginData);
-  const [userDeploymentsList, setUserDeploymentsList] =
-    useRecoilState<UserDeploymentData[]>(userDeploymentsState);
-  const { showModal, hideModal } = useModal();
+function ModalDeleteConfirm({ ...modalProps }: UserDeploymentData) {
+  // const { data } =
+  //   useRecoilValue<LoginData | null>(loginState) || ({} as LoginData);
+  // const [userDeploymentsList, setUserDeploymentsList] =
+  //   useRecoilState<UserDeploymentData[]>(userDeploymentsState);
+  // const { showModal, hideModal } = useModal();
 
-  const userId = data._id;
-  const { cardData } = modalProps;
+  // const userId = data._id;
+  // const { cardData } = modalProps;
 
   const handleClickDelete = async () => {
-    await deleteUserDeployment(
-      userId,
-      cardData.repoId as string,
-      cardData.instanceId,
-      cardData.repoName,
-      cardData.repoOwner as string,
-      cardData.webhookId as string,
-    );
-
-    const newUserDeploymentList = userDeploymentsList.filter(
-      item => item.repoCloneUrl !== cardData.repoCloneUrl,
-    );
-
-    setUserDeploymentsList(newUserDeploymentList);
-    // setCookie("userDeployments", JSON.stringify(newUserDeploymentList));
-
-    hideModal();
-
-    showModal({
-      modalType: "ModalDeleteAlert",
-    });
+    // await deleteUserDeployment(
+    //   userId,
+    //   cardData.repoId as string,
+    //   cardData.instanceId,
+    //   cardData.repoName,
+    //   cardData.repoOwner as string,
+    //   cardData.webhookId as string,
+    // );
+    // const newUserDeploymentList = userDeploymentsList.filter(
+    //   item => item.repoCloneUrl !== cardData.repoCloneUrl,
+    // );
+    // setUserDeploymentsList(newUserDeploymentList);
+    // // setCookie("userDeployments", JSON.stringify(newUserDeploymentList));
+    // hideModal();
+    // showModal({
+    //   modalType: "ModalDeleteAlert",
+    // });
   };
 
   return (

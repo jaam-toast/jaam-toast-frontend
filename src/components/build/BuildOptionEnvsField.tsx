@@ -7,14 +7,15 @@ import BuildOptionEnvsSavedTextField from "./BuildOptionEnvsSavedTextField";
 import { buildOptionsState } from "src/recoil/buildOptions";
 
 function BuildOptionEnvsField() {
-  const buildOption = useRecoilValue(buildOptionsState);
+  const envList = [{ key: "example env key 1", value: "example env value 2" }];
+  // const buildOption = useRecoilValue(buildOptionsState);
 
   return (
     <AccordionDetails sx={{ mt: 1 }}>
       <>
         <BuildOptionEnvsTextField />
         <Divider sx={{ marginTop: 2.5, marginBottom: 2.5 }} />
-        {buildOption?.envList.map((env, index) => (
+        {envList.map((env, index) => (
           <Box
             key={`${env.key}-${index}`}
             display="flex"
@@ -22,7 +23,7 @@ function BuildOptionEnvsField() {
           >
             <BuildOptionEnvsSavedTextField
               envIndex={index}
-              envsState={buildOption.envList}
+              envsState={envList}
             />
           </Box>
         ))}

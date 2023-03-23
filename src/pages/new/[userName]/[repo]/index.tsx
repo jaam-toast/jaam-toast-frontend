@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
@@ -26,22 +27,31 @@ import { buildOptionsState, buildStepState } from "src/recoil/buildOptions";
 import loginState from "src/recoil/auth";
 
 import { LoginData } from "types/auth";
-import { BuildOptions } from "types/projectOption";
+import type { BuildOptions } from "types/projectOption";
 
-function BuildOption() {
-  const { data } =
-    useRecoilValue<LoginData | null>(loginState) || ({} as LoginData);
-  const buildOption = useRecoilValue<BuildOptions>(buildOptionsState);
-  const setBuildStep = useSetRecoilState<number>(buildStepState);
+type BuildOptionProps = {
+  defaultSubDomain: string;
+};
+
+function BuildOption({ defaultSubDomain }: BuildOptionProps) {
+  // const { data } =
+  //   useRecoilValue<LoginData | null>(loginState) || ({} as LoginData);
+  // const buildOption = useRecoilValue<BuildOptions>(buildOptionsState);
+  // const setBuildStep = useSetRecoilState<number>(buildStepState);
   const router = useRouter();
-  const userId = data._id;
+  // const userId = data._id;
 
-  const isButtonNext = () => {
-    return buildOption.nodeVersion !== "" && buildOption.buildType !== "";
-  };
+  const [buildOptions, setBuildOptions] = useState<BuildOptions>({
+    subDomain: defaultSubDomain,
+    nodeVersion: null,
+    envList: [],
+  });
+
+  const isButtonNext =
+    buildOptions.nodeVersion !== null && buildOptions.buildType !== "";
 
   const handleClickPrev = () => {
-    setBuildStep(1);
+    // setBuildStep(1);
     router.back();
   };
 
@@ -63,7 +73,7 @@ function BuildOption() {
               <Button color="light" onClick={handleClickPrev}>
                 Prev
               </Button>
-              {isButtonNext() ? <ButtonDeploy userId={userId} /> : null}
+              {isButtonNext && <ButtonDeploy />}
             </FlexRowCenterBox>
             <BuildOptionProjectName />
             <Box sx={{ width: "100%" }}>

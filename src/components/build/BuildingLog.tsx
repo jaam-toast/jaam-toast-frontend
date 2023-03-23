@@ -9,11 +9,11 @@ import {
 } from "@mui/material";
 import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 
-interface IBuildingLog {
-  buildingLog: string[];
+interface BuildingLog {
+  buildingLog?: string[];
 }
 
-function BuildingLog({ buildingLog }: IBuildingLog) {
+function BuildingLog({ buildingLog }: BuildingLog) {
   return (
     <Accordion sx={{ mt: 2 }} defaultExpanded>
       <AccordionSummary
@@ -33,7 +33,7 @@ function BuildingLog({ buildingLog }: IBuildingLog) {
         >
           <table className="log-table" style={{ width: "100%" }}>
             <tbody className="log-table-body">
-              {buildingLog.map((log, i) => (
+              {buildingLog?.map((log, i) => (
                 <Tr
                   key={`${new Date().valueOf()} - ${i} - ${log}`}
                   className="log-table-row"

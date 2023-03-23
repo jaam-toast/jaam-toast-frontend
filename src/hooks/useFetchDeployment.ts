@@ -8,8 +8,8 @@ import { userDeploymentsState } from "src/recoil/userDeployments";
 import { UserDeploymentData } from "types/deployment";
 
 function useFetchDeployment(userId: string) {
-  const [userDeploymentsList, setUserDeploymentsList] =
-    useRecoilState<UserDeploymentData[]>(userDeploymentsState);
+  // const [userDeploymentsList, setUserDeploymentsList] =
+  //   useRecoilState<UserDeploymentData[]>(userDeploymentsState);
 
   useEffect(() => {
     if (!userId) return;
@@ -29,7 +29,7 @@ function useFetchDeployment(userId: string) {
           return filteredDeployData;
         });
 
-        setUserDeploymentsList(userDeployments);
+        // setUserDeploymentsList(userDeployments);
         // setCookie("userDeployments", JSON.stringify(filteredUserDeployments));
       } catch (error) {
         console.info(error);
@@ -37,9 +37,9 @@ function useFetchDeployment(userId: string) {
     };
 
     handleUserDeployments();
-  }, [setUserDeploymentsList, userId]);
+  }, [userId]);
 
-  return userDeploymentsList;
+  // return userDeploymentsList;
 }
 
 export default useFetchDeployment;

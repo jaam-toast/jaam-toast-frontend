@@ -10,8 +10,10 @@ import useModal from "src/hooks/useModal";
 import { modalState } from "types/modal";
 
 function ModalGlobal() {
-  const modal = useRecoilValue(modalState);
-  const resetBuildOption = useResetRecoilState(buildOptionsState);
+  // const modal = useRecoilValue(modalState);
+  // const resetBuildOption = useResetRecoilState(buildOptionsState);
+
+  const modal = { modalType: "mockdata", modalProps: {} };
 
   const { modalType, modalProps } = modal || {};
   const { isModal, hideModal } = useModal();
@@ -32,7 +34,7 @@ function ModalGlobal() {
 
   const handleCloseModal = () => {
     hideModal();
-    resetBuildOption();
+    // resetBuildOption();
   };
 
   return (

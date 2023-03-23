@@ -26,8 +26,9 @@ interface MenuItemProp {
 interface BuildOptionSelectBoxProps extends SelectProps {
   type: EventHandlerForSelect;
   label?: string;
-  datas: GitNamespace[] | Repo[] | NodeVersion[] | BuildType[];
+  datas: GitNamespace[] | Repo[] | NodeVersion[] | BuildType[] | string[];
   userId?: string;
+  handleOptionClick?: () => Promise<void>;
 }
 
 const MenuItemPropTypes: Record<EventHandlerForSelect, MenuItemProp> = {
@@ -40,19 +41,18 @@ function BuildOptionSelectBox({
   type,
   label,
   datas,
-  userId,
   ...props
 }: BuildOptionSelectBoxProps) {
   const [inputValue, setInputValue] = useState<string>("");
-  const eventHandler = useDeployEventHandler(type, userId) as (
-    e: SelectChangeEvent,
-  ) => void;
+  // const eventHandler = useDeployEventHandler(type, userId) as (
+  //   e: SelectChangeEvent,
+  // ) => void;
 
   const { value, text } = MenuItemPropTypes[type];
-  const firstDataText = datas[0][text];
+  // const defaultValue = datas[0][text];
 
   const handleChange = (e: SelectChangeEvent<unknown>) => {
-    eventHandler(e as SelectChangeEvent);
+    // eventHandler(e as SelectChangeEvent);
 
     setInputValue(e.target.value as string);
   };

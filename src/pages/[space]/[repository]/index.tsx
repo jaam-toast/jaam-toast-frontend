@@ -6,10 +6,17 @@ import PreviewEnvList from "src/components/preview/PreviewEnvList";
 import BuildingLog from "src/components/build/BuildingLog";
 import { BorderBox } from "src/components/@shared";
 import { selectedProject } from "src/recoil/userDeployments";
+import { Project } from "src/components/ProjectList";
+import { GetServerSideProps } from "next";
 
-function ProjectDashBoard() {
-  const currentProject = useRecoilValue(selectedProject);
-  const { installCommand, buildCommand, deployedUrl } = currentProject;
+type ProjectDashBoardProps = {
+  project: Project;
+};
+
+function ProjectDashBoard({ project }: ProjectDashBoardProps) {
+  // const currentProject = useRecoilValue(selectedProject);
+  const { installCommand, buildCommand, deployedUrl, envList, buildingLog } =
+    project ?? {};
 
   return (
     <Container fixed maxWidth="lg" sx={{ height: "90vh", p: 4 }}>
@@ -43,13 +50,19 @@ function ProjectDashBoard() {
             installCommand={installCommand}
             buildCommand={buildCommand}
           />
-          <PreviewEnvList envsList={currentProject.envList} />
-          <BuildingLog buildingLog={currentProject.buildingLog} />
+          <PreviewEnvList envsList={envList} />
+          <BuildingLog buildingLog={buildingLog} />
         </Box>
       </BorderBox>
     </Container>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<any> = async () => {
+  return {
+    props: {},
+  };
+};
 
 const IframeBoxStyle = {
   position: "relative",
