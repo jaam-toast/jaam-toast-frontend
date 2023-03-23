@@ -9,10 +9,6 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <title>
-            Jaam Toast - Jamstack App Deployment Service Platform | Deploy Your
-            Own Websites Quick And Easy Like Toasts
-          </title>
           <meta
             property="og:url"
             content="https://jaam-toast-frontend.vercel.app/"
