@@ -11,9 +11,17 @@ import NavBar from "src/components/Navbar";
 import theme from "src/utils/theme";
 import "../../public/fonts/style.css";
 
-import type { AppProps } from "next/app";
+import type { AppContext, AppInitialProps, AppProps } from "next/app";
+import App from "next/app";
+import { NextComponentType, NextPage } from "next";
+import { getCookie } from "cookies-next";
+import { LoginData } from "types/auth";
+import { UserProvider } from "src/hooks/useUser";
 
-function App({ Component, pageProps }: AppProps) {
+interface MyAppProps extends AppProps {
+  user: LoginData;
+}
+function MyApp({ Component, pageProps, user }: MyAppProps) {
   return (
     <>
       <Head>
@@ -24,21 +32,53 @@ function App({ Component, pageProps }: AppProps) {
       </Head>
       <ThemeProvider theme={theme}>
         <RecoilRoot>
-          <CssBaseline />
-          {isMobile ? (
-            <MobileDefense />
-          ) : (
-            <>
-              <ModalGlobal />
-              <NavBar />
-              <Divider />
-              <Component {...pageProps} />
-            </>
-          )}
+          <UserProvider user={user}>
+            <CssBaseline />
+            {isMobile ? (
+              <MobileDefense />
+            ) : (
+              <>
+                <ModalGlobal />
+                <NavBar />
+                <Divider />
+                <Component {...pageProps} />
+              </>
+            )}
+          </UserProvider>
         </RecoilRoot>
       </ThemeProvider>
     </>
   );
 }
 
-export default App;
+MyApp.getInitialProps = async (context: AppContext) => {
+  const appProps = await App.getInitialProps(context);
+  const {
+    ctx: { req, res },
+  } = context;
+  const loginCookieData = getCookie("loginData", { req, res });
+
+  if (!loginCookieData) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  const userData: LoginData =
+    typeof loginCookieData === "boolean" ? {} : JSON.parse(loginCookieData);
+  const user = {
+    id: userData.data._id,
+    name: userData.data.username,
+    githubUri: userData.data.userGithubUri,
+    image: userData.data.userImage,
+    githubAccessToken: userData.githubAccessToken,
+    accessToken: userData.accessToken,
+  };
+
+  return { ...appProps, user };
+};
+
+export default MyApp;
