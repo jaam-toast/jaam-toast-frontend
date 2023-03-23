@@ -23,12 +23,12 @@ function useAuth(authCode?: string | string[] | undefined) {
         setLoginData(data);
 
         setLoginState({ data, githubAccessToken, accessToken });
-        // setCookie(
-        //   "loginData",
-        //   JSON.stringify({ data, githubAccessToken, accessToken }),
-        // );
+        setCookie(
+          "loginData",
+          JSON.stringify({ data, githubAccessToken, accessToken }),
+        );
 
-        router.push("/dashboard");
+        router.push("/");
       } catch (error) {
         console.info(error);
       }

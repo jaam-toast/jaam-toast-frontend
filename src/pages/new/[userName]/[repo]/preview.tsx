@@ -12,7 +12,7 @@ import { userDeploymentsState } from "src/recoil/userDeployments";
 import deployMockData from "../../../../../__test__/mock/deployData.json";
 
 function Preview() {
-  const deploymentData = useRecoilValue(userDeploymentsState);
+  // const deploymentData = useRecoilValue(userDeploymentsState);
 
   // * test mock 데이터 적용 (위 deploymentData로 바꾸면 됨)
   const deploymentDataTest = deployMockData;

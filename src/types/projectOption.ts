@@ -11,7 +11,7 @@ export type GetOrgsResponse = {
 };
 
 export type Repo = {
-  [index: string]: string | undefined | Env[] | string[];
+  // [index: string]: string | undefined | Env[] | string[];
   repoName: string;
   repoCloneUrl: string;
   repoUpdatedAt: string;
@@ -23,6 +23,7 @@ export type GetReposResponse = {
   data: Repo[];
 };
 
+// TODO: remove
 export type NodeVersion = {
   [index: string]: string | undefined;
   version: string;
@@ -44,9 +45,14 @@ export interface EnvsState {
   envsList: Env[];
 }
 
+export enum NodeVersionOption {
+  V14 = "14.x",
+  V16 = "16.x",
+}
+
 export interface BuildOptions {
   subDomain: string;
-  nodeVersion: string;
+  nodeVersion: NodeVersionOption | null;
   installCommand?: string;
   buildCommand?: string;
   buildType?: string;

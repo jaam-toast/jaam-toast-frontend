@@ -1,5 +1,6 @@
 import { useRecoilValue } from "recoil";
 import { Box, Container, Typography } from "@mui/material";
+import { getCookie } from "cookies-next";
 
 import {
   BorderBox,
@@ -11,17 +12,55 @@ import BuildStepCards from "src/components/build/BuildStepCards";
 import BuildOptionRepoList from "src/components/build/BuildOptionRepoList";
 import BuildOptionSelectBox from "src/components/build/BuildOptionSelectBox";
 import loginState from "src/recoil/auth";
-import { gitNamespaceList } from "src/recoil/git";
 
 import { LoginData } from "src/types/auth";
-import { GitNamespace } from "src/types/projectOption";
+import type { GitNamespace } from "src/types/projectOption";
+import type { GetServerSideProps } from "next";
+import { useState } from "react";
 
-function New() {
-  const { data } =
-    useRecoilValue<LoginData | null>(loginState) || ({} as LoginData);
-  const gitNamespaces = useRecoilValue<GitNamespace[]>(gitNamespaceList);
+type NewProps = {
+  spaces: string[];
+};
 
-  const userId = data._id;
+export type Repository = {
+  repoName: string;
+};
+
+function New({ spaces }: NewProps) {
+  // const { data } =
+  //   useRecoilValue<LoginData | null>(loginState) || ({} as LoginData);
+  // const gitNamespaces = useRecoilValue<GitNamespace[]>(gitNamespaceList);
+
+  // const userId = data._id;
+
+  const [currentSpace, setCurrentSpace] = useState<GitNamespace | null>(null);
+  const [repos, setRepos] = useState<Repository[]>([]);
+  const [searchWord, setSearchWord] = useState<string>("");
+
+  const handleSpaceClick = async () => {
+    setCurrentSpace({
+      spaceUrl: "space example spaceUrl 1",
+      spaceName: "space example spaceName 1",
+    });
+
+    // TODO: fetch repositories.
+    const repositoris: Repository[] = [
+      {
+        repoName: "example repository 1",
+      },
+      {
+        repoName: "example repository 2",
+      },
+      {
+        repoName: "example repository 3",
+      },
+      {
+        repoName: "example repository 4",
+      },
+    ];
+
+    setRepos(repositoris);
+  };
 
   return (
     <Container fixed maxWidth="lg" sx={{ height: "90vh", p: 4 }}>
@@ -60,9 +99,9 @@ function New() {
                   <Box sx={{ marginTop: 1.5 }}>
                     <BuildOptionSelectBox
                       label="Select a Git Namespace"
-                      userId={userId}
                       type="spaceChange"
-                      datas={gitNamespaces}
+                      datas={spaces}
+                      handleOptionClick={handleSpaceClick}
                     />
                   </Box>
                 </Box>
@@ -92,7 +131,7 @@ function New() {
                   </Box>
                 </Box>
               </FlexRowCenterBox>
-              <BuildOptionRepoList />
+              <BuildOptionRepoList repos={repos} searchWord={searchWord} />
             </Box>
           </Box>
         </BorderBox>
@@ -100,5 +139,47 @@ function New() {
     </Container>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<any> = async ({
+  req,
+  res,
+}) => {
+  const loginCookieData = getCookie("loginData", { req, res });
+
+  if (!loginCookieData) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  // TODO: fetch user spaces.
+  const spaces: GitNamespace[] = [
+    {
+      spaceUrl: "space example spaceUrl 1",
+      spaceName: "space example spaceName 1",
+    },
+    {
+      spaceUrl: "space example spaceUrl 2",
+      spaceName: "space example spaceName 2",
+    },
+    {
+      spaceUrl: "space example spaceUrl 3",
+      spaceName: "space example spaceName 3",
+    },
+    {
+      spaceUrl: "space example spaceUrl 4",
+      spaceName: "space example spaceName 4",
+    },
+  ];
+
+  return {
+    props: {
+      spaces,
+    },
+  };
+};
 
 export default New;

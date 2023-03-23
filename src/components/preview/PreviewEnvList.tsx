@@ -12,7 +12,7 @@ import TextFieldPreview from "./PreviewTextField";
 
 import { Env } from "types/projectOption";
 
-function PreviewEnvList({ envsList }: { envsList: Env[] }) {
+function PreviewEnvList({ envsList }: { envsList?: Env[] }) {
   return (
     <Accordion sx={{ mt: 2 }} defaultExpanded>
       <AccordionSummary
@@ -26,7 +26,7 @@ function PreviewEnvList({ envsList }: { envsList: Env[] }) {
       </AccordionSummary>
       <Divider />
       <AccordionDetails sx={{ mt: 1 }}>
-        {envsList.map((env, index) => (
+        {envsList?.map((env, index) => (
           <Box
             key={`${env.key}-${index}`}
             display="flex"

@@ -12,7 +12,7 @@ import type { UserDeploymentData } from "types/deployment";
 import type { Env } from "types/projectOption";
 
 interface IUserDeploymentData {
-  previewData: UserDeploymentData;
+  previewData?: UserDeploymentData;
 }
 
 function ModalRepoDetails({ ...modalProps }: IUserDeploymentData) {

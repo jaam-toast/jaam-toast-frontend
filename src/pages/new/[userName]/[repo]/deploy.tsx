@@ -25,73 +25,76 @@ import { UserDeploymentData } from "types/deployment";
 import deployMockData from "../../../../../__test__/mock/deployData.json";
 
 function Deploy() {
-  const userDeploymentList =
-    useRecoilValue<UserDeploymentData[]>(userDeploymentsState);
-  const repoCloneUrl = useRecoilValue(cloneUrlState);
+  // const userDeploymentList =
+  //   useRecoilValue<UserDeploymentData[]>(userDeploymentsState);
+  // const repoCloneUrl = useRecoilValue(cloneUrlState);
 
   const [socket, setSocket] = useState<Socket | null>(null);
   const [buildingLog, setBuildingLog] = useState<string[]>([]);
-  const repoName = useRecoilValue<string>(cloneRepoName);
+  // const repoName = useRecoilValue<string>(cloneRepoName);
+
   const router = useRouter();
 
   useEffect(() => {
     // * test 용도 목데이터 적용
-    setBuildingLog(deployMockData[0].buildingLog);
+    // setBuildingLog(deployMockData[0].buildingLog);
 
     // * ButtonDeploy에서 요청 보낸 후 응답오면 setDeploymentList실행
     // * userDeploymentList에 추가되면 확인 후 4초 뒤에 preview로 이동
-    if (
-      isEmpty(userDeploymentList) ||
-      repoCloneUrl !==
-        userDeploymentList[userDeploymentList.length - 1].repoCloneUrl
-    )
-      return;
+    // TODO: 배포 완료 확인되면 preview로 이동.
+    // if (
+    //   isEmpty(userDeploymentList) ||
+    //   repoCloneUrl !==
+    //     userDeploymentList[userDeploymentList.length - 1].repoCloneUrl
+    // )
+    //   return;
 
     const { userName, repo } = router.query;
 
-    const timer: ReturnType<typeof setTimeout> = setTimeout(() => {
-      router.push(`/new/${userName}/${repo}/preview`);
-    }, 4000);
+    // const timer: ReturnType<typeof setTimeout> = setTimeout(() => {
+    //   router.push(`/new/${userName}/${repo}/preview`);
+    // }, 4000);
 
-    return () => clearTimeout(timer);
-  }, [userDeploymentList]);
-
-  useEffect(() => {
-    const socketIO = io(`${Config.SERVER_URL}`);
-    setSocket(socketIO);
-
-    return () => {
-      socketIO.disconnect();
-    };
+    // return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
-    if (socket === null) return;
+  // TODO: socket 연결 custom hook 분리.
+  // useEffect(() => {
+  //   const socketIO = io(`${Config.SERVER_URL}`);
+  //   setSocket(socketIO);
 
-    socket.on("connect", () => {
-      console.info(
-        `Socket for building log is connected - ${socket.id}`,
-        socket.connected,
-      );
-    });
+  //   return () => {
+  //     socketIO.disconnect();
+  //   };
+  // }, []);
 
-    socket.on("disconnect", () => {
-      console.info(
-        `Socket for building log is disconnected - ${socket.id}`,
-        socket.connected,
-      );
-    });
+  // useEffect(() => {
+  //   if (socket === null) return;
 
-    socket.emit("get-building-log", repoName);
+  //   socket.on("connect", () => {
+  //     console.info(
+  //       `Socket for building log is connected - ${socket.id}`,
+  //       socket.connected,
+  //     );
+  //   });
 
-    socket.on("new-building-log", data => {
-      setBuildingLog(prev => [...prev, data as string]);
-    });
+  //   socket.on("disconnect", () => {
+  //     console.info(
+  //       `Socket for building log is disconnected - ${socket.id}`,
+  //       socket.connected,
+  //     );
+  //   });
 
-    return () => {
-      socket.off("new-building-log");
-    };
-  }, [repoName, socket]);
+  //   socket.emit("get-building-log", repoName);
+
+  //   socket.on("new-building-log", data => {
+  //     setBuildingLog(prev => [...prev, data as string]);
+  //   });
+
+  //   return () => {
+  //     socket.off("new-building-log");
+  //   };
+  // }, [repoName, socket]);
 
   return (
     <Container fixed maxWidth="lg" sx={{ height: "90vh", p: 4 }}>
