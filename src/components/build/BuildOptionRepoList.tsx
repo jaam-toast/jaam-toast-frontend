@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { useRouter } from "next/router";
 import {
   Box,
   Divider,
@@ -13,41 +11,46 @@ import {
 import GitHubIcon from "@mui/icons-material/GitHub";
 
 import { Button, BorderBox } from "../@shared";
-import { buildStepState } from "src/recoil/buildOptions";
-import searchWordState from "src/recoil/searchWord/atom";
-import { cloneUrlState, gitRepoState } from "src/recoil/git/atom";
 
-import { Repo } from "types/projectOption";
-import { Repository } from "src/pages/new/[userName]";
+import type { Repository } from "src/pages/new/[userName]";
 
 type BuildOptionRepoListProps = {
-  repos: Repository[];
+  space: string | null;
   searchWord: string;
+  onOptionClick: (option: string) => void;
 };
 
-function BuildOptionRepoList({ repos, searchWord }: BuildOptionRepoListProps) {
-  // const gitRepos = useRecoilValue<Repo[]>(gitRepoState);
-  // const searchWord = useRecoilValue(searchWordState);
-  // const setCloneUrl = useSetRecoilState<string>(cloneUrlState);
-  // const setBuildStep = useSetRecoilState<number>(buildStepState);
-
-  // const [viewListCount, setViewListCount] = useState<number>(5);
+function BuildOptionRepoList({
+  space,
+  searchWord,
+  onOptionClick,
+}: BuildOptionRepoListProps) {
+  // TODO: fetch repositories.
+  const repos: Repository[] = [
+    {
+      repoName: "example repository 1",
+    },
+    {
+      repoName: "example repository 2",
+    },
+    {
+      repoName: "example repository 3",
+    },
+    {
+      repoName: "example repository 4",
+    },
+    {
+      repoName: "example repository 5",
+    },
+    {
+      repoName: "example repository 6",
+    },
+  ];
   const [buttonName, setButtonName] = useState<string>("View All");
-  const router = useRouter();
-
-  const handleImportClick = (repo: Repo) => {
-    // setCloneUrl(repo.repoCloneUrl);
-    // setBuildStep(2);
-
-    router.push(`/new/${repo.repoName}`);
-  };
-
   const handleAllClick = async () => {
-    // setViewListCount(buttonName === "View All" ? gitRepos.length : 5);
     setButtonName(buttonName === "View All" ? "Fold" : "View All");
   };
-
-  const viewListCount = buttonName === "View All" ? repos.length : 5;
+  const viewListCount = buttonName === "View All" ? 5 : repos.length;
 
   return (
     <Box
@@ -67,7 +70,7 @@ function BuildOptionRepoList({ repos, searchWord }: BuildOptionRepoListProps) {
                 .filter(repo =>
                   searchWord ? repo.repoName.includes(searchWord) : true,
                 )
-                .slice(0, buttonName === "View All" ? repos.length : 5)
+                .slice(0, viewListCount)
                 .map((repo, index) => (
                   <div key={repo.repoName + index}>
                     <ListSubheader id="repository-list" />
@@ -81,7 +84,7 @@ function BuildOptionRepoList({ repos, searchWord }: BuildOptionRepoListProps) {
                       />
                       <Button
                         color="dark"
-                        onClick={() => handleImportClick(repo)}
+                        onClick={() => onOptionClick(repo.repoName)}
                       >
                         Import
                       </Button>

@@ -1,18 +1,19 @@
 import { useState } from "react";
-import { useSetRecoilState } from "recoil";
-import { InputAdornment } from "@mui/material";
+import { InputAdornment, TextFieldProps } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
 
 import { TextField } from ".";
 import useDebounce from "src/hooks/useDebounce";
-import searchWordState from "src/recoil/searchWord/atom";
 
-function SearchInput({ ...props }) {
-  const [inputValue, setInputValue] = useState("");
-  const setSearchWord = useSetRecoilState(searchWordState);
+type SearchInputProps = TextFieldProps & {
+  onSearchInputChange: (word: string) => void;
+};
+
+function SearchInput({ onSearchInputChange, ...props }: SearchInputProps) {
+  const [inputValue, setInputValue] = useState<string>("");
 
   const onDebounceSaveSearchWord = useDebounce((word: string) => {
-    setSearchWord(word);
+    onSearchInputChange(word);
   }, 500);
 
   return (

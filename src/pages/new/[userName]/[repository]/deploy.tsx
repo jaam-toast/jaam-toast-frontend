@@ -106,7 +106,7 @@ function Deploy() {
           Please follow the steps to configure your Project and deploy it.
         </Typography>
       </Box>
-      <BuildStepCard />
+      <BuildStepCard step={3} />
       <CenterBox>
         <BorderBox sx={{ boxShadow: 24, p: 4 }}>
           <Box sx={{ width: "100%", maxWidth: 800 }}>

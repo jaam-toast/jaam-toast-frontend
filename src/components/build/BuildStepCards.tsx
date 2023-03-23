@@ -1,32 +1,12 @@
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { useRecoilState } from "recoil";
 import { Avatar, Box, Card, CardHeader } from "@mui/material";
 
-import { buildStepState } from "src/recoil/buildOptions";
+type BuildStepCardProps = {
+  step: number;
+};
 
-function BuildStepCards() {
-  // const [currentStep, setCurrentStep] = useRecoilState<number>(buildStepState);
-  const router = useRouter();
-  const currentStep = 1;
-
-  const { repo } = router.query;
-
-  useEffect(() => {
-    // if (!repo) {
-    //   setCurrentStep(1);
-    //   return;
-    // }
-    // if (repo && !router.pathname.includes("deploy")) {
-    //   setCurrentStep(2);
-    //   return;
-    // } else {
-    //   setCurrentStep(3);
-    // }
-  }, []);
-
+function BuildStepCard({ step }: BuildStepCardProps) {
   function getStatus(cardStep: number): string {
-    if (cardStep === currentStep) {
+    if (cardStep === step) {
       return "point";
     }
 
@@ -85,4 +65,4 @@ function BuildStepCards() {
   );
 }
 
-export default BuildStepCards;
+export default BuildStepCard;
