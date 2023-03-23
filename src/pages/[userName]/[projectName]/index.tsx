@@ -1,20 +1,18 @@
-import { useRecoilValue } from "recoil";
 import { Box, Container, Divider, Typography } from "@mui/material";
 
 import PreviewCommandsTextField from "src/components/preview/PreviewCommandsTextField";
 import PreviewEnvList from "src/components/preview/PreviewEnvList";
 import BuildingLog from "src/components/build/BuildingLog";
 import { BorderBox } from "src/components/@shared";
-import { selectedProject } from "src/recoil/userDeployments";
-import { Project } from "src/components/ProjectList";
-import { GetServerSideProps } from "next";
+
+import type { Project } from "src/components/ProjectList";
+import type { GetServerSideProps } from "next";
 
 type ProjectDashBoardProps = {
   project: Project;
 };
 
 function ProjectDashBoard({ project }: ProjectDashBoardProps) {
-  // const currentProject = useRecoilValue(selectedProject);
   const { installCommand, buildCommand, deployedUrl, envList, buildingLog } =
     project ?? {};
 
@@ -58,9 +56,22 @@ function ProjectDashBoard({ project }: ProjectDashBoardProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps<any> = async () => {
+export const getServerSideProps: GetServerSideProps<
+  ProjectDashBoardProps
+> = async () => {
+  // TODO: fetch project data.
+  const project = {
+    repoOwner: "mock data",
+    repoName: "mock data",
+    deployedUrl: "mock data",
+    lastCommitMessage: "mock data",
+    repoUpdatedAt: "mock data",
+  };
+
   return {
-    props: {},
+    props: {
+      project,
+    },
   };
 };
 
