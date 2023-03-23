@@ -1,24 +1,43 @@
-import { Box, Container } from "@mui/material";
+import { useState } from "react";
+import { useRouter } from "next/router";
+import { Box, Container, Button } from "@mui/material";
 import { getCookie } from "cookies-next";
 
 import ProjectList from "src/components/ProjectList";
 import { SearchInput } from "src/components/@shared";
-import ButtonCreate from "src/components/ButtonCreate";
-import useResetBuildOption from "src/hooks/useResetBuildOption";
 
 import type { GetServerSideProps } from "next";
-import type { Project } from "src/components/ProjectList";
 
-type DashboardProps = {
-  userProjects: Project[];
+type GithubUserData = {
+  _id: string;
+  username: string;
+  userGithubUri: string;
+  userImage: string;
 };
 
-function Dashboard({ userProjects }: DashboardProps) {
-  // useResetBuildOption();
+type LoginData = {
+  data?: GithubUserData;
+  githubAccessToken?: string;
+  accessToken?: string;
+};
+
+type DashboardProps = {
+  username: string;
+};
+
+// TODO: remove username
+function UserProjects({ username }: DashboardProps) {
+  const router = useRouter();
+  const [searchword, setSearchword] = useState<string>("");
+
+  const handleCreateProjectClick = () => {
+    router.push(`/new/${username}`);
+  };
 
   return (
     <Container maxWidth={false} disableGutters>
       <Container fixed maxWidth="lg" sx={{ height: "90vh" }}>
+        {/* //TODO: make variant. */}
         <Box
           display="flex"
           sx={{
@@ -30,6 +49,7 @@ function Dashboard({ userProjects }: DashboardProps) {
           }}
         >
           <SearchInput
+            onSearchInputChange={setSearchword}
             placeholder="Search..."
             helperText="Please enter your Project name."
             sx={{
@@ -37,15 +57,25 @@ function Dashboard({ userProjects }: DashboardProps) {
               width: "75%",
             }}
           />
-          <ButtonCreate />
+          <Box sx={{ marginBottom: 3 }}>
+            <Button
+              variant="contained"
+              color="dark"
+              sx={{ m: 1 }}
+              onClick={handleCreateProjectClick}
+            >
+              New Project
+            </Button>
+          </Box>
         </Box>
-        <ProjectList projects={userProjects} />
+        {/* // TODO: Skeleton UI */}
+        <ProjectList searchword={searchword} />
       </Container>
     </Container>
   );
 }
 
-export const getServerSideProps: GetServerSideProps<any> = async ({
+export const getServerSideProps: GetServerSideProps<DashboardProps> = async ({
   req,
   res,
 }) => {
@@ -60,29 +90,15 @@ export const getServerSideProps: GetServerSideProps<any> = async ({
     };
   }
 
-  // TODO: fetch user projects.
-  const userProjects = [
-    {
-      repoOwner: "repoOwner example 1",
-      repoName: "repoName example 1",
-      deployedUrl: "www.example-deployed-1.com",
-      lastCommitMessage: "lats commit message example 1",
-      repoUpdatedAt: "repo updated at example 1",
-    },
-    {
-      repoOwner: "repoOwner example 2",
-      repoName: "repoName example 2",
-      deployedUrl: "www.example-deployed-2.com",
-      lastCommitMessage: "lats commit message example 2",
-      repoUpdatedAt: "repo updated at example 2",
-    },
-  ];
+  const loginData: LoginData =
+    typeof loginCookieData === "boolean" ? {} : JSON.parse(loginCookieData);
+  const username = loginData?.data?.username ?? "";
 
   return {
     props: {
-      userProjects,
+      username,
     },
   };
 };
 
-export default Dashboard;
+export default UserProjects;
