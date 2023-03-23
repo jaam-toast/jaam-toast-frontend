@@ -1,9 +1,8 @@
-import { useRecoilValue } from "recoil";
 import { Card, Grid } from "@mui/material";
 
 import ProjectCard from "./ProjectCard";
-import searchWordState from "src/recoil/searchWord/atom";
-import { Env } from "types/projectOption";
+
+import type { Env } from "types/projectOption";
 
 export type Project = {
   repoOwner: string;
@@ -16,12 +15,29 @@ export type Project = {
   envList?: Env[];
   buildingLog?: string[];
 };
-interface ProjectListProps {
-  projects: Project[];
-}
 
-function ProjectList({ projects }: ProjectListProps) {
-  // const searchWord = useRecoilValue(searchWordState);
+type ProjectListProps = {
+  searchword: string;
+};
+
+function ProjectList({ searchword }: ProjectListProps) {
+  // TODO: fetch project List;
+  const projects = [
+    {
+      repoOwner: "repoOwner example 1",
+      repoName: "repoName example 1",
+      deployedUrl: "www.example-deployed-1.com",
+      lastCommitMessage: "lats commit message example 1",
+      repoUpdatedAt: "repo updated at example 1",
+    },
+    {
+      repoOwner: "repoOwner example 2",
+      repoName: "repoName example 2",
+      deployedUrl: "www.example-deployed-2.com",
+      lastCommitMessage: "lats commit message example 2",
+      repoUpdatedAt: "repo updated at example 2",
+    },
+  ];
 
   return (
     <Grid
@@ -36,18 +52,16 @@ function ProjectList({ projects }: ProjectListProps) {
       }}
     >
       {projects
-        // .filter(project =>
-        //   searchWord ? project.repoName.includes(searchWord) : true,
-        // )
-        .map((cardData, index) => {
-          return (
-            <Grid item xs={2} sm={4} md={4} key={index}>
-              <Card variant="elevation">
-                <ProjectCard project={cardData} />
-              </Card>
-            </Grid>
-          );
-        })}
+        .filter(project =>
+          searchword ? project.repoName.includes(searchword) : true,
+        )
+        .map(project => (
+          <Grid item xs={2} sm={4} md={4} key={project.deployedUrl}>
+            <Card variant="elevation">
+              <ProjectCard project={project} />
+            </Card>
+          </Grid>
+        ))}
     </Grid>
   );
 }
