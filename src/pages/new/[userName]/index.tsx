@@ -150,11 +150,15 @@ function New() {
                   </Box>
                 </Box>
               </FlexRowCenterBox>
-              <BuildOptionRepoList
-                space={currentSpace}
-                searchWord={searchWord}
-                onOptionClick={setRepositoryClick}
-              />
+              {/* // TODO: Skeleton UI (fetching & searching)*/}
+              {currentSpace && (
+                <BuildOptionRepoList
+                  space={currentSpace}
+                  searchWord={searchWord}
+                  onOptionClick={setRepositoryClick}
+                  key={currentSpace}
+                />
+              )}
             </Box>
           </Box>
         </BorderBox>

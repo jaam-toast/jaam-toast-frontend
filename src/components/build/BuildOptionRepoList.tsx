@@ -13,6 +13,10 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import { Button, BorderBox } from "../@shared";
 
 import type { Repository } from "src/pages/new/[userName]";
+import { useQuery } from "@tanstack/react-query";
+import useUser from "src/hooks/useUser";
+import axios from "axios";
+import Config from "src/config";
 
 type BuildOptionRepoListProps = {
   space: string | null;
@@ -20,32 +24,44 @@ type BuildOptionRepoListProps = {
   onOptionClick: (option: string) => void;
 };
 
+type GetRepositoriesResponse = {
+  message: string;
+  result?: Repository[];
+};
+
 function BuildOptionRepoList({
   space,
   searchWord,
   onOptionClick,
 }: BuildOptionRepoListProps) {
-  // TODO: fetch repositories.
-  const repos: Repository[] = [
-    {
-      repoName: "example repository 1",
+  const { user } = useUser();
+  const { data } = useQuery({
+    queryKey: ["new-repo-select-page", "repos"],
+    queryFn: async () => {
+      const { data } =
+        space === user?.name
+          ? await axios.get<GetRepositoriesResponse>(
+              `${Config.SERVER_URL_API}/users/${user?.id}/repos?githubAccessToken=${user?.githubAccessToken}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${user?.accessToken}`,
+                },
+              },
+            )
+          : await axios.get<GetRepositoriesResponse>(
+              `${Config.SERVER_URL_API}/users/${user?.id}/orgs/${space}/repos?githubAccessToken=${user?.githubAccessToken}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${user?.accessToken}`,
+                },
+              },
+            );
+
+      return data.result;
     },
-    {
-      repoName: "example repository 2",
-    },
-    {
-      repoName: "example repository 3",
-    },
-    {
-      repoName: "example repository 4",
-    },
-    {
-      repoName: "example repository 5",
-    },
-    {
-      repoName: "example repository 6",
-    },
-  ];
+  });
+  const repos = data ?? [];
+  console.log(repos);
   const [buttonName, setButtonName] = useState<string>("View All");
   const handleAllClick = async () => {
     setButtonName(buttonName === "View All" ? "Fold" : "View All");
@@ -56,56 +72,54 @@ function BuildOptionRepoList({
     <Box
       sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
-      {!!repos.length && (
-        <>
-          <BorderBox>
-            <List
-              sx={{
-                width: "100%",
-              }}
-              component="nav"
-              aria-label="repository-list"
-            >
-              {repos
-                .filter(repo =>
-                  searchWord ? repo.repoName.includes(searchWord) : true,
-                )
-                .slice(0, viewListCount)
-                .map((repo, index) => (
-                  <div key={repo.repoName + index}>
-                    <ListSubheader id="repository-list" />
-                    <ListItem>
-                      <ListItemIcon>
-                        <GitHubIcon />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={repo.repoName}
-                        primaryTypographyProps={{ fontSize: 15 }}
-                      />
-                      <Button
-                        color="dark"
-                        onClick={() => onOptionClick(repo.repoName)}
-                      >
-                        Import
-                      </Button>
-                    </ListItem>
-                    {index !== repos.slice(0, viewListCount).length - 1 &&
-                      !searchWord && <Divider />}
-                  </div>
-                ))}
-            </List>
-          </BorderBox>
-          {repos.length > 5 && (
-            <Button
-              color="light"
-              onClick={handleAllClick}
-              sx={{ width: "150px" }}
-            >
-              {buttonName}
-            </Button>
-          )}
-        </>
-      )}
+      <>
+        <BorderBox>
+          <List
+            sx={{
+              width: "100%",
+            }}
+            component="nav"
+            aria-label="repository-list"
+          >
+            {repos
+              .filter(repo =>
+                searchWord ? repo.repoName.includes(searchWord) : true,
+              )
+              .slice(0, viewListCount)
+              .map((repo, index) => (
+                <div key={repo.repoName + index}>
+                  <ListSubheader id="repository-list" />
+                  <ListItem>
+                    <ListItemIcon>
+                      <GitHubIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={repo.repoName}
+                      primaryTypographyProps={{ fontSize: 15 }}
+                    />
+                    <Button
+                      color="dark"
+                      onClick={() => onOptionClick(repo.repoName.split("/")[1])}
+                    >
+                      Import
+                    </Button>
+                  </ListItem>
+                  {index !== repos.slice(0, viewListCount).length - 1 &&
+                    !searchWord && <Divider />}
+                </div>
+              ))}
+          </List>
+        </BorderBox>
+        {repos.length > 5 && (
+          <Button
+            color="light"
+            onClick={handleAllClick}
+            sx={{ width: "150px" }}
+          >
+            {buttonName}
+          </Button>
+        )}
+      </>
     </Box>
   );
 }
