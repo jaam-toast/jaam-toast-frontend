@@ -1,27 +1,38 @@
+import { useState } from "react";
+import App from "next/app";
 import Head from "next/head";
+import {
+  QueryClient,
+  QueryClientProvider,
+  Hydrate,
+} from "@tanstack/react-query";
 import { RecoilRoot } from "recoil";
-
-import { ThemeProvider, CssBaseline, Divider } from "@mui/material";
-
 import { isMobile } from "react-device-detect";
+import { getCookie } from "cookies-next";
+import { ThemeProvider, CssBaseline, Divider } from "@mui/material";
 
 import MobileDefense from "src/components/modal/MobileDefense";
 import ModalGlobal from "src/components/modal/ModalGlobal";
 import NavBar from "src/components/Navbar";
+import { UserProvider } from "src/hooks/useUser";
 import theme from "src/utils/theme";
 import "../../public/fonts/style.css";
 
-import type { AppContext, AppInitialProps, AppProps } from "next/app";
-import App from "next/app";
-import { NextComponentType, NextPage } from "next";
-import { getCookie } from "cookies-next";
-import { LoginData } from "types/auth";
-import { UserProvider } from "src/hooks/useUser";
+import type { AppContext, AppProps } from "next/app";
+import type { User } from "src/hooks/useUser";
+import type { DehydratedState } from "@tanstack/react-query";
 
-interface MyAppProps extends AppProps {
-  user: LoginData;
-}
-function MyApp({ Component, pageProps, user }: MyAppProps) {
+type MyAppProps<T> = AppProps<T> & {
+  user: User;
+};
+
+type MyAppPageProps = {
+  dehydratedState: DehydratedState;
+};
+
+function MyApp({ Component, pageProps, user }: MyAppProps<MyAppPageProps>) {
+  const [queryClient] = useState<QueryClient>(() => new QueryClient());
+
   return (
     <>
       <Head>
@@ -31,21 +42,25 @@ function MyApp({ Component, pageProps, user }: MyAppProps) {
         </title>
       </Head>
       <ThemeProvider theme={theme}>
-        <RecoilRoot>
-          <UserProvider user={user}>
-            <CssBaseline />
-            {isMobile ? (
-              <MobileDefense />
-            ) : (
-              <>
-                <ModalGlobal />
-                <NavBar />
-                <Divider />
-                <Component {...pageProps} />
-              </>
-            )}
-          </UserProvider>
-        </RecoilRoot>
+        <QueryClientProvider client={queryClient}>
+          <Hydrate state={pageProps?.dehydratedState}>
+            <RecoilRoot>
+              <UserProvider user={user}>
+                <CssBaseline />
+                {isMobile ? (
+                  <MobileDefense />
+                ) : (
+                  <>
+                    <ModalGlobal />
+                    <NavBar />
+                    <Divider />
+                    <Component {...pageProps} />
+                  </>
+                )}
+              </UserProvider>
+            </RecoilRoot>
+          </Hydrate>
+        </QueryClientProvider>
       </ThemeProvider>
     </>
   );
@@ -61,22 +76,15 @@ MyApp.getInitialProps = async (context: AppContext) => {
   if (!loginCookieData) {
     return {
       redirect: {
-        destination: "/login",
+        destination: "/",
         permanent: false,
       },
     };
   }
 
-  const userData: LoginData =
+  // TODO: to able to approach each getServerSideProps.
+  const user: User =
     typeof loginCookieData === "boolean" ? {} : JSON.parse(loginCookieData);
-  const user = {
-    id: userData.data._id,
-    name: userData.data.username,
-    githubUri: userData.data.userGithubUri,
-    image: userData.data.userImage,
-    githubAccessToken: userData.githubAccessToken,
-    accessToken: userData.accessToken,
-  };
 
   return { ...appProps, user };
 };
