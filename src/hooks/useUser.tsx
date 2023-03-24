@@ -6,11 +6,11 @@ import Config from "src/config";
 
 import type { ReactElement } from "react";
 
-type User = {
+export type User = {
   id: string;
   name: string;
   githubUri: string;
-  image: string;
+  image?: string;
   githubAccessToken: string;
   accessToken: string;
 };
@@ -29,6 +29,7 @@ export function UserProvider({ user, children }: UserProviderProps) {
 export function useUser() {
   const user = useContext(UserContext);
   const router = useRouter();
+  const isLoggedIn = !!user;
 
   const login = () => {
     const githubOauthLoginUrl = `${Config.GITHUB_OAUTH_URI}?client_id=${Config.CLIENT_ID}&redirect_uri=${Config.REDIRECT_URI}&scope=${Config.API_SCOPE}`;
@@ -36,16 +37,16 @@ export function useUser() {
   };
 
   const logout = () => {
-    deleteCookie("loginData");
+    deleteCookie("loginData", {
+      maxAge: 60 * 60 * 24,
+      httpOnly: true,
+    });
     router.push("/");
   };
 
-  if (!user) {
-    throw Error("anauthorized user");
-  }
-
   return {
     user,
+    isLoggedIn,
     login,
     logout,
   };

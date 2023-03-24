@@ -10,88 +10,78 @@ import {
 } from "@mui/material";
 
 import { Button } from "./@shared";
-import useAuth from "src/hooks/useAuth";
+import useUser from "src/hooks/useUser";
 import { WHITE } from "src/constants/colors";
 
 function NavBar() {
-  const isLoggedIn = false;
+  const { isLoggedIn, logout } = useUser();
   const router = useRouter();
-  const { handleLogout } = useAuth();
-
-  const handleLogoutClick = () => {
-    handleLogout();
-
-    router.push("/login");
-  };
 
   const handleLogoClick = () => {
     router.push("/");
   };
 
   return (
-    <Box sx={{ height: "10vh" }}>
-      <AppBar
-        position="relative"
-        color="inherit"
-        elevation={0}
-        sx={{
-          justifyContent: "center",
-        }}
-      >
-        <Toolbar>
-          <Box sx={{ height: "100%" }}>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="brand-logo"
-              onClick={handleLogoClick}
-            >
-              <Image
-                src="/images/jaamtoast-logo.svg"
-                alt="Jaamtoast logo"
-                width="50%"
-                height="50%"
-              />
-            </IconButton>
-          </Box>
-          <Typography
-            variant="h4"
-            component="div"
-            sx={{
-              paddingRight: 1.5,
-              marginTop: 0.5,
-              color: WHITE,
-            }}
+    <AppBar
+      position="relative"
+      color="inherit"
+      elevation={0}
+      sx={{
+        height: "10vh",
+        justifyContent: "center",
+      }}
+    >
+      <Toolbar sx={{ justifyContent: "space-between" }}>
+        <Box sx={{ height: "100%" }}>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="brand-logo"
+            onClick={handleLogoClick}
           >
-            /
-          </Typography>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Jaam-Toast
-          </Typography>
-          {isLoggedIn && (
-            <Tooltip title="Log out">
-              <span>
-                <Button
-                  size="small"
-                  color="light"
-                  sx={{
-                    bgcolor: "light.main",
-                    ":hover": {
-                      color: "dark.main",
-                      bgcolor: "light.main",
-                    },
-                  }}
-                  onClick={handleLogoutClick}
-                >
-                  Log out
-                </Button>
-              </span>
-            </Tooltip>
-          )}
-        </Toolbar>
-      </AppBar>
-    </Box>
+            <Image
+              src="/images/jaamtoast-logo.svg"
+              alt="Jaamtoast logo"
+              width="50%"
+              height="50%"
+            />
+          </IconButton>
+        </Box>
+        <Typography
+          variant="h4"
+          component="div"
+          sx={{
+            paddingRight: 1.5,
+            marginTop: 0.5,
+            color: WHITE,
+          }}
+        >
+          /
+        </Typography>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          Jaam-Toast
+        </Typography>
+        {isLoggedIn && (
+          <Tooltip title="Log out">
+            <Button
+              size="small"
+              color="light"
+              sx={{
+                bgcolor: "light.main",
+                ":hover": {
+                  color: "dark.main",
+                  bgcolor: "light.main",
+                },
+              }}
+              onClick={logout}
+            >
+              Log out
+            </Button>
+          </Tooltip>
+        )}
+      </Toolbar>
+    </AppBar>
   );
 }
 
