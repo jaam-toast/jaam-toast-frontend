@@ -5,6 +5,8 @@ import { Box, Container, Button } from "@mui/material";
 import ProjectList from "src/components/ProjectList";
 import { SearchInput } from "src/components/@shared";
 import useUser from "src/hooks/useUser";
+import { GetServerSideProps } from "next";
+import { getCookie } from "cookies-next";
 
 function UserProjects() {
   const { user } = useUser();
@@ -12,7 +14,7 @@ function UserProjects() {
   const [searchword, setSearchword] = useState<string>("");
 
   const handleCreateProjectClick = () => {
-    router.push(`/new/${user.name}`);
+    router.push(`/new/${user!.name}`);
   };
 
   return (
@@ -55,5 +57,25 @@ function UserProjects() {
     </Container>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<{}> = async ({
+  req,
+  res,
+}) => {
+  const loginCookieData = getCookie("loginData", { req, res });
+
+  if (!loginCookieData) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
 
 export default UserProjects;

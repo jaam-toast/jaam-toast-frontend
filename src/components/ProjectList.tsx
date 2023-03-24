@@ -1,6 +1,10 @@
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 import { Card, Grid } from "@mui/material";
 
 import ProjectCard from "./ProjectCard";
+import useUser from "src/hooks/useUser";
+import Config from "src/config";
 
 import type { Env } from "types/projectOption";
 
@@ -20,24 +24,28 @@ type ProjectListProps = {
   searchword: string;
 };
 
+type GetProjectsResponse = {
+  message: string;
+  result?: Project[];
+};
+
 function ProjectList({ searchword }: ProjectListProps) {
-  // TODO: fetch project List;
-  const projects = [
-    {
-      repoOwner: "repoOwner example 1",
-      repoName: "repoName example 1",
-      deployedUrl: "www.example-deployed-1.com",
-      lastCommitMessage: "lats commit message example 1",
-      repoUpdatedAt: "repo updated at example 1",
+  const { user } = useUser();
+  const { data: projects } = useQuery({
+    queryKey: ["projects-page", "projects"],
+    queryFn: async () => {
+      const { data } = await axios.get<GetProjectsResponse>(
+        `${Config.SERVER_URL_API}/users/${user?.id}/projects?githubAccessToken=${user?.githubAccessToken}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user?.accessToken}`,
+          },
+        },
+      );
+
+      return data.result;
     },
-    {
-      repoOwner: "repoOwner example 2",
-      repoName: "repoName example 2",
-      deployedUrl: "www.example-deployed-2.com",
-      lastCommitMessage: "lats commit message example 2",
-      repoUpdatedAt: "repo updated at example 2",
-    },
-  ];
+  });
 
   return (
     <Grid
@@ -52,7 +60,7 @@ function ProjectList({ searchword }: ProjectListProps) {
       }}
     >
       {projects
-        .filter(project =>
+        ?.filter(project =>
           searchword ? project.repoName.includes(searchword) : true,
         )
         .map(project => (
