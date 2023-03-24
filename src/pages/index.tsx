@@ -1,31 +1,24 @@
-import { useRouter } from "next/router";
-import { Box, Container, Typography } from "@mui/material";
 import { getCookie } from "cookies-next";
+import { Box, Container, Typography, Button } from "@mui/material";
+import GitHubIcon from "@mui/icons-material/GitHub";
 
-import ButtonLogin from "src/components/ButtonLogin";
+import useUser from "src/hooks/useUser";
 import { WHITE } from "src/constants/colors";
-import Config from "src/config";
 
 import type { GetServerSideProps } from "next";
 
 function PageLanding() {
-  const router = useRouter();
-
-  const handleLoginClick = () => {
-    const githubOauthLoginUrl = `${Config.GITHUB_OAUTH_URI}?client_id=${Config.CLIENT_ID}&redirect_uri=${Config.REDIRECT_URI}&scope=${Config.API_SCOPE}`;
-    router.push(githubOauthLoginUrl);
-  };
+  const { login } = useUser();
 
   return (
     <Container maxWidth={false} disableGutters>
-      // TODO: add variant(flex-center-column)
+      {/* // TODO: add variant(flex-center-column) */}
       <Box
         component="div"
         display="flex"
         sx={{
           flexDirection: "column",
           justifyContent: "center",
-          verticalAlign: "middle",
           alignItems: "center",
         }}
       >
@@ -48,10 +41,10 @@ function PageLanding() {
         >
           Every deployment from the 2022 edition of <b>jaam-toast.</b>
         </Typography>
-        <Box sx={{ padding: 1 }}>
-          // TODO: pull out the button.
-          <ButtonLogin />
-        </Box>
+        <Button variant="contained" color="dark" onClick={login}>
+          <GitHubIcon sx={{ m: 1 }} />
+          Log in with GitHub
+        </Button>
       </Box>
     </Container>
   );
