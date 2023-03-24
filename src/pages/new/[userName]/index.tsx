@@ -10,28 +10,72 @@ import {
 } from "src/components/@shared";
 import BuildStepCards from "src/components/build/BuildStepCards";
 import BuildOptionRepoList from "src/components/build/BuildOptionRepoList";
-import BuildOptionSelectBox from "src/components/build/BuildOptionSelectBox";
+import SelectBox from "src/components/build/SelectBox";
 
-import type { GitNamespace } from "src/types/projectOption";
 import type { GetServerSideProps } from "next";
+import {
+  dehydrate,
+  DehydratedState,
+  QueryClient,
+  useQuery,
+} from "@tanstack/react-query";
+import Config from "src/config";
+import axios from "axios";
+import { getCookie } from "cookies-next";
+import useUser, { User } from "src/hooks/useUser";
 
 type NewProps = {
-  spaces: GitNamespace[];
+  dehydratedState?: DehydratedState;
 };
 
 export type Repository = {
   repoName: string;
 };
 
-function New({ spaces }: NewProps) {
+type Space = {
+  spaceName: string;
+  spaceUrl: string;
+  spaceImage: string;
+};
+
+type GetOrgsResponse = {
+  message: string;
+  result: Space[];
+};
+
+function New() {
+  const { user } = useUser();
   const router = useRouter();
   const [currentSpace, setCurrentSpace] = useState<string | null>(null);
   const [searchWord, setSearchWord] = useState<string>("");
+
+  if (!user) {
+    return router.push("/");
+  }
 
   const setRepositoryClick = (repo: string) => {
     const { userName } = router.query;
     router.push(`${userName}/${repo}`);
   };
+  const { data: spaces } = useQuery(["new-page", "spaces"], async () => {
+    const { data } = await axios.get<GetOrgsResponse>(
+      `${Config.SERVER_URL_API}/users/${user.id}/orgs?githubAccessToken=${user.githubAccessToken}`,
+      {
+        headers: {
+          Authorization: `Bearer ${user.accessToken}`,
+        },
+      },
+    );
+
+    return [
+      ...data.result,
+      {
+        spaceName: user.name,
+        spaceUrl: user.githubUri,
+        spaceImage: user.image,
+      },
+    ];
+  });
 
   return (
     <Container fixed maxWidth="lg" sx={{ height: "90vh", p: 4 }}>
@@ -43,7 +87,11 @@ function New({ spaces }: NewProps) {
           To deploy a new Project, import an existing Git Repository and Enjoy!
         </Typography>
       </Box>
+
       <BuildStepCards step={1} />
+
+      {/* // TODO: make GithubRepositorySelection component */}
+      {/* // TODO: onRepositorySelect={(repository: Repository) => } */}
       <CenterBox>
         <BorderBox sx={{ boxShadow: 24, p: 4 }}>
           <Box sx={{ width: "100%", maxWidth: 800 }}>
@@ -68,11 +116,10 @@ function New({ spaces }: NewProps) {
                     Spaces
                   </Typography>
                   <Box sx={{ marginTop: 1.5 }}>
-                    <BuildOptionSelectBox
+                    <SelectBox
                       handleOptionClick={setCurrentSpace}
                       label="Select a Git Namespace"
-                      type="spaceChange"
-                      options={spaces}
+                      options={spaces?.map(({ spaceName }) => spaceName) ?? []}
                     />
                   </Box>
                 </Box>
@@ -120,29 +167,45 @@ export const getServerSideProps: GetServerSideProps<NewProps> = async ({
   req,
   res,
 }) => {
-  // TODO: fetch user spaces.
-  const spaces: GitNamespace[] = [
-    {
-      spaceUrl: "space example spaceUrl 1",
-      spaceName: "space example spaceName 1",
-    },
-    {
-      spaceUrl: "space example spaceUrl 2",
-      spaceName: "space example spaceName 2",
-    },
-    {
-      spaceUrl: "space example spaceUrl 3",
-      spaceName: "space example spaceName 3",
-    },
-    {
-      spaceUrl: "space example spaceUrl 4",
-      spaceName: "space example spaceName 4",
-    },
-  ];
+  // TODO: get user data without getCookie.
+  const queryClient = new QueryClient();
+  const loginCookieData = getCookie("loginData", { req, res });
+
+  if (!loginCookieData) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  // TODO: make prefetch hook.
+  const user: User =
+    typeof loginCookieData === "boolean" ? {} : JSON.parse(loginCookieData);
+  await queryClient.prefetchQuery(["new-page", "spaces"], async () => {
+    const { data } = await axios.get<GetOrgsResponse>(
+      `${Config.SERVER_URL_API}/users/${user.id}/orgs?githubAccessToken=${user.githubAccessToken}`,
+      {
+        headers: {
+          Authorization: `Bearer ${user.accessToken}`,
+        },
+      },
+    );
+
+    return [
+      ...data.result,
+      {
+        spaceName: user.name,
+        spaceUrl: user.githubUri,
+        spaceImage: user.image,
+      },
+    ];
+  });
 
   return {
     props: {
-      spaces,
+      dehydratedState: dehydrate(queryClient),
     },
   };
 };
