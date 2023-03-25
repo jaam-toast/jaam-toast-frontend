@@ -1,3 +1,5 @@
+import { BuildTypes } from "./deployment";
+
 export type GitNamespace = {
   [index: string]: string | undefined;
   spaceName: string;
@@ -51,11 +53,12 @@ export enum NodeVersionOption {
 }
 
 export interface BuildOptions {
-  subDomain: string;
+  projectName: string;
+  // subDomain: string;
   nodeVersion: NodeVersionOption | null;
-  installCommand?: string;
-  buildCommand?: string;
-  buildType?: string;
+  installCommand: string;
+  buildCommand: string;
+  buildType?: BuildTypes | null;
   envList: Env[];
 }
 
