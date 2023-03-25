@@ -27,16 +27,7 @@ function ProjectCard({ project }: ProjectCardProps) {
   const router = useRouter();
 
   const handleCardClick = () => {
-    // showModal({
-    //   modalType: "ModalRepoDetails",
-    //   modalProps: {
-    //     previewData: project,
-    //   },
-    // });
-
     const { repoOwner, repoName } = project;
-
-    // setSelectedProject(project);
     router.push(`/${repoOwner}/${repoName}`);
   };
 
@@ -60,10 +51,7 @@ function ProjectCard({ project }: ProjectCardProps) {
       <CardContent
         sx={{ position: "relative", padding: "1.5rem", height: 180 }}
       >
-        <CloseIcon
-          sx={{ ...CloseIconStyle }}
-          onClick={handleCloseButtonClick}
-        />
+        <CloseIcon sx={CloseIconStyle} onClick={handleCloseButtonClick} />
         <Box
           sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
         >
