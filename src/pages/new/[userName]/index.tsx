@@ -117,7 +117,7 @@ function New() {
                   </Typography>
                   <Box sx={{ marginTop: 1.5 }}>
                     <SelectBox
-                      handleOptionClick={setCurrentSpace}
+                      onSelectionChange={setCurrentSpace}
                       label="Select a Git Namespace"
                       options={spaces?.map(({ spaceName }) => spaceName) ?? []}
                     />

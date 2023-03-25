@@ -12,20 +12,20 @@ import { Form } from "../@shared";
 type SelectBoxProps = SelectProps & {
   label: string;
   options: string[];
-  handleOptionClick: (option: string) => void;
+  onSelectionChange: (option: string) => void;
 };
 
 function SelectBox({
   label,
   options,
-  handleOptionClick,
+  onSelectionChange,
   ...props
 }: SelectBoxProps) {
   const [inputValue, setInputValue] = useState<string>("");
 
   const handleChange = (e: SelectChangeEvent<unknown>) => {
     const selection = e.target.value as string;
-    handleOptionClick(selection);
+    onSelectionChange(selection);
     setInputValue(selection);
   };
 
