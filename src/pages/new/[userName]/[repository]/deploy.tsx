@@ -1,8 +1,8 @@
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { io, Socket } from "socket.io-client";
-import styled from "styled-components";
+import { useRouter } from "next/router";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { getCookie } from "cookies-next";
 import {
   Accordion,
   AccordionDetails,
@@ -16,85 +16,88 @@ import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 
 import { BorderBox, CenterBox } from "src/components/@shared";
 import BuildStepCard from "src/components/build/BuildStepCards";
-import { cloneRepoName, cloneUrlState } from "src/recoil/git";
-import { userDeploymentsState } from "src/recoil/userDeployments";
+import useBuildingLog from "src/hooks/useBuildingLog";
+import useUser from "src/hooks/useUser";
+import getUserFromCookie from "utils/getUserFromCookie";
 import Config from "src/config";
-import isEmpty from "src/utils/isEmpty";
 
-import { UserDeploymentData } from "types/deployment";
-import deployMockData from "../../../../../__test__/mock/deployData.json";
+import type { BuildOptions } from "types/projectOption";
+import type { GetServerSideProps } from "next";
 
-function Deploy() {
-  // const userDeploymentList =
-  //   useRecoilValue<UserDeploymentData[]>(userDeploymentsState);
-  // const repoCloneUrl = useRecoilValue(cloneUrlState);
+type CreateProjectResponse = {
+  result: string;
+  data: {
+    repoName: string;
+    repoOwner: string;
+    repoCloneUrl: string;
+    repoUpdatedAt: string;
+    nodeVersion: string;
+    installCommand: string;
+    buildCommand: string;
+    envList: string;
+    buildType: string;
+    deployedUrl: string;
+    buildingLog: string;
+    instanceId: string;
+    lastCommitMessage: string;
+    repoId: string;
+    webhookId: string;
+  };
+};
+type DeployProps = {
+  buildOptions: BuildOptions;
+};
 
-  const [socket, setSocket] = useState<Socket | null>(null);
-  const [buildingLog, setBuildingLog] = useState<string[]>([]);
-  // const repoName = useRecoilValue<string>(cloneRepoName);
-
+function Deploy({ buildOptions }: DeployProps) {
   const router = useRouter();
+  const { user } = useUser();
+  const [buildingLog, setBuildingLog] = useState<string[]>([]);
 
-  useEffect(() => {
-    // * test 용도 목데이터 적용
-    // setBuildingLog(deployMockData[0].buildingLog);
+  const mutation = useMutation({
+    mutationFn: () => {
+      const {
+        projectName,
+        nodeVersion,
+        installCommand,
+        buildCommand,
+        envList,
+        buildType,
+      } = buildOptions;
 
-    // * ButtonDeploy에서 요청 보낸 후 응답오면 setDeploymentList실행
-    // * userDeploymentList에 추가되면 확인 후 4초 뒤에 preview로 이동
-    // TODO: 배포 완료 확인되면 preview로 이동.
-    // if (
-    //   isEmpty(userDeploymentList) ||
-    //   repoCloneUrl !==
-    //     userDeploymentList[userDeploymentList.length - 1].repoCloneUrl
-    // )
-    //   return;
+      return axios.post<CreateProjectResponse>(
+        `${Config.SERVER_URL_API}/deploy/${user?.id}?githubAccessToken=${user?.githubAccessToken}`,
+        {
+          headers: {
+            authorization: `Bearer ${user?.accessToken}`,
+          },
+          body: {
+            repoName: "jamtotest0001",
+            repoCloneUrl: "https://github.com/ponjaehyeok/jamtotest0001",
+            repoUpdatedAt: new Date().toISOString(),
+            projectName,
+            nodeVersion,
+            installCommand,
+            buildCommand,
+            envList,
+            buildType,
+          },
+        },
+      );
+    },
+  });
 
-    const { userName, repo } = router.query;
+  // TODO: Remove. temporary logic.
+  useEffect(mutation.mutate, []);
 
-    // const timer: ReturnType<typeof setTimeout> = setTimeout(() => {
-    //   router.push(`/new/${userName}/${repo}/preview`);
-    // }, 4000);
+  useBuildingLog("projectName", (data: string) => {
+    setBuildingLog(prev => prev.concat(data));
 
-    // return () => clearTimeout(timer);
-  }, []);
-
-  // TODO: socket 연결 custom hook 분리.
-  // useEffect(() => {
-  //   const socketIO = io(`${Config.SERVER_URL}`);
-  //   setSocket(socketIO);
-
-  //   return () => {
-  //     socketIO.disconnect();
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   if (socket === null) return;
-
-  //   socket.on("connect", () => {
-  //     console.info(
-  //       `Socket for building log is connected - ${socket.id}`,
-  //       socket.connected,
-  //     );
-  //   });
-
-  //   socket.on("disconnect", () => {
-  //     console.info(
-  //       `Socket for building log is disconnected - ${socket.id}`,
-  //       socket.connected,
-  //     );
-  //   });
-
-  //   socket.emit("get-building-log", repoName);
-
-  //   socket.on("new-building-log", data => {
-  //     setBuildingLog(prev => [...prev, data as string]);
-  //   });
-
-  //   return () => {
-  //     socket.off("new-building-log");
-  //   };
-  // }, [repoName, socket]);
+    // TODO: Remove. temporary logic.
+    if (data === "A new deployment's data is saved successfully!") {
+      const { username, repository } = router.query;
+      router.push(`/${username}/${repository}/preview`);
+    }
+  });
 
   return (
     <Container fixed maxWidth="lg" sx={{ height: "90vh", p: 4 }}>
@@ -106,7 +109,9 @@ function Deploy() {
           Please follow the steps to configure your Project and deploy it.
         </Typography>
       </Box>
+
       <BuildStepCard step={3} />
+
       <CenterBox>
         <BorderBox sx={{ boxShadow: 24, p: 4 }}>
           <Box sx={{ width: "100%", maxWidth: 800 }}>
@@ -125,25 +130,20 @@ function Deploy() {
                   sx={{
                     height: "40vh",
                     overflow: "auto",
-                    flex: "1",
                     display: "flex",
-                    flexDirection: "column-reverse",
+                    flexDirection: "column",
                   }}
                 >
-                  <table className="log-table" style={{ width: "100%" }}>
-                    <tbody className="log-table-body">
-                      {buildingLog.map((log, i) => (
-                        <Tr
-                          key={`${new Date().valueOf()} - ${i} - ${log}`}
-                          className="log-table-row"
-                        >
-                          <Td className="log-table-cell">
-                            <span style={{ fontSize: "0.8rem" }}>{log}</span>
-                          </Td>
-                        </Tr>
-                      ))}
-                    </tbody>
-                  </table>
+                  {buildingLog.map((log, i) => (
+                    <Typography
+                      key={log}
+                      sx={{
+                        fontSize: "0.8rem",
+                      }}
+                    >
+                      {log}
+                    </Typography>
+                  ))}
                 </Box>
               </AccordionDetails>
             </Accordion>
@@ -154,20 +154,26 @@ function Deploy() {
   );
 }
 
-const Tr = styled.tr`
-  :hover {
-    opacity: 0.8;
-    color: white;
-    background-color: rgba(51, 51, 51, 0.6);
-    transition: background-color 0.15s ease;
-  }
-`;
+export const getServerSideProps: GetServerSideProps<
+  DeployProps
+> = async context => {
+  const buildOptions = getCookie("buildOptions", context);
+  const user = getUserFromCookie(context);
 
-const Td = styled.td`
-  display: flex;
-  margin-top: 0.1rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-`;
+  if (!user || !buildOptions || buildOptions === true) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      buildOptions: JSON.parse(buildOptions),
+    },
+  };
+};
 
 export default Deploy;

@@ -24,30 +24,28 @@ import type {
   BuildOptionsTypes,
 } from "types/projectOption";
 import type { GetServerSideProps } from "next";
+import { setCookie } from "cookies-next";
 
 type BuildOptionsProps = {
-  defaultProjectName: string;
-  defaultInstallCommand: string;
-  defaultBuildCommand: string;
+  defaultOptions: Pick<
+    BuildOptions,
+    "projectName" | "installCommand" | "buildCommand"
+  >;
 };
 
-function BuildOptions({
-  defaultProjectName,
-  defaultInstallCommand,
-  defaultBuildCommand,
-}: BuildOptionsProps) {
+function BuildOptions({ defaultOptions }: BuildOptionsProps) {
   const router = useRouter();
   const { user } = useUser();
   const [isProjectNameAvailable, setIsProjectNameAvailable] =
     useState<boolean>(true);
 
   const [buildOptions, setBuildOptions] = useState<BuildOptions>({
-    projectName: defaultProjectName,
+    projectName: defaultOptions.projectName,
     nodeVersion: null,
     envList: [],
     buildType: null,
-    installCommand: defaultInstallCommand,
-    buildCommand: defaultBuildCommand,
+    installCommand: defaultOptions.installCommand,
+    buildCommand: defaultOptions.buildCommand,
   });
 
   const handleClickPrev = () => {
@@ -104,6 +102,10 @@ function BuildOptions({
 
   const handleCompleteClick = () => {
     const { userName, repository } = router.query;
+
+    // TODO: remove setCookie.
+    setCookie("buildOptions", JSON.stringify(buildOptions));
+
     router.push(`/new/${userName}/${repository}/deploy`);
   };
 
@@ -161,7 +163,7 @@ function BuildOptions({
               <TextField
                 defaultValue={buildOptions.projectName}
                 onTextFieldChange={handleProjectNameChange}
-                placeholder={defaultProjectName}
+                placeholder={defaultOptions.projectName}
                 size="small"
                 sx={{ fontSize: "small", width: "100%" }}
               />
@@ -195,7 +197,7 @@ function BuildOptions({
                 Install Command
               </Typography>
               <TextField
-                placeholder={defaultInstallCommand}
+                placeholder={defaultOptions.installCommand}
                 onTextFieldChange={handleOptionChange("installCommand")}
                 size="small"
                 sx={{ fontSize: "small", width: "100%", marginTop: 1.5 }}
@@ -207,7 +209,7 @@ function BuildOptions({
                 Build Command
               </Typography>
               <TextField
-                placeholder={defaultBuildCommand}
+                placeholder={defaultOptions.buildCommand}
                 onTextFieldChange={handleOptionChange("buildCommand")}
                 size="small"
                 sx={{ fontSize: "small", width: "100%", marginTop: 1.5 }}
@@ -269,9 +271,11 @@ export const getServerSideProps: GetServerSideProps<
 
   return {
     props: {
-      defaultProjectName,
-      defaultInstallCommand: "npm install",
-      defaultBuildCommand: "npm start",
+      defaultOptions: {
+        projectName: defaultProjectName,
+        installCommand: "npm install",
+        buildCommand: "npm start",
+      },
     },
   };
 };
