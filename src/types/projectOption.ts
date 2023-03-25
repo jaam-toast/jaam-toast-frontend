@@ -62,6 +62,9 @@ export interface BuildOptions {
   envList: Env[];
 }
 
+export type BuildOptionsKeys = keyof BuildOptions;
+export type BuildOptionsTypes = BuildOptions[BuildOptionsKeys];
+
 export interface DeploymentOptions extends BuildOptions {
   lastCommitMessage: string;
   repoId?: string;

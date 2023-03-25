@@ -1,64 +1,113 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import {
-  Accordion,
-  AccordionSummary,
-  Box,
-  Container,
-  Divider,
-  Typography,
-} from "@mui/material";
-import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
+import axios from "axios";
+import { Box, Container, Typography } from "@mui/material";
 
 import {
   Button,
   BorderBox,
   CenterBox,
-  FlexRowCenterBox,
+  TextField,
 } from "src/components/@shared";
-import ButtonDeploy from "src/components/ButtonDeploy";
 import BuildStepCard from "src/components/build/BuildStepCards";
-import BuildOptionProjectName from "src/components/build/BuildOptionProjectName";
-import BuildOptionSelectBox from "src/components/build/BuildOptionSelectBox";
-import BuildOptionTextBox from "src/components/build/BuildOptionTextBox";
+import SelectBox from "src/components/build/SelectBox";
 import BuildOptionEnvsField from "src/components/build/BuildOptionEnvsField";
+import useUser from "src/hooks/useUser";
+import Config from "src/config";
+import getUserFromCookie from "utils/getUserFromCookie";
+import createRandomId from "utils/createRandomId";
 
-import type { BuildOptions } from "types/projectOption";
+import type { Project } from "src/components/ProjectList";
+import type {
+  BuildOptions,
+  BuildOptionsKeys,
+  BuildOptionsTypes,
+} from "types/projectOption";
+import type { GetServerSideProps } from "next";
 
-type BuildOptionProps = {
-  defaultSubDomain: string;
+type BuildOptionsProps = {
+  defaultProjectName: string;
+  defaultInstallCommand: string;
+  defaultBuildCommand: string;
 };
 
-function BuildOption({ defaultSubDomain }: BuildOptionProps) {
+function BuildOptions({
+  defaultProjectName,
+  defaultInstallCommand,
+  defaultBuildCommand,
+}: BuildOptionsProps) {
   const router = useRouter();
+  const { user } = useUser();
+  const [isProjectNameAvailable, setIsProjectNameAvailable] =
+    useState<boolean>(true);
 
   const [buildOptions, setBuildOptions] = useState<BuildOptions>({
-    subDomain: defaultSubDomain,
+    projectName: defaultProjectName,
     nodeVersion: null,
     envList: [],
+    buildType: null,
+    installCommand: defaultInstallCommand,
+    buildCommand: defaultBuildCommand,
   });
 
   const handleClickPrev = () => {
     router.back();
   };
 
-  const handleClickDeploy = async () => {
-    const { userName, repo } = router.query;
+  const handleOptionChange = (property: BuildOptionsKeys) => {
+    return (option: BuildOptionsTypes) => {
+      setBuildOptions(prev => ({
+        ...prev,
+        [property]: option,
+      }));
+    };
+  };
 
-    // setBuildStep(3);
-    router.push(`/new/${userName}/${repo}/deploy`);
+  const validateProjectName = async (projectName: string) => {
+    if (projectName === "") {
+      if (!isProjectNameAvailable) {
+        setIsProjectNameAvailable(true);
+      }
+
+      return;
+    }
 
     try {
-      // const userDeploymentData = await runDeploy();
-      // if (!userDeploymentData) throw new Error("error");
-      // setDeploymentList(prev => [...prev, userDeploymentData]);
-    } catch (err) {
-      //TODO error 토스트
+      const { data } = await axios.get<GetProjectResponse>(
+        `${Config.SERVER_URL_API}/projects/${projectName}?githubAccessToken=${user?.githubAccessToken}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user?.accessToken}`,
+          },
+        },
+      );
+
+      if (!!data.result) {
+        setIsProjectNameAvailable(false);
+      } else if (!isProjectNameAvailable) {
+        setIsProjectNameAvailable(true);
+      }
+    } catch (error) {
+      if (!isProjectNameAvailable) {
+        setIsProjectNameAvailable(true);
+      }
+
+      // TODO: error 분기 처리
+      console.log(error);
     }
   };
 
-  const isButtonNext =
-    buildOptions.nodeVersion !== null && buildOptions.buildType !== "";
+  const handleProjectNameChange = (projectName: string) => {
+    validateProjectName(projectName);
+    handleOptionChange("projectName")(projectName);
+  };
+
+  const handleCompleteClick = () => {
+    const { userName, repository } = router.query;
+    router.push(`/new/${userName}/${repository}/deploy`);
+  };
+
+  const isButtonNext = !!buildOptions.nodeVersion && !!buildOptions.buildType;
 
   // TODO: fetch default domain & check duplication check logic.
   return (
@@ -71,81 +120,108 @@ function BuildOption({ defaultSubDomain }: BuildOptionProps) {
           Please follow the steps to configure your Project and deploy it.
         </Typography>
       </Box>
+
       <BuildStepCard step={2} />
+
+      {/* // TODO: make BuildOptionsForm component */}
+      {/* // TODO: defaultBuildOptions={defaultBuildOptions} */}
+      {/* // TODO: onBuildOptionsSubmit={(options: BuildOptions) => } */}
       <CenterBox>
-        <BorderBox sx={{ boxShadow: 24, p: 4 }}>
-          <Box sx={{ width: "100%", maxWidth: 800 }}>
-            <FlexRowCenterBox>
-              <Button color="light" onClick={handleClickPrev}>
-                Prev
+        <BorderBox
+          sx={{
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Box
+            display="flex"
+            sx={{ justifyContent: "space-between", width: "100%" }}
+          >
+            <Button color="light" onClick={handleClickPrev}>
+              Prev
+            </Button>
+            {isButtonNext && (
+              <Button color="light" onClick={handleCompleteClick}>
+                Complete
               </Button>
-              {isButtonNext && <ButtonDeploy />}
-            </FlexRowCenterBox>
-            <BuildOptionProjectName />
-            <Box sx={{ width: "100%" }}>
+            )}
+          </Box>
+          <Box sx={{ width: "100%" }}>
+            <Box sx={{ marginTop: 1.5 }}>
+              <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
+                Project Name
+              </Typography>
+              {/* // TODO: apply red point color */}
+              {!isProjectNameAvailable && (
+                <Typography variant="body2" sx={{ mt: 1 }}>
+                  Your Project Name is duplicated.
+                </Typography>
+              )}
+              {/* // TODO: apply red point color when projectName is duplicated */}
+              <TextField
+                defaultValue={buildOptions.projectName}
+                onTextFieldChange={handleProjectNameChange}
+                placeholder={defaultProjectName}
+                size="small"
+                sx={{ fontSize: "small", width: "100%" }}
+              />
+            </Box>
+
+            <Box sx={{ marginTop: 1.5 }}>
               <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
                 Node Version *
               </Typography>
-              <Box sx={{ marginTop: 1.5 }}>
-                <BuildOptionSelectBox
-                  label="Node Version"
-                  type="nodeVersionChange"
-                  options={[
-                    { version: "14.x", versionText: "Node.js 14.x" },
-                    { version: "16.x", versionText: "Node.js 16.x" },
-                  ]}
-                />
-              </Box>
-              <Box sx={{ width: "100%" }}>
-                <Typography
-                  id="modal-description"
-                  variant="body2"
-                  sx={{ mt: 2 }}
-                >
-                  CRA / Next Options *
-                </Typography>
-                <Box sx={{ marginTop: 1.5 }}>
-                  <BuildOptionSelectBox
-                    label="CRA / Next.js"
-                    type="buildTypeChange"
-                    options={[
-                      { type: "Create React App - SPA" },
-                      { type: "Next.js App - SSR" },
-                    ]}
-                  />
-                </Box>
-              </Box>
-            </Box>
-            <Box display="flex" sx={{ flexDirection: "row" }}>
-              <BuildOptionTextBox
-                title="Install Command"
-                type="installCommandChange"
-                placeholder="`npm install`"
-                sx={{ width: "100%" }}
+              <SelectBox
+                label="Node Version"
+                type="nodeVersionChange"
+                options={["Node.js 14.x", "Node.js 16.x"]}
+                onSelectionChange={handleOptionChange("nodeVersion")}
               />
             </Box>
-            <Box display="flex" sx={{ flexDirection: "row" }}>
-              <BuildOptionTextBox
-                title="Build Command"
-                type="installCommandChange"
-                placeholder="`npm start`"
-                sx={{ width: "100%" }}
+
+            <Box sx={{ marginTop: 1.5 }}>
+              <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
+                Build Type *
+              </Typography>
+              <SelectBox
+                label="Build Type"
+                options={["Create React App - SPA", "Next.js App - SSR"]}
+                onSelectionChange={handleOptionChange("buildType")}
               />
             </Box>
-            <Divider sx={{ mt: 2 }} />
-            <Accordion sx={{ mt: 2 }}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <Typography id="modal-description" variant="body2">
-                  Environment Variable
-                </Typography>
-              </AccordionSummary>
-              <Divider />
-              <BuildOptionEnvsField />
-            </Accordion>
+
+            <Box>
+              <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
+                Install Command
+              </Typography>
+              <TextField
+                placeholder={defaultInstallCommand}
+                onTextFieldChange={handleOptionChange("installCommand")}
+                size="small"
+                sx={{ fontSize: "small", width: "100%", marginTop: 1.5 }}
+              />
+            </Box>
+
+            <Box>
+              <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
+                Build Command
+              </Typography>
+              <TextField
+                placeholder={defaultBuildCommand}
+                onTextFieldChange={handleOptionChange("buildCommand")}
+                size="small"
+                sx={{ fontSize: "small", width: "100%", marginTop: 1.5 }}
+              />
+            </Box>
+
+            <Box sx={{ marginTop: 1.5 }}>
+              <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
+                Environment Varables
+              </Typography>
+              <BuildOptionEnvsField
+                onEnvsChange={handleOptionChange("envList")}
+              />
+            </Box>
           </Box>
         </BorderBox>
       </CenterBox>
@@ -153,4 +229,51 @@ function BuildOption({ defaultSubDomain }: BuildOptionProps) {
   );
 }
 
-export default BuildOption;
+type GetProjectResponse = {
+  message: string;
+  result: Project;
+};
+
+export const getServerSideProps: GetServerSideProps<
+  BuildOptionsProps
+> = async context => {
+  const user = getUserFromCookie(context);
+
+  if (!user) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  const { repository } = context.query;
+  let defaultProjectName = repository as string;
+
+  try {
+    await axios.get<GetProjectResponse>(
+      `${Config.SERVER_URL_API}/projects/${repository}?githubAccessToken=${user.githubAccessToken}`,
+      {
+        headers: {
+          Authorization: `Bearer ${user.accessToken}`,
+        },
+      },
+    );
+
+    defaultProjectName += `-${createRandomId()}`;
+  } catch (error) {
+    // TODO: 에러 처리 분기.
+    console.log(error);
+  }
+
+  return {
+    props: {
+      defaultProjectName,
+      defaultInstallCommand: "npm install",
+      defaultBuildCommand: "npm start",
+    },
+  };
+};
+
+export default BuildOptions;

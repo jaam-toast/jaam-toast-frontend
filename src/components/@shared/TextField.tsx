@@ -15,7 +15,7 @@ type TextFieldProps = Partial<TextFieldMuiProps> & {
 function TextField({
   delay = 1000,
   defaultValue = "",
-  onTextFieldChange,
+  onTextFieldChange = () => {},
   ...props
 }: TextFieldProps) {
   const [text, setText] = useState<string>(defaultValue);
