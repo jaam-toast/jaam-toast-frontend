@@ -28,7 +28,7 @@ type NewProps = {
   dehydratedState?: DehydratedState;
 };
 
-export type Repository = {
+export type Repo = {
   repoName: string;
 };
 
@@ -53,7 +53,7 @@ function New() {
     return router.push("/");
   }
 
-  const setRepositoryClick = (repo: string) => {
+  const handleRepoClick = (repo: string) => {
     const { userName } = router.query;
     router.push(`${userName}/${repo}`);
   };
@@ -90,8 +90,8 @@ function New() {
 
       <BuildStepCards step={1} />
 
-      {/* // TODO: make GithubRepositorySelection component */}
-      {/* // TODO: onRepositorySelect={(repository: Repository) => } */}
+      {/* // TODO: make GithubRepoSelection component */}
+      {/* // TODO: onRepoSelect={(repo: Repo) => } */}
       <CenterBox>
         <BorderBox sx={{ boxShadow: 24, p: 4 }}>
           <Box sx={{ width: "100%", maxWidth: 800 }}>
@@ -155,7 +155,7 @@ function New() {
                 <BuildOptionRepoList
                   space={currentSpace}
                   searchWord={searchWord}
-                  onOptionClick={setRepositoryClick}
+                  onOptionClick={handleRepoClick}
                   key={currentSpace}
                 />
               )}
