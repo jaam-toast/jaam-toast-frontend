@@ -1,7 +1,42 @@
 @font-face {
-  font-family: "Pretendard-Regular";
-  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
-    format("woff");
-  font-weight: 400;
+  font-family: "Pretendard";
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  src: local("Pretendard-"),
+    url("/fonts/Pretendard-Light.subset.woff2") format("woff2"),
+    url("/fonts/Pretendard-Light.subset.woff") format("woff");
+}
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: local("Pretendard-M"),
+    url("/fonts/Pretendard-Medium.subset.woff2") format("woff2"),
+    url("/fonts/Pretendard-Medium.subset.woff") format("woff");
+}
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: local("Pretendard"),
+    url("/fonts/Pretendard-Bold.subset.woff2") format("woff2"),
+    url("/fonts/Pretendard-Bold.subset.woff") format("woff");
+}
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+  src: local("Pretendard-"),
+    url("/fonts/Pretendard-Black.subset.woff2") format("woff2"),
+    url("/fonts/Pretendard-Black.subset.woff") format("woff");
+}
+@font-face {
+  font-family: "GmarketSans";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff") format("woff");
+  font-weight: 700;
   font-style: normal;
 }

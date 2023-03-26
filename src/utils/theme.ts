@@ -10,7 +10,7 @@ import {
 
 const theme = createTheme({
   typography: {
-    fontFamily: "Pretendard-Regular",
+    fontFamily: "Pretendard",
   },
   palette: {
     primary: {
