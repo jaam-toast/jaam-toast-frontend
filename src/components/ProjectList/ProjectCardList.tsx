@@ -13,14 +13,15 @@ export type Project = {
   repoName: string;
   deployedUrl: string;
   lastCommitMessage: string;
-  repoUpdatedAt: string;
+  projectUpdatedAt: string;
   installCommand?: string;
   buildCommand?: string;
   envList?: Env[];
   buildingLog?: string[];
+  projectName: string;
 };
 
-type ProjectListProps = {
+type ProjectCardListProps = {
   searchword: string;
 };
 
@@ -29,7 +30,7 @@ type GetProjectsResponse = {
   result?: Project[];
 };
 
-function ProjectList({ searchword }: ProjectListProps) {
+function ProjectCardList({ searchword }: ProjectCardListProps) {
   const { user } = useUser();
   const { data: projects } = useQuery({
     queryKey: ["projects-page", "projects"],
@@ -47,6 +48,8 @@ function ProjectList({ searchword }: ProjectListProps) {
     },
   });
 
+  console.log(projects);
+
   return (
     <Grid
       container
@@ -55,8 +58,8 @@ function ProjectList({ searchword }: ProjectListProps) {
       sx={{
         height: "80vh",
         overflow: "auto",
-        paddingRight: "0.1rem",
-        paddingLeft: "0.1rem",
+        // paddingRight: "0.1rem",
+        // paddingLeft: "0.1rem",
       }}
     >
       {projects
@@ -74,4 +77,4 @@ function ProjectList({ searchword }: ProjectListProps) {
   );
 }
 
-export default ProjectList;
+export default ProjectCardList;
