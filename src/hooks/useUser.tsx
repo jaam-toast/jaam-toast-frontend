@@ -38,7 +38,7 @@ export function useUser() {
 
   const logout = () => {
     deleteCookie("loginData", {
-      maxAge: 60 * 60 * 24,
+      maxAge: 24 * 60 * 60 * 1000,
       httpOnly: true,
     });
     router.push("/");
