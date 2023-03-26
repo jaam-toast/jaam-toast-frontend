@@ -9,11 +9,11 @@ import {
 import { RecoilRoot } from "recoil";
 import { isMobile } from "react-device-detect";
 import { getCookie } from "cookies-next";
-import { ThemeProvider, CssBaseline, Divider } from "@mui/material";
+import { ThemeProvider, CssBaseline, Divider, Container } from "@mui/material";
 
 import NavBar from "src/components/@shared/Navbar";
 import { UserProvider } from "src/hooks/useUser";
-import theme from "src/utils/theme";
+import theme from "src/theme";
 import "../../public/fonts/style.css";
 
 import type { AppContext, AppProps } from "next/app";
@@ -44,10 +44,22 @@ function MyApp({ Component, pageProps, user }: MyAppProps<MyAppPageProps>) {
           <Hydrate state={pageProps?.dehydratedState}>
             <RecoilRoot>
               <UserProvider user={user}>
-                <CssBaseline />
-                <NavBar />
-                <Divider />
-                <Component {...pageProps} />
+                <Container
+                  maxWidth={false}
+                  disableGutters
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "100vh",
+                    width: "100vw",
+                    position: "fixed",
+                  }}
+                >
+                  <CssBaseline />
+                  <NavBar />
+                  <Divider />
+                  <Component {...pageProps} />
+                </Container>
               </UserProvider>
             </RecoilRoot>
           </Hydrate>
