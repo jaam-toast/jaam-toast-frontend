@@ -1,10 +1,6 @@
-import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useState } from "react";
 import { Container, Divider, IconButton, TextField } from "@mui/material";
-import {
-  ExpandMore as ExpandMoreIcon,
-  Add as AddIcon,
-  Remove as RemoveIcon,
-} from "@mui/icons-material";
+import { Add as AddIcon, Remove as RemoveIcon } from "@mui/icons-material";
 import { Box } from "@mui/system";
 
 import { BLACK, GREY } from "src/constants/colors";

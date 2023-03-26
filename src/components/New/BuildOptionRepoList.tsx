@@ -1,4 +1,6 @@
 import { useState } from "react";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 import {
   Box,
   Divider,
@@ -11,15 +13,13 @@ import {
 import GitHubIcon from "@mui/icons-material/GitHub";
 
 import { Button, BorderBox } from "../@shared";
-
-import type { Repo } from "src/pages/new/[userName]";
-import { useQuery } from "@tanstack/react-query";
 import useUser from "src/hooks/useUser";
-import axios from "axios";
 import Config from "src/config";
 
+import type { Repo } from "src/pages/new/[userName]";
+
 type BuildOptionRepoListProps = {
-  space: string | null;
+  space: string;
   searchWord: string;
   onOptionClick: (option: string) => void;
 };
@@ -36,7 +36,7 @@ function BuildOptionRepoList({
 }: BuildOptionRepoListProps) {
   const { user } = useUser();
   const { data } = useQuery({
-    queryKey: ["new-repo-select-page", "repos"],
+    queryKey: ["new-repo-select-page", space, "repos"],
     queryFn: async () => {
       const { data } =
         space === user?.name
@@ -61,7 +61,6 @@ function BuildOptionRepoList({
     },
   });
   const repos = data ?? [];
-  console.log(repos);
   const [buttonName, setButtonName] = useState<string>("View All");
   const handleAllClick = async () => {
     setButtonName(buttonName === "View All" ? "Fold" : "View All");

@@ -8,10 +8,10 @@ import {
   Typography,
   Tooltip,
 } from "@mui/material";
+import CallMadeIcon from "@mui/icons-material/CallMade";
 
-import { Button } from "./@shared";
+import { Button } from ".";
 import useUser from "src/hooks/useUser";
-import { WHITE } from "src/constants/colors";
 
 function NavBar() {
   const { isLoggedIn, logout } = useUser();
@@ -27,56 +27,46 @@ function NavBar() {
       color="inherit"
       elevation={0}
       sx={{
-        height: "10vh",
+        height: "7vh",
         justifyContent: "center",
+        position: "sticky",
+        padding: "0 10rem",
       }}
     >
       <Toolbar sx={{ justifyContent: "space-between" }}>
-        <Box sx={{ height: "100%" }}>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="brand-logo"
-            onClick={handleLogoClick}
-          >
-            <Image
-              src="/images/jaamtoast-logo.svg"
-              alt="Jaamtoast logo"
-              width="50%"
-              height="50%"
-            />
-          </IconButton>
-        </Box>
         <Typography
-          variant="h4"
+          variant="h6"
           component="div"
           sx={{
-            paddingRight: 1.5,
-            marginTop: 0.5,
-            color: WHITE,
+            flexGrow: 1,
+            fontWeight: "700",
+            fontSize: "1.5rem",
+            fontFamily: "GmarketSans",
+            letterSpacing: "-2px",
           }}
         >
-          /
-        </Typography>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Jaam-Toast
+          / Jaam Toast
         </Typography>
         {isLoggedIn && (
           <Tooltip title="Log out">
             <Button
-              size="small"
+              variant="outlined"
+              size="large"
               color="light"
               sx={{
-                bgcolor: "light.main",
+                padding: "0.4rem 1.5rem",
+                border: "1px solid #000000",
+                backgroundColor: "#FFFFFF",
                 ":hover": {
-                  color: "dark.main",
-                  bgcolor: "light.main",
+                  color: "#FFFFFF",
+                  backgroundColor: "#000000",
+                  border: "1px solid #FFFFFF",
                 },
               }}
               onClick={logout}
             >
               Log out
+              <CallMadeIcon sx={{ marginLeft: "0.5rem" }} />
             </Button>
           </Tooltip>
         )}

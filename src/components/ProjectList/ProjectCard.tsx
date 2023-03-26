@@ -13,16 +13,15 @@ import useModal from "src/hooks/useModal";
 import { selectedProject } from "src/recoil/userDeployments";
 import { BLUE } from "src/constants/colors";
 
-import type { Project } from "./ProjectList";
+import type { Project } from "./ProjectCardList";
 interface ProjectCardProps {
   project: Project;
 }
 
 function ProjectCard({ project }: ProjectCardProps) {
-  const setSelectedProject = useSetRecoilState(selectedProject);
   const { showModal } = useModal();
 
-  const updatedMilliseconds = new Date(project.repoUpdatedAt).valueOf();
+  const updatedMilliseconds = new Date(project.projectUpdatedAt).valueOf();
   const repoUpdatedSince = timeSince(updatedMilliseconds);
   const router = useRouter();
 
@@ -51,14 +50,14 @@ function ProjectCard({ project }: ProjectCardProps) {
       <CardContent
         sx={{ position: "relative", padding: "1.5rem", height: 180 }}
       >
-        <CloseIcon sx={CloseIconStyle} onClick={handleCloseButtonClick} />
+        {/* <CloseIcon sx={CloseIconStyle} onClick={handleCloseButtonClick} /> */}
         <Box
           sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
         >
           <ChangeHistoryIcon fontSize="medium" />
           <Box sx={{ display: "flex", flexDirection: "column", marginLeft: 1 }}>
             <Typography sx={{ fontSize: "large", fontWeight: "bold" }}>
-              {project.repoName}
+              {project.projectName}
             </Typography>
             <a
               href={`https://${project.deployedUrl as string}`}
