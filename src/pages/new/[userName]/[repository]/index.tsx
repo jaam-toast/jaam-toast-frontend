@@ -9,15 +9,15 @@ import {
   CenterBox,
   TextField,
 } from "src/components/@shared";
-import BuildStepCard from "src/components/build/BuildStepCards";
-import SelectBox from "src/components/build/SelectBox";
-import BuildOptionEnvsField from "src/components/build/BuildOptionEnvsField";
+import BuildStepCard from "src/components/@shared/BuildStepCards";
+import SelectBox from "src/components/@shared/SelectBox";
+import BuildOptionEnvsField from "src/components/BuildOptions/BuildOptionEnvsField";
 import useUser from "src/hooks/useUser";
 import Config from "src/config";
 import getUserFromCookie from "utils/getUserFromCookie";
 import createRandomId from "utils/createRandomId";
 
-import type { Project } from "src/components/ProjectList";
+import type { Project } from "src/components/ProjectList/ProjectCardList";
 import type {
   BuildOptions,
   BuildOptionsKeys,
@@ -33,7 +33,7 @@ type BuildOptionsProps = {
   >;
 };
 
-function BuildOptions({ defaultOptions }: BuildOptionsProps) {
+function BuildOptionsPage({ defaultOptions }: BuildOptionsProps) {
   const router = useRouter();
   const { user } = useUser();
   const [isProjectNameAvailable, setIsProjectNameAvailable] =
@@ -280,4 +280,4 @@ export const getServerSideProps: GetServerSideProps<
   };
 };
 
-export default BuildOptions;
+export default BuildOptionsPage;

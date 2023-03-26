@@ -2,13 +2,13 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { Box, Container, Button } from "@mui/material";
 
-import ProjectList from "src/components/ProjectList";
+import ProjectList from "src/components/ProjectList/ProjectCardList";
 import { SearchInput } from "src/components/@shared";
 import useUser from "src/hooks/useUser";
 import { GetServerSideProps } from "next";
 import { getCookie } from "cookies-next";
 
-function UserProjects() {
+function ProjectListPage() {
   const { user } = useUser();
   const router = useRouter();
   const [searchword, setSearchword] = useState<string>("");
@@ -78,4 +78,4 @@ export const getServerSideProps: GetServerSideProps<{}> = async ({
   };
 };
 
-export default UserProjects;
+export default ProjectListPage;

@@ -2,16 +2,16 @@ import { useRecoilValue } from "recoil";
 import { Box, Container, Typography } from "@mui/material";
 
 import { BorderBox, CenterBox, FlexRowCenterBox } from "src/components/@shared";
-import BuildingLog from "src/components/build/BuildingLog";
-import PreviewCommandsTextField from "src/components/preview/PreviewCommandsTextField";
-import PreviewEnvList from "src/components/preview/PreviewEnvList";
+import BuildingLog from "src/components/@shared/BuildingLog";
+import PreviewCommandsTextField from "src/components/Preview/PreviewCommandsTextField";
+import PreviewEnvList from "src/components/Preview/PreviewEnvList";
 import { BLUE } from "src/constants/colors";
 
 import { userDeploymentsState } from "src/recoil/userDeployments";
 
 import deployMockData from "../../../../../__test__/mock/deployData.json";
 
-function Preview() {
+function PreviewPage() {
   // const deploymentData = useRecoilValue(userDeploymentsState);
 
   // * test mock 데이터 적용 (위 deploymentData로 바꾸면 됨)
@@ -95,4 +95,4 @@ const IframeStyle = {
   top: 0,
 };
 
-export default Preview;
+export default PreviewPage;

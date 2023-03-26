@@ -11,9 +11,7 @@ import { isMobile } from "react-device-detect";
 import { getCookie } from "cookies-next";
 import { ThemeProvider, CssBaseline, Divider } from "@mui/material";
 
-import MobileDefense from "src/components/modal/MobileDefense";
-import ModalGlobal from "src/components/modal/ModalGlobal";
-import NavBar from "src/components/Navbar";
+import NavBar from "src/components/@shared/Navbar";
 import { UserProvider } from "src/hooks/useUser";
 import theme from "src/utils/theme";
 import "../../public/fonts/style.css";
@@ -47,16 +45,9 @@ function MyApp({ Component, pageProps, user }: MyAppProps<MyAppPageProps>) {
             <RecoilRoot>
               <UserProvider user={user}>
                 <CssBaseline />
-                {isMobile ? (
-                  <MobileDefense />
-                ) : (
-                  <>
-                    <ModalGlobal />
-                    <NavBar />
-                    <Divider />
-                    <Component {...pageProps} />
-                  </>
-                )}
+                <NavBar />
+                <Divider />
+                <Component {...pageProps} />
               </UserProvider>
             </RecoilRoot>
           </Hydrate>

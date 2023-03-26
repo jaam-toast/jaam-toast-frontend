@@ -15,7 +15,7 @@ import {
 import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 
 import { BorderBox, CenterBox } from "src/components/@shared";
-import BuildStepCard from "src/components/build/BuildStepCards";
+import BuildStepCard from "src/components/@shared/BuildStepCards";
 import useBuildingLog from "src/hooks/useBuildingLog";
 import useUser from "src/hooks/useUser";
 import getUserFromCookie from "utils/getUserFromCookie";
@@ -48,7 +48,7 @@ type DeployProps = {
   buildOptions: BuildOptions;
 };
 
-function Deploy({ buildOptions }: DeployProps) {
+function DeployPage({ buildOptions }: DeployProps) {
   const router = useRouter();
   const { user } = useUser();
   const [buildingLog, setBuildingLog] = useState<string[]>([]);
@@ -176,4 +176,4 @@ export const getServerSideProps: GetServerSideProps<
   };
 };
 
-export default Deploy;
+export default DeployPage;
