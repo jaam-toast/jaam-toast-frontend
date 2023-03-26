@@ -12,7 +12,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 
 import { Button, BorderBox } from "../@shared";
 
-import type { Repository } from "src/pages/new/[userName]";
+import type { Repo } from "src/pages/new/[userName]";
 import { useQuery } from "@tanstack/react-query";
 import useUser from "src/hooks/useUser";
 import axios from "axios";
@@ -26,7 +26,7 @@ type BuildOptionRepoListProps = {
 
 type GetRepositoriesResponse = {
   message: string;
-  result?: Repository[];
+  result?: Repo[];
 };
 
 function BuildOptionRepoList({
@@ -79,7 +79,7 @@ function BuildOptionRepoList({
               width: "100%",
             }}
             component="nav"
-            aria-label="repository-list"
+            aria-label="repo-list"
           >
             {repos
               .filter(repo =>
@@ -88,7 +88,7 @@ function BuildOptionRepoList({
               .slice(0, viewListCount)
               .map((repo, index) => (
                 <div key={repo.repoName + index}>
-                  <ListSubheader id="repository-list" />
+                  <ListSubheader id="repo-list" />
                   <ListItem>
                     <ListItemIcon>
                       <GitHubIcon />
