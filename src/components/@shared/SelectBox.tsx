@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 
-import { Form } from "../@shared";
+import { Form } from ".";
 
 type SelectBoxProps = SelectProps & {
   label: string;
