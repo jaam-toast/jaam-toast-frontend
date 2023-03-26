@@ -7,6 +7,7 @@ import {
   TAN,
   WHITE,
 } from "src/constants/colors";
+import ButtonTheme from "./Button";
 
 const theme = createTheme({
   typography: {
@@ -34,32 +35,7 @@ const theme = createTheme({
     },
   },
   components: {
-    MuiButton: {
-      variants: [
-        {
-          props: { color: "light" },
-          style: {
-            backgroundColor: WHITE,
-            color: BLACK,
-            "&:hover": {
-              backgroundColor: BLACK,
-              color: WHITE,
-            },
-          },
-        },
-        {
-          props: { color: "dark" },
-          style: {
-            backgroundColor: BLACK,
-            color: WHITE,
-            "&:hover": {
-              backgroundColor: WHITE,
-              color: BLACK,
-            },
-          },
-        },
-      ],
-    },
+    MuiButton: ButtonTheme,
     MuiAvatar: {
       variants: [
         {
