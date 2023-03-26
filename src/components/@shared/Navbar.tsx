@@ -1,17 +1,10 @@
 import { useRouter } from "next/router";
-import Image from "next/image";
-import {
-  AppBar,
-  Box,
-  IconButton,
-  Toolbar,
-  Typography,
-  Tooltip,
-} from "@mui/material";
+import { AppBar, Toolbar, Typography, Tooltip } from "@mui/material";
 import CallMadeIcon from "@mui/icons-material/CallMade";
 
 import { Button } from ".";
 import useUser from "src/hooks/useUser";
+import { BLACK, WHITE } from "src/constants/colors";
 
 function NavBar() {
   const { isLoggedIn, logout } = useUser();
@@ -31,6 +24,7 @@ function NavBar() {
         justifyContent: "center",
         position: "sticky",
         padding: "0 10rem",
+        borderBottom: "1px solid #1D1D1D",
       }}
     >
       <Toolbar sx={{ justifyContent: "space-between" }}>
@@ -50,17 +44,19 @@ function NavBar() {
         {isLoggedIn && (
           <Tooltip title="Log out">
             <Button
-              variant="outlined"
-              size="large"
+              variant="dark"
+              size="small"
               color="light"
               sx={{
+                fontSize: "0.9rem",
+                color: BLACK,
                 padding: "0.4rem 1.5rem",
-                border: "1px solid #000000",
-                backgroundColor: "#FFFFFF",
+                border: `1px solid ${BLACK}`,
+                backgroundColor: WHITE,
                 ":hover": {
-                  color: "#FFFFFF",
-                  backgroundColor: "#000000",
-                  border: "1px solid #FFFFFF",
+                  color: WHITE,
+                  backgroundColor: BLACK,
+                  border: `1px solid ${WHITE}`,
                 },
               }}
               onClick={logout}
