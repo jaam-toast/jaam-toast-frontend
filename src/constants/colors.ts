@@ -1,6 +1,6 @@
-export const WHITE = "#d3d3d3";
+export const WHITE = "#FFFFFF";
 
-export const BLACK = "333333";
+export const BLACK = "#000000";
 
 export const BLUE = "#03336a";
 
