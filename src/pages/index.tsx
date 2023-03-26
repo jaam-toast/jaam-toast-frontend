@@ -7,7 +7,7 @@ import { WHITE } from "src/constants/colors";
 
 import type { GetServerSideProps } from "next";
 
-function PageLanding() {
+function LandingPage() {
   const { login } = useUser();
 
   return (
@@ -70,4 +70,4 @@ export const getServerSideProps: GetServerSideProps<{}> = async ({
   };
 };
 
-export default PageLanding;
+export default LandingPage;

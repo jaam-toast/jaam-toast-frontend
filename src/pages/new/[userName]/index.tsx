@@ -8,9 +8,9 @@ import {
   FlexRowCenterBox,
   SearchInput,
 } from "src/components/@shared";
-import BuildStepCards from "src/components/build/BuildStepCards";
-import BuildOptionRepoList from "src/components/build/BuildOptionRepoList";
-import SelectBox from "src/components/build/SelectBox";
+import BuildStepCards from "src/components/@shared/BuildStepCards";
+import BuildOptionRepoList from "src/components/New/BuildOptionRepoList";
+import SelectBox from "src/components/@shared/SelectBox";
 
 import type { GetServerSideProps } from "next";
 import {
@@ -43,7 +43,7 @@ type GetOrgsResponse = {
   result: Space[];
 };
 
-function New() {
+function NewPage() {
   const { user } = useUser();
   const router = useRouter();
   const [currentSpace, setCurrentSpace] = useState<string | null>(null);
@@ -214,4 +214,4 @@ export const getServerSideProps: GetServerSideProps<NewProps> = async ({
   };
 };
 
-export default New;
+export default NewPage;

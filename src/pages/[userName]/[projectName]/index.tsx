@@ -1,18 +1,18 @@
 import { Box, Container, Divider, Typography } from "@mui/material";
 
-import PreviewCommandsTextField from "src/components/preview/PreviewCommandsTextField";
-import PreviewEnvList from "src/components/preview/PreviewEnvList";
-import BuildingLog from "src/components/build/BuildingLog";
+import PreviewCommandsTextField from "src/components/Preview/PreviewCommandsTextField";
+import PreviewEnvList from "src/components/Preview/PreviewEnvList";
+import BuildingLog from "src/components/@shared/BuildingLog";
 import { BorderBox } from "src/components/@shared";
 
-import type { Project } from "src/components/ProjectList";
+import type { Project } from "src/components/ProjectList/ProjectCardList";
 import type { GetServerSideProps } from "next";
 
-type ProjectDashBoardProps = {
+type ProjectDetailPageProps = {
   project: Project;
 };
 
-function ProjectDashBoard({ project }: ProjectDashBoardProps) {
+function ProjectDetailPage({ project }: ProjectDetailPageProps) {
   const { installCommand, buildCommand, deployedUrl, envList, buildingLog } =
     project ?? {};
 
@@ -57,9 +57,9 @@ function ProjectDashBoard({ project }: ProjectDashBoardProps) {
 }
 
 export const getServerSideProps: GetServerSideProps<
-  ProjectDashBoardProps
+  ProjectDetailPageProps
 > = async () => {
-  // TODO: fetch project data.
+  // TODO: fetch project id.
   const project = {
     repoOwner: "mock data",
     repoName: "mock data",
@@ -90,4 +90,4 @@ const IframeStyle = {
   top: 0,
 };
 
-export default ProjectDashBoard;
+export default ProjectDetailPage;
