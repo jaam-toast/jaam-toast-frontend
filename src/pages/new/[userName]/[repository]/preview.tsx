@@ -1,19 +1,16 @@
-import { useRecoilValue } from "recoil";
 import { Box, Container, Typography } from "@mui/material";
+import { GetServerSideProps } from "next";
 
 import { BorderBox, CenterBox, FlexRowCenterBox } from "src/components/@shared";
 import BuildingLog from "src/components/@shared/BuildingLog";
 import PreviewCommandsTextField from "src/components/Preview/PreviewCommandsTextField";
 import PreviewEnvList from "src/components/Preview/PreviewEnvList";
 import { BLUE } from "src/constants/colors";
-
-import { userDeploymentsState } from "src/recoil/userDeployments";
+import getUserFromCookie from "utils/getUserFromCookie";
 
 import deployMockData from "../../../../../__test__/mock/deployData.json";
 
 function PreviewPage() {
-  // const deploymentData = useRecoilValue(userDeploymentsState);
-
   // * test mock 데이터 적용 (위 deploymentData로 바꾸면 됨)
   const deploymentDataTest = deployMockData;
 
@@ -79,6 +76,23 @@ function PreviewPage() {
     </Container>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<{}> = async context => {
+  const user = getUserFromCookie(context);
+
+  if (!user) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
 
 const IframeBoxStyle = {
   position: "relative",

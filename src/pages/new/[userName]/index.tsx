@@ -1,6 +1,13 @@
 import { useState } from "react";
-import { Box, Container, Typography } from "@mui/material";
+import {
+  dehydrate,
+  DehydratedState,
+  QueryClient,
+  useQuery,
+} from "@tanstack/react-query";
 import { useRouter } from "next/router";
+import axios from "axios";
+import { Box, Container, Typography } from "@mui/material";
 
 import {
   BorderBox,
@@ -11,18 +18,11 @@ import {
 import BuildStepCards from "src/components/@shared/BuildStepCards";
 import BuildOptionRepoList from "src/components/New/BuildOptionRepoList";
 import SelectBox from "src/components/@shared/SelectBox";
+import useUser from "src/hooks/useUser";
+import getUserFromCookie from "utils/getUserFromCookie";
+import Config from "src/config";
 
 import type { GetServerSideProps } from "next";
-import {
-  dehydrate,
-  DehydratedState,
-  QueryClient,
-  useQuery,
-} from "@tanstack/react-query";
-import Config from "src/config";
-import axios from "axios";
-import { getCookie } from "cookies-next";
-import useUser, { User } from "src/hooks/useUser";
 
 type NewProps = {
   dehydratedState?: DehydratedState;
@@ -172,10 +172,9 @@ export const getServerSideProps: GetServerSideProps<NewProps> = async ({
   res,
 }) => {
   // TODO: get user data without getCookie.
-  const queryClient = new QueryClient();
-  const loginCookieData = getCookie("loginData", { req, res });
+  const user = getUserFromCookie({ req, res });
 
-  if (!loginCookieData) {
+  if (!user) {
     return {
       redirect: {
         destination: "/",
@@ -184,9 +183,8 @@ export const getServerSideProps: GetServerSideProps<NewProps> = async ({
     };
   }
 
-  // TODO: make prefetch hook.
-  const user: User =
-    typeof loginCookieData === "boolean" ? {} : JSON.parse(loginCookieData);
+  const queryClient = new QueryClient();
+
   await queryClient.prefetchQuery(["new-page", "spaces"], async () => {
     const { data } = await axios.get<GetOrgsResponse>(
       `${Config.SERVER_URL_API}/users/${user.id}/orgs?githubAccessToken=${user.githubAccessToken}`,

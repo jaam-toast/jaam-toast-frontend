@@ -5,8 +5,9 @@ import { Box, Container, Button } from "@mui/material";
 import ProjectList from "src/components/ProjectList/ProjectCardList";
 import { SearchInput } from "src/components/@shared";
 import useUser from "src/hooks/useUser";
-import { GetServerSideProps } from "next";
-import { getCookie } from "cookies-next";
+import getUserFromCookie from "utils/getUserFromCookie";
+
+import type { GetServerSideProps } from "next";
 
 function ProjectListPage() {
   const { user } = useUser();
@@ -62,9 +63,9 @@ export const getServerSideProps: GetServerSideProps<{}> = async ({
   req,
   res,
 }) => {
-  const loginCookieData = getCookie("loginData", { req, res });
+  const user = getUserFromCookie({ req, res });
 
-  if (!loginCookieData) {
+  if (!user) {
     return {
       redirect: {
         destination: "/",
