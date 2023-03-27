@@ -7,14 +7,49 @@ import { BorderBox } from "src/components/@shared";
 
 import type { Project } from "src/components/ProjectList/ProjectCardList";
 import type { GetServerSideProps } from "next";
+import getUserFromCookie from "utils/getUserFromCookie";
+import {
+  dehydrate,
+  DehydratedState,
+  QueryClient,
+  useQuery,
+} from "@tanstack/react-query";
+import Config from "src/config";
+import axios from "axios";
+import useUser from "src/hooks/useUser";
+import { useRouter } from "next/router";
 
 type ProjectDetailPageProps = {
-  project: Project;
+  dehydratedState?: DehydratedState;
 };
 
-function ProjectDetailPage({ project }: ProjectDetailPageProps) {
+type Response<T> = {
+  message: string;
+  result: T;
+};
+
+function ProjectDetailPage() {
+  const router = useRouter();
+  const { user } = useUser();
+  const { projectName } = router.query;
+
+  const { data: query } = useQuery(
+    ["dashboard-page", "project", projectName],
+    async () => {
+      const { data } = await axios.get<Response<Project>>(
+        `${Config.SERVER_URL_API}/projects/${projectName}?githubAccessToken=${user?.githubAccessToken}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user?.accessToken}`,
+          },
+        },
+      );
+
+      return data;
+    },
+  );
   const { installCommand, buildCommand, deployedUrl, envList, buildingLog } =
-    project ?? {};
+    query?.result ?? {};
 
   return (
     <Container fixed maxWidth="lg" sx={{ height: "90vh", p: 4 }}>
@@ -58,19 +93,40 @@ function ProjectDetailPage({ project }: ProjectDetailPageProps) {
 
 export const getServerSideProps: GetServerSideProps<
   ProjectDetailPageProps
-> = async () => {
-  // TODO: fetch project id.
-  const project = {
-    space: "mock data",
-    repoName: "mock data",
-    deployedUrl: "mock data",
-    lastCommitMessage: "mock data",
-    repoUpdatedAt: "mock data",
-  };
+> = async context => {
+  const user = getUserFromCookie(context);
+
+  if (!user) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  const queryClient = new QueryClient();
+  const { projectName } = context.query;
+
+  await queryClient.prefetchQuery(
+    ["dashboard-page", "project", projectName],
+    async () => {
+      const { data } = await axios.get<Response<Project>>(
+        `${Config.SERVER_URL_API}/projects/${projectName}?githubAccessToken=${user?.githubAccessToken}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user?.accessToken}`,
+          },
+        },
+      );
+
+      return data;
+    },
+  );
 
   return {
     props: {
-      project,
+      dehydratedState: dehydrate(queryClient),
     },
   };
 };
