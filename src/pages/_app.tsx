@@ -6,7 +6,6 @@ import {
   QueryClientProvider,
   Hydrate,
 } from "@tanstack/react-query";
-import { RecoilRoot } from "recoil";
 import { isMobile } from "react-device-detect";
 import { ThemeProvider, CssBaseline, Divider, Container } from "@mui/material";
 
@@ -42,31 +41,29 @@ function MyApp({ Component, pageProps, user }: MyAppProps<MyAppPageProps>) {
       <ThemeProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps?.dehydratedState}>
-            <RecoilRoot>
-              <UserProvider user={user}>
-                <Container
-                  maxWidth={false}
-                  disableGutters
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    height: "100vh",
-                    width: "100vw",
-                    overflow: "scroll",
-                    scrollbarWidth: "none",
-                    msOverflowStyle: "none",
-                    "::-webkit-scrollbar": {
-                      display: "none",
-                    },
-                  }}
-                >
-                  <CssBaseline />
-                  <NavBar />
-                  <Divider />
-                  <Component {...pageProps} />
-                </Container>
-              </UserProvider>
-            </RecoilRoot>
+            <UserProvider user={user}>
+              <Container
+                maxWidth={false}
+                disableGutters
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100vh",
+                  width: "100vw",
+                  overflow: "scroll",
+                  scrollbarWidth: "none",
+                  msOverflowStyle: "none",
+                  "::-webkit-scrollbar": {
+                    display: "none",
+                  },
+                }}
+              >
+                <CssBaseline />
+                <NavBar />
+                <Divider />
+                <Component {...pageProps} />
+              </Container>
+            </UserProvider>
           </Hydrate>
         </QueryClientProvider>
       </ThemeProvider>
