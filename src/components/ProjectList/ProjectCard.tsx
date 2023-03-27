@@ -26,8 +26,8 @@ function ProjectCard({ project }: ProjectCardProps) {
   const router = useRouter();
 
   const handleCardClick = () => {
-    const { repoOwner, repoName } = project;
-    router.push(`/${repoOwner}/${repoName}`);
+    const { space, repoName } = project;
+    router.push(`/${space}/${repoName}`);
   };
 
   const handleCloseButtonClick = (e: MouseEvent) => {
