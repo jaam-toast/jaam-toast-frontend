@@ -5,7 +5,7 @@ import { Box } from "@mui/system";
 
 import { BLACK, GREY } from "src/constants/colors";
 
-import type { Env } from "types/projectOption";
+import type { Env } from "types/build";
 
 type BuildOptionEnvsFieldProps = {
   defaultEnvs?: Env[];

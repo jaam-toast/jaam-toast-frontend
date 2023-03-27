@@ -5,15 +5,7 @@ import { deleteCookie } from "cookies-next";
 import Config from "src/config";
 
 import type { ReactElement } from "react";
-
-export type User = {
-  id: string;
-  name: string;
-  githubUri: string;
-  image?: string;
-  githubAccessToken: string;
-  accessToken: string;
-};
+import type { User } from "types/auth";
 
 const UserContext = createContext<User | null>(null);
 

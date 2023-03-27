@@ -19,40 +19,19 @@ import Config from "src/config";
 import getUserFromCookie from "utils/getUserFromCookie";
 import createRandomId from "utils/createRandomId";
 
-import type { Project } from "src/components/ProjectList/ProjectCardList";
 import type {
   BuildOptions,
   BuildOptionsKeys,
   BuildOptionsTypes,
 } from "types/projectOption";
 import type { GetServerSideProps } from "next";
+import type { Response, Project } from "types/api";
 
 type BuildOptionsProps = {
   defaultOptions: Pick<
     BuildOptions,
     "projectName" | "installCommand" | "buildCommand"
   >;
-};
-
-type CreateProjectResponse = {
-  result: string;
-  data: {
-    repoName: string;
-    space: string;
-    repoCloneUrl: string;
-    repoUpdatedAt: string;
-    nodeVersion: string;
-    installCommand: string;
-    buildCommand: string;
-    envList: string;
-    buildType: string;
-    deployedUrl: string;
-    buildingLog: string;
-    instanceId: string;
-    lastCommitMessage: string;
-    repoId: string;
-    webhookId: string;
-  };
 };
 
 function BuildOptionsPage({ defaultOptions }: BuildOptionsProps) {
@@ -81,7 +60,7 @@ function BuildOptionsPage({ defaultOptions }: BuildOptionsProps) {
         buildType,
       } = buildOptions;
 
-      return axios.post<CreateProjectResponse>(
+      return axios.post<Response<Project>>(
         `${Config.SERVER_URL_API}/projects?githubAccessToken=${user?.githubAccessToken}`,
         {
           userId: user?.id,

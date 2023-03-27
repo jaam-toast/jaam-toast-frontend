@@ -2,10 +2,14 @@ import { Box } from "@mui/material";
 
 import { Form, TextField } from "../@shared";
 import { BLACK } from "src/constants/colors";
+import { Env } from "types/build";
 
-import type { EnvsState } from "types/projectOption";
+type PreviewTextFieldProps = {
+  envIndex: number;
+  envsList: Env[];
+};
 
-function PreviewTextField({ envIndex, envsList }: EnvsState) {
+function PreviewTextField({ envIndex, envsList }: PreviewTextFieldProps) {
   return (
     <Box display="flex" sx={{ flexDirection: "row", width: "100%" }}>
       <Box sx={{ width: "50%" }}>

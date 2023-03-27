@@ -10,7 +10,7 @@ import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 
 import TextFieldPreview from "./PreviewTextField";
 
-import { Env } from "types/projectOption";
+import { Env } from "types/build";
 
 function PreviewEnvList({ envsList }: { envsList?: Env[] }) {
   return (

@@ -17,7 +17,7 @@ import theme from "src/theme";
 import "../../public/fonts/style.css";
 
 import type { AppContext, AppProps } from "next/app";
-import type { User } from "src/hooks/useUser";
+import type { User } from "types/auth";
 import type { DehydratedState } from "@tanstack/react-query";
 
 type MyAppProps<T> = AppProps<T> & {

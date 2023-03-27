@@ -1,31 +1,26 @@
-import { Box, Container, Divider, Typography } from "@mui/material";
-
-import PreviewCommandsTextField from "src/components/Preview/PreviewCommandsTextField";
-import PreviewEnvList from "src/components/Preview/PreviewEnvList";
-import BuildingLog from "src/components/@shared/BuildingLog";
-import { BorderBox } from "src/components/@shared";
-
-import type { Project } from "src/components/ProjectList/ProjectCardList";
-import type { GetServerSideProps } from "next";
-import getUserFromCookie from "utils/getUserFromCookie";
 import {
   dehydrate,
   DehydratedState,
   QueryClient,
   useQuery,
 } from "@tanstack/react-query";
-import Config from "src/config";
 import axios from "axios";
-import useUser from "src/hooks/useUser";
 import { useRouter } from "next/router";
+import { Box, Container, Divider, Typography } from "@mui/material";
+
+import PreviewCommandsTextField from "src/components/Preview/PreviewCommandsTextField";
+import PreviewEnvList from "src/components/Preview/PreviewEnvList";
+import BuildingLog from "src/components/@shared/BuildingLog";
+import { BorderBox } from "src/components/@shared";
+import getUserFromCookie from "utils/getUserFromCookie";
+import Config from "src/config";
+import useUser from "src/hooks/useUser";
+
+import type { GetServerSideProps } from "next";
+import type { Response, Project } from "types/api";
 
 type ProjectDetailPageProps = {
   dehydratedState?: DehydratedState;
-};
-
-type Response<T> = {
-  message: string;
-  result: T;
 };
 
 function ProjectDetailPage() {
