@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { getCookie } from "cookies-next";
 import { Box, Container, Typography, Button } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import CallMadeIcon from "@mui/icons-material/CallMade";
 
 import useUser from "src/hooks/useUser";
+import getUserFromCookie from "utils/getUserFromCookie";
 import { WHITE } from "src/constants/colors";
 
 import type { GetServerSideProps } from "next";
@@ -107,9 +107,9 @@ export const getServerSideProps: GetServerSideProps<{}> = async ({
   req,
   res,
 }) => {
-  const loginCookieData = getCookie("loginData", { req, res });
+  const user = getUserFromCookie({ req, res });
 
-  if (!!loginCookieData) {
+  if (!!user) {
     return {
       redirect: {
         destination: "/projects",

@@ -8,11 +8,11 @@ import {
 } from "@tanstack/react-query";
 import { RecoilRoot } from "recoil";
 import { isMobile } from "react-device-detect";
-import { getCookie } from "cookies-next";
 import { ThemeProvider, CssBaseline, Divider, Container } from "@mui/material";
 
 import NavBar from "src/components/@shared/Navbar";
 import { UserProvider } from "src/hooks/useUser";
+import getUserFromCookie from "utils/getUserFromCookie";
 import theme from "src/theme";
 import "../../public/fonts/style.css";
 
@@ -54,7 +54,7 @@ function MyApp({ Component, pageProps, user }: MyAppProps<MyAppPageProps>) {
                     width: "100vw",
                     overflow: "scroll",
                     scrollbarWidth: "none",
-                    "-ms-overflow-style": "none",
+                    msOverflowStyle: "none",
                     "::-webkit-scrollbar": {
                       display: "none",
                     },
@@ -76,12 +76,14 @@ function MyApp({ Component, pageProps, user }: MyAppProps<MyAppPageProps>) {
 
 MyApp.getInitialProps = async (context: AppContext) => {
   const appProps = await App.getInitialProps(context);
-  const {
-    ctx: { req, res },
-  } = context;
-  const loginCookieData = getCookie("loginData", { req, res });
+  const { req, res } = context.ctx;
+  let user: User | null = null;
 
-  if (!loginCookieData) {
+  if (!!req && !!res) {
+    user = getUserFromCookie({ req, res });
+  }
+
+  if (!user) {
     return {
       redirect: {
         destination: "/",
@@ -89,10 +91,6 @@ MyApp.getInitialProps = async (context: AppContext) => {
       },
     };
   }
-
-  // TODO: to able to approach each getServerSideProps.
-  const user: User =
-    typeof loginCookieData === "boolean" ? {} : JSON.parse(loginCookieData);
 
   return { ...appProps, user };
 };
