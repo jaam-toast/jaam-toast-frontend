@@ -24,10 +24,10 @@ export enum NodeVersion {
 
 export interface BuildOptions {
   projectName: string;
-  nodeVersion?: NodeVersion;
+  nodeVersion: NodeVersion | null;
   installCommand: string;
   buildCommand: string;
-  buildType?: BuildType;
+  buildType: BuildType | null;
   envList: Env[];
 }
 

@@ -7,6 +7,7 @@ import useUser from "src/hooks/useUser";
 import Config from "src/config";
 
 import { Project, Response } from "types/api";
+import { useRouter } from "next/router";
 
 type ProjectCardListProps = {
   searchword: string;
@@ -14,14 +15,21 @@ type ProjectCardListProps = {
 
 function ProjectCardList({ searchword }: ProjectCardListProps) {
   const { user } = useUser();
+  const router = useRouter();
+
+  if (!user) {
+    router.push("/");
+    return null;
+  }
+
   const { data: projects } = useQuery({
-    queryKey: ["projects-page", "projects"],
+    queryKey: ["projects"],
     queryFn: async () => {
       const { data } = await axios.get<Response<Project[]>>(
-        `${Config.SERVER_URL_API}/users/${user?.id}/projects?githubAccessToken=${user?.githubAccessToken}`,
+        `${Config.SERVER_URL_API}/users/${user.id}/projects?githubAccessToken=${user.githubAccessToken}`,
         {
           headers: {
-            Authorization: `Bearer ${user?.accessToken}`,
+            Authorization: `Bearer ${user.accessToken}`,
           },
         },
       );

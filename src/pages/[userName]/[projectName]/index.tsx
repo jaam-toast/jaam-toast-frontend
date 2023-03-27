@@ -28,21 +28,26 @@ function ProjectDetailPage() {
   const { user } = useUser();
   const { projectName } = router.query;
 
-  const { data: query } = useQuery(
-    ["dashboard-page", "project", projectName],
-    async () => {
+  if (!user) {
+    router.push("/");
+    return null;
+  }
+
+  const { data: query } = useQuery({
+    queryKey: ["project", projectName],
+    queryFn: async () => {
       const { data } = await axios.get<Response<Project>>(
-        `${Config.SERVER_URL_API}/projects/${projectName}?githubAccessToken=${user?.githubAccessToken}`,
+        `${Config.SERVER_URL_API}/projects/${projectName}?githubAccessToken=${user.githubAccessToken}`,
         {
           headers: {
-            Authorization: `Bearer ${user?.accessToken}`,
+            Authorization: `Bearer ${user.accessToken}`,
           },
         },
       );
 
       return data;
     },
-  );
+  });
   const { installCommand, buildCommand, deployedUrl, envList, buildingLog } =
     query?.result ?? {};
 
@@ -103,9 +108,9 @@ export const getServerSideProps: GetServerSideProps<
   const queryClient = new QueryClient();
   const { projectName } = context.query;
 
-  await queryClient.prefetchQuery(
-    ["dashboard-page", "project", projectName],
-    async () => {
+  await queryClient.prefetchQuery({
+    queryKey: ["project", projectName],
+    queryFn: async () => {
       const { data } = await axios.get<Response<Project>>(
         `${Config.SERVER_URL_API}/projects/${projectName}?githubAccessToken=${user?.githubAccessToken}`,
         {
@@ -117,7 +122,7 @@ export const getServerSideProps: GetServerSideProps<
 
       return data;
     },
-  );
+  });
 
   return {
     props: {
