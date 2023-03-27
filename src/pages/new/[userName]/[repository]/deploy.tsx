@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
-import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import { getCookie } from "cookies-next";
 import {
   Accordion,
@@ -19,31 +17,10 @@ import BuildStepCard from "src/components/@shared/BuildStepCards";
 import useBuildingLog from "src/hooks/useBuildingLog";
 import useUser from "src/hooks/useUser";
 import getUserFromCookie from "utils/getUserFromCookie";
-import Config from "src/config";
 
 import type { BuildOptions } from "types/projectOption";
 import type { GetServerSideProps } from "next";
 
-type CreateProjectResponse = {
-  result: string;
-  data: {
-    repoName: string;
-    repoOwner: string;
-    repoCloneUrl: string;
-    repoUpdatedAt: string;
-    nodeVersion: string;
-    installCommand: string;
-    buildCommand: string;
-    envList: string;
-    buildType: string;
-    deployedUrl: string;
-    buildingLog: string;
-    instanceId: string;
-    lastCommitMessage: string;
-    repoId: string;
-    webhookId: string;
-  };
-};
 type DeployProps = {
   buildOptions: BuildOptions;
 };
@@ -52,42 +29,6 @@ function DeployPage({ buildOptions }: DeployProps) {
   const router = useRouter();
   const { user } = useUser();
   const [buildingLog, setBuildingLog] = useState<string[]>([]);
-
-  const mutation = useMutation({
-    mutationFn: () => {
-      const {
-        projectName,
-        nodeVersion,
-        installCommand,
-        buildCommand,
-        envList,
-        buildType,
-      } = buildOptions;
-
-      return axios.post<CreateProjectResponse>(
-        `${Config.SERVER_URL_API}/deploy/${user?.id}?githubAccessToken=${user?.githubAccessToken}`,
-        {
-          headers: {
-            authorization: `Bearer ${user?.accessToken}`,
-          },
-          body: {
-            repoName: "jamtotest0001",
-            repoCloneUrl: "https://github.com/ponjaehyeok/jamtotest0001",
-            repoUpdatedAt: new Date().toISOString(),
-            projectName,
-            nodeVersion,
-            installCommand,
-            buildCommand,
-            envList,
-            buildType,
-          },
-        },
-      );
-    },
-  });
-
-  // TODO: Remove. temporary logic.
-  useEffect(mutation.mutate, []);
 
   useBuildingLog("projectName", (data: string) => {
     setBuildingLog(prev => prev.concat(data));
