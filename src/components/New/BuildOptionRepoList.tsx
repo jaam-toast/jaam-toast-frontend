@@ -16,17 +16,12 @@ import { Button, BorderBox } from "../@shared";
 import useUser from "src/hooks/useUser";
 import Config from "src/config";
 
-import type { Repo } from "src/pages/new/[userName]";
+import type { Repo, Response } from "types/api";
 
 type BuildOptionRepoListProps = {
   space: string;
   searchWord: string;
   onOptionClick: (option: string) => void;
-};
-
-type GetRepositoriesResponse = {
-  message: string;
-  result?: Repo[];
 };
 
 function BuildOptionRepoList({
@@ -40,7 +35,7 @@ function BuildOptionRepoList({
     queryFn: async () => {
       const { data } =
         space === user?.name
-          ? await axios.get<GetRepositoriesResponse>(
+          ? await axios.get<Response<Repo[]>>(
               `${Config.SERVER_URL_API}/users/${user?.id}/repos?githubAccessToken=${user?.githubAccessToken}`,
               {
                 headers: {
@@ -48,7 +43,7 @@ function BuildOptionRepoList({
                 },
               },
             )
-          : await axios.get<GetRepositoriesResponse>(
+          : await axios.get<Response<Repo[]>>(
               `${Config.SERVER_URL_API}/users/${user?.id}/orgs/${space}/repos?githubAccessToken=${user?.githubAccessToken}`,
               {
                 headers: {

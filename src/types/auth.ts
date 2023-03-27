@@ -1,19 +1,8 @@
-export type UserLoginData = {
-  _id: string;
-  username: string;
-  userGithubUri: string;
-  userImage?: string;
-};
-
-export type LoginData = {
-  data: UserLoginData;
-  githubAccessToken: string;
-  accessToken: string;
-};
-
-export type LoginResponse = {
-  result: string;
-  data: UserLoginData;
+export type User = {
+  id: string;
+  name: string;
+  githubUri: string;
+  image?: string;
   githubAccessToken: string;
   accessToken: string;
 };

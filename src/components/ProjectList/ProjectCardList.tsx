@@ -6,28 +6,10 @@ import ProjectCard from "./ProjectCard";
 import useUser from "src/hooks/useUser";
 import Config from "src/config";
 
-import type { Env } from "types/projectOption";
-
-export type Project = {
-  space: string;
-  repoName: string;
-  deployedUrl: string;
-  lastCommitMessage: string;
-  projectUpdatedAt: string;
-  installCommand?: string;
-  buildCommand?: string;
-  envList?: Env[];
-  buildingLog?: string[];
-  projectName: string;
-};
+import { Project, Response } from "types/api";
 
 type ProjectCardListProps = {
   searchword: string;
-};
-
-type GetProjectsResponse = {
-  message: string;
-  result?: Project[];
 };
 
 function ProjectCardList({ searchword }: ProjectCardListProps) {
@@ -35,7 +17,7 @@ function ProjectCardList({ searchword }: ProjectCardListProps) {
   const { data: projects } = useQuery({
     queryKey: ["projects-page", "projects"],
     queryFn: async () => {
-      const { data } = await axios.get<GetProjectsResponse>(
+      const { data } = await axios.get<Response<Project[]>>(
         `${Config.SERVER_URL_API}/users/${user?.id}/projects?githubAccessToken=${user?.githubAccessToken}`,
         {
           headers: {
@@ -56,8 +38,6 @@ function ProjectCardList({ searchword }: ProjectCardListProps) {
       sx={{
         height: "80vh",
         overflow: "auto",
-        // paddingRight: "0.1rem",
-        // paddingLeft: "0.1rem",
       }}
     >
       {projects

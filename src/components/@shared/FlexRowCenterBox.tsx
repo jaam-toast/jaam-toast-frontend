@@ -1,9 +1,9 @@
 import { Box } from "@mui/material";
 import { ReactNode } from "react";
 
-interface FlexRowCenterBoxProps {
+type FlexRowCenterBoxProps = {
   children: ReactNode;
-}
+};
 
 function FlexRowCenterBox({ children }: FlexRowCenterBoxProps) {
   return (

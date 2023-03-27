@@ -23,24 +23,10 @@ import getUserFromCookie from "utils/getUserFromCookie";
 import Config from "src/config";
 
 import type { GetServerSideProps } from "next";
+import type { Response, Space } from "types/api";
 
-type NewProps = {
+type NewPageProps = {
   dehydratedState?: DehydratedState;
-};
-
-export type Repo = {
-  repoName: string;
-};
-
-type Space = {
-  spaceName: string;
-  spaceUrl: string;
-  spaceImage: string;
-};
-
-type GetOrgsResponse = {
-  message: string;
-  result: Space[];
 };
 
 function NewPage() {
@@ -58,7 +44,7 @@ function NewPage() {
     router.push(`${userName}/${repo}`);
   };
   const { data: spaces } = useQuery(["new-page", "spaces"], async () => {
-    const { data } = await axios.get<GetOrgsResponse>(
+    const { data } = await axios.get<Response<Space[]>>(
       `${Config.SERVER_URL_API}/users/${user.id}/orgs?githubAccessToken=${user.githubAccessToken}`,
       {
         headers: {
@@ -167,7 +153,7 @@ function NewPage() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps<NewProps> = async ({
+export const getServerSideProps: GetServerSideProps<NewPageProps> = async ({
   req,
   res,
 }) => {
@@ -186,7 +172,7 @@ export const getServerSideProps: GetServerSideProps<NewProps> = async ({
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(["new-page", "spaces"], async () => {
-    const { data } = await axios.get<GetOrgsResponse>(
+    const { data } = await axios.get<Response<Space[]>>(
       `${Config.SERVER_URL_API}/users/${user.id}/orgs?githubAccessToken=${user.githubAccessToken}`,
       {
         headers: {

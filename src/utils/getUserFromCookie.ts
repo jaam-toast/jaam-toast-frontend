@@ -1,6 +1,7 @@
 import { getCookie } from "cookies-next";
-import { IncomingMessage, ServerResponse } from "http";
-import { User } from "src/hooks/useUser";
+
+import type { IncomingMessage, ServerResponse } from "http";
+import type { User } from "types/auth";
 
 type NextJsRequestResponse = {
   res: ServerResponse;

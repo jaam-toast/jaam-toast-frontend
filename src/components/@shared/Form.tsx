@@ -1,10 +1,10 @@
 import { ReactNode } from "react";
 import { FormControl, InputLabel } from "@mui/material";
 
-interface FormProps {
+type FormProps = {
   children: ReactNode;
   label?: string;
-}
+};
 
 function Form({ children, label }: FormProps) {
   return (

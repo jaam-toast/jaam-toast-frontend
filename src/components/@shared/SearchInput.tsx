@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { InputAdornment, TextFieldProps } from "@mui/material";
+import { InputAdornment, TextFieldProps, TextField } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
 
-import { TextField } from ".";
 import useDebounce from "src/hooks/useDebounce";
 
 type SearchInputProps = TextFieldProps & {

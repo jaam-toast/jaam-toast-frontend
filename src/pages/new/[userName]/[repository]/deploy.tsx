@@ -21,11 +21,11 @@ import getUserFromCookie from "utils/getUserFromCookie";
 import type { BuildOptions } from "types/projectOption";
 import type { GetServerSideProps } from "next";
 
-type DeployProps = {
+type DeployPageProps = {
   buildOptions: BuildOptions;
 };
 
-function DeployPage({ buildOptions }: DeployProps) {
+function DeployPage({ buildOptions }: DeployPageProps) {
   const router = useRouter();
   const { user } = useUser();
   const [buildingLog, setBuildingLog] = useState<string[]>([]);
@@ -96,7 +96,7 @@ function DeployPage({ buildOptions }: DeployProps) {
 }
 
 export const getServerSideProps: GetServerSideProps<
-  DeployProps
+  DeployPageProps
 > = async context => {
   const buildOptions = getCookie("buildOptions", context);
   const user = getUserFromCookie(context);
