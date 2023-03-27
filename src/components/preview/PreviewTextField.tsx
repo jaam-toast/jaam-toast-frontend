@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 
 import { Form, TextField } from "../@shared";
-import { BLACK } from "src/constants/colors";
+import { BLACK } from "src/theme/colors";
 import { Env } from "types/build";
 
 type PreviewTextFieldProps = {

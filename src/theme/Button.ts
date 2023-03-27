@@ -1,4 +1,4 @@
-import { BLACK, WHITE } from "src/constants/colors";
+import { BLACK, WHITE } from "src/theme/colors";
 
 type Variant = {
   props: {

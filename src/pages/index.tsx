@@ -5,7 +5,7 @@ import CallMadeIcon from "@mui/icons-material/CallMade";
 
 import useUser from "src/hooks/useUser";
 import getUserFromCookie from "utils/getUserFromCookie";
-import { WHITE } from "src/constants/colors";
+import { WHITE } from "src/theme/colors";
 
 import type { GetServerSideProps } from "next";
 
