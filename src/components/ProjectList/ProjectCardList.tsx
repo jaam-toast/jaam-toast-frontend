@@ -9,7 +9,7 @@ import Config from "src/config";
 import type { Env } from "types/projectOption";
 
 export type Project = {
-  repoOwner: string;
+  space: string;
   repoName: string;
   deployedUrl: string;
   lastCommitMessage: string;
@@ -47,8 +47,6 @@ function ProjectCardList({ searchword }: ProjectCardListProps) {
       return data.result;
     },
   });
-
-  console.log(projects);
 
   return (
     <Grid

@@ -17,7 +17,7 @@ export type Repo = {
   repoName: string;
   repoCloneUrl: string;
   repoUpdatedAt: string;
-  repoOwner?: string;
+  space?: string;
 };
 
 export type GetReposResponse = {

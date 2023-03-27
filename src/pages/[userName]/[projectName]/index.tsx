@@ -61,7 +61,7 @@ export const getServerSideProps: GetServerSideProps<
 > = async () => {
   // TODO: fetch project id.
   const project = {
-    repoOwner: "mock data",
+    space: "mock data",
     repoName: "mock data",
     deployedUrl: "mock data",
     lastCommitMessage: "mock data",

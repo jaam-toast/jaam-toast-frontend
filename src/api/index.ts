@@ -170,14 +170,14 @@ export const deleteUserDeployment = async (
   repoId: string,
   instanceId: string,
   repoName: string,
-  repoOwner: string,
+  space: string,
   webhookId: string,
 ) => {
   await MainClient.delete(`/deploy/${userId}/${repoId}`, {
     data: {
       instanceId,
       repoName,
-      repoOwner,
+      space,
       webhookId,
     },
   });
