@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { useMutation } from "@tanstack/react-query";
+import { setCookie } from "cookies-next";
 import axios from "axios";
 import { Box, Container, Typography } from "@mui/material";
 
@@ -24,13 +26,33 @@ import type {
   BuildOptionsTypes,
 } from "types/projectOption";
 import type { GetServerSideProps } from "next";
-import { setCookie } from "cookies-next";
 
 type BuildOptionsProps = {
   defaultOptions: Pick<
     BuildOptions,
     "projectName" | "installCommand" | "buildCommand"
   >;
+};
+
+type CreateProjectResponse = {
+  result: string;
+  data: {
+    repoName: string;
+    space: string;
+    repoCloneUrl: string;
+    repoUpdatedAt: string;
+    nodeVersion: string;
+    installCommand: string;
+    buildCommand: string;
+    envList: string;
+    buildType: string;
+    deployedUrl: string;
+    buildingLog: string;
+    instanceId: string;
+    lastCommitMessage: string;
+    repoId: string;
+    webhookId: string;
+  };
 };
 
 function BuildOptionsPage({ defaultOptions }: BuildOptionsProps) {
@@ -46,6 +68,50 @@ function BuildOptionsPage({ defaultOptions }: BuildOptionsProps) {
     buildType: null,
     installCommand: defaultOptions.installCommand,
     buildCommand: defaultOptions.buildCommand,
+  });
+
+  const mutation = useMutation({
+    mutationFn: () => {
+      const {
+        projectName,
+        nodeVersion,
+        installCommand,
+        buildCommand,
+        envList,
+        buildType,
+      } = buildOptions;
+
+      return axios.post<CreateProjectResponse>(
+        `${Config.SERVER_URL_API}/projects?githubAccessToken=${user?.githubAccessToken}`,
+        {
+          userId: user?.id,
+          space: "ponjaehyeok",
+          repoName: "jamtotest0001",
+          repoCloneUrl: "https://github.com/ponjaehyeok/jamtotest0001",
+          projectUpdatedAt: new Date().toISOString(),
+          projectName,
+          nodeVersion,
+          installCommand,
+          buildCommand,
+          envList,
+          buildType,
+          githubAccessToken: user?.githubAccessToken,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user?.accessToken}`,
+          },
+        },
+      );
+    },
+    onSuccess: () => {
+      const { userName, repository } = router.query;
+
+      // TODO: remove setCookie.
+      setCookie("buildOptions", JSON.stringify(buildOptions));
+
+      router.push(`/new/${userName}/${repository}/deploy`);
+    },
   });
 
   const handleClickPrev = () => {
@@ -101,12 +167,7 @@ function BuildOptionsPage({ defaultOptions }: BuildOptionsProps) {
   };
 
   const handleCompleteClick = () => {
-    const { userName, repository } = router.query;
-
-    // TODO: remove setCookie.
-    setCookie("buildOptions", JSON.stringify(buildOptions));
-
-    router.push(`/new/${userName}/${repository}/deploy`);
+    mutation.mutate();
   };
 
   const isButtonNext = !!buildOptions.nodeVersion && !!buildOptions.buildType;
