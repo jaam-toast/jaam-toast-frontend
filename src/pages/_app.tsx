@@ -52,7 +52,12 @@ function MyApp({ Component, pageProps, user }: MyAppProps<MyAppPageProps>) {
                     flexDirection: "column",
                     height: "100vh",
                     width: "100vw",
-                    position: "fixed",
+                    overflow: "scroll",
+                    scrollbarWidth: "none",
+                    "-ms-overflow-style": "none",
+                    "::-webkit-scrollbar": {
+                      display: "none",
+                    },
                   }}
                 >
                   <CssBaseline />
