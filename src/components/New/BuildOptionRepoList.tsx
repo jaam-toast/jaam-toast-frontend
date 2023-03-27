@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import {
   Box,
@@ -30,24 +31,31 @@ function BuildOptionRepoList({
   onOptionClick,
 }: BuildOptionRepoListProps) {
   const { user } = useUser();
+  const router = useRouter();
+
+  if (!user) {
+    router.push("/");
+    return null;
+  }
+
   const { data } = useQuery({
-    queryKey: ["new-repo-select-page", space, "repos"],
+    queryKey: ["repos", space],
     queryFn: async () => {
       const { data } =
-        space === user?.name
+        space === user.name
           ? await axios.get<Response<Repo[]>>(
-              `${Config.SERVER_URL_API}/users/${user?.id}/repos?githubAccessToken=${user?.githubAccessToken}`,
+              `${Config.SERVER_URL_API}/users/${user.id}/repos?githubAccessToken=${user.githubAccessToken}`,
               {
                 headers: {
-                  Authorization: `Bearer ${user?.accessToken}`,
+                  Authorization: `Bearer ${user.accessToken}`,
                 },
               },
             )
           : await axios.get<Response<Repo[]>>(
-              `${Config.SERVER_URL_API}/users/${user?.id}/orgs/${space}/repos?githubAccessToken=${user?.githubAccessToken}`,
+              `${Config.SERVER_URL_API}/users/${user.id}/orgs/${space}/repos?githubAccessToken=${user.githubAccessToken}`,
               {
                 headers: {
-                  Authorization: `Bearer ${user?.accessToken}`,
+                  Authorization: `Bearer ${user.accessToken}`,
                 },
               },
             );

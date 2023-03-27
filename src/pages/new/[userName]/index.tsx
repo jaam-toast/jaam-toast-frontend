@@ -43,24 +43,27 @@ function NewPage() {
     const { userName } = router.query;
     router.push(`${userName}/${repo}`);
   };
-  const { data: spaces } = useQuery(["new-page", "spaces"], async () => {
-    const { data } = await axios.get<Response<Space[]>>(
-      `${Config.SERVER_URL_API}/users/${user.id}/orgs?githubAccessToken=${user.githubAccessToken}`,
-      {
-        headers: {
-          Authorization: `Bearer ${user.accessToken}`,
+  const { data: spaces } = useQuery({
+    queryKey: ["spaces"],
+    queryFn: async () => {
+      const { data } = await axios.get<Response<Space[]>>(
+        `${Config.SERVER_URL_API}/users/${user.id}/orgs?githubAccessToken=${user.githubAccessToken}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
         },
-      },
-    );
+      );
 
-    return [
-      ...data.result,
-      {
-        spaceName: user.name,
-        spaceUrl: user.githubUri,
-        spaceImage: user.image,
-      },
-    ];
+      return [
+        ...data.result,
+        {
+          spaceName: user.name,
+          spaceUrl: user.githubUri,
+          spaceImage: user.image,
+        },
+      ];
+    },
   });
 
   return (
@@ -171,24 +174,27 @@ export const getServerSideProps: GetServerSideProps<NewPageProps> = async ({
 
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(["new-page", "spaces"], async () => {
-    const { data } = await axios.get<Response<Space[]>>(
-      `${Config.SERVER_URL_API}/users/${user.id}/orgs?githubAccessToken=${user.githubAccessToken}`,
-      {
-        headers: {
-          Authorization: `Bearer ${user.accessToken}`,
+  await queryClient.prefetchQuery({
+    queryKey: ["spaces"],
+    queryFn: async () => {
+      const { data } = await axios.get<Response<Space[]>>(
+        `${Config.SERVER_URL_API}/users/${user.id}/orgs?githubAccessToken=${user.githubAccessToken}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
         },
-      },
-    );
+      );
 
-    return [
-      ...data.result,
-      {
-        spaceName: user.name,
-        spaceUrl: user.githubUri,
-        spaceImage: user.image,
-      },
-    ];
+      return [
+        ...data.result,
+        {
+          spaceName: user.name,
+          spaceUrl: user.githubUri,
+          spaceImage: user.image,
+        },
+      ];
+    },
   });
 
   return {
