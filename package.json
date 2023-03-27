@@ -22,11 +22,7 @@
     "react": "18.2.0",
     "react-device-detect": "^2.2.2",
     "react-dom": "18.2.0",
-    "react-router-dom": "^6.4.2",
-    "recoil": "^0.7.6",
-    "socket.io-client": "^4.5.3",
-    "styled-components": "^5.3.6",
-    "whoiser": "^1.16.0"
+    "socket.io-client": "^4.5.3"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^12.3.1",
@@ -35,7 +31,6 @@
     "@types/node": "18.8.5",
     "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",
-    "@types/styled-components": "^5.1.26",
     "@typescript-eslint/eslint-plugin": "^5.40.0",
     "@typescript-eslint/parser": "^5.40.0",
     "eslint": "8.25.0",
