@@ -1,12 +1,5 @@
 import { createTheme } from "@mui/material/styles";
-import {
-  BLACK,
-  BLACK_OFF,
-  RED,
-  RED_LIGHT,
-  TAN,
-  WHITE,
-} from "src/constants/colors";
+import { BLACK, BLACK_OFF, RED, RED_LIGHT, TAN, WHITE } from "src/theme/colors";
 import ButtonTheme from "./Button";
 
 const theme = createTheme({

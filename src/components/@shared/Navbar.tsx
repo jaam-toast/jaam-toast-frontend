@@ -11,7 +11,7 @@ import CallMadeIcon from "@mui/icons-material/CallMade";
 
 import { Button } from ".";
 import useUser from "src/hooks/useUser";
-import { BLACK, WHITE } from "src/constants/colors";
+import { BLACK, WHITE } from "src/theme/colors";
 
 function NavBar() {
   const { isLoggedIn, logout } = useUser();

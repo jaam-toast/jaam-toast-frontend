@@ -3,7 +3,7 @@ import { Container, Divider, IconButton, TextField } from "@mui/material";
 import { Add as AddIcon, Remove as RemoveIcon } from "@mui/icons-material";
 import { Box } from "@mui/system";
 
-import { BLACK, GREY } from "src/constants/colors";
+import { BLACK, GREY } from "src/theme/colors";
 
 import type { Env } from "types/build";
 

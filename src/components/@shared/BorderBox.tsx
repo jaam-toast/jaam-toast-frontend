@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 
-import { GREY_CLEAR } from "src/constants/colors";
+import { GREY_CLEAR } from "src/theme/colors";
 
 function BorderBox({ ...props }) {
   const { sx, ...otherProps } = props;
