@@ -7,5 +7,9 @@ declare namespace NodeJS {
     NEXT_PUBLIC_GITHUB_OAUTH_URI: string;
     NEXT_PUBLIC_REDIRECT_URI: string;
     NEXT_PUBLIC_GITHUB_SCOPE: string;
+    NEXT_PUBLIC_REDIS_HOST: string;
+    NEXT_PUBLIC_REDIS_PORT: number;
+    NEXT_PUBLIC_REDIS_USERNAME: string;
+    NEXT_PUBLIC_REDIS_PASSWORD: string;
   }
 }
