@@ -1,12 +1,6 @@
-import { useState } from "react";
-import {
-  dehydrate,
-  DehydratedState,
-  QueryClient,
-  useQuery,
-} from "@tanstack/react-query";
+import { Suspense, useState } from "react";
+import { dehydrate, DehydratedState, QueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import axios from "axios";
 import { Box, Container, Typography } from "@mui/material";
 
 import {
@@ -18,53 +12,31 @@ import {
 import BuildStepCards from "src/components/@shared/BuildStepCards";
 import BuildOptionRepoList from "src/components/New/BuildOptionRepoList";
 import SelectBox from "src/components/@shared/SelectBox";
-import useUser from "src/hooks/useUser";
+import { useSpaceQuery, spacePrefetchQuery } from "src/hooks/useSpaceQuery";
+import { useSpaceActions } from "src/hooks/useRepoStore";
+import { useProjectNameActions } from "src/hooks/useProjectNameStore";
 import getUserFromCookie from "utils/getUserFromCookie";
-import Config from "src/config";
 
 import type { GetServerSideProps } from "next";
-import type { Response, Space } from "types/api";
 
 type NewPageProps = {
   dehydratedState?: DehydratedState;
 };
 
 function NewPage() {
-  const { user } = useUser();
   const router = useRouter();
-  const [currentSpace, setCurrentSpace] = useState<string | null>(null);
+  const { data: spaces } = useSpaceQuery();
+  const { setSpace, setRepo } = useSpaceActions();
+  const { setDefaultProjectName } = useProjectNameActions();
   const [searchWord, setSearchWord] = useState<string>("");
-
-  if (!user) {
-    return router.push("/");
-  }
 
   const handleRepoClick = (repo: string) => {
     const { userName } = router.query;
+
+    setRepo(repo);
+    setDefaultProjectName(repo);
     router.push(`${userName}/${repo}`);
   };
-  const { data: spaces } = useQuery({
-    queryKey: ["spaces"],
-    queryFn: async () => {
-      const { data } = await axios.get<Response<Space[]>>(
-        `${Config.SERVER_URL_API}/users/${user.id}/orgs?githubAccessToken=${user.githubAccessToken}`,
-        {
-          headers: {
-            Authorization: `Bearer ${user.accessToken}`,
-          },
-        },
-      );
-
-      return [
-        ...data.result,
-        {
-          spaceName: user.name,
-          spaceUrl: user.githubUri,
-          spaceImage: user.image,
-        },
-      ];
-    },
-  });
 
   return (
     <Container fixed maxWidth="lg" sx={{ height: "90vh", p: 4 }}>
@@ -106,7 +78,7 @@ function NewPage() {
                   </Typography>
                   <Box sx={{ marginTop: 1.5 }}>
                     <SelectBox
-                      onSelectionChange={setCurrentSpace}
+                      onSelectionChange={setSpace}
                       label="Select a Git Namespace"
                       options={spaces?.map(({ spaceName }) => spaceName) ?? []}
                     />
@@ -140,14 +112,12 @@ function NewPage() {
                 </Box>
               </FlexRowCenterBox>
               {/* // TODO: Skeleton UI (fetching & searching)*/}
-              {currentSpace && (
+              <Suspense fallback={<h1>로딩중</h1>}>
                 <BuildOptionRepoList
-                  space={currentSpace}
                   searchWord={searchWord}
                   onOptionClick={handleRepoClick}
-                  key={currentSpace}
                 />
-              )}
+              </Suspense>
             </Box>
           </Box>
         </BorderBox>
@@ -160,7 +130,6 @@ export const getServerSideProps: GetServerSideProps<NewPageProps> = async ({
   req,
   res,
 }) => {
-  // TODO: get user data without getCookie.
   const user = getUserFromCookie({ req, res });
 
   if (!user) {
@@ -172,30 +141,15 @@ export const getServerSideProps: GetServerSideProps<NewPageProps> = async ({
     };
   }
 
-  const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery({
-    queryKey: ["spaces"],
-    queryFn: async () => {
-      const { data } = await axios.get<Response<Space[]>>(
-        `${Config.SERVER_URL_API}/users/${user.id}/orgs?githubAccessToken=${user.githubAccessToken}`,
-        {
-          headers: {
-            Authorization: `Bearer ${user.accessToken}`,
-          },
-        },
-      );
-
-      return [
-        ...data.result,
-        {
-          spaceName: user.name,
-          spaceUrl: user.githubUri,
-          spaceImage: user.image,
-        },
-      ];
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        suspense: true,
+      },
     },
   });
+
+  await queryClient.prefetchQuery(spacePrefetchQuery(user));
 
   return {
     props: {
