@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useRouter } from "next/router";
 import { Box, Container, Button } from "@mui/material";
 
@@ -53,7 +53,9 @@ function ProjectListPage() {
           </Box>
         </Box>
         {/* // TODO: Skeleton UI */}
-        <ProjectList searchword={searchword} />
+        <Suspense fallback={<h1>로딩 중</h1>}>
+          <ProjectList searchword={searchword} />
+        </Suspense>
       </Container>
     </Container>
   );
