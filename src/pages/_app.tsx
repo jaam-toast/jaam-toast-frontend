@@ -10,7 +10,7 @@ import { isMobile } from "react-device-detect";
 import { ThemeProvider, CssBaseline, Divider, Container } from "@mui/material";
 
 import NavBar from "src/components/@shared/Navbar";
-import { UserProvider } from "src/hooks/useUser";
+import { useUserActions } from "src/hooks/useUserStore";
 import getUserFromCookie from "utils/getUserFromCookie";
 import theme from "src/theme";
 import "../../public/fonts/style.css";
@@ -18,7 +18,6 @@ import "../../public/fonts/style.css";
 import type { AppContext, AppProps } from "next/app";
 import type { User } from "types/auth";
 import type { DehydratedState } from "@tanstack/react-query";
-import { useUserActions } from "src/hooks/useNewUser";
 
 type MyAppProps<T> = AppProps<T> & {
   user: User;
@@ -56,29 +55,27 @@ function MyApp({ Component, pageProps, user }: MyAppProps<MyAppPageProps>) {
       <ThemeProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps?.dehydratedState}>
-            <UserProvider user={user}>
-              <Container
-                maxWidth={false}
-                disableGutters
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  height: "100vh",
-                  width: "100vw",
-                  overflow: "scroll",
-                  scrollbarWidth: "none",
-                  msOverflowStyle: "none",
-                  "::-webkit-scrollbar": {
-                    display: "none",
-                  },
-                }}
-              >
-                <CssBaseline />
-                <NavBar />
-                <Divider />
-                <Component {...pageProps} />
-              </Container>
-            </UserProvider>
+            <Container
+              maxWidth={false}
+              disableGutters
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                height: "100vh",
+                width: "100vw",
+                overflow: "scroll",
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
+                "::-webkit-scrollbar": {
+                  display: "none",
+                },
+              }}
+            >
+              <CssBaseline />
+              <NavBar />
+              <Divider />
+              <Component {...pageProps} />
+            </Container>
           </Hydrate>
         </QueryClientProvider>
       </ThemeProvider>

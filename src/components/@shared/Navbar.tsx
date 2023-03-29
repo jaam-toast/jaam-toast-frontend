@@ -10,11 +10,13 @@ import {
 import CallMadeIcon from "@mui/icons-material/CallMade";
 
 import { Button } from ".";
-import useUser from "src/hooks/useUser";
+import { useUser } from "src/hooks/useUserStore";
 import { BLACK, WHITE } from "src/theme/colors";
+import useAuth from "src/hooks/useAuth";
 
 function NavBar() {
-  const { isLoggedIn, logout } = useUser();
+  const user = useUser();
+  const { logout } = useAuth();
   const router = useRouter();
 
   const handleLogoClick = () => {
@@ -55,7 +57,7 @@ function NavBar() {
           >
             / Jaam Toast
           </Typography>
-          {isLoggedIn && (
+          {user && (
             <Tooltip title="Log out">
               <Button
                 variant="dark"

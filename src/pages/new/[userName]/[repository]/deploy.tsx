@@ -15,10 +15,9 @@ import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 import { BorderBox, CenterBox } from "src/components/@shared";
 import BuildStepCard from "src/components/@shared/BuildStepCards";
 import useBuildingLog from "src/hooks/useBuildingLog";
-import useUser from "src/hooks/useUser";
 import getUserFromCookie from "utils/getUserFromCookie";
 
-import type { BuildOptions } from "types/projectOption";
+import type { BuildOptions } from "types/build";
 import type { GetServerSideProps } from "next";
 
 type DeployPageProps = {
@@ -27,7 +26,6 @@ type DeployPageProps = {
 
 function DeployPage({ buildOptions }: DeployPageProps) {
   const router = useRouter();
-  const { user } = useUser();
   const [buildingLog, setBuildingLog] = useState<string[]>([]);
 
   useBuildingLog("projectName", (data: string) => {
