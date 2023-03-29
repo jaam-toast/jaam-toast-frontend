@@ -4,13 +4,13 @@ import { Box, Container, Button } from "@mui/material";
 
 import ProjectList from "src/components/ProjectList/ProjectCardList";
 import { SearchInput } from "src/components/@shared";
-import useUser from "src/hooks/useUser";
+import { useUser } from "src/hooks/useUserStore";
 import getUserFromCookie from "utils/getUserFromCookie";
 
 import type { GetServerSideProps } from "next";
 
 function ProjectListPage() {
-  const { user } = useUser();
+  const user = useUser();
   const router = useRouter();
   const [searchword, setSearchword] = useState<string>("");
 

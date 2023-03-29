@@ -3,14 +3,14 @@ import { Box, Container, Typography, Button } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import CallMadeIcon from "@mui/icons-material/CallMade";
 
-import useUser from "src/hooks/useUser";
+import useAuth from "src/hooks/useAuth";
 import getUserFromCookie from "utils/getUserFromCookie";
 import { WHITE } from "src/theme/colors";
 
 import type { GetServerSideProps } from "next";
 
 function LandingPage() {
-  const { login } = useUser();
+  const { login } = useAuth();
   const [tick, setTick] = useState<Boolean>(true);
 
   useEffect(() => {

@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 
-import useUser from "./useUser";
+import { useUser } from "./useUserStore";
 import APIClient from "utils/api";
 
 export function useProjectListQuery() {
-  const { user } = useUser();
+  const user = useUser();
   const api = new APIClient()
     .setAccessToken(user?.accessToken)
     .setGithubAccessToken(user?.githubAccessToken)

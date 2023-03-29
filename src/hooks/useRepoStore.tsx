@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { create } from "zustand";
 
-import useUser from "./useUser";
+import { useUser } from "./useUserStore";
 import APIClient from "utils/api";
 
 type SpaceStore = {
@@ -31,7 +31,7 @@ export const useSpaceActions = () =>
 
 export const useReposQuery = () => {
   const space = useSpace();
-  const { user } = useUser();
+  const user = useUser();
 
   const api = new APIClient()
     .setUserId(user?.id)

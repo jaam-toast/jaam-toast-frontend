@@ -14,7 +14,7 @@ import BuildingLog from "src/components/@shared/BuildingLog";
 import { BorderBox } from "src/components/@shared";
 import getUserFromCookie from "utils/getUserFromCookie";
 import Config from "src/config";
-import useUser from "src/hooks/useUser";
+import { useUser } from "src/hooks/useUserStore";
 
 import type { GetServerSideProps } from "next";
 import type { Response, Project } from "types/api";
@@ -25,7 +25,7 @@ type ProjectDetailPageProps = {
 
 function ProjectDetailPage() {
   const router = useRouter();
-  const { user } = useUser();
+  const user = useUser();
   const { projectName } = router.query;
 
   if (!user) {
@@ -105,7 +105,13 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        suspense: true,
+      },
+    },
+  });
   const { projectName } = context.query;
 
   await queryClient.prefetchQuery({
