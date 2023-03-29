@@ -1,42 +1,14 @@
-import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
 import { Card, Grid } from "@mui/material";
 
 import ProjectCard from "./ProjectCard";
-import useUser from "src/hooks/useUser";
-import Config from "src/config";
-
-import { Project, Response } from "types/api";
-import { useRouter } from "next/router";
+import { useProjectListQuery } from "src/hooks/useProjectListQuery";
 
 type ProjectCardListProps = {
   searchword: string;
 };
 
 function ProjectCardList({ searchword }: ProjectCardListProps) {
-  const { user } = useUser();
-  const router = useRouter();
-
-  if (!user) {
-    router.push("/");
-    return null;
-  }
-
-  const { data: projects } = useQuery({
-    queryKey: ["projects"],
-    queryFn: async () => {
-      const { data } = await axios.get<Response<Project[]>>(
-        `${Config.SERVER_URL_API}/users/${user.id}/projects?githubAccessToken=${user.githubAccessToken}`,
-        {
-          headers: {
-            Authorization: `Bearer ${user.accessToken}`,
-          },
-        },
-      );
-
-      return data.result;
-    },
-  });
+  const { data: projects } = useProjectListQuery();
 
   return (
     <Grid
