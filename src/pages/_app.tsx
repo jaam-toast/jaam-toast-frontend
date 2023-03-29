@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import App from "next/app";
 import Head from "next/head";
 import {
@@ -18,6 +18,7 @@ import "../../public/fonts/style.css";
 import type { AppContext, AppProps } from "next/app";
 import type { User } from "types/auth";
 import type { DehydratedState } from "@tanstack/react-query";
+import { useUserActions } from "src/hooks/useNewUser";
 
 type MyAppProps<T> = AppProps<T> & {
   user: User;
@@ -28,7 +29,21 @@ type MyAppPageProps = {
 };
 
 function MyApp({ Component, pageProps, user }: MyAppProps<MyAppPageProps>) {
-  const [queryClient] = useState<QueryClient>(() => new QueryClient());
+  const { setUser } = useUserActions();
+  const [queryClient] = useState<QueryClient>(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            suspense: true,
+          },
+        },
+      }),
+  );
+
+  useEffect(() => {
+    setUser(user);
+  }, []);
 
   return (
     <>
