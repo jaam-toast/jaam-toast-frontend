@@ -1,10 +1,4 @@
-import {
-  dehydrate,
-  DehydratedState,
-  QueryClient,
-  useQuery,
-} from "@tanstack/react-query";
-import axios from "axios";
+import { dehydrate, DehydratedState, QueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { Box, Container, Divider, Typography } from "@mui/material";
 
@@ -13,11 +7,12 @@ import PreviewEnvList from "src/components/Preview/PreviewEnvList";
 import BuildingLog from "src/components/@shared/BuildingLog";
 import { BorderBox } from "src/components/@shared";
 import getUserFromCookie from "utils/getUserFromCookie";
-import Config from "src/config";
-import { useUser } from "src/hooks/useUserStore";
 
 import type { GetServerSideProps } from "next";
-import type { Response, Project } from "types/api";
+import {
+  useProjectQuery,
+  projectPrefetchQuery,
+} from "src/hooks/useProjectQuery";
 
 type ProjectDetailPageProps = {
   dehydratedState?: DehydratedState;
@@ -25,31 +20,8 @@ type ProjectDetailPageProps = {
 
 function ProjectDetailPage() {
   const router = useRouter();
-  const user = useUser();
   const { projectName } = router.query;
-
-  if (!user) {
-    router.push("/");
-    return null;
-  }
-
-  const { data: query } = useQuery({
-    queryKey: ["project", projectName],
-    queryFn: async () => {
-      const { data } = await axios.get<Response<Project>>(
-        `${Config.SERVER_URL_API}/projects/${projectName}?githubAccessToken=${user.githubAccessToken}`,
-        {
-          headers: {
-            Authorization: `Bearer ${user.accessToken}`,
-          },
-        },
-      );
-
-      return data;
-    },
-  });
-  const { installCommand, buildCommand, deployedUrl, envList, buildingLog } =
-    query?.result ?? {};
+  const { data: project } = useProjectQuery(projectName);
 
   return (
     <Container fixed maxWidth="lg" sx={{ height: "90vh", p: 4 }}>
@@ -65,7 +37,7 @@ function ProjectDetailPage() {
             <Box sx={{ ...IframeStyle }}>
               <iframe
                 title="jaam-toast-preview"
-                src={`https://${deployedUrl as string}`}
+                src={`https://${project?.deployedUrl}`}
                 style={{
                   width: "100%",
                   height: "100%",
@@ -77,14 +49,14 @@ function ProjectDetailPage() {
             </Box>
           </Box>
           <Typography id="preview-url" variant="h6" component="h4">
-            {`https://${deployedUrl as string}`}
+            {`https://${project?.deployedUrl}`}
           </Typography>
           <PreviewCommandsTextField
-            installCommand={installCommand}
-            buildCommand={buildCommand}
+            installCommand={project?.installCommand}
+            buildCommand={project?.buildCommand}
           />
-          <PreviewEnvList envsList={envList} />
-          <BuildingLog buildingLog={buildingLog} />
+          <PreviewEnvList envsList={project?.envList} />
+          <BuildingLog buildingLog={project?.buildingLog} />
         </Box>
       </BorderBox>
     </Container>
@@ -95,8 +67,9 @@ export const getServerSideProps: GetServerSideProps<
   ProjectDetailPageProps
 > = async context => {
   const user = getUserFromCookie(context);
+  const { projectName } = context.query;
 
-  if (!user) {
+  if (!user || !projectName || typeof projectName === "object") {
     return {
       redirect: {
         destination: "/",
@@ -112,23 +85,8 @@ export const getServerSideProps: GetServerSideProps<
       },
     },
   });
-  const { projectName } = context.query;
 
-  await queryClient.prefetchQuery({
-    queryKey: ["project", projectName],
-    queryFn: async () => {
-      const { data } = await axios.get<Response<Project>>(
-        `${Config.SERVER_URL_API}/projects/${projectName}?githubAccessToken=${user?.githubAccessToken}`,
-        {
-          headers: {
-            Authorization: `Bearer ${user?.accessToken}`,
-          },
-        },
-      );
-
-      return data;
-    },
-  });
+  await queryClient.prefetchQuery(projectPrefetchQuery(user, projectName));
 
   return {
     props: {
