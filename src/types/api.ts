@@ -1,4 +1,4 @@
-import { Env } from "./build";
+import { BuildOptions, Env } from "./build";
 
 export type Response<T> = {
   message: string;
@@ -16,6 +16,15 @@ export type Repo = {
   repoCloneUrl: string;
   repoUpdatedAt: string;
   space?: string;
+};
+
+export type CreateProjectOptions = BuildOptions & {
+  userId: string;
+  space: string;
+  repoName: string;
+  repoCloneUrl: string;
+  projectUpdatedAt: string;
+  githubAccessToken: string;
 };
 
 export type Project = {
@@ -36,3 +45,5 @@ export type Project = {
   repoId: string;
   webhookId: string;
 };
+
+export type ProjectId = string;

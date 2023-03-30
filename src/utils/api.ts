@@ -1,6 +1,13 @@
 import axios, { AxiosInstance } from "axios";
 import Config from "src/config";
-import { Project, Repo, Response, Space } from "types/api";
+import {
+  CreateProjectOptions,
+  Project,
+  ProjectId,
+  Repo,
+  Response,
+  Space,
+} from "types/api";
 
 class APIClient {
   private accessToken: string = "";
@@ -43,6 +50,16 @@ class APIClient {
     return this;
   }
 
+  async createProject(
+    createProjectOptions: CreateProjectOptions,
+  ): Promise<ProjectId> {
+    const { data } = await this.client().post<Response<ProjectId>>(
+      "/projects",
+      createProjectOptions,
+    );
+    return data.result;
+  }
+
   async getUserRepos(): Promise<Repo[]> {
     const { data } = await this.client().get<Response<Repo[]>>(
       `/users/${this.userId}/repos`,
@@ -70,6 +87,7 @@ class APIClient {
     );
     return data.result;
   }
+
   async getProject(projectName: string): Promise<Project> {
     const { data } = await this.client().get<Response<Project>>(
       `/projects/${projectName}`,
