@@ -18,8 +18,8 @@ export type Env = {
 };
 
 export enum NodeVersion {
-  V14 = "14.x",
-  V16 = "16.x",
+  V14 = "14.21.0",
+  V16 = "16.18.0",
 }
 
 export interface BuildOptions {

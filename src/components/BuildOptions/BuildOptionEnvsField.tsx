@@ -1,36 +1,39 @@
-import { ChangeEvent, KeyboardEvent, useState } from "react";
+import { useState } from "react";
 import { Container, Divider, IconButton, TextField } from "@mui/material";
 import { Add as AddIcon, Remove as RemoveIcon } from "@mui/icons-material";
 import { Box } from "@mui/system";
 
+import {
+  useBuildOptions,
+  useSetBuildOptions,
+} from "src/hooks/useBuildOptionsStore";
 import { BLACK, GREY } from "src/theme/colors";
 
-import type { Env } from "types/build";
+import type { ChangeEvent, KeyboardEvent } from "react";
 
-type BuildOptionEnvsFieldProps = {
-  defaultEnvs?: Env[];
-  onEnvsChange: (envs: Env[]) => void;
-};
-
-function BuildOptionEnvsField({
-  defaultEnvs = [],
-  onEnvsChange,
-}: BuildOptionEnvsFieldProps) {
+function BuildOptionEnvsField() {
   const [envKey, setEnvKey] = useState<string>("");
   const [envValue, setEnvValue] = useState<string>("");
-  const [envs, setEnvs] = useState<Env[]>(defaultEnvs);
+  const { envList } = useBuildOptions();
+  const setEnv = useSetBuildOptions()("envList");
 
   const handleAddEnv = () => {
     if (!envKey || !envValue) {
       return;
     }
-
-    const newEnvs = envs.concat({ key: envKey, value: envValue });
-
-    setEnvs(newEnvs);
-    onEnvsChange(newEnvs);
+    // TODO
+    setEnv(prev =>
+      prev.concat({
+        key: envKey,
+        value: envValue,
+      }),
+    );
     setEnvKey("");
     setEnvValue("");
+  };
+
+  const handleRemoveEnv = (envIdx: number) => {
+    setEnv(prev => prev.filter((env, idx) => idx !== envIdx));
   };
 
   const handleEnvFieldKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -39,13 +42,6 @@ function BuildOptionEnvsField({
     }
 
     handleAddEnv();
-  };
-
-  const handleRemoveEnv = (envIdx: number) => {
-    const newEnvs = envs.filter((env: Env, idx: number) => idx !== envIdx);
-
-    setEnvs(newEnvs);
-    onEnvsChange(newEnvs);
   };
 
   return (
@@ -87,9 +83,9 @@ function BuildOptionEnvsField({
         </IconButton>
       </Box>
 
-      {envs.length > 0 && <Divider sx={{ margin: "1rem 0" }} />}
+      {envList.length > 0 && <Divider sx={{ margin: "1rem 0" }} />}
 
-      {envs
+      {envList
         .slice()
         .reverse()
         .map((env, idx, arr) => (

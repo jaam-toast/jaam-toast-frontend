@@ -9,22 +9,24 @@ import { Box } from "@mui/system";
 
 import { Form } from ".";
 
-type SelectBoxProps = SelectProps & {
+type SelectBoxProps<T> = SelectProps & {
   label: string;
-  options: string[];
-  onSelectionChange: (option: string) => void;
+  options: T[];
+  onSelectionChange: (option: T) => void;
+  defaultSelect?: T;
 };
 
-function SelectBox({
+function SelectBox<T>({
   label,
   options,
   onSelectionChange,
+  defaultSelect,
   ...props
-}: SelectBoxProps) {
-  const [inputValue, setInputValue] = useState<string>("");
+}: SelectBoxProps<T>) {
+  const [inputValue, setInputValue] = useState<T | null>(defaultSelect ?? null);
 
   const handleChange = (e: SelectChangeEvent<unknown>) => {
-    const selection = e.target.value as string;
+    const selection = e.target.value as T;
     onSelectionChange(selection);
     setInputValue(selection);
   };
@@ -44,7 +46,7 @@ function SelectBox({
           onChange={handleChange}
           {...props}
         >
-          {options?.map((option: string) => (
+          {options?.map((option: T) => (
             <MenuItem key={option} value={option} sx={{ fontSize: "small" }}>
               {option}
             </MenuItem>

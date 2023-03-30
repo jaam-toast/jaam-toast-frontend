@@ -1,8 +1,5 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { useMutation } from "@tanstack/react-query";
-import { setCookie } from "cookies-next";
-import axios from "axios";
 import { Box, Container, Typography } from "@mui/material";
 
 import {
@@ -14,142 +11,56 @@ import {
 import BuildStepCard from "src/components/@shared/BuildStepCards";
 import SelectBox from "src/components/@shared/SelectBox";
 import BuildOptionEnvsField from "src/components/BuildOptions/BuildOptionEnvsField";
-import useUser from "src/hooks/useUser";
-import Config from "src/config";
+import {
+  useDefaultProjectName,
+  useIsProjectNameAvailable,
+  useProjectNameActions,
+} from "src/hooks/useProjectNameStore";
+import {
+  useBuildOptions,
+  useSetBuildOptions,
+} from "src/hooks/useBuildOptionsStore";
+import useProjectMutaion from "src/hooks/useProjectMutaion";
 import getUserFromCookie from "utils/getUserFromCookie";
-import createRandomId from "utils/createRandomId";
 
-import type {
-  BuildOptions,
-  BuildOptionsKeys,
-  BuildOptionsTypes,
-} from "types/projectOption";
+import { BuildType, NodeVersion } from "types/build";
 import type { GetServerSideProps } from "next";
-import type { Response, Project } from "types/api";
 
-type BuildOptionsProps = {
-  defaultOptions: Pick<
-    BuildOptions,
-    "projectName" | "installCommand" | "buildCommand"
-  >;
-};
-
-function BuildOptionsPage({ defaultOptions }: BuildOptionsProps) {
+function BuildOptionsPage() {
   const router = useRouter();
-  const { user } = useUser();
-  const [isProjectNameAvailable, setIsProjectNameAvailable] =
-    useState<boolean>(true);
+  // TODO: defaultProjectName 결정 로직.
+  const defaultProjectName = useDefaultProjectName();
+  const isProjectNameAvailable = useIsProjectNameAvailable();
+  const { setProjectName, setDefaultProjectName } = useProjectNameActions();
 
-  const [buildOptions, setBuildOptions] = useState<BuildOptions>({
-    projectName: defaultOptions.projectName,
-    nodeVersion: null,
-    envList: [],
-    buildType: null,
-    installCommand: defaultOptions.installCommand,
-    buildCommand: defaultOptions.buildCommand,
-  });
+  const buildOptions = useBuildOptions();
+  const setBuildOptions = useSetBuildOptions();
 
-  const mutation = useMutation({
-    mutationFn: () => {
-      const {
-        projectName,
-        nodeVersion,
-        installCommand,
-        buildCommand,
-        envList,
-        buildType,
-      } = buildOptions;
-
-      return axios.post<Response<Project>>(
-        `${Config.SERVER_URL_API}/projects?githubAccessToken=${user?.githubAccessToken}`,
-        {
-          userId: user?.id,
-          space: "ponjaehyeok",
-          repoName: "jamtotest0001",
-          repoCloneUrl: "https://github.com/ponjaehyeok/jamtotest0001",
-          projectUpdatedAt: new Date().toISOString(),
-          projectName,
-          nodeVersion,
-          installCommand,
-          buildCommand,
-          envList,
-          buildType,
-          githubAccessToken: user?.githubAccessToken,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${user?.accessToken}`,
-          },
-        },
-      );
-    },
+  const deploy = useProjectMutaion({
+    // TODO: validation fail 처리.
+    onValidateFail: console.log,
     onSuccess: () => {
       const { userName, repository } = router.query;
-
-      // TODO: remove setCookie.
-      setCookie("buildOptions", JSON.stringify(buildOptions));
-
       router.push(`/new/${userName}/${repository}/deploy`);
     },
+    // TODO: 에러 처리.
+    onError: () => {},
   });
 
   const handleClickPrev = () => {
     router.back();
   };
 
-  const handleOptionChange = (property: BuildOptionsKeys) => {
-    return (option: BuildOptionsTypes) => {
-      setBuildOptions(prev => ({
-        ...prev,
-        [property]: option,
-      }));
-    };
-  };
-
-  const validateProjectName = async (projectName: string) => {
-    if (projectName === "") {
-      if (!isProjectNameAvailable) {
-        setIsProjectNameAvailable(true);
-      }
-
-      return;
-    }
-
-    try {
-      const { data } = await axios.get<GetProjectResponse>(
-        `${Config.SERVER_URL_API}/projects/${projectName}?githubAccessToken=${user?.githubAccessToken}`,
-        {
-          headers: {
-            Authorization: `Bearer ${user?.accessToken}`,
-          },
-        },
-      );
-
-      if (!!data.result) {
-        setIsProjectNameAvailable(false);
-      } else if (!isProjectNameAvailable) {
-        setIsProjectNameAvailable(true);
-      }
-    } catch (error) {
-      if (!isProjectNameAvailable) {
-        setIsProjectNameAvailable(true);
-      }
-
-      // TODO: error 분기 처리
-      console.log(error);
-    }
-  };
-
-  const handleProjectNameChange = (projectName: string) => {
-    validateProjectName(projectName);
-    handleOptionChange("projectName")(projectName);
-  };
-
-  const handleCompleteClick = () => {
-    mutation.mutate();
-  };
-
   const isButtonNext = !!buildOptions.nodeVersion && !!buildOptions.buildType;
+
+  // TODO: repo 미선택 시 query에서 defaultProjectName 할당 로직. 에러 발생으로 주석 처리.
+  // useEffect(() => {
+  // const { repository } = router.query;
+
+  //   if (!defaultProjectName) {
+  //     setDefaultProjectName("repository" as string);
+  //   }
+  // }, []);
 
   // TODO: fetch default domain & check duplication check logic.
   return (
@@ -183,7 +94,7 @@ function BuildOptionsPage({ defaultOptions }: BuildOptionsProps) {
               Prev
             </Button>
             {isButtonNext && (
-              <Button color="light" onClick={handleCompleteClick}>
+              <Button color="light" onClick={() => !!deploy && deploy()}>
                 Complete
               </Button>
             )}
@@ -201,9 +112,9 @@ function BuildOptionsPage({ defaultOptions }: BuildOptionsProps) {
               )}
               {/* // TODO: apply red point color when projectName is duplicated */}
               <TextField
-                defaultValue={buildOptions.projectName}
-                onTextFieldChange={handleProjectNameChange}
-                placeholder={defaultOptions.projectName}
+                defaultValue={defaultProjectName ?? ""}
+                onTextFieldChange={setProjectName}
+                placeholder={defaultProjectName ?? ""}
                 size="small"
                 sx={{ fontSize: "small", width: "100%" }}
               />
@@ -213,11 +124,12 @@ function BuildOptionsPage({ defaultOptions }: BuildOptionsProps) {
               <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
                 Node Version *
               </Typography>
-              <SelectBox
+              <SelectBox<NodeVersion>
                 label="Node Version"
                 type="nodeVersionChange"
-                options={["Node.js 14.x", "Node.js 16.x"]}
-                onSelectionChange={handleOptionChange("nodeVersion")}
+                options={Object.values(NodeVersion)}
+                onSelectionChange={setBuildOptions("nodeVersion")}
+                defaultSelect={buildOptions.nodeVersion!}
               />
             </Box>
 
@@ -225,10 +137,10 @@ function BuildOptionsPage({ defaultOptions }: BuildOptionsProps) {
               <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
                 Build Type *
               </Typography>
-              <SelectBox
+              <SelectBox<BuildType>
                 label="Build Type"
-                options={["Create React App - SPA", "Next.js App - SSR"]}
-                onSelectionChange={handleOptionChange("buildType")}
+                options={Object.values(BuildType)}
+                onSelectionChange={setBuildOptions("buildType")}
               />
             </Box>
 
@@ -237,8 +149,8 @@ function BuildOptionsPage({ defaultOptions }: BuildOptionsProps) {
                 Install Command
               </Typography>
               <TextField
-                placeholder={defaultOptions.installCommand}
-                onTextFieldChange={handleOptionChange("installCommand")}
+                placeholder={buildOptions.installCommand ?? ""}
+                onTextFieldChange={setBuildOptions("installCommand")}
                 size="small"
                 sx={{ fontSize: "small", width: "100%", marginTop: 1.5 }}
               />
@@ -249,8 +161,8 @@ function BuildOptionsPage({ defaultOptions }: BuildOptionsProps) {
                 Build Command
               </Typography>
               <TextField
-                placeholder={defaultOptions.buildCommand}
-                onTextFieldChange={handleOptionChange("buildCommand")}
+                placeholder={buildOptions.buildCommand ?? ""}
+                onTextFieldChange={setBuildOptions("buildCommand")}
                 size="small"
                 sx={{ fontSize: "small", width: "100%", marginTop: 1.5 }}
               />
@@ -260,9 +172,7 @@ function BuildOptionsPage({ defaultOptions }: BuildOptionsProps) {
               <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
                 Environment Varables
               </Typography>
-              <BuildOptionEnvsField
-                onEnvsChange={handleOptionChange("envList")}
-              />
+              <BuildOptionEnvsField />
             </Box>
           </Box>
         </BorderBox>
@@ -271,14 +181,7 @@ function BuildOptionsPage({ defaultOptions }: BuildOptionsProps) {
   );
 }
 
-type GetProjectResponse = {
-  message: string;
-  result: Project;
-};
-
-export const getServerSideProps: GetServerSideProps<
-  BuildOptionsProps
-> = async context => {
+export const getServerSideProps: GetServerSideProps<{}> = async context => {
   const user = getUserFromCookie(context);
 
   if (!user) {
@@ -290,33 +193,8 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  const { repository } = context.query;
-  let defaultProjectName = repository as string;
-
-  try {
-    await axios.get<GetProjectResponse>(
-      `${Config.SERVER_URL_API}/projects/${repository}?githubAccessToken=${user.githubAccessToken}`,
-      {
-        headers: {
-          Authorization: `Bearer ${user.accessToken}`,
-        },
-      },
-    );
-
-    defaultProjectName += `-${createRandomId()}`;
-  } catch (error) {
-    // TODO: 에러 처리 분기.
-    console.log(error);
-  }
-
   return {
-    props: {
-      defaultOptions: {
-        projectName: defaultProjectName,
-        installCommand: "npm install",
-        buildCommand: "npm start",
-      },
-    },
+    props: {},
   };
 };
 
