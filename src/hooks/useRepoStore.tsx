@@ -4,7 +4,7 @@ import { create } from "zustand";
 import { useUser } from "./useUserStore";
 import APIClient from "utils/api";
 
-type SpaceStore = {
+type RepoStore = {
   space: string;
   repo: string | null;
   actions: {
@@ -13,7 +13,7 @@ type SpaceStore = {
   };
 };
 
-const useRepoStore = create<SpaceStore>()(set => ({
+const useRepoStore = create<RepoStore>()(set => ({
   space: "",
   repo: null,
   actions: {
@@ -22,12 +22,12 @@ const useRepoStore = create<SpaceStore>()(set => ({
   },
 }));
 
-export const useSpace = () => useRepoStore((state: SpaceStore) => state.space);
+export const useSpace = () => useRepoStore((state: RepoStore) => state.space);
 
-export const useRepo = () => useRepoStore((state: SpaceStore) => state.repo);
+export const useRepo = () => useRepoStore((state: RepoStore) => state.repo);
 
 export const useSpaceActions = () =>
-  useRepoStore((state: SpaceStore) => state.actions);
+  useRepoStore((state: RepoStore) => state.actions);
 
 export const useReposQuery = () => {
   const space = useSpace();
