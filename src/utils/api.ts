@@ -53,46 +53,70 @@ class APIClient {
   async createProject(
     createProjectOptions: CreateProjectOptions,
   ): Promise<ProjectId> {
-    const { data } = await this.client().post<Response<ProjectId>>(
-      "/projects",
-      createProjectOptions,
-    );
-    return data.result;
+    try {
+      const { data } = await this.client().post<Response<ProjectId>>(
+        "/projects",
+        createProjectOptions,
+      );
+      return data.result;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async getUserRepos(): Promise<Repo[]> {
-    const { data } = await this.client().get<Response<Repo[]>>(
-      `/users/${this.userId}/repos`,
-    );
-    return data.result;
+    try {
+      const { data } = await this.client().get<Response<Repo[]>>(
+        `/users/${this.userId}/repos`,
+      );
+      return data.result;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async getOrgs(): Promise<Space[]> {
-    const { data } = await this.client().get<Response<Space[]>>(
-      `/users/${this.userId}/orgs`,
-    );
-    return data.result;
+    try {
+      const { data } = await this.client().get<Response<Space[]>>(
+        `/users/${this.userId}/orgs`,
+      );
+      return data.result;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async getOrgRepos(space: string): Promise<Repo[]> {
-    const { data } = await this.client().get<Response<Repo[]>>(
-      `/users/${this.userId}/orgs/${space}/repos`,
-    );
-    return data.result;
+    try {
+      const { data } = await this.client().get<Response<Repo[]>>(
+        `/users/${this.userId}/orgs/${space}/repos`,
+      );
+      return data.result;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async getProjectList(): Promise<Project[]> {
-    const { data } = await this.client().get<Response<Project[]>>(
-      `users/${this.userId}/projects`,
-    );
-    return data.result;
+    try {
+      const { data } = await this.client().get<Response<Project[]>>(
+        `users/${this.userId}/projects`,
+      );
+      return data.result;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async getProject(projectName: string): Promise<Project> {
-    const { data } = await this.client().get<Response<Project>>(
-      `/projects/${projectName}`,
-    );
-    return data.result;
+    try {
+      const { data } = await this.client().get<Response<Project>>(
+        `/projects/${projectName}`,
+      );
+      return data.result;
+    } catch (error) {
+      throw error;
+    }
   }
 }
 
