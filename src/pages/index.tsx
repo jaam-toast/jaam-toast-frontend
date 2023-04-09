@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { Box, Container, Typography, Button } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import CallMadeIcon from "@mui/icons-material/CallMade";
 
 import useAuth from "src/hooks/useAuth";
 import getUserFromCookie from "utils/getUserFromCookie";
-import { WHITE } from "src/theme/colors";
+import * as css from "src/pages/index.css";
 
 import type { GetServerSideProps } from "next";
 
@@ -24,82 +23,32 @@ function LandingPage() {
   }, [tick]);
 
   return (
-    <Container
-      maxWidth={false}
-      disableGutters
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        height: "100%",
-        padding: "2rem 10rem",
-      }}
-    >
-      {/* // TODO: add variant(flex-center-column) */}
-      <Box
-        component="div"
-        display="flex"
-        sx={{
-          flexDirection: "column",
-        }}
-      >
-        <Typography
-          variant="h1"
-          sx={{
-            fontFamily: "GmarketSans",
-            fontSize: "8vw",
-            textAlign: "left",
-            fontWeight: "900",
-          }}
-        >
+    <div className={css.container}>
+      <div className={css.mainSectoin}>
+        <h1 className={css.mainCopy}>
           Bringing Digital
           <br />
           Ideas to Life{tick && "."}
-        </Typography>
-        <Typography
-          variant="h1"
-          sx={{
-            fontSize: "1.5rem",
-            margin: "2rem 0 4rem",
-            lineHeight: "2.2rem",
-            fontWeight: "500",
-          }}
-        >
+        </h1>
+        <h2 className={css.subCopy}>
           Jaam Toast를 이용하여 웹사이트 배포를 간편하게.
           <br />
           Github 저장소를 가져와 손쉽게 웹사이트를 만들 수 있으며,
           <br />
           언제든지 업데이트 할 수 있습니다.
-        </Typography>
-        <Box>
-          <Button size="large" variant="dark" onClick={login}>
-            <GitHubIcon sx={{ m: 1 }} />
+        </h2>
+        <div>
+          <button className={css.button} onClick={login}>
+            <GitHubIcon />
             Continue with GitHub
-            <CallMadeIcon sx={{ marginLeft: "0.5rem" }} />
-          </Button>
-        </Box>
-      </Box>
-      <Box
-        component="div"
-        display="flex"
-        sx={{
-          justifyContent: "center",
-          width: "100%",
-        }}
-      >
-        <Typography
-          variant="subtitle1"
-          sx={{
-            padding: 1,
-            fontColor: WHITE,
-            fontSize: "1.1rem",
-            fontWeight: "300",
-          }}
-        >
-          Every deployment from the 2023 edition of Jaam Toast.
-        </Typography>
-      </Box>
-    </Container>
+            <CallMadeIcon />
+          </button>
+        </div>
+      </div>
+      <footer className={css.footer}>
+        Every deployment from the 2023 edition of Jaam Toast.
+      </footer>
+    </div>
   );
 }
 
