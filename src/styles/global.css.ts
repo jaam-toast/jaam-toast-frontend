@@ -13,3 +13,8 @@ globalStyle("*", {
   padding: 0,
   boxSizing: "border-box",
 });
+
+globalStyle("a", {
+  color: "inherit",
+  textDecoration: "none",
+});

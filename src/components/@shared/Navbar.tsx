@@ -1,90 +1,26 @@
-import { useRouter } from "next/router";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Tooltip,
-  SvgIcon,
-  Container,
-} from "@mui/material";
 import CallMadeIcon from "@mui/icons-material/CallMade";
 
+import * as css from "./Navbar.css";
 import { Button } from ".";
 import { useUser } from "src/hooks/useUserStore";
-import { BLACK, WHITE } from "src/theme/colors";
+import { BLACK, WHITE } from "src/config/colors";
 import useAuth from "src/hooks/useAuth";
 
 function NavBar() {
   const user = useUser();
   const { logout } = useAuth();
-  const router = useRouter();
-
-  const handleLogoClick = () => {
-    router.push("/");
-  };
 
   return (
-    <Container disableGutters>
-      <AppBar
-        position="relative"
-        color="inherit"
-        elevation={0}
-        sx={{
-          height: "7vh",
-          justifyContent: "center",
-          position: "sticky",
-        }}
-      >
-        <Toolbar
-          sx={{
-            justifyContent: "space-between",
-          }}
-        >
-          <Typography
-            variant="button"
-            sx={{
-              display: "inline",
-              width: "12rem",
-              textTransform: "capitalize",
-              fontWeight: "700",
-              fontSize: "1.5rem",
-              fontFamily: "GmarketSans",
-              letterSpacing: "-2px",
-              userSelect: "none",
-              cursor: "pointer",
-            }}
-            onClick={handleLogoClick}
-          >
-            / Jaam Toast
-          </Typography>
-          {user && (
-            <Tooltip title="Log out">
-              <Button
-                variant="dark"
-                size="small"
-                color="light"
-                sx={{
-                  fontSize: "0.9rem",
-                  color: BLACK,
-                  padding: "0.4rem 1.5rem",
-                  border: `1px solid ${BLACK}`,
-                  backgroundColor: WHITE,
-                  ":hover": {
-                    color: WHITE,
-                    backgroundColor: BLACK,
-                    border: `1px solid ${WHITE}`,
-                  },
-                }}
-                onClick={logout}
-              >
-                Log out
-                <CallMadeIcon sx={{ marginLeft: "0.5rem" }} />
-              </Button>
-            </Tooltip>
-          )}
-        </Toolbar>
-      </AppBar>
-    </Container>
+    <div className={css.container}>
+      <a href="/" className={css.logo}>
+        / Jaam Toast
+      </a>
+      {user && (
+        <button className={css.logoutButton} onClick={logout}>
+          Log out
+        </button>
+      )}
+    </div>
   );
 }
 
