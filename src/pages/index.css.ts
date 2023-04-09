@@ -33,25 +33,13 @@ export const subCopy = style({
 
 export const button = style([
   s.flex,
-  s.flexSpaceBetween,
   s.alignItemsCenter,
+  s.button,
+  s.buttonColor.dark,
+  s.buttonSize.large,
   s.poiner,
   {
     gap: "0.7rem",
-    height: "4rem",
-    padding: "0.5rem 3rem",
-    borderRadius: "5rem",
-    fontSize: "1.1rem",
-    fontWeight: "700",
-    textTransform: "uppercase",
-    backgroundColor: "#000000",
-    color: "#FFFFFF",
-    border: "1px solid #FFFFFF",
-    ":hover": {
-      backgroundColor: "#FFFFFF",
-      color: "#000000",
-      border: "1px solid #000000",
-    },
   },
 ]);
 
