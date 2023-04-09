@@ -1,32 +1,11 @@
-import { globalStyle } from "@vanilla-extract/css";
 import { style } from "@vanilla-extract/css";
-
-export const flex = style({
-  display: "flex",
-});
-
-export const flexColumn = style({
-  display: "flex",
-  flexDirection: "column",
-});
-
-export const flexSpaceBetween = style({
-  justifyContent: "space-between",
-});
-
-export const fullWidth = style({
-  width: "100%",
-});
-
-export const fullHeigth = style({
-  height: "100%",
-});
+import { s } from "../styles";
 
 export const container = style([
-  fullWidth,
-  fullHeigth,
-  flexColumn,
-  flexSpaceBetween,
+  s.fullWidth,
+  s.fullHeigth,
+  s.flexColumn,
+  s.flexSpaceBetween,
   {
     gap: "1.5rem",
     padding: "2rem 10vw",
@@ -34,7 +13,7 @@ export const container = style([
 ]);
 
 export const mainSectoin = style([
-  flexColumn,
+  s.flexColumn,
   {
     gap: "1.5rem",
   },
@@ -43,8 +22,6 @@ export const mainSectoin = style([
 export const mainCopy = style({
   fontFamily: "GmarketSans",
   fontSize: "7rem",
-  textAlign: "left",
-  fontWeight: "900",
   lineHeight: "9rem",
 });
 
@@ -55,8 +32,10 @@ export const subCopy = style({
 });
 
 export const button = style([
-  flex,
-  flexSpaceBetween,
+  s.flex,
+  s.flexSpaceBetween,
+  s.alignItemsCenter,
+  s.poiner,
   {
     gap: "0.7rem",
     height: "4rem",
@@ -65,9 +44,6 @@ export const button = style([
     fontSize: "1.1rem",
     fontWeight: "700",
     textTransform: "uppercase",
-    cursor: "pointer",
-    display: "flex",
-    alignItems: "center",
     backgroundColor: "#000000",
     color: "#FFFFFF",
     border: "1px solid #FFFFFF",
@@ -84,17 +60,4 @@ export const footer = style({
   fontSize: "1.1rem",
   fontWeight: "300",
   textAlign: "center",
-});
-
-globalStyle("html, body", {
-  margin: 0,
-  padding: 0,
-  fontFamily: "Pretendard",
-  boxSizing: "border-box",
-});
-
-globalStyle("*", {
-  margin: 0,
-  padding: 0,
-  boxSizing: "border-box",
 });
