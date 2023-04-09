@@ -7,8 +7,9 @@ import {
   Hydrate,
 } from "@tanstack/react-query";
 import { isMobile } from "react-device-detect";
-import { ThemeProvider, CssBaseline, Divider, Container } from "@mui/material";
+import { ThemeProvider, CssBaseline } from "@mui/material";
 
+import * as s from "./app.css";
 import NavBar from "src/components/@shared/Navbar";
 import { useUserActions } from "src/hooks/useUserStore";
 import getUserFromCookie from "utils/getUserFromCookie";
@@ -55,27 +56,11 @@ function MyApp({ Component, pageProps, user }: MyAppProps<MyAppPageProps>) {
       <ThemeProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps?.dehydratedState}>
-            <Container
-              maxWidth={false}
-              disableGutters
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                height: "100vh",
-                width: "100vw",
-                overflow: "scroll",
-                scrollbarWidth: "none",
-                msOverflowStyle: "none",
-                "::-webkit-scrollbar": {
-                  display: "none",
-                },
-              }}
-            >
+            <div className={s.container}>
               <CssBaseline />
               <NavBar />
-              <Divider />
               <Component {...pageProps} />
-            </Container>
+            </div>
           </Hydrate>
         </QueryClientProvider>
       </ThemeProvider>
