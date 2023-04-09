@@ -7,7 +7,7 @@ import {
   useBuildOptions,
   useSetBuildOptions,
 } from "src/hooks/useBuildOptionsStore";
-import { BLACK, GREY } from "src/theme/colors";
+import { BLACK, GREY } from "src/config/colors";
 
 import type { ChangeEvent, KeyboardEvent } from "react";
 

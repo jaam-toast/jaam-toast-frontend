@@ -5,7 +5,7 @@ import { BorderBox, CenterBox, FlexRowCenterBox } from "src/components/@shared";
 import BuildingLog from "src/components/@shared/BuildingLog";
 import PreviewCommandsTextField from "src/components/Preview/PreviewCommandsTextField";
 import PreviewEnvList from "src/components/Preview/PreviewEnvList";
-import { BLUE } from "src/theme/colors";
+import { BLUE } from "src/config/colors";
 import getUserFromCookie from "utils/getUserFromCookie";
 
 import deployMockData from "../../../../../__test__/mock/deployData.json";

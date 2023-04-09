@@ -8,7 +8,7 @@ import {
 
 import timeSince from "src/utils/timeSince";
 import useModal from "src/hooks/useModal";
-import { BLUE } from "src/theme/colors";
+import { BLUE } from "src/config/colors";
 
 import type { Project } from "types/api";
 interface ProjectCardProps {
