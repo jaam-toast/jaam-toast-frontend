@@ -1,7 +1,5 @@
-import { Box, Container, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 
-import { BorderBox, CenterBox, FlexRowCenterBox } from "src/components/@shared";
 import BuildingLog from "src/components/@shared/BuildingLog";
 import PreviewCommandsTextField from "src/components/Preview/PreviewCommandsTextField";
 import PreviewEnvList from "src/components/Preview/PreviewEnvList";
@@ -23,22 +21,18 @@ function PreviewPage() {
   } = deploymentDataTest[deploymentDataTest.length - 1];
 
   return (
-    <Container fixed maxWidth="lg" sx={{ height: "90vh", p: 4 }}>
-      <Box>
-        <Typography id="modal-title" variant="h4" component="h3">
-          Congratulations!
-        </Typography>
-        <Typography id="modal-title" variant="body2" gutterBottom>
-          You just deployed a new Project to Vercel.
-        </Typography>
-      </Box>
-      <CenterBox>
-        <BorderBox sx={{ boxShadow: 24, p: 4 }}>
-          <Box sx={{ width: "100%", maxWidth: 800 }}>
-            <FlexRowCenterBox>
-              <Box>
-                <Box sx={{ ...IframeBoxStyle }}>
-                  <Box sx={{ ...IframeStyle }}>
+    <div>
+      <div>
+        <p>Congratulations!</p>
+        <p>You just deployed a new Project to Vercel.</p>
+      </div>
+      <div>
+        <div>
+          <div>
+            <div>
+              <div>
+                <div>
+                  <div>
                     <iframe
                       title="jaam-toast-preview"
                       src={`https://${deployedUrl as string}`}
@@ -50,17 +44,15 @@ function PreviewPage() {
                       loading="eager"
                       frameBorder="0"
                     />
-                  </Box>
-                </Box>
+                  </div>
+                </div>
                 <a
                   href={`https://${deployedUrl as string}`}
                   style={{ color: BLUE, textDecoration: "none" }}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <Typography id="preview-url" variant="h6" component="h4">
-                    {`https://${deployedUrl as string}`}
-                  </Typography>
+                  <p>{`https://${deployedUrl as string}`}</p>
                 </a>
                 <PreviewCommandsTextField
                   installCommand={installCommand}
@@ -68,12 +60,12 @@ function PreviewPage() {
                 />
                 <PreviewEnvList envsList={envList} />
                 <BuildingLog buildingLog={curBuildingLog || []} />
-              </Box>
-            </FlexRowCenterBox>
-          </Box>
-        </BorderBox>
-      </CenterBox>
-    </Container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
