@@ -1,5 +1,5 @@
 import { style } from "@vanilla-extract/css";
-import { s } from "../../styles";
+import { s } from "../styles";
 
 const searchIcon = "/images/search-icon.svg";
 

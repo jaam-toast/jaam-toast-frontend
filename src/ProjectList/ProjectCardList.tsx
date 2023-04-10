@@ -1,16 +1,15 @@
-import { useRouter } from "next/router";
-
-import { useProjectListQuery } from "src/hooks/useProjectListQuery";
-import timeSince from "utils/timeSince";
+import { useNavigate } from "react-router-dom";
+import { useProjectListQuery } from "./useProjectListQuery";
+import timeSince from "../utils/timeSince";
 import * as css from "./ProjectCardList.css";
 
 type ProjectCardListProps = {
   searchword: string;
 };
 
-function ProjectCardList({ searchword }: ProjectCardListProps) {
+export function ProjectCardList({ searchword }: ProjectCardListProps) {
+  const naigate = useNavigate();
   const { data: projects } = useProjectListQuery();
-  const router = useRouter();
 
   return (
     <section className={css.container}>
@@ -20,7 +19,7 @@ function ProjectCardList({ searchword }: ProjectCardListProps) {
         )
         .map(project => (
           <div
-            onClick={() => router.push(`/${project.space}/${project.repoName}`)}
+            onClick={() => naigate(`/${project.space}/${project.repoName}`)}
             className={css.projectCard}
           >
             <div className={css.projectCardHead}>
@@ -45,5 +44,3 @@ function ProjectCardList({ searchword }: ProjectCardListProps) {
     </section>
   );
 }
-
-export default ProjectCardList;
