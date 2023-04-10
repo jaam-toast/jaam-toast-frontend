@@ -45,6 +45,15 @@ export const poiner = style({
   cursor: "pointer",
 });
 
+export const scroll = style({
+  overflow: "scroll",
+  scrollbarWidth: "none",
+  msOverflowStyle: "none",
+  "::-webkit-scrollbar": {
+    display: "none",
+  },
+});
+
 export const button = style([
   flex,
   alignItemsCenter,

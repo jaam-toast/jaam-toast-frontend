@@ -1,5 +1,18 @@
-function App() {
-  return <h1>jaamtoast</h1>;
-}
+import { Route, Routes } from "react-router-dom";
 
-export default App;
+import { Header } from "./@shared/Header";
+import { Footer } from "./@shared/Footer";
+import { Landing } from "./landing";
+import * as css from "./app.css";
+
+export function App() {
+  return (
+    <div className={css.container}>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Landing />} />
+      </Routes>
+      <Footer />
+    </div>
+  );
+}
