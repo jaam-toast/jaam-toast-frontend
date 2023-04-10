@@ -1,11 +1,9 @@
 import { dehydrate, DehydratedState, QueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { Box, Container, Divider, Typography } from "@mui/material";
 
 import PreviewCommandsTextField from "src/components/Preview/PreviewCommandsTextField";
 import PreviewEnvList from "src/components/Preview/PreviewEnvList";
 import BuildingLog from "src/components/@shared/BuildingLog";
-import { BorderBox } from "src/components/@shared";
 import getUserFromCookie from "utils/getUserFromCookie";
 
 import type { GetServerSideProps } from "next";
@@ -24,17 +22,14 @@ function ProjectDetailPage() {
   const { data: project } = useProjectQuery(projectName);
 
   return (
-    <Container fixed maxWidth="lg" sx={{ height: "90vh", p: 4 }}>
-      <BorderBox sx={{ boxShadow: 24, p: 4 }}>
-        <Box sx={{ width: "100%", maxWidth: 800 }}>
-          <Box sx={{ width: "50%" }}>
-            <Typography id="modal-title" variant="h6" component="h3">
-              Preview
-            </Typography>
-          </Box>
-          <Divider sx={{ mt: 2 }} />
-          <Box sx={{ ...IframeBoxStyle }}>
-            <Box sx={{ ...IframeStyle }}>
+    <div>
+      <div>
+        <div>
+          <div>
+            <p>Preview</p>
+          </div>
+          <div>
+            <div>
               <iframe
                 title="jaam-toast-preview"
                 src={`https://${project?.deployedUrl}`}
@@ -46,20 +41,18 @@ function ProjectDetailPage() {
                 loading="eager"
                 frameBorder="0"
               />
-            </Box>
-          </Box>
-          <Typography id="preview-url" variant="h6" component="h4">
-            {`https://${project?.deployedUrl}`}
-          </Typography>
+            </div>
+          </div>
+          <p>{`https://${project?.deployedUrl}`}</p>
           <PreviewCommandsTextField
             installCommand={project?.installCommand}
             buildCommand={project?.buildCommand}
           />
           <PreviewEnvList envsList={project?.envList} />
           <BuildingLog buildingLog={project?.buildingLog} />
-        </Box>
-      </BorderBox>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -93,21 +86,6 @@ export const getServerSideProps: GetServerSideProps<
       dehydratedState: dehydrate(queryClient),
     },
   };
-};
-
-const IframeBoxStyle = {
-  position: "relative",
-  width: "100%",
-  height: 0,
-  paddingBottom: "56.25%",
-};
-
-const IframeStyle = {
-  position: "absolute",
-  width: "100%",
-  height: "100%",
-  left: 0,
-  top: 0,
 };
 
 export default ProjectDetailPage;
