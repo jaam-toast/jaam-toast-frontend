@@ -4,7 +4,7 @@ import { s } from "../../styles";
 const searchIcon = "/images/search-icon.svg";
 
 export const container = style([
-  s.full,
+  s.fullWidth,
   {
     padding: "5rem 10vw 3rem",
   },
@@ -15,7 +15,7 @@ export const explorerSection = style([
   s.flexCenter,
   {
     gap: "0.5rem",
-    marginBottom: "10rem",
+    marginBottom: "0.5rem",
   },
 ]);
 
