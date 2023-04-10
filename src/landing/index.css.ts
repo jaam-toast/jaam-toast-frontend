@@ -30,8 +30,8 @@ export const subCopy = style({
   lineHeight: "2.2rem",
 });
 
-export const button = style([
-  s.flex,
+export const loginButton = style([
+  s.inlineFlex,
   s.alignItemsCenter,
   s.button,
   s.buttonColor.dark,
@@ -39,5 +39,6 @@ export const button = style([
   s.poiner,
   {
     gap: "0.7rem",
+    boxSizing: "content-box",
   },
 ]);

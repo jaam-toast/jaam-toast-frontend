@@ -1,19 +1,16 @@
-import * as css from "./header.css";
-// import { useUser } from "src/hooks/useUserStore";
-import { BLACK, WHITE } from "src/config/colors";
-// import useAuth from "src/hooks/useAuth";
+import { useAuth } from "./hooks/useAuth";
+import * as css from "./Header.css";
 
 export function Header() {
-  // const user = useUser();
-  // const { logout } = useAuth();
+  const { user, logout } = useAuth();
 
   return (
     <div className={css.container}>
       <a href="/" className={css.logo}>
         / Jaam Toast
       </a>
-      {true && (
-        <button className={css.logoutButton} onClick={() => {}}>
+      {user && (
+        <button className={css.logoutButton} onClick={logout}>
           Log out
         </button>
       )}
