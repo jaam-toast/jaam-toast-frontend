@@ -1,10 +1,19 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-// import useAuth from "src/hooks/useAuth";
+import { useAuth } from "../@shared/hooks/useAuth";
 import * as css from "./index.css";
 
 export function Landing() {
-  // const { login } = useAuth();
+  const { user, login } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/projects");
+    }
+  }, []);
+
   const [tick, setTick] = useState<Boolean>(true);
 
   useEffect(() => {
@@ -33,10 +42,8 @@ export function Landing() {
           언제든지 업데이트 할 수 있습니다.
         </h2>
         <div>
-          <button className={css.button} onClick={() => {}}>
-            {/* <GitHubIcon /> */}
+          <button onClick={login} className={css.loginButton}>
             Continue with GitHub
-            {/* <CallMadeIcon /> */}
           </button>
         </div>
       </div>

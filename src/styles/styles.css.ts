@@ -6,6 +6,10 @@ export const flex = style({
   display: "flex",
 });
 
+export const inlineFlex = style({
+  display: "inline-flex",
+});
+
 export const flexColumn = style({
   display: "flex",
   flexDirection: "column",
@@ -83,7 +87,7 @@ export const buttonSize = styleVariants({
     fontSize: "0.8rem",
   },
   large: {
-    height: "4rem",
+    height: "3rem",
     padding: "0.5rem 3rem",
     fontSize: "1.1rem",
   },
