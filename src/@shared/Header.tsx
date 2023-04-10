@@ -1,4 +1,4 @@
-import { useAuth } from "./hooks/useAuth";
+import { useAuth } from "./useAuth";
 import * as css from "./Header.css";
 
 export function Header() {

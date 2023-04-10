@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useAuth } from "../@shared/hooks/useAuth";
+import { useAuth } from "../@shared/useAuth";
 import * as css from "./index.css";
 
 export function Landing() {
