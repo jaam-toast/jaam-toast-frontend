@@ -42,10 +42,3 @@ export const button = style([
     gap: "0.7rem",
   },
 ]);
-
-export const footer = style({
-  padding: "0.5rem 0",
-  fontSize: "1.1rem",
-  fontWeight: "300",
-  textAlign: "center",
-});
