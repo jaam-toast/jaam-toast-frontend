@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import Config from "../../config";
+import Config from "../config";
 
 export function useAuth() {
   const navigate = useNavigate();

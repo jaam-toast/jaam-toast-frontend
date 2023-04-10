@@ -1,6 +1,6 @@
 import { ChangeEvent, InputHTMLAttributes, useState } from "react";
 import * as css from "./TextField.css";
-import useDebounce from "src/hooks/useDebounce";
+import useDebounce from "../../hooks/useDebounce";
 
 type TextFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   delay?: number;
