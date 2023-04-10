@@ -2,7 +2,7 @@ import { Suspense, useState } from "react";
 import { useRouter } from "next/router";
 
 import ProjectList from "src/components/ProjectList/ProjectCardList";
-import { TextField } from "src/components/@shared";
+import TextField from "src/components/@shared/TextField";
 import { useUser } from "src/hooks/useUserStore";
 import getUserFromCookie from "utils/getUserFromCookie";
 import * as css from "./index.css";
