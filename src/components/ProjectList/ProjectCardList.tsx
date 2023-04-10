@@ -1,7 +1,8 @@
-import { Card, Grid } from "@mui/material";
+import { useRouter } from "next/router";
 
-import ProjectCard from "./ProjectCard";
 import { useProjectListQuery } from "src/hooks/useProjectListQuery";
+import timeSince from "utils/timeSince";
+import * as css from "./ProjectCardList.css";
 
 type ProjectCardListProps = {
   searchword: string;
@@ -9,29 +10,39 @@ type ProjectCardListProps = {
 
 function ProjectCardList({ searchword }: ProjectCardListProps) {
   const { data: projects } = useProjectListQuery();
+  const router = useRouter();
 
   return (
-    <Grid
-      container
-      spacing={{ xs: 2, md: 3 }}
-      columns={{ xs: 4, sm: 8, md: 12 }}
-      sx={{
-        height: "80vh",
-        overflow: "auto",
-      }}
-    >
+    <section className={css.container}>
       {projects
         ?.filter(project =>
           searchword ? project.repoName.includes(searchword) : true,
         )
         .map(project => (
-          <Grid item xs={2} sm={4} md={4} key={project.deployedUrl}>
-            <Card variant="elevation">
-              <ProjectCard project={project} />
-            </Card>
-          </Grid>
+          <div
+            onClick={() => router.push(`/${project.space}/${project.repoName}`)}
+            className={css.projectCard}
+          >
+            <div className={css.projectCardHead}>
+              <div className={css.projectCardAvartars}></div>
+              <strong className={css.projectCardName}>
+                {project.projectName}
+              </strong>
+              <span className={css.projectCardUrl}>
+                {project.deployedUrl ?? "url not found..."}
+              </span>
+            </div>
+            <div className={css.projectCardFooter}>
+              <p className={css.projectCardCommitMessage}>
+                {project.lastCommitMessage}
+              </p>
+              <span className={css.projectCardUpdatedAt}>
+                {timeSince(Number(project.projectUpdatedAt))} ago via
+              </span>
+            </div>
+          </div>
         ))}
-    </Grid>
+    </section>
   );
 }
 

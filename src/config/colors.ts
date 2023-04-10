@@ -15,3 +15,5 @@ export const TAN = "#d2b48c";
 export const RED_LIGHT = "#ff9999";
 
 export const RED = "#ff0000";
+
+export const LEMON = "#FEECB7";
