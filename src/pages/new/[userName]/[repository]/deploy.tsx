@@ -1,18 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { getCookie } from "cookies-next";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  Divider,
-  Typography,
-  Container,
-} from "@mui/material";
-import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 
-import { BorderBox, CenterBox } from "src/components/@shared";
 import BuildStepCard from "src/components/@shared/BuildStepCards";
 import useBuildingLog from "src/hooks/useBuildingLog";
 import getUserFromCookie from "utils/getUserFromCookie";
@@ -39,57 +28,20 @@ function DeployPage({ buildOptions }: DeployPageProps) {
   });
 
   return (
-    <Container fixed maxWidth="lg" sx={{ height: "90vh", p: 4 }}>
-      <Box>
-        <Typography id="modal-title" variant="h4" component="h3">
-          Deploy.
-        </Typography>
-        <Typography id="modal-title" variant="body2" gutterBottom>
-          Please follow the steps to configure your Project and deploy it.
-        </Typography>
-      </Box>
+    <div>
+      <div>
+        <p>Deploy.</p>
+        <p>Please follow the steps to configure your Project and deploy it.</p>
+      </div>
 
       <BuildStepCard step={3} />
 
-      <CenterBox>
-        <BorderBox sx={{ boxShadow: 24, p: 4 }}>
-          <Box sx={{ width: "100%", maxWidth: 800 }}>
-            <Accordion sx={{ mt: 2 }} defaultExpanded>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <Typography>Building</Typography>
-              </AccordionSummary>
-              <Divider />
-              <AccordionDetails sx={{ mt: 1 }}>
-                <Box
-                  component="div"
-                  sx={{
-                    height: "40vh",
-                    overflow: "auto",
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  {buildingLog.map((log, i) => (
-                    <Typography
-                      key={log}
-                      sx={{
-                        fontSize: "0.8rem",
-                      }}
-                    >
-                      {log}
-                    </Typography>
-                  ))}
-                </Box>
-              </AccordionDetails>
-            </Accordion>
-          </Box>
-        </BorderBox>
-      </CenterBox>
-    </Container>
+      <ul>
+        {buildingLog.map((log, i) => (
+          <li key={log}>{log}</li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
