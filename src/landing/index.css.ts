@@ -2,8 +2,7 @@ import { style } from "@vanilla-extract/css";
 import { s } from "../styles";
 
 export const container = style([
-  s.fullWidth,
-  s.fullHeigth,
+  s.full,
   s.flexColumn,
   s.flexSpaceBetween,
   {

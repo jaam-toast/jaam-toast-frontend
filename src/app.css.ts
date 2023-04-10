@@ -3,10 +3,10 @@ import { s } from "./styles";
 
 export const container = style([
   s.flexColumn,
+  s.flexSpaceBetween,
   s.scroll,
   {
-    position: "fixed",
-    height: "100vh",
+    minHeight: "100vh",
     width: "100vw",
   },
 ]);
