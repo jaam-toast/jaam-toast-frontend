@@ -1,17 +1,6 @@
 import { useState } from "react";
-import {
-  Box,
-  Divider,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  ListSubheader,
-} from "@mui/material";
-import GitHubIcon from "@mui/icons-material/GitHub";
 
 import { useReposQuery } from "src/hooks/useRepoStore";
-import { Button, BorderBox } from "../@shared";
 
 type BuildOptionRepoListProps = {
   searchWord: string;
@@ -31,52 +20,34 @@ function BuildOptionRepoList({
   };
 
   return (
-    <Box
-      sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-    >
-      <BorderBox>
-        <List
-          sx={{
-            width: "100%",
-          }}
-          component="nav"
-          aria-label="repo-list"
-        >
-          {repos
-            ?.filter(repo =>
-              searchWord ? repo.repoName.includes(searchWord) : true,
-            )
-            .slice(0, viewListCount)
-            .map((repo, index) => (
-              <div key={repo.repoName + index}>
-                <ListSubheader id="repo-list" />
-                <ListItem>
-                  <ListItemIcon>
-                    <GitHubIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={repo.repoName}
-                    primaryTypographyProps={{ fontSize: 15 }}
-                  />
-                  <Button
-                    color="dark"
-                    onClick={() => onOptionClick(repo.repoName.split("/")[1])}
-                  >
-                    Import
-                  </Button>
-                </ListItem>
-                {index !== repos.slice(0, viewListCount)?.length - 1 &&
-                  !searchWord && <Divider />}
-              </div>
-            ))}
-        </List>
-      </BorderBox>
+    <div>
+      <ul>
+        {repos
+          ?.filter(repo =>
+            searchWord ? repo.repoName.includes(searchWord) : true,
+          )
+          .slice(0, viewListCount)
+          .map((repo, index) => (
+            <li key={repo.repoName + index}>
+              <p>{repo.repoName}</p>
+              <button
+                color="dark"
+                onClick={() => onOptionClick(repo.repoName.split("/")[1])}
+              >
+                Import
+              </button>
+              {index !== repos.slice(0, viewListCount)?.length - 1 &&
+                !searchWord &&
+                "divider"}
+            </li>
+          ))}
+      </ul>
       {(repos?.length ?? 0) > 5 && (
-        <Button color="light" onClick={handleAllClick} sx={{ width: "150px" }}>
+        <button color="light" onClick={handleAllClick}>
           {buttonName}
-        </Button>
+        </button>
       )}
-    </Box>
+    </div>
   );
 }
 
