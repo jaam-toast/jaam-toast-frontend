@@ -2,7 +2,7 @@ import { Suspense, useState } from "react";
 import { dehydrate, DehydratedState, QueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 
-import { TextField } from "src/components/@shared";
+import TextField from "src/components/@shared/TextField";
 import BuildStepCards from "src/components/@shared/BuildStepCards";
 import BuildOptionRepoList from "src/components/New/BuildOptionRepoList";
 import SelectBox from "src/components/@shared/SelectBox";

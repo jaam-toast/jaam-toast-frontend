@@ -1,7 +1,4 @@
-import CallMadeIcon from "@mui/icons-material/CallMade";
-
 import * as css from "./Navbar.css";
-import { Button } from ".";
 import { useUser } from "src/hooks/useUserStore";
 import { BLACK, WHITE } from "src/config/colors";
 import useAuth from "src/hooks/useAuth";

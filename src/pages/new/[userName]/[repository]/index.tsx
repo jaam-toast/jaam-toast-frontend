@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-import { TextField } from "src/components/@shared";
+import TextField from "src/components/@shared/TextField";
 import BuildStepCard from "src/components/@shared/BuildStepCards";
 import SelectBox from "src/components/@shared/SelectBox";
 import BuildOptionEnvsField from "src/components/BuildOptions/BuildOptionEnvsField";

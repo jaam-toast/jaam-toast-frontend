@@ -7,7 +7,7 @@ import {
 import { BLACK, GREY } from "src/config/colors";
 
 import type { ChangeEvent, KeyboardEvent } from "react";
-import { TextField } from "../@shared";
+import TextField from "src/components/@shared/TextField";
 
 function BuildOptionEnvsField() {
   const [envKey, setEnvKey] = useState<string>("");
