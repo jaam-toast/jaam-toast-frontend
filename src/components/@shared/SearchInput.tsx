@@ -1,10 +1,8 @@
 import { useState } from "react";
-import { InputAdornment, TextFieldProps, TextField } from "@mui/material";
-import { Search as SearchIcon } from "@mui/icons-material";
 
 import useDebounce from "src/hooks/useDebounce";
 
-type SearchInputProps = TextFieldProps & {
+type SearchInputProps = {
   onSearchInputChange: (word: string) => void;
 };
 
@@ -16,20 +14,12 @@ function SearchInput({ onSearchInputChange, ...props }: SearchInputProps) {
   }, 500);
 
   return (
-    <TextField
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="end">
-            <SearchIcon />
-          </InputAdornment>
-        ),
-      }}
+    <input
       value={inputValue}
       onChange={e => {
         setInputValue(e.target.value);
         onDebounceSaveSearchWord(e.target.value);
       }}
-      {...props}
     />
   );
 }

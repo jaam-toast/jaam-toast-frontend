@@ -1,11 +1,11 @@
 import { Suspense, useState } from "react";
 import { useRouter } from "next/router";
-import { Box, Container, Button } from "@mui/material";
 
 import ProjectList from "src/components/ProjectList/ProjectCardList";
-import { SearchInput } from "src/components/@shared";
+import { TextField } from "src/components/@shared";
 import { useUser } from "src/hooks/useUserStore";
 import getUserFromCookie from "utils/getUserFromCookie";
+import * as css from "./index.css";
 
 import type { GetServerSideProps } from "next";
 
@@ -19,45 +19,27 @@ function ProjectListPage() {
   };
 
   return (
-    <Container maxWidth={false} disableGutters>
-      <Container fixed maxWidth="lg" sx={{ height: "90vh" }}>
-        {/* //TODO: make variant. */}
-        <Box
-          display="flex"
-          sx={{
-            padding: 1,
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            marginBottom: "1rem",
-          }}
-        >
-          <SearchInput
-            onSearchInputChange={setSearchword}
+    <div className={css.container}>
+      {/* //TODO: make variant. */}
+      <section className={css.explorerSection}>
+        <div className={css.searchInput}>
+          <TextField
+            onTextFieldChange={setSearchword}
             placeholder="Search..."
-            helperText="Please enter your Project name."
-            sx={{
-              m: 1,
-              width: "75%",
-            }}
           />
-          <Box sx={{ marginBottom: 3 }}>
-            <Button
-              variant="contained"
-              color="dark"
-              sx={{ m: 1 }}
-              onClick={handleCreateProjectClick}
-            >
-              New Project
-            </Button>
-          </Box>
-        </Box>
-        {/* // TODO: Skeleton UI */}
-        <Suspense fallback={<h1>로딩 중</h1>}>
-          <ProjectList searchword={searchword} />
-        </Suspense>
-      </Container>
-    </Container>
+        </div>
+        <button
+          className={css.newProjectButton}
+          onClick={handleCreateProjectClick}
+        >
+          New Project
+        </button>
+      </section>
+      {/* // TODO: Skeleton UI */}
+      <Suspense fallback={<h1>로딩 중</h1>}>
+        <ProjectList searchword={searchword} />
+      </Suspense>
+    </div>
   );
 }
 

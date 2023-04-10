@@ -45,17 +45,33 @@ export const poiner = style({
   cursor: "pointer",
 });
 
-export const button = style({
-  borderRadius: "5rem",
-  border: 0,
-  textTransform: "uppercase",
-});
+export const button = style([
+  flex,
+  alignItemsCenter,
+  poiner,
+  {
+    borderRadius: "5rem",
+    border: 0,
+    textTransform: "uppercase",
+    "::after": {
+      content: "",
+      display: "block",
+      width: "1rem",
+      height: "1rem",
+      marginLeft: "0.5rem",
+      zoom: "75%",
+      backgroundColor: "currentColor",
+      WebkitMask: `url(/images/button-icon.svg) no-repeat center`,
+      mask: `url("/images/button-icon.svg") no-repeat center`,
+    },
+  },
+]);
 
 export const buttonSize = styleVariants({
   small: {
-    height: "2.8rem",
-    padding: "0.7rem 1.2rem",
-    fontSize: "0.9rem",
+    height: "3rem",
+    padding: "0.7rem 1.4rem",
+    fontSize: "0.8rem",
   },
   large: {
     height: "4rem",
@@ -86,3 +102,28 @@ export const buttonColor = styleVariants({
     },
   },
 });
+
+export const textField = style([
+  fullWidth,
+  {
+    padding: "0.7rem 1.4rem",
+    height: "3rem",
+    fontSize: "0.8rem",
+    border: `1px solid ${colors.BLACK}`,
+    outline: "none",
+    borderRadius: "5rem",
+    flex: 1,
+    "::placeholder": {
+      color: colors.BLACK,
+      textTransform: "uppercase",
+    },
+    "::-moz-placeholder": {
+      color: colors.BLACK,
+      textTransform: "uppercase",
+    },
+    "::-webkit-input-placeholder": {
+      color: colors.BLACK,
+      textTransform: "uppercase",
+    },
+  },
+]);
