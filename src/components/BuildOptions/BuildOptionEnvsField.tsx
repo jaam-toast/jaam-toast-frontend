@@ -1,7 +1,4 @@
 import { useState } from "react";
-import { Container, Divider, IconButton, TextField } from "@mui/material";
-import { Add as AddIcon, Remove as RemoveIcon } from "@mui/icons-material";
-import { Box } from "@mui/system";
 
 import {
   useBuildOptions,
@@ -10,6 +7,7 @@ import {
 import { BLACK, GREY } from "src/config/colors";
 
 import type { ChangeEvent, KeyboardEvent } from "react";
+import { TextField } from "../@shared";
 
 function BuildOptionEnvsField() {
   const [envKey, setEnvKey] = useState<string>("");
@@ -45,11 +43,8 @@ function BuildOptionEnvsField() {
   };
 
   return (
-    <Container disableGutters>
-      <Box
-        display="flex"
-        sx={{ flexDirection: "row", marginBottom: 1.5, gap: "0.5rem" }}
-      >
+    <div>
+      <div>
         <TextField
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setEnvKey(e.target.value)
@@ -57,8 +52,6 @@ function BuildOptionEnvsField() {
           onKeyDown={handleEnvFieldKeyPress}
           placeholder="Key"
           value={envKey}
-          size="small"
-          sx={{ fontSize: "small", width: "100%", marginTop: 1.5 }}
         />
         <TextField
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -67,11 +60,9 @@ function BuildOptionEnvsField() {
           onKeyDown={handleEnvFieldKeyPress}
           placeholder="Value"
           value={envValue}
-          size="small"
-          sx={{ fontSize: "small", width: "100%", marginTop: 1.5 }}
         />
-        <IconButton onClick={handleAddEnv} sx={{ marginTop: 1 }}>
-          <AddIcon
+        <button onClick={handleAddEnv}>
+          {/* <AddIcon
             sx={{
               padding: "0",
               color: GREY,
@@ -79,34 +70,20 @@ function BuildOptionEnvsField() {
                 color: BLACK,
               },
             }}
-          />
-        </IconButton>
-      </Box>
+          /> */}
+        </button>
+      </div>
 
-      {envList.length > 0 && <Divider sx={{ margin: "1rem 0" }} />}
+      {envList.length > 0 && "divider"}
 
       {envList
         .slice()
         .reverse()
         .map((env, idx, arr) => (
-          <Box
-            key={`${env.key}-${idx}`}
-            display="flex"
-            sx={{ flexDirection: "row", marginBottom: 1.5, gap: "0.5rem" }}
-          >
-            <TextField
-              value={env.key}
-              size="small"
-              disabled
-              sx={{ fontSize: "small", width: "100%", marginTop: 0.5 }}
-            />
-            <TextField
-              value={env.value}
-              size="small"
-              disabled
-              sx={{ fontSize: "small", width: "100%", marginTop: 0.5 }}
-            />
-            <IconButton onClick={() => handleRemoveEnv(arr.length - idx - 1)}>
+          <div key={`${env.key}-${idx}`}>
+            <TextField value={env.key} disabled />
+            <TextField value={env.value} disabled />
+            {/* <IconButton onClick={() => handleRemoveEnv(arr.length - idx - 1)}>
               <RemoveIcon
                 sx={{
                   padding: "0",
@@ -116,10 +93,10 @@ function BuildOptionEnvsField() {
                   },
                 }}
               />
-            </IconButton>
-          </Box>
+            </IconButton> */}
+          </div>
         ))}
-    </Container>
+    </div>
   );
 }
 

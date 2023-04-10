@@ -1,13 +1,6 @@
-import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { Box, Container, Typography } from "@mui/material";
 
-import {
-  Button,
-  BorderBox,
-  CenterBox,
-  TextField,
-} from "src/components/@shared";
+import { TextField } from "src/components/@shared";
 import BuildStepCard from "src/components/@shared/BuildStepCards";
 import SelectBox from "src/components/@shared/SelectBox";
 import BuildOptionEnvsField from "src/components/BuildOptions/BuildOptionEnvsField";
@@ -64,120 +57,98 @@ function BuildOptionsPage() {
 
   // TODO: fetch default domain & check duplication check logic.
   return (
-    <Container fixed maxWidth="lg" sx={{ height: "90vh", p: 4 }}>
-      <Box>
-        <Typography id="modal-title" variant="h4" component="h3">
-          You're almost done.
-        </Typography>
-        <Typography id="modal-title" variant="body2" gutterBottom>
-          Please follow the steps to configure your Project and deploy it.
-        </Typography>
-      </Box>
+    <div>
+      <div>
+        <p>You're almost done.</p>
+        <p>Please follow the steps to configure your Project and deploy it.</p>
+      </div>
 
       <BuildStepCard step={2} />
 
       {/* // TODO: make BuildOptionsForm component */}
       {/* // TODO: defaultBuildOptions={defaultBuildOptions} */}
       {/* // TODO: onBuildOptionsSubmit={(options: BuildOptions) => } */}
-      <CenterBox>
-        <BorderBox
-          sx={{
-            boxShadow: 24,
-            p: 4,
-          }}
-        >
-          <Box
-            display="flex"
-            sx={{ justifyContent: "space-between", width: "100%" }}
-          >
-            <Button color="light" onClick={handleClickPrev}>
-              Prev
-            </Button>
-            {isButtonNext && (
-              <Button color="light" onClick={() => !!deploy && deploy()}>
-                Complete
-              </Button>
+      <div>
+        <div>
+          <button color="light" onClick={handleClickPrev}>
+            Prev
+          </button>
+          {isButtonNext && (
+            <button color="light" onClick={() => !!deploy && deploy()}>
+              Complete
+            </button>
+          )}
+        </div>
+        <div>
+          <div>
+            <p>Project Name</p>
+            {/* // TODO: apply red point color */}
+            {!isProjectNameAvailable && (
+              <p variant="body2" sx={{ mt: 1 }}>
+                Your Project Name is duplicated.
+              </p>
             )}
-          </Box>
-          <Box sx={{ width: "100%" }}>
-            <Box sx={{ marginTop: 1.5 }}>
-              <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
-                Project Name
-              </Typography>
-              {/* // TODO: apply red point color */}
-              {!isProjectNameAvailable && (
-                <Typography variant="body2" sx={{ mt: 1 }}>
-                  Your Project Name is duplicated.
-                </Typography>
-              )}
-              {/* // TODO: apply red point color when projectName is duplicated */}
-              <TextField
-                defaultValue={defaultProjectName ?? ""}
-                onTextFieldChange={setProjectName}
-                placeholder={defaultProjectName ?? ""}
-                size="small"
-                sx={{ fontSize: "small", width: "100%" }}
-              />
-            </Box>
+            {/* // TODO: apply red point color when projectName is duplicated */}
+            <TextField
+              defaultValue={defaultProjectName ?? ""}
+              onTextFieldChange={setProjectName}
+              placeholder={defaultProjectName ?? ""}
+              size="small"
+              sx={{ fontSize: "small", width: "100%" }}
+            />
+          </div>
 
-            <Box sx={{ marginTop: 1.5 }}>
-              <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
-                Node Version *
-              </Typography>
-              <SelectBox<NodeVersion>
-                label="Node Version"
-                type="nodeVersionChange"
-                options={Object.values(NodeVersion)}
-                onSelectionChange={setBuildOptions("nodeVersion")}
-                defaultSelect={buildOptions.nodeVersion!}
-              />
-            </Box>
+          <div sx={{ marginTop: 1.5 }}>
+            <p>Node Version *</p>
+            <SelectBox<NodeVersion>
+              label="Node Version"
+              type="nodeVersionChange"
+              options={Object.values(NodeVersion)}
+              onSelectionChange={setBuildOptions("nodeVersion")}
+              defaultSelect={buildOptions.nodeVersion!}
+            />
+          </div>
 
-            <Box sx={{ marginTop: 1.5 }}>
-              <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
-                Build Type *
-              </Typography>
-              <SelectBox<BuildType>
-                label="Build Type"
-                options={Object.values(BuildType)}
-                onSelectionChange={setBuildOptions("buildType")}
-              />
-            </Box>
+          <div sx={{ marginTop: 1.5 }}>
+            <p>Build Type *</p>
+            <SelectBox<BuildType>
+              label="Build Type"
+              options={Object.values(BuildType)}
+              onSelectionChange={setBuildOptions("buildType")}
+            />
+          </div>
 
-            <Box>
-              <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
-                Install Command
-              </Typography>
-              <TextField
-                placeholder={buildOptions.installCommand ?? ""}
-                onTextFieldChange={setBuildOptions("installCommand")}
-                size="small"
-                sx={{ fontSize: "small", width: "100%", marginTop: 1.5 }}
-              />
-            </Box>
+          <div>
+            <p>Install Command</p>
+            <TextField
+              placeholder={buildOptions.installCommand ?? ""}
+              onTextFieldChange={setBuildOptions("installCommand")}
+              size="small"
+              sx={{ fontSize: "small", width: "100%", marginTop: 1.5 }}
+            />
+          </div>
 
-            <Box>
-              <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
-                Build Command
-              </Typography>
-              <TextField
-                placeholder={buildOptions.buildCommand ?? ""}
-                onTextFieldChange={setBuildOptions("buildCommand")}
-                size="small"
-                sx={{ fontSize: "small", width: "100%", marginTop: 1.5 }}
-              />
-            </Box>
+          <div>
+            <p id="modal-description" variant="body2" sx={{ mt: 2 }}>
+              Build Command
+            </p>
+            <TextField
+              placeholder={buildOptions.buildCommand ?? ""}
+              onTextFieldChange={setBuildOptions("buildCommand")}
+              size="small"
+              sx={{ fontSize: "small", width: "100%", marginTop: 1.5 }}
+            />
+          </div>
 
-            <Box sx={{ marginTop: 1.5 }}>
-              <Typography id="modal-description" variant="body2" sx={{ mt: 2 }}>
-                Environment Varables
-              </Typography>
-              <BuildOptionEnvsField />
-            </Box>
-          </Box>
-        </BorderBox>
-      </CenterBox>
-    </Container>
+          <div sx={{ marginTop: 1.5 }}>
+            <p id="modal-description" variant="body2" sx={{ mt: 2 }}>
+              Environment Varables
+            </p>
+            <BuildOptionEnvsField />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
