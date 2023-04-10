@@ -1,12 +1,8 @@
-import { ChangeEvent, useState } from "react";
-import {
-  TextField as TextFieldMui,
-  TextFieldProps as TextFieldMuiProps,
-} from "@mui/material";
-
+import { ChangeEvent, InputHTMLAttributes, useState } from "react";
+import * as css from "./TextField.css";
 import useDebounce from "src/hooks/useDebounce";
 
-type TextFieldProps = Partial<TextFieldMuiProps> & {
+type TextFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   delay?: number;
   defaultValue?: string;
   onTextFieldChange?: (text: string) => void;
@@ -31,15 +27,11 @@ function TextField({
   };
 
   return (
-    <TextFieldMui
-      id="outlined-basic"
+    <input
+      className={css.textField}
       value={text}
       onChange={handleMuiTextFieldChange}
-      variant="outlined"
       autoComplete="off"
-      sx={{
-        fontSize: "small",
-      }}
       {...props}
     />
   );
