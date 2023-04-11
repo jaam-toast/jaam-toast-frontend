@@ -1,27 +1,27 @@
 import { useMutation } from "@tanstack/react-query";
 
 import { useBuildOptions } from "./useBuildOptionsStore";
-import { useProjectName } from "./useProjectNameStore";
-import { useRepo, useSpace } from "./useRepoStore";
-import { useUser } from "./useUserStore";
-import APIClient from "utils/api";
+import { useProjectName } from "../@shared/useProjectNameStore";
+import { useRepo, useSpace } from "../RepositorySelect/useRepoStore";
+import { useAuth } from "../@shared/useAuth";
+import APIClient from "../utils/api";
 
-type UseProjectMutaionOptions = {
+type UseProjectMutationOptions = {
   onValidateFail?: (message: string) => void;
   onSuccess?: (data?: string) => Promise<unknown> | unknown;
   onError?: (error?: unknown) => Promise<unknown> | unknown;
 };
 
-function useProjectMutaion({
+function useProjectMutation({
   onValidateFail,
   onSuccess,
   onError,
-}: UseProjectMutaionOptions) {
+}: UseProjectMutationOptions) {
   const projectName = useProjectName();
   const repo = useRepo();
   const space = useSpace();
   const buildOptions = useBuildOptions();
-  const user = useUser();
+  const { user } = useAuth();
 
   const api = new APIClient()
     .setUserId(user?.id)
@@ -65,4 +65,4 @@ function useProjectMutaion({
   return mutate;
 }
 
-export default useProjectMutaion;
+export default useProjectMutation;

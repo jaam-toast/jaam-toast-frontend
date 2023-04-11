@@ -41,6 +41,6 @@ export const searchInput = style([
 
 export const newProjectButton = style([
   s.button,
-  s.buttonSize.small,
+  s.buttonSize.medium,
   s.buttonColor.dark,
 ]);

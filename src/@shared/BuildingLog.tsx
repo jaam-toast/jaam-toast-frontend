@@ -2,7 +2,7 @@ type BuildingLogProps = {
   buildingLog?: string[];
 };
 
-function BuildingLog({ buildingLog }: BuildingLogProps) {
+export function BuildingLog({ buildingLog }: BuildingLogProps) {
   return (
     <div>
       <div id="panel1a-header">
@@ -18,5 +18,3 @@ function BuildingLog({ buildingLog }: BuildingLogProps) {
     </div>
   );
 }
-
-export default BuildingLog;

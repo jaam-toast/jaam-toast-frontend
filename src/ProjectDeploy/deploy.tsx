@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { getCookie } from "cookies-next";
 
-import BuildStepCard from "src/components/@shared/BuildStepCards";
-import useBuildingLog from "src/hooks/useBuildingLog";
+import BuildStepCard from "src/@shared/BuildStepCard";
+import useBuildingLog from "src/ProjectDeploy/useBuildingLog";
 import getUserFromCookie from "utils/getUserFromCookie";
 
 import type { BuildOptions } from "types/build";

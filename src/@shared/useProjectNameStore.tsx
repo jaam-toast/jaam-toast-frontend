@@ -1,8 +1,8 @@
 import { create } from "zustand";
 
-import createRandomId from "utils/createRandomId";
-import APIClient from "src/utils/api";
-import { useUserStore } from "./useUserStore";
+import { useAuth } from "./useAuth";
+import createRandomId from "../utils/createRandomId";
+import APIClient from "../utils/api";
 
 type ProjectNameStore = {
   defaultProjectName: string | null;
@@ -22,7 +22,7 @@ const useProjectNameStore = create<ProjectNameStore>()((set, get) => ({
 
   actions: {
     setDefaultProjectName: async (projectName: string) => {
-      const user = useUserStore.getState().user;
+      const { user } = useAuth();
 
       if (!user) {
         return;
@@ -55,7 +55,7 @@ const useProjectNameStore = create<ProjectNameStore>()((set, get) => ({
       }
     },
     setProjectName: async (projectName: string) => {
-      const user = useUserStore.getState().user;
+      const { user } = useAuth();
 
       if (!user) {
         return;
