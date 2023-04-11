@@ -1,10 +1,8 @@
 import { Suspense, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import TextField from "../@shared/TextField";
-import BuildStepCards from "../@shared/BuildStepCard";
+import { BuildStepCard, TextField, SelectBox } from "../@shared";
 import BuildOptionRepoList from "./RepositoryList";
-import SelectBox from "../@shared/SelectBox";
 import { useSpaceQuery } from "./useSpaceQuery";
 import { useSpace, useSpaceActions } from "./useRepoStore";
 import { useProjectNameActions } from "../@shared/useProjectNameStore";
@@ -33,7 +31,7 @@ export function RepositorySelect() {
         </p>
       </section>
 
-      <BuildStepCards step={1} />
+      <BuildStepCard step={1} />
 
       {/* // TODO: make GithubRepoSelection component */}
       {/* // TODO: onRepoSelect={(repo: Repo) => } */}
