@@ -1,15 +1,18 @@
 // TODO: add build type options
-export enum BuildType {
+export enum Framework {
   CreateReactApp = "Create React App",
-  NextJs = "Next.js",
-  // Vite = "Vite",
-  // Angular = "Angular",
-  // Svelte = "Svelte",
-  // SvelteKit = "Sevelte Kit",
-  // VueJS = "Vue.js",
-  // NuxtJs = "Nuxt.js",
-  // Remix = "Remix",
-  // Unknown = "unknown",
+  ReactStatic = "React Static",
+  NextJs = "Next.js (Static HTML Export)",
+  NuxtJs = "Nuxt.js",
+  Angular = "Angular (Angular CLI)",
+  Astro = "Astro",
+  Gatsby = "Gatsby",
+  GitBook = "GitBook",
+  Jekyll = "Jekyll",
+  Remix = "Remix",
+  Svelte = "Svelte",
+  Vue = "Vue",
+  VuePress = "VuePress",
 }
 
 export type Env = {
