@@ -1,16 +1,16 @@
 import { dehydrate, DehydratedState, QueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 
-import PreviewCommandsTextField from "src/components/Preview/PreviewCommandsTextField";
-import PreviewEnvList from "src/components/Preview/PreviewEnvList";
-import BuildingLog from "src/components/@shared/BuildingLog";
+import PreviewCommandsTextField from "src/ProjectPreview/PreviewCommandsTextField";
+import PreviewEnvList from "src/ProjectPreview/PreviewEnvList";
+import BuildingLog from "src/@shared/BuildingLog";
 import getUserFromCookie from "utils/getUserFromCookie";
 
 import type { GetServerSideProps } from "next";
 import {
   useProjectQuery,
   projectPrefetchQuery,
-} from "src/hooks/useProjectQuery";
+} from "src/ProjectDetail/useProjectQuery";
 
 type ProjectDetailPageProps = {
   dehydratedState?: DehydratedState;

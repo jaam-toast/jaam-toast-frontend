@@ -1,4 +1,4 @@
-import TextField from "src/components/@shared/TextField";
+import TextField from "src/@shared/TextField";
 
 type ITextFieldCommands = {
   installCommand: string | undefined;

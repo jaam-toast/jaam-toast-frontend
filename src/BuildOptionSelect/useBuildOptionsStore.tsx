@@ -1,11 +1,11 @@
-import { BuildType, Env, NodeVersion } from "types/build";
+import { Framework, Env, NodeVersion } from "../types/build";
 import { create } from "zustand";
 import { shallow } from "zustand/shallow";
 
 type BuildOptionsStore = {
   nodeVersion: NodeVersion | null;
   envList: Env[];
-  buildType: BuildType | null;
+  buildType: Framework | null;
   buildCommand: string;
   installCommand: string;
 

@@ -3,7 +3,10 @@ import { useState } from "react";
 type SomeFunction = (...args: any[]) => void;
 type Timer = ReturnType<typeof setTimeout>;
 
-function useDebounce<Func extends SomeFunction>(func: Func, delay?: number) {
+export function useDebounce<Func extends SomeFunction>(
+  func: Func,
+  delay?: number,
+) {
   const [timer, setTimer] = useState<Timer>();
 
   const debouncedFunction = ((...args) => {
@@ -16,5 +19,3 @@ function useDebounce<Func extends SomeFunction>(func: Func, delay?: number) {
 
   return debouncedFunction;
 }
-
-export default useDebounce;
