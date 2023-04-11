@@ -17,8 +17,9 @@ export function ProjectCardList({ searchword }: ProjectCardListProps) {
         ?.filter(project =>
           searchword ? project.repoName.includes(searchword) : true,
         )
-        .map(project => (
+        .map((project, idx) => (
           <div
+            key={project.projectName + idx}
             onClick={() => naigate(`/${project.space}/${project.repoName}`)}
             className={css.projectCard}
           >

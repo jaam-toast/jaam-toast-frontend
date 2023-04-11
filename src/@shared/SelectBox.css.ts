@@ -13,6 +13,8 @@ export const container = style([
     background: colors.WHITE,
     zIndex: 99,
     userSelect: "none",
+    height: "3rem",
+    fontSize: "0.9rem",
   },
 ]);
 
@@ -20,7 +22,7 @@ export const currentOption = style({
   display: "inline-block",
   position: "relative",
   zIndex: 999,
-  padding: "0.5rem 2rem",
+  padding: "0.7rem 1.4rem",
 });
 
 export const optionList = style([
@@ -52,7 +54,7 @@ export const optionList = style([
 export const option = style([
   {
     position: "relative",
-    padding: "0.5rem 2rem",
+    padding: "0.5rem 1.4rem",
     height: "3rem",
     zIndex: 999,
     lineHeight: "2rem",

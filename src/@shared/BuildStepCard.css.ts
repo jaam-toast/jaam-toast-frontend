@@ -20,7 +20,7 @@ export const currentCard = style({
 });
 
 export const notCurrentCard = style({
-  backgroundColor: colors.PAPER,
+  backgroundColor: colors.GREY_CLEAR,
 });
 
 export const firstCard = style({

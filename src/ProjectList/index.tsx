@@ -2,8 +2,7 @@ import { Suspense, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { ProjectCardList } from "./ProjectCardList";
-import TextField from "../components/@shared/TextField";
-import { useAuth } from "../@shared/useAuth";
+import { TextField, useAuth } from "../@shared";
 import * as css from "./index.css";
 
 export function ProjectList() {
@@ -12,7 +11,7 @@ export function ProjectList() {
   const [searchword, setSearchword] = useState<string>("");
 
   const handleCreateProjectClick = () => {
-    navigate(`/new/${user!.name}`);
+    navigate(`/new/${user.name}`);
   };
 
   return (

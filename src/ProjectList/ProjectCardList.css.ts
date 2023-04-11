@@ -5,10 +5,11 @@ import * as colors from "../config/colors";
 export const container = style([
   s.flex,
   {
-    padding: "2rem 1rem",
+    padding: "2rem",
     flexWrap: "wrap",
     border: `1px solid ${colors.BLACK}`,
     borderRadius: "1.5rem",
+    backgroundColor: colors.WHITE,
     width: "100%",
     gap: "1rem 2%",
   },
