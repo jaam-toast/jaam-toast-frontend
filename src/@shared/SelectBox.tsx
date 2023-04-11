@@ -8,7 +8,7 @@ type SelectBoxProps<T> = {
   defaultSelect?: T;
 };
 
-function SelectBox<T>({
+export function SelectBox<T>({
   label,
   options,
   onSelectionChange,
@@ -76,5 +76,3 @@ function SelectBox<T>({
     </div>
   );
 }
-
-export default SelectBox;

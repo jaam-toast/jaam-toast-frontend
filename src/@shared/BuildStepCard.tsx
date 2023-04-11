@@ -1,7 +1,7 @@
 import * as css from "./BuildStepCard.css";
 import { Avatar } from "./Avatar";
 
-function BuildStepCard({ step }: { step: number }) {
+export function BuildStepCard({ step }: { step: number }) {
   const isCurrent = (cardStep: number) => {
     return step === cardStep;
   };
@@ -46,5 +46,3 @@ function BuildStepCard({ step }: { step: number }) {
     </div>
   );
 }
-
-export default BuildStepCard;
