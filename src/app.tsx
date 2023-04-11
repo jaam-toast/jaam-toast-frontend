@@ -1,9 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 
 import { Header } from "./@shared/Header";
-import { Footer } from "./@shared/Footer";
 import { Landing } from "./Landing";
 import { ProjectList } from "./ProjectList";
+import { RepositorySelect } from "./RepositorySelect";
 import * as css from "./app.css";
 
 export function App() {
@@ -13,8 +13,12 @@ export function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/projects" element={<ProjectList />} />
+        {/* <Route path="/new/:userName/:projectName" element={<RepositoryImport />} /> */}
+        <Route path="/new/:userName" element={<RepositorySelect />} />
+        {/* <Route path="/new/:userName/:repository" element={<RepositoryImport />} /> */}
+        {/* <Route path="/new/:userName/:repository/deploy" element={<RepositoryImport />} /> */}
+        {/* <Route path="/new/:userName/:repository/preview" element={<RepositoryImport />} /> */}
       </Routes>
-      <Footer />
     </div>
   );
 }
