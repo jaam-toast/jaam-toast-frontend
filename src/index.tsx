@@ -5,7 +5,13 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import { App } from "./app";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      suspense: true,
+    },
+  },
+});
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
