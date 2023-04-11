@@ -42,3 +42,12 @@ export const loginButton = style([
     boxSizing: "content-box",
   },
 ]);
+
+export const footer = style({
+  position: "absolute",
+  bottom: "1rem",
+  height: "5vh",
+  padding: "0.5rem 0",
+  fontWeight: "300",
+  textAlign: "center",
+});
