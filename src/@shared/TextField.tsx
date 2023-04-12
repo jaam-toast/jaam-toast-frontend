@@ -4,17 +4,17 @@ import { useDebounce } from "./useDebounce";
 
 type TextFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   delay?: number;
-  defaultValue?: string;
+  value?: string;
   onTextFieldChange?: (text: string) => void;
 };
 
 export function TextField({
   delay = 1000,
-  defaultValue = "",
+  value = "",
   onTextFieldChange = () => {},
   ...props
 }: TextFieldProps) {
-  const [text, setText] = useState<string>(defaultValue);
+  const [text, setText] = useState<string>(value);
 
   const onTextFieldDebounceChange = useDebounce((text: string) => {
     onTextFieldChange(text);
@@ -28,8 +28,8 @@ export function TextField({
 
   return (
     <input
-      className={css.textField}
       value={text}
+      className={css.textField}
       onChange={handleMuiTextFieldChange}
       autoComplete="off"
       {...props}
