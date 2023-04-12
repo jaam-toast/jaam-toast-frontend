@@ -57,7 +57,7 @@ const MOCK_LOGS = [
 
 export function ProjectDeploy() {
   const navigate = useNavigate();
-  const logListRef = useRef<ReactElement | null>(null);
+  const logListRef = useRef<HTMLUListElement>(null);
   const [buildingLog, setBuildingLog] = useState<string[]>([]);
   const [isBuildLogFold, setIsBuildLogFold] = useState<boolean>(false);
   const [isCompleteFold, setIsCompleteFold] = useState<boolean>(true);

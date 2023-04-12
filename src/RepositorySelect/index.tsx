@@ -44,7 +44,6 @@ export function RepositorySelect() {
         <div className={css.searchConsole}>
           <SelectBox
             onSelectionChange={setSpace}
-            label="Select a Git Namespace"
             options={spaces?.map(({ spaceName }) => spaceName) ?? []}
           />
           <div className={css.textFieldSection}>

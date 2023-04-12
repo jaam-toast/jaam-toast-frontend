@@ -1,36 +1,36 @@
 import { useEffect, useState, useRef } from "react";
 import * as css from "./SelectBox.css";
 
-type SelectBoxProps<T> = {
-  label: string;
-  options: T[];
-  onSelectionChange: (option: T) => void;
-  defaultSelect?: T;
+type SelectBoxProps<Option extends string> = {
+  options: Option[];
+  onSelectionChange: (option: Option) => void;
+  defaultSelect?: Option;
 };
 
-export function SelectBox<T>({
-  label,
+export function SelectBox<Option extends string>({
   options,
   onSelectionChange,
   defaultSelect,
   ...props
-}: SelectBoxProps<T>) {
-  const [inputValue, setInputValue] = useState<T | null>(defaultSelect ?? null);
+}: SelectBoxProps<Option>) {
+  const [inputValue, setInputValue] = useState<Option | null>(
+    defaultSelect ?? null,
+  );
   const [isFold, setIsFold] = useState<boolean>(true);
 
-  const handleChange = selection => {
+  const handleChange = (selection: Option) => {
     onSelectionChange(selection);
     setInputValue(selection);
   };
 
-  const selectBoxRef = useRef(null);
+  const selectBoxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const outerClickListener = e => {
+    const outerClickListener = (event: MouseEvent) => {
       if (
         isFold ||
         !selectBoxRef.current ||
-        selectBoxRef.current?.contains(e.target)
+        selectBoxRef.current?.contains(event.target as Element)
       ) {
         return;
       }
@@ -56,7 +56,7 @@ export function SelectBox<T>({
         <>
           <div className={css.selectBoxDivider}></div>
           <ul className={css.optionList}>
-            {options?.map((option: T) => (
+            {options?.map((option: Option) => (
               <li
                 className={css.option}
                 key={option}

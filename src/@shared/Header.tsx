@@ -1,8 +1,16 @@
 import { useAuth } from "./useAuth";
 import * as css from "./Header.css";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export function Header() {
-  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
+  const logout = () => {
+    Cookies.remove("loginData");
+    navigate("/");
+  };
 
   return (
     <div className={css.container}>
