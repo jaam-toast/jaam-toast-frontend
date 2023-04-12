@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
-import Config from "src/config";
+import Config from "src/@config";
 
 function useBuildingLog(projectName: string, callback: (data: string) => void) {
   const [socket, setSocket] = useState<Socket | null>(null);

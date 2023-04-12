@@ -1,6 +1,6 @@
 import { style } from "@vanilla-extract/css";
-import * as colors from "../config/colors";
-import { s } from "src/styles";
+import * as colors from "../@config/colors";
+import { s } from "src/@styles";
 
 export const container = style([
   s.flex,

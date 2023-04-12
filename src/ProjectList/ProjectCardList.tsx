@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useProjectListQuery } from "./useProjectListQuery";
-import timeSince from "../utils/timeSince";
+import timeSince from "../@utils/timeSince";
 import * as css from "./ProjectCardList.css";
 
 type ProjectCardListProps = {

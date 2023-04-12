@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import Config from "../config";
+import Config from "../@config";
 import {
   CreateProjectOptions,
   Project,
@@ -7,7 +7,7 @@ import {
   Repo,
   Response,
   Space,
-} from "../types/api";
+} from "../@types/api";
 
 class APIClient {
   private accessToken: string = "";

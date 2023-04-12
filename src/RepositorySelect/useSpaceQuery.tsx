@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { useAuth } from "../@shared/useAuth";
-import APIClient from "../utils/api";
+import APIClient from "../@utils/api";
 
 export function useSpaceQuery() {
   const { user } = useAuth();

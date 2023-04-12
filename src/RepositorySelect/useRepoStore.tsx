@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { create } from "zustand";
 
-import APIClient from "../utils/api";
+import APIClient from "../@utils/api";
 import { useAuth } from "../@shared/useAuth";
 
 type RepoStore = {

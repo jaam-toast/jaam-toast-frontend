@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import APIClient from "../utils/api";
+import APIClient from "../@utils/api";
 import { useAuth } from "../@shared/useAuth";
 
 export function useProjectListQuery() {

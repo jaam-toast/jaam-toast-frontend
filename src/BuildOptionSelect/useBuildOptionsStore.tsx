@@ -1,4 +1,4 @@
-import { Framework, Env, NodeVersion } from "../types/build";
+import { Framework, Env, NodeVersion } from "../@types/build";
 import { create } from "zustand";
 import { shallow } from "zustand/shallow";
 

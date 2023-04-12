@@ -1,8 +1,8 @@
 import { create } from "zustand";
 
 import { useAuth } from "./useAuth";
-import createRandomId from "../utils/createRandomId";
-import APIClient from "../utils/api";
+import createRandomId from "../@utils/createRandomId";
+import APIClient from "../@utils/api";
 
 type ProjectNameStore = {
   defaultProjectName: string | null;
