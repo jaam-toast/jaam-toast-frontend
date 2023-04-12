@@ -1,7 +1,7 @@
 import { create } from "zustand";
+import { nanoid } from "nanoid";
 
 import { useAuth } from "./useAuth";
-import createRandomId from "../@utils/createRandomId";
 import APIClient from "../@utils/api";
 
 type ProjectNameStore = {
@@ -36,7 +36,7 @@ const useProjectNameStore = create<ProjectNameStore>()((set, get) => ({
       try {
         const project = await api.getProject(projectName);
         const newProjectName = !!project
-          ? `${projectName}-${createRandomId()}`
+          ? `${projectName}-${nanoid()}`
           : projectName;
 
         set({
@@ -45,7 +45,7 @@ const useProjectNameStore = create<ProjectNameStore>()((set, get) => ({
           isProjectNameAvailable: true,
         });
       } catch (error) {
-        const newProjectName = `${projectName}-${createRandomId()}`;
+        const newProjectName = `${projectName}-${nanoid()}`;
 
         set({
           projectName: newProjectName,
