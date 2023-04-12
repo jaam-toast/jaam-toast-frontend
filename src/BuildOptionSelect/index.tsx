@@ -32,8 +32,6 @@ export function BuildOptionSelect() {
   );
 
   const deploy = useProjectMutaion({
-    // TODO: validation fail 처리.
-    onValidateFail: console.log,
     onSuccess: () => {
       navigate(`./deploy`);
     },
@@ -74,7 +72,10 @@ export function BuildOptionSelect() {
             Prev
           </button>
           {isButtonNext && (
-            <button onClick={() => deploy()} className={css.completeButton}>
+            <button
+              onClick={() => deploy?.mutate()}
+              className={css.completeButton}
+            >
               Complete
             </button>
           )}

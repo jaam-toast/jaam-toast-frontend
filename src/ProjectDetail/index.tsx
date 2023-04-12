@@ -1,25 +1,18 @@
-import { dehydrate, DehydratedState, QueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { useProjectQuery } from "../ProjectDetail/useProjectQuery";
+import { useNavigate, useParams } from "react-router-dom";
 
-import PreviewCommandsTextField from "src/ProjectPreview/PreviewCommandsTextField";
-import PreviewEnvList from "src/ProjectPreview/PreviewEnvList";
-import BuildingLog from "src/@shared/BuildingLog";
-import getUserFromCookie from "utils/getUserFromCookie";
+export function ProjectDetail() {
+  const navigate = useNavigate();
+  const params = useParams();
+  const { projectName } = params;
+  const { data: project } = useProjectQuery(projectName!);
 
-import type { GetServerSideProps } from "next";
-import {
-  useProjectQuery,
-  projectPrefetchQuery,
-} from "src/ProjectDetail/useProjectQuery";
-
-type ProjectDetailPageProps = {
-  dehydratedState?: DehydratedState;
-};
-
-function ProjectDetailPage() {
-  const router = useRouter();
-  const { projectName } = router.query;
-  const { data: project } = useProjectQuery(projectName);
+  useEffect(() => {
+    if (!params.projectName) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <div>
@@ -44,48 +37,14 @@ function ProjectDetailPage() {
             </div>
           </div>
           <p>{`https://${project?.deployedUrl}`}</p>
-          <PreviewCommandsTextField
+          {/* <PreviewCommandsTextField
             installCommand={project?.installCommand}
             buildCommand={project?.buildCommand}
           />
           <PreviewEnvList envsList={project?.envList} />
-          <BuildingLog buildingLog={project?.buildingLog} />
+          <BuildingLog buildingLog={project?.buildingLog} /> */}
         </div>
       </div>
     </div>
   );
 }
-
-export const getServerSideProps: GetServerSideProps<
-  ProjectDetailPageProps
-> = async context => {
-  const user = getUserFromCookie(context);
-  const { projectName } = context.query;
-
-  if (!user || !projectName || typeof projectName === "object") {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        suspense: true,
-      },
-    },
-  });
-
-  await queryClient.prefetchQuery(projectPrefetchQuery(user, projectName));
-
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};
-
-export default ProjectDetailPage;

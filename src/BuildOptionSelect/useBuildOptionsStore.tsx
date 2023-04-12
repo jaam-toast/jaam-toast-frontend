@@ -13,13 +13,25 @@ type BuildOptionsStore = {
   buildCommand: string;
   installCommand: string;
 
-  setBuildOptions: (
-    option: BuildOptions,
-    select: BuildOptionsType | ((prev: BuildOptionsType) => BuildOptionsType),
+  setBuildOptions: <BuildOption extends BuildOptions>(
+    option: BuildOption,
+    select:
+      | BuildOptionsStore[BuildOption]
+      | ((
+          prev: BuildOptionsStore[BuildOption],
+        ) => BuildOptionsStore[BuildOption]),
   ) => void;
   setProjectName: (projectName: string) => void;
 };
 
+type aa = <BuildOption extends BuildOptions>(
+  option: BuildOption,
+  select:
+    | BuildOptionsStore[BuildOption]
+    | ((
+        prev: BuildOptionsStore[BuildOption],
+      ) => BuildOptionsStore[BuildOption]),
+) => void;
 // TODO: renaming type.
 type BuildOptions = keyof Pick<
   BuildOptionsStore,
@@ -30,7 +42,6 @@ type BuildOptions = keyof Pick<
   | "buildCommand"
   | "installCommand"
 >;
-type BuildOptionsType = BuildOptionsStore[BuildOptions];
 
 const useBuildOptionsStore = create<BuildOptionsStore>()((set, get) => ({
   projectName: null,
@@ -41,10 +52,7 @@ const useBuildOptionsStore = create<BuildOptionsStore>()((set, get) => ({
   installCommand: "npm install",
   envList: [],
 
-  setBuildOptions: (
-    option: BuildOptions,
-    select: BuildOptionsType | ((prev: BuildOptionsType) => BuildOptionsType),
-  ) => {
+  setBuildOptions: (option, select) => {
     if (typeof select === "function") {
       const prev = get()[option];
       const result = select(prev);
@@ -97,8 +105,14 @@ export const useBuildOptions = () =>
 
 export const useSetBuildOptions = () =>
   useBuildOptionsStore(
-    (state: BuildOptionsStore) => (option: BuildOptions) =>
-      option === "projectName"
-        ? state.setProjectName
-        : state.setBuildOptions.bind(null, option),
+    (state: BuildOptionsStore) =>
+      <BuildOption extends BuildOptions>(option: BuildOption) => {
+        return (
+          select:
+            | BuildOptionsStore[BuildOption]
+            | ((
+                prev: BuildOptionsStore[BuildOption],
+              ) => BuildOptionsStore[BuildOption]),
+        ) => state.setBuildOptions(option, select);
+      },
   );

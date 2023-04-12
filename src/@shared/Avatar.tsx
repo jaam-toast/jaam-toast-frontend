@@ -7,8 +7,8 @@ export function Avatar({
   active = false,
 }: {
   children: ReactElement | string;
-  size: number;
-  active: boolean;
+  size?: number;
+  active?: boolean;
 }) {
   return (
     <div className={`${css.container} ${active ? css.active : css.notActive}`}>

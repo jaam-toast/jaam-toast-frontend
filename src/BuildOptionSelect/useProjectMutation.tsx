@@ -6,16 +6,11 @@ import { useAuth } from "../@shared/useAuth";
 import APIClient from "../@utils/api";
 
 type UseProjectMutationOptions = {
-  onValidateFail?: (message: string) => void;
   onSuccess?: (data?: string) => Promise<unknown> | unknown;
   onError?: (error?: unknown) => Promise<unknown> | unknown;
 };
 
-function useProjectMutation({
-  onValidateFail,
-  onSuccess,
-  onError,
-}: UseProjectMutationOptions) {
+function useProjectMutation({ onSuccess, onError }: UseProjectMutationOptions) {
   const buildOptions = useBuildOptions();
   const {
     space,
@@ -33,25 +28,20 @@ function useProjectMutation({
     .setAccessToken(user?.accessToken)
     .setGithubAccessToken(user?.githubAccessToken);
 
-  const { mutate } = useMutation(
+  if (
+    !buildOptions.isProjectNameAvailable ||
+    !space ||
+    !repoName ||
+    !defaultProjectName ||
+    !defaultInstallCommand ||
+    !defaultBuildCommand
+  ) {
+    return;
+  }
+
+  return useMutation(
     ["project-create"],
     () => {
-      if (
-        !buildOptions.isProjectNameAvailable ||
-        !space ||
-        !repoName ||
-        !defaultProjectName ||
-        !defaultInstallCommand ||
-        !defaultBuildCommand
-      ) {
-        if (!onValidateFail) {
-          return;
-        }
-
-        onValidateFail("Cannot deploy project. Project options are required.");
-        return;
-      }
-
       const createProjectOptions = {
         userId: user.id,
         space,
@@ -74,8 +64,6 @@ function useProjectMutation({
       onError,
     },
   );
-
-  return mutate;
 }
 
 export default useProjectMutation;
