@@ -1,19 +1,8 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-
-import { useAuth } from "../@shared/useAuth";
+import Config from "../@config";
 import * as css from "./index.css";
 
 export function Landing() {
-  const { user, login } = useAuth();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (user) {
-      navigate("/projects");
-    }
-  }, []);
-
   const [tick, setTick] = useState<Boolean>(true);
 
   useEffect(() => {
@@ -25,6 +14,8 @@ export function Landing() {
       clearTimeout(tickTimer);
     };
   }, [tick]);
+
+  const githubLoginUrl = `//${Config.GITHUB_OAUTH_URI}?client_id=${Config.CLIENT_ID}&redirect_uri=${Config.REDIRECT_URI}&scope=${Config.API_SCOPE}} className={css.loginButton}`;
 
   return (
     <div className={css.container}>
@@ -42,9 +33,9 @@ export function Landing() {
           언제든지 업데이트 할 수 있습니다.
         </h2>
         <div>
-          <button onClick={login} className={css.loginButton}>
+          <a href={githubLoginUrl} className={css.loginButton}>
             Continue with GitHub
-          </button>
+          </a>
         </div>
         <footer className={css.footer}>
           Every deployment from the 2023 edition of Jaam Toast.
