@@ -1,8 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 
 import { useBuildOptions } from "./useBuildOptionsStore";
-import { useProjectName } from "../@shared/useProjectNameStore";
-import { useRepo, useSpace } from "../RepositorySelect/useRepoStore";
+import { usePresetBuildOptionStore } from "../RepositorySelect/usePresetBuildOptionStore";
 import { useAuth } from "../@shared/useAuth";
 import APIClient from "../@utils/api";
 
@@ -17,10 +16,16 @@ function useProjectMutation({
   onSuccess,
   onError,
 }: UseProjectMutationOptions) {
-  const projectName = useProjectName();
-  const repo = useRepo();
-  const space = useSpace();
   const buildOptions = useBuildOptions();
+  const {
+    space,
+    repoName,
+    defaultProjectName,
+    defaultFramework,
+    defaultBuildCommand,
+    defaultInstallCommand,
+    defaultNodeVersion,
+  } = usePresetBuildOptionStore(state => state);
   const { user } = useAuth();
 
   const api = new APIClient()
@@ -28,34 +33,42 @@ function useProjectMutation({
     .setAccessToken(user?.accessToken)
     .setGithubAccessToken(user?.githubAccessToken);
 
-  if (
-    !projectName ||
-    !buildOptions.buildType ||
-    !buildOptions.buildCommand ||
-    !buildOptions.installCommand ||
-    !buildOptions.nodeVersion
-  ) {
-    if (!onValidateFail) {
-      return;
-    }
-
-    onValidateFail("Cannot deploy project. Project options are required.");
-    return;
-  }
-
   const { mutate } = useMutation(
     ["project-create"],
-    () =>
-      api.createProject({
-        projectName,
-        userId: user?.id!,
+    () => {
+      if (
+        !buildOptions.isProjectNameAvailable ||
+        !space ||
+        !repoName ||
+        !defaultProjectName ||
+        !defaultInstallCommand ||
+        !defaultBuildCommand
+      ) {
+        if (!onValidateFail) {
+          return;
+        }
+
+        onValidateFail("Cannot deploy project. Project options are required.");
+        return;
+      }
+
+      const createProjectOptions = {
+        userId: user.id,
         space,
-        repoName: repo!,
-        repoCloneUrl: `https://github.com/${space}/${repo}.git`,
+        repoName,
+        repoCloneUrl: `https://github.com/${space}/${repoName}.git`,
         projectUpdatedAt: new Date().toISOString(),
-        githubAccessToken: user?.githubAccessToken!,
-        ...buildOptions,
-      }),
+        githubAccessToken: user.githubAccessToken,
+        projectName: buildOptions.projectName || defaultProjectName,
+        nodeVersion: buildOptions.nodeVersion || defaultNodeVersion,
+        framework: buildOptions.framework || defaultFramework,
+        buildCommand: buildOptions.buildCommand || defaultBuildCommand,
+        installCommand: buildOptions.installCommand || defaultInstallCommand,
+        envList: buildOptions.envList,
+      };
+
+      return api.createProject(createProjectOptions);
+    },
     {
       onSuccess,
       onError,

@@ -1,4 +1,4 @@
-import { useReposQuery } from "./useRepoStore";
+import { useReposQuery } from "./usePresetBuildOptionStore";
 import { Avatar } from "../@shared/Avatar";
 import * as css from "./RepositoryList.css";
 
@@ -7,7 +7,7 @@ type BuildOptionRepoListProps = {
   onOptionClick: (option: string) => void;
 };
 
-function BuildOptionRepoList({
+export function BuildOptionRepoList({
   searchWord,
   onOptionClick,
 }: BuildOptionRepoListProps) {
@@ -38,5 +38,3 @@ function BuildOptionRepoList({
     </div>
   );
 }
-
-export default BuildOptionRepoList;

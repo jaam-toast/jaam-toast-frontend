@@ -2,23 +2,28 @@ import { Suspense, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { BuildStepCard, TextField, SelectBox } from "../@shared";
-import BuildOptionRepoList from "./RepositoryList";
+import { BuildOptionRepoList } from "./RepositoryList";
 import { useSpaceQuery } from "./useSpaceQuery";
-import { useSpace, useSpaceActions } from "./useRepoStore";
-import { useProjectNameActions } from "../@shared/useProjectNameStore";
+import {
+  PresetBuildOptionStore,
+  usePresetBuildOptionStore,
+} from "./usePresetBuildOptionStore";
 import * as css from "./index.css";
 
 export function RepositorySelect() {
   const navigate = useNavigate();
-  const space = useSpace();
-  const { data: spaces } = useSpaceQuery();
-  const { setSpace, setRepo } = useSpaceActions();
-  const { setDefaultProjectName } = useProjectNameActions();
   const [searchWord, setSearchWord] = useState<string>("");
+  const { space, setSpace, setRepoName } = usePresetBuildOptionStore(
+    (store: PresetBuildOptionStore) => ({
+      setSpace: store.actions.setSpace,
+      setRepoName: store.actions.setRepoName,
+      space: store.space,
+    }),
+  );
+  const { data: spaces } = useSpaceQuery();
 
   const handleRepoClick = (repo: string) => {
-    setRepo(repo);
-    setDefaultProjectName(repo);
+    setRepoName(repo);
     navigate(`./${repo}`);
   };
 
