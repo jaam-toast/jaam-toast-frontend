@@ -101,7 +101,7 @@ export const buttonSize = styleVariants({
   large: {
     height: "3rem",
     padding: "0.5rem 3rem",
-    fontSize: "1.1rem",
+    fontSize: "1.2rem",
   },
 });
 
@@ -134,17 +134,5 @@ export const textField = style([
     outline: "none",
     borderRadius: "5rem",
     flexShrink: 1,
-    "::placeholder": {
-      color: colors.GREY,
-      textTransform: "uppercase",
-    },
-    "::-moz-placeholder": {
-      color: colors.GREY,
-      textTransform: "uppercase",
-    },
-    "::-webkit-input-placeholder": {
-      color: colors.GREY,
-      textTransform: "uppercase",
-    },
   },
 ]);

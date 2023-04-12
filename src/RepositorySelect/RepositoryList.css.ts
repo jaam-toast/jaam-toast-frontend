@@ -12,8 +12,8 @@ export const container = style([
 
 export const repoOptionList = style([
   s.scroll,
-  s.fullHeigth,
   {
+    height: "18.5rem",
     overflow: "scroll",
     padding: "0.5rem 0",
   },
