@@ -13,14 +13,18 @@ import {
 } from "../RepositorySelect/usePresetBuildOptionStore";
 import * as css from "./index.css";
 
-import { Framework } from "../@types/build";
+import { Framework, NODE_VERSION } from "../@types/build";
 
 export function BuildOptionSelect() {
   const navigate = useNavigate();
   const params = useParams();
 
-  const { defaultProjectName, defaultBuildCommand, defaultInstallCommand } =
-    usePresetBuildOptions();
+  const {
+    defaultProjectName,
+    defaultBuildCommand,
+    defaultInstallCommand,
+    defaultNodeVersion,
+  } = usePresetBuildOptions();
   const buildOptions = useBuildOptions();
   const setBuildOptions = useSetBuildOptions();
   const { setRepoName, setSpace } = usePresetBuildOptionStore(
@@ -41,7 +45,7 @@ export function BuildOptionSelect() {
     navigate(-1);
   };
 
-  const isButtonNext = !!buildOptions.nodeVersion && !!buildOptions.framework;
+  const isButtonNext = !!buildOptions.framework;
 
   useEffect(() => {
     const { userName, repository } = params;
@@ -98,9 +102,17 @@ export function BuildOptionSelect() {
           <div className={css.buildOption}>
             <p className={css.buildOptionTitle}>Framework</p>
             <SelectBox
-              label="Framework"
               options={Object.values(Framework)}
               onSelectionChange={setBuildOptions("framework")}
+            />
+          </div>
+
+          <div className={css.buildOption}>
+            <p className={css.buildOptionTitle}>Node Version</p>
+            <SelectBox
+              options={NODE_VERSION}
+              defaultSelect={defaultNodeVersion}
+              onSelectionChange={setBuildOptions("nodeVersion")}
             />
           </div>
 

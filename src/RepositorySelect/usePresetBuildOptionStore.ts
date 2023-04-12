@@ -79,6 +79,7 @@ export const usePresetBuildOptions = () =>
       defaultBuildCommand: store.defaultBuildCommand,
       defaultInstallCommand: store.defaultInstallCommand,
       defaultFramework: store.defaultFramework,
+      defaultNodeVersion: store.defaultNodeVersion,
     }),
     shallow,
   );
