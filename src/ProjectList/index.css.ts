@@ -6,7 +6,7 @@ const searchIcon = "/images/search-icon.svg";
 export const container = style([
   s.fullWidth,
   {
-    padding: "5rem 10vw 3rem",
+    padding: "2rem 10vw 3rem",
   },
 ]);
 
@@ -15,7 +15,7 @@ export const explorerSection = style([
   s.flexCenter,
   {
     gap: "0.5rem",
-    marginBottom: "0.5rem",
+    marginBottom: "2rem",
   },
 ]);
 

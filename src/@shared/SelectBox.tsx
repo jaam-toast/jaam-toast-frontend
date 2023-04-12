@@ -53,18 +53,21 @@ export function SelectBox<T>({
     >
       <span className={css.currentOption}>{inputValue}</span>
       {!isFold && (
-        <ul className={css.optionList}>
-          {options?.map((option: T) => (
-            <li
-              className={css.option}
-              key={option}
-              value={option}
-              onClick={() => handleChange(option)}
-            >
-              {option}
-            </li>
-          ))}
-        </ul>
+        <>
+          <div className={css.selectBoxDivider}></div>
+          <ul className={css.optionList}>
+            {options?.map((option: T) => (
+              <li
+                className={css.option}
+                key={option}
+                value={option}
+                onClick={() => handleChange(option)}
+              >
+                {option}
+              </li>
+            ))}
+          </ul>
+        </>
       )}
       <span className={css.selectBoxIcon}>
         {isFold ? (

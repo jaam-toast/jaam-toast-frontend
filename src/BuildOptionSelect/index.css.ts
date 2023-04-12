@@ -21,19 +21,12 @@ export const subTitle = style({
   fontSize: "1rem",
 });
 
-export const buildOptionSection = style([
-  s.fullHeigth,
-  s.boder,
-  {
-    padding: "2rem",
-    backgroundColor: colors.WHITE,
-  },
-]);
+export const buildOptionSection = style([s.fullHeigth]);
 
 export const buttonConsole = style([
   s.flex,
   s.flexSpaceBetween,
-  { marginBottom: "2rem" },
+  { marginBottom: "1rem" },
 ]);
 
 export const prevButton = style([
