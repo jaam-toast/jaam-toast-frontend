@@ -1,33 +1,31 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import {
-  TextField,
-  BuildStepCard,
-  SelectBox,
-  EnvField,
-  useDefaultProjectName,
-  useIsProjectNameAvailable,
-  useProjectNameActions,
-} from "../@shared";
+import { TextField, BuildStepCard, SelectBox, EnvField } from "../@shared";
 import {
   useBuildOptions,
   useSetBuildOptions,
 } from "../BuildOptionSelect/useBuildOptionsStore";
-import useProjectMutaion from "../BuildOptionSelect/useProjectMutation";
-import { Framework } from "../@types/build";
+import useProjectMutaion from "./useProjectMutation";
+import {
+  usePresetBuildOptionStore,
+  usePresetBuildOptions,
+} from "../RepositorySelect/usePresetBuildOptionStore";
 import * as css from "./index.css";
+
+import { Framework } from "../@types/build";
 
 export function BuildOptionSelect() {
   const navigate = useNavigate();
   const params = useParams();
 
-  const defaultProjectName = useDefaultProjectName();
-  const isProjectNameAvailable = useIsProjectNameAvailable();
-  const { setProjectName, setDefaultProjectName } = useProjectNameActions();
-
+  const { defaultProjectName, defaultBuildCommand, defaultInstallCommand } =
+    usePresetBuildOptions();
   const buildOptions = useBuildOptions();
   const setBuildOptions = useSetBuildOptions();
+  const { setRepoName, setSpace } = usePresetBuildOptionStore(
+    state => state.actions,
+  );
 
   const deploy = useProjectMutaion({
     // TODO: validation fail 처리.
@@ -43,14 +41,16 @@ export function BuildOptionSelect() {
     navigate(-1);
   };
 
-  const isButtonNext = !!buildOptions.nodeVersion && !!buildOptions.buildType;
+  const isButtonNext = !!buildOptions.nodeVersion && !!buildOptions.framework;
 
   useEffect(() => {
-    const { repository } = params;
-
-    if (!defaultProjectName) {
-      setDefaultProjectName(repository as string);
+    const { userName, repository } = params;
+    if (!repository || !userName || !!buildOptions.projectName) {
+      return;
     }
+
+    setSpace(userName);
+    setRepoName(repository);
   }, []);
 
   return (
@@ -70,40 +70,44 @@ export function BuildOptionSelect() {
             Prev
           </button>
           {isButtonNext && (
-            <button
-              onClick={() => !!deploy && deploy()}
-              className={css.completeButton}
-            >
+            <button onClick={() => deploy()} className={css.completeButton}>
               Complete
             </button>
           )}
         </div>
         <div className={css.buildOptionList}>
-          <div className={css.buildOption}>
+          <div
+            className={`${css.buildOption} ${
+              buildOptions.isProjectNameAvailable ? "" : css.unavailableOption
+            }`}
+          >
             <p className={css.buildOptionTitle}>Project Name</p>
             {/* // TODO: apply red point color */}
-            {!isProjectNameAvailable && <p>Your Project Name is duplicated.</p>}
+            {!buildOptions.isProjectNameAvailable && (
+              <p>Your Project Name is duplicated.</p>
+            )}
             {/* // TODO: apply red point color when projectName is duplicated */}
             <TextField
-              defaultValue={defaultProjectName ?? ""}
-              onTextFieldChange={setProjectName}
+              value={defaultProjectName ?? ""}
+              onTextFieldChange={setBuildOptions("projectName")}
               placeholder={defaultProjectName ?? ""}
+              key={defaultProjectName}
             />
           </div>
 
           <div className={css.buildOption}>
-            <p className={css.buildOptionTitle}>Build Type *</p>
+            <p className={css.buildOptionTitle}>Framework</p>
             <SelectBox
-              label="Build Type"
+              label="Framework"
               options={Object.values(Framework)}
-              onSelectionChange={setBuildOptions("buildType")}
+              onSelectionChange={setBuildOptions("framework")}
             />
           </div>
 
           <div className={css.buildOption}>
             <p className={css.buildOptionTitle}>Install Command</p>
             <TextField
-              placeholder={buildOptions.installCommand ?? ""}
+              placeholder={defaultInstallCommand ?? ""}
               onTextFieldChange={setBuildOptions("installCommand")}
             />
           </div>
@@ -111,7 +115,7 @@ export function BuildOptionSelect() {
           <div className={css.buildOption}>
             <p className={css.buildOptionTitle}>Build Command</p>
             <TextField
-              placeholder={buildOptions.buildCommand ?? ""}
+              placeholder={defaultBuildCommand ?? ""}
               onTextFieldChange={setBuildOptions("buildCommand")}
             />
           </div>

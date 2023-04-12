@@ -20,17 +20,23 @@ export type Env = {
   value: string;
 };
 
-export enum NodeVersion {
-  V14 = "14.21.0",
-  V16 = "16.18.0",
-}
+export const NODE_VERSION = [
+  "17.9.1",
+  "16.20.0",
+  "15.14.0",
+  "14.21.3",
+  "13.14.0",
+  "12.18.0",
+];
+
+export type NodeVersion = typeof NODE_VERSION[number];
 
 export interface BuildOptions {
   projectName: string;
   nodeVersion: NodeVersion | null;
   installCommand: string;
   buildCommand: string;
-  buildType: Framework | null;
+  framework: Framework | null;
   envList: Env[];
 }
 
