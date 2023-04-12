@@ -4,7 +4,6 @@ import * as colors from "./@config/colors";
 
 export const container = style([
   s.flexColumn,
-  s.flexSpaceBetween,
   s.scroll,
   {
     position: "fixed",

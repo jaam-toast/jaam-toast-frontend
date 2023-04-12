@@ -10,61 +10,63 @@ export const container = style([
   s.poiner,
   {
     position: "relative",
-    background: colors.WHITE,
-    zIndex: 99,
-    userSelect: "none",
     height: "3rem",
     fontSize: "0.9rem",
+    background: colors.WHITE,
+    userSelect: "none",
+    zIndex: 99,
   },
 ]);
 
 export const currentOption = style({
-  display: "inline-block",
   position: "relative",
-  zIndex: 999,
+  display: "inline-block",
   padding: "0.7rem 1.4rem",
+  zIndex: 999,
 });
 
 export const optionList = style([
-  s.boder,
+  s.scroll,
   {
     width: "calc(100% + 2px)",
+    maxHeight: "15rem",
     position: "absolute",
     top: "100%",
     left: -1,
     backgroundColor: colors.WHITE,
     listStyle: "none",
+    border: `1px solid ${colors.BLACK}`,
+    borderBottomLeftRadius: "1.5rem",
+    borderBottomRightRadius: "1.5rem",
     borderTop: "none",
     zIndex: 99,
-    "::after": {
-      content: "",
-      backgroundColor: colors.WHITE,
-      position: "absolute",
-      width: "100%",
-      height: "3rem",
-      top: "calc(-50% + 1.5rem)",
-      borderRight: `1px solid ${colors.BLACK}`,
-      borderLeft: `1px solid ${colors.BLACK}`,
-      left: -1,
-      zIndex: 0,
-    },
   },
 ]);
+
+export const selectBoxDivider = style({
+  position: "absolute",
+  top: "50%",
+  left: -1,
+  width: "calc(100% + 2px)",
+  height: "3rem",
+  backgroundColor: colors.WHITE,
+  borderRight: `1px solid ${colors.BLACK}`,
+  borderLeft: `1px solid ${colors.BLACK}`,
+  zIndex: 9,
+});
 
 export const option = style([
   {
     position: "relative",
     padding: "0.5rem 1.4rem",
     height: "3rem",
-    zIndex: 999,
     lineHeight: "2rem",
     fontSize: "0.9rem",
+    zIndex: 999,
     ":hover": {
       backgroundColor: colors.PAPER,
     },
     ":last-child": {
-      borderBottomRightRadius: "1.5rem",
-      borderBottomLeftRadius: "1.5rem",
       paddingBottom: "2.8rem",
     },
   },

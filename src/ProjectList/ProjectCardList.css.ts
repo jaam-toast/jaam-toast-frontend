@@ -5,13 +5,12 @@ import * as colors from "../@config/colors";
 export const container = style([
   s.flex,
   {
-    padding: "2rem",
+    // padding: "2rem",
     flexWrap: "wrap",
-    border: `1px solid ${colors.BLACK}`,
-    borderRadius: "1.5rem",
-    backgroundColor: colors.WHITE,
+    // border: `1px solid ${colors.BLACK}`,
+    // borderRadius: "1.5rem",
     width: "100%",
-    gap: "1rem 2%",
+    gap: "1rem 1%",
   },
 ]);
 
@@ -20,7 +19,7 @@ export const projectCard = style([
   s.flexSpaceBetween,
   s.poiner,
   {
-    width: "32%",
+    width: "32.5%",
     height: "15rem",
     padding: "1.5rem 1.5rem 2rem",
     backgroundColor: colors.LEMON,
