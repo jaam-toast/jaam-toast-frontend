@@ -51,9 +51,17 @@ export const buildOption = style([
   },
 ]);
 
+export const unavailableOption = style({
+  backgroundColor: colors.STRAWBERRY,
+});
+
 export const buildOptionList = style([s.flexColumn, { gap: "1rem" }]);
 
 export const buildOptionTitle = style({
   fontWeight: 700,
   fontSize: "1.1rem",
+});
+
+export const projectNameInput = style({
+  textTransform: "lowercase",
 });

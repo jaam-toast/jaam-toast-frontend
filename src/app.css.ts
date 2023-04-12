@@ -6,8 +6,7 @@ export const container = style([
   s.flexColumn,
   s.scroll,
   {
-    position: "fixed",
-    height: "100vh",
+    minHeight: "100vh",
     width: "100vw",
     backgroundColor: colors.PAPER,
   },

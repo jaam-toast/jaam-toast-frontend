@@ -40,9 +40,10 @@ export const textFieldSection = style({ width: "40%" });
 export const selectMessage = style([
   s.flex,
   s.flexCenter,
-  s.full,
+  s.fullWidth,
   s.boder,
   {
+    height: "18.5rem",
     backgroundColor: colors.WHITE,
     fontSize: "1.1rem",
     fontWeight: 300,
