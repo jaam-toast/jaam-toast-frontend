@@ -4,7 +4,7 @@ import { useBuildOptions } from "./useBuildOptionsStore";
 import { useProjectName } from "../@shared/useProjectNameStore";
 import { useRepo, useSpace } from "../RepositorySelect/useRepoStore";
 import { useAuth } from "../@shared/useAuth";
-import APIClient from "../utils/api";
+import APIClient from "../@utils/api";
 
 type UseProjectMutationOptions = {
   onValidateFail?: (message: string) => void;

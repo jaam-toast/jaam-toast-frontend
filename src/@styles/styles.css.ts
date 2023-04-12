@@ -1,6 +1,6 @@
 import { style } from "@vanilla-extract/css";
 import { styleVariants } from "@vanilla-extract/css";
-import * as colors from "../config/colors";
+import * as colors from "../@config/colors";
 
 export const flex = style({
   display: "flex",

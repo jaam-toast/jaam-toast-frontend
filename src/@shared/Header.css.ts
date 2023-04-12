@@ -1,6 +1,6 @@
 import { style } from "@vanilla-extract/css";
-import { s } from "../styles";
-import { gmarketSans } from "src/styles/font.css";
+import { s } from "../@styles";
+import { gmarketSans } from "src/@styles/font.css";
 
 export const container = style([
   s.flex,

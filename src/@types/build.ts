@@ -30,7 +30,7 @@ export interface BuildOptions {
   nodeVersion: NodeVersion | null;
   installCommand: string;
   buildCommand: string;
-  buildType: BuildType | null;
+  buildType: Framework | null;
   envList: Env[];
 }
 

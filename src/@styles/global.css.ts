@@ -1,6 +1,6 @@
 import { globalStyle } from "@vanilla-extract/css";
 import { pretendard } from "./font.css";
-import * as colors from "../config/colors";
+import * as colors from "../@config/colors";
 
 globalStyle("html, body", {
   margin: 0,

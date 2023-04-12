@@ -15,7 +15,7 @@ import {
   useSetBuildOptions,
 } from "../BuildOptionSelect/useBuildOptionsStore";
 import useProjectMutaion from "../BuildOptionSelect/useProjectMutation";
-import { Framework } from "../types/build";
+import { Framework } from "../@types/build";
 import * as css from "./index.css";
 
 export function BuildOptionSelect() {

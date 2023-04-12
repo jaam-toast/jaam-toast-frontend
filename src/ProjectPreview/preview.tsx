@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 import BuildingLog from "src/@shared/BuildingLog";
 import PreviewCommandsTextField from "src/ProjectPreview/PreviewCommandsTextField";
 import PreviewEnvList from "src/ProjectPreview/PreviewEnvList";
-import { BLUE } from "src/config/colors";
+import { BLUE } from "src/@config/colors";
 import getUserFromCookie from "utils/getUserFromCookie";
 
 import deployMockData from "../../__test__/mock/deployData.json";
