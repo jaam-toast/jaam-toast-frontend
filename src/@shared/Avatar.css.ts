@@ -6,15 +6,9 @@ export const container = style([
   s.flex,
   s.flexCenter,
   {
-    width: "2.5rem",
-    height: "2.5rem",
     border: `1px solid ${colors.BLACK}`,
     borderRadius: "2rem",
     flexShrink: 1,
-    lineHeight: "2rem",
-    textAlign: "center",
-    fontWeight: 700,
-    fontSize: "1.25rem",
     overflow: "hidden",
   },
 ]);
@@ -33,3 +27,12 @@ export const avatarSize = styleVariants({
     height: "3rem",
   },
 });
+
+export const avatarSkeleton = style([
+  s.skeleton,
+  {
+    flexShrink: 1,
+    borderRadius: "2rem",
+    backgroundColor: colors.GREY_CLEAR,
+  },
+]);

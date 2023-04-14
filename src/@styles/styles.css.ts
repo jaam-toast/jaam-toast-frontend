@@ -1,4 +1,4 @@
-import { style } from "@vanilla-extract/css";
+import { keyframes, style } from "@vanilla-extract/css";
 import { styleVariants } from "@vanilla-extract/css";
 import * as colors from "../@config/colors";
 
@@ -102,6 +102,9 @@ export const buttonSize = styleVariants({
     height: "3rem",
     padding: "0.5rem 3rem",
     fontSize: "1.2rem",
+    "::after": {
+      zoom: "100%",
+    },
   },
 });
 
@@ -136,3 +139,31 @@ export const textField = style([
     flexShrink: 1,
   },
 ]);
+
+const searchIconPath = "/images/search-icon.svg";
+
+export const searchIcon = style({
+  position: "relative",
+  flexShrink: 1,
+  "::after": {
+    content: `url(${searchIconPath})`,
+    position: "absolute",
+    display: "inline",
+    right: "1rem",
+    width: "1.5rem",
+    height: "1.5rem",
+    zoom: "100%",
+    fill: "currentColor",
+  },
+});
+
+const apear = keyframes({
+  "0%": { opacity: 0.5 },
+  "100%": { opacity: 1 },
+});
+
+export const skeleton = style({
+  borderRadius: "1.5rem",
+  backgroundColor: colors.GREY_CLEAR,
+  animation: `0.8s linear 0s infinite alternate none running ${apear}`,
+});

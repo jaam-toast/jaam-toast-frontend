@@ -26,7 +26,7 @@ export function App() {
   return (
     <div className={css.container}>
       <Header />
-      <Suspense>
+      <Suspense fallback={<PageSkeleton />}>
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/projects" element={<ProjectList />} />
@@ -42,6 +42,14 @@ export function App() {
           <Route path="/:userName/:projectName" element={<ProjectDetail />} />
         </Routes>
       </Suspense>
+    </div>
+  );
+}
+
+function PageSkeleton() {
+  return (
+    <div className={css.containerSkeleton}>
+      <div className={css.pageSkeleton} />
     </div>
   );
 }

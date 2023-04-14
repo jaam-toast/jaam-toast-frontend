@@ -1,7 +1,7 @@
 import { Suspense, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { ProjectCardList } from "./ProjectCardList";
+import { ProjectCardList, ProjectCardListSkeleton } from "./ProjectCardList";
 import { TextField, useAuth } from "../@shared";
 import * as css from "./index.css";
 
@@ -16,7 +16,6 @@ export function ProjectList() {
 
   return (
     <div className={css.container}>
-      {/* //TODO: make variant. */}
       <section className={css.explorerSection}>
         <div className={css.searchInput}>
           <TextField
@@ -31,8 +30,7 @@ export function ProjectList() {
           New Project
         </button>
       </section>
-      {/* // TODO: Skeleton UI */}
-      <Suspense fallback={<h1>로딩 중</h1>}>
+      <Suspense fallback={<ProjectCardListSkeleton />}>
         <ProjectCardList searchword={searchword} />
       </Suspense>
     </div>
