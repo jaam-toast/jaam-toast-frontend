@@ -1,5 +1,5 @@
 import { style } from "@vanilla-extract/css";
-import { s } from "src/@styles";
+import { s } from "../@styles";
 import * as colors from "../@config/colors";
 
 export const container = style([
