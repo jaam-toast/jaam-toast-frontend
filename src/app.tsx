@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Suspense } from "react";
 
 import { Header } from "./@shared/Header";
@@ -13,16 +13,22 @@ import * as css from "./app.css";
 
 export function App() {
   const { user } = useAuth();
+  const { pathname } = useLocation();
+
+  if (pathname === "/" && !!user) {
+    return <Navigate to="/projects" />;
+  }
+
+  if (pathname !== "/" && !user) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div className={css.container}>
       <Header />
       <Suspense>
         <Routes>
-          <Route
-            path="/"
-            element={user ? <Navigate to="/projects" /> : <Landing />}
-          />
+          <Route path="/" element={<Landing />} />
           <Route path="/projects" element={<ProjectList />} />
           <Route path="/new/:userName" element={<RepositorySelect />} />
           <Route
