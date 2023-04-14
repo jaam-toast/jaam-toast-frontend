@@ -13,7 +13,15 @@ export function BuildStepCard({ step }: { step: number }) {
           isCurrent(1) ? css.currentCard : css.notCurrentCard
         }`}
       >
-        <Avatar active={isCurrent(1)}>1</Avatar>
+        <Avatar size="medium">
+          <div
+            className={`${css.stepAvatar} ${
+              isCurrent(1) ? css.activeAvatar : css.inactiveAvatar
+            }`}
+          >
+            1
+          </div>
+        </Avatar>
         <p className={css.cardInfo}>
           <span className={css.cardMainInfo}>Select Git Repository</span>
           <span className={css.cardSubInfo}>
@@ -26,7 +34,15 @@ export function BuildStepCard({ step }: { step: number }) {
           isCurrent(2) ? css.currentCard : css.notCurrentCard
         }`}
       >
-        <Avatar active={isCurrent(2)}>2</Avatar>
+        <Avatar size="medium">
+          <div
+            className={`${css.stepAvatar} ${
+              isCurrent(2) ? css.activeAvatar : css.inactiveAvatar
+            }`}
+          >
+            2
+          </div>
+        </Avatar>
         <p className={css.cardInfo}>
           <span className={css.cardMainInfo}>Configure Project</span>
           <span className={css.cardSubInfo}>Configure your Project</span>
@@ -37,7 +53,15 @@ export function BuildStepCard({ step }: { step: number }) {
           isCurrent(3) ? css.currentCard : css.notCurrentCard
         }`}
       >
-        <Avatar active={isCurrent(3)}>3</Avatar>
+        <Avatar size="medium">
+          <div
+            className={`${css.stepAvatar} ${
+              isCurrent(3) ? css.activeAvatar : css.inactiveAvatar
+            }`}
+          >
+            3
+          </div>
+        </Avatar>
         <p className={css.cardInfo}>
           <span className={css.cardMainInfo}>Deploy</span>
           <span className={css.cardSubInfo}>Deploy it</span>

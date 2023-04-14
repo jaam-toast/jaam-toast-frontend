@@ -1,18 +1,13 @@
-import { ReactElement } from "react";
 import * as css from "./Avatar.css";
 
 export function Avatar({
   children,
-  size = 4,
-  active = false,
+  size = "medium",
 }: {
-  children: ReactElement | string;
-  size?: number;
-  active?: boolean;
+  children: JSX.Element;
+  size?: "small" | "medium" | "large";
 }) {
   return (
-    <div className={`${css.container} ${active ? css.active : css.notActive}`}>
-      {children}
-    </div>
+    <div className={`${css.container} ${css.avatarSize[size]}`}>{children}</div>
   );
 }

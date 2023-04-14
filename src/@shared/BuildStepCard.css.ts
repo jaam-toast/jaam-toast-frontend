@@ -23,6 +23,16 @@ export const notCurrentCard = style({
   backgroundColor: colors.GREY_CLEAR,
 });
 
+export const stepAvatar = style([s.flex, s.flexCenter, s.full]);
+
+export const activeAvatar = style({
+  backgroundColor: colors.STRAWBERRY,
+});
+
+export const inactiveAvatar = style({
+  backgroundColor: colors.GREY,
+});
+
 export const firstCard = style({
   width: "100%",
   marginRight: "-8rem",

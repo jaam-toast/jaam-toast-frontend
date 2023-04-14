@@ -1,4 +1,4 @@
-import { style } from "@vanilla-extract/css";
+import { style, styleVariants } from "@vanilla-extract/css";
 import * as colors from "../@config/colors";
 import { s } from "../@styles";
 
@@ -15,15 +15,21 @@ export const container = style([
     textAlign: "center",
     fontWeight: 700,
     fontSize: "1.25rem",
+    overflow: "hidden",
   },
 ]);
 
-export const active = style({
-  color: colors.WHITE,
-  backgroundColor: colors.STRAWBERRY,
-});
-
-export const notActive = style({
-  color: colors.WHITE,
-  backgroundColor: colors.GREY,
+export const avatarSize = styleVariants({
+  small: {
+    width: "2rem",
+    height: "2rem",
+  },
+  medium: {
+    width: "2.5rem",
+    height: "2.5rem",
+  },
+  large: {
+    width: "3rem",
+    height: "3rem",
+  },
 });

@@ -2,20 +2,16 @@ import { style } from "@vanilla-extract/css";
 import { s } from "../@styles";
 import * as colors from "../@config/colors";
 
-export const container = style([
-  s.full,
-  s.boder,
-  {
-    backgroundColor: colors.WHITE,
-  },
-]);
+export const container = style([s.full]);
 
 export const repoOptionList = style([
+  s.full,
+  s.boder,
   s.scroll,
   {
-    height: "18.5rem",
     overflow: "scroll",
     padding: "0.5rem 0",
+    backgroundColor: colors.WHITE,
   },
 ]);
 
@@ -35,7 +31,13 @@ export const repoOption = style([
 
 export const repoOptionHead = style([
   s.flex,
+  s.alignItemsCenter,
   { gap: "1rem", lineHeight: "3.5rem" },
+]);
+
+export const packageIcon = style([
+  s.full,
+  { backgroundColor: colors.GREY_CLEAR },
 ]);
 
 export const importButton = style([
