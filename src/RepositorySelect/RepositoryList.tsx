@@ -1,5 +1,5 @@
 import { useReposQuery } from "./usePresetBuildOptionStore";
-import { Avatar } from "../@shared";
+import { Avatar, AvatarSkeleton } from "../@shared";
 import * as css from "./RepositoryList.css";
 
 type BuildOptionRepoListProps = {
@@ -20,7 +20,7 @@ export function BuildOptionRepoList({
           ?.filter(repo =>
             searchWord ? repo.repoName.includes(searchWord) : true,
           )
-          .map((repo, index) => (
+          .map(repo => (
             <li key={repo.repoName} className={css.repoOption}>
               <div className={css.repoOptionHead}>
                 <Avatar size="small">
@@ -38,5 +38,21 @@ export function BuildOptionRepoList({
           ))}
       </ul>
     </div>
+  );
+}
+
+export function BuildOptionRepoListSkeleton() {
+  return (
+    <ul className={css.repoOptionList}>
+      {Array.from({ length: 5 }).map((_, idx) => (
+        <li key={idx} className={css.repoOption}>
+          <div className={css.repoOptionHead}>
+            <AvatarSkeleton size="small" />
+            <div className={css.textSkeleton} />
+          </div>
+          <div className={css.buttonSkeleton} />
+        </li>
+      ))}
+    </ul>
   );
 }

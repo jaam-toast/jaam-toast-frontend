@@ -11,3 +11,11 @@ export function Avatar({
     <div className={`${css.container} ${css.avatarSize[size]}`}>{children}</div>
   );
 }
+
+export function AvatarSkeleton({
+  size = "medium",
+}: {
+  size: "small" | "medium" | "large";
+}) {
+  return <div className={`${css.avatarSkeleton} ${css.avatarSize[size]}`} />;
+}

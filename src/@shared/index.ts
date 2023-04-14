@@ -1,4 +1,4 @@
-export { Avatar } from "./Avatar";
+export { Avatar, AvatarSkeleton } from "./Avatar";
 export { BuildingLog } from "./BuildingLog";
 export { BuildStepCard } from "./BuildStepCard";
 export { EnvField } from "./EnvField";

@@ -45,3 +45,13 @@ export function ProjectCardList({ searchword }: ProjectCardListProps) {
     </section>
   );
 }
+
+export function ProjectCardListSkeleton() {
+  return (
+    <div className={css.container}>
+      {Array.from({ length: 15 }).map((_, idx) => (
+        <div className={css.projectCardSkeleton} key={idx} />
+      ))}
+    </div>
+  );
+}

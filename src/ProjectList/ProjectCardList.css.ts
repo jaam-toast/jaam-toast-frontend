@@ -5,10 +5,7 @@ import * as colors from "../@config/colors";
 export const container = style([
   s.flex,
   {
-    // padding: "2rem",
     flexWrap: "wrap",
-    // border: `1px solid ${colors.BLACK}`,
-    // borderRadius: "1.5rem",
     width: "100%",
     gap: "1rem 1%",
   },
@@ -73,3 +70,12 @@ export const projectCardCommitMessage = style({
 export const projectCardUpdatedAt = style({
   fontSize: "0.8rem",
 });
+
+export const projectCardSkeleton = style([
+  s.skeleton,
+  {
+    width: "32.5%",
+    height: "15rem",
+    borderRadius: "1.5rem",
+  },
+]);

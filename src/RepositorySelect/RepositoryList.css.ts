@@ -18,6 +18,7 @@ export const repoOptionList = style([
 export const repoOption = style([
   s.flex,
   s.flexSpaceBetween,
+  s.alignItemsCenter,
   {
     height: "3.5rem",
     lineHeight: "3.5rem",
@@ -44,7 +45,18 @@ export const importButton = style([
   s.button,
   s.buttonColor.light,
   s.buttonSize.small,
+]);
+
+export const textSkeleton = style([
+  s.skeleton,
   {
-    margin: "auto 0",
+    width: "10rem",
+    height: "2rem",
   },
+]);
+
+export const buttonSkeleton = style([
+  s.skeleton,
+  s.buttonSize.small,
+  { width: "6rem" },
 ]);

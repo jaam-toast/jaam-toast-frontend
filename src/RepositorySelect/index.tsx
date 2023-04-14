@@ -2,7 +2,10 @@ import { Suspense, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { BuildStepCard, TextField, SelectBox } from "../@shared";
-import { BuildOptionRepoList } from "./RepositoryList";
+import {
+  BuildOptionRepoList,
+  BuildOptionRepoListSkeleton,
+} from "./RepositoryList";
 import { useSpaceQuery } from "./useSpaceQuery";
 import {
   PresetBuildOptionStore,
@@ -38,8 +41,6 @@ export function RepositorySelect() {
 
       <BuildStepCard step={1} />
 
-      {/* // TODO: make GithubRepoSelection component */}
-      {/* // TODO: onRepoSelect={(repo: Repo) => } */}
       <section className={css.repositorySection}>
         <div className={css.searchConsole}>
           <SelectBox
@@ -53,9 +54,8 @@ export function RepositorySelect() {
             />
           </div>
         </div>
-        {/* // TODO: Skeleton UI (fetching & searching)*/}
         {space ? (
-          <Suspense fallback={<h1>로딩 중...</h1>}>
+          <Suspense fallback={<BuildOptionRepoListSkeleton />}>
             <BuildOptionRepoList
               searchWord={searchWord}
               onOptionClick={handleRepoClick}
