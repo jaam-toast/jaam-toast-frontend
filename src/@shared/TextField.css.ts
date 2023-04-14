@@ -1,4 +1,4 @@
 import { style } from "@vanilla-extract/css";
-import { s } from "src/@styles";
+import { s } from "../@styles";
 
 export const textField = style([s.textField]);
