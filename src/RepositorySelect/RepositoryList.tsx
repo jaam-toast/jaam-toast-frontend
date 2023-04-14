@@ -1,5 +1,5 @@
 import { useReposQuery } from "./usePresetBuildOptionStore";
-import { Avatar } from "../@shared/Avatar";
+import { Avatar } from "../@shared";
 import * as css from "./RepositoryList.css";
 
 type BuildOptionRepoListProps = {
@@ -23,7 +23,9 @@ export function BuildOptionRepoList({
           .map((repo, index) => (
             <li key={repo.repoName} className={css.repoOption}>
               <div className={css.repoOptionHead}>
-                <Avatar size={2}>1</Avatar>
+                <Avatar size="small">
+                  <div className={css.packageIcon} />
+                </Avatar>
                 <span>{repo.repoName}</span>
               </div>
               <button
