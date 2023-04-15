@@ -1,7 +1,9 @@
-import { useAuth } from "../@shared";
-import { Framework, Env, NodeVersion } from "../@types/build";
 import { create } from "zustand";
 import { shallow } from "zustand/shallow";
+
+import { usePresetBuildOptions } from "../RepositorySelect/usePresetBuildOptionStore";
+import { useAuth } from "../@shared";
+import { Framework, Env, NodeVersion } from "../@types/build";
 import APIClient from "../@utils/api";
 
 type BuildOptionsStore = {
@@ -24,15 +26,6 @@ type BuildOptionsStore = {
   setProjectName: (projectName: string) => void;
 };
 
-type aa = <BuildOption extends BuildOptions>(
-  option: BuildOption,
-  select:
-    | BuildOptionsStore[BuildOption]
-    | ((
-        prev: BuildOptionsStore[BuildOption],
-      ) => BuildOptionsStore[BuildOption]),
-) => void;
-// TODO: renaming type.
 type BuildOptions = keyof Pick<
   BuildOptionsStore,
   | "projectName"
@@ -89,19 +82,28 @@ const useBuildOptionsStore = create<BuildOptionsStore>()((set, get) => ({
   },
 }));
 
-export const useBuildOptions = () =>
-  useBuildOptionsStore(
+export const useBuildOptions = () => {
+  const {
+    defaultProjectName,
+    defaultBuildCommand,
+    defaultFramework,
+    defaultInstallCommand,
+    defaultNodeVersion,
+  } = usePresetBuildOptions();
+
+  return useBuildOptionsStore(
     (state: BuildOptionsStore) => ({
-      projectName: state.projectName,
+      projectName: state.projectName || defaultProjectName,
       isProjectNameAvailable: state.isProjectNameAvailable,
-      nodeVersion: state.nodeVersion,
-      framework: state.framework,
-      buildCommand: state.buildCommand,
-      installCommand: state.installCommand,
+      nodeVersion: state.nodeVersion || defaultNodeVersion,
+      framework: state.framework || defaultFramework,
+      buildCommand: state.buildCommand || defaultBuildCommand,
+      installCommand: state.installCommand || defaultInstallCommand,
       envList: state.envList,
     }),
     shallow,
   );
+};
 
 export const useSetBuildOptions = () =>
   useBuildOptionsStore(
@@ -116,3 +118,6 @@ export const useSetBuildOptions = () =>
         ) => state.setBuildOptions(option, select);
       },
   );
+
+export const useSetProjectName = () =>
+  useBuildOptionsStore(state => state.setProjectName);

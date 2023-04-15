@@ -5,6 +5,7 @@ import { TextField, BuildStepCard, SelectBox, EnvField } from "../@shared";
 import {
   useBuildOptions,
   useSetBuildOptions,
+  useSetProjectName,
 } from "../BuildOptionSelect/useBuildOptionsStore";
 import useProjectMutaion from "./useProjectMutation";
 import {
@@ -27,6 +28,7 @@ export function BuildOptionSelect() {
   } = usePresetBuildOptions();
   const buildOptions = useBuildOptions();
   const setBuildOptions = useSetBuildOptions();
+  const setProjectName = useSetProjectName();
   const { setRepoName, setSpace } = usePresetBuildOptionStore(
     state => state.actions,
   );
@@ -94,7 +96,7 @@ export function BuildOptionSelect() {
             {/* // TODO: apply red point color when projectName is duplicated */}
             <TextField
               value={defaultProjectName ?? ""}
-              onTextFieldChange={setBuildOptions("projectName")}
+              onTextFieldChange={setProjectName}
               placeholder={defaultProjectName ?? ""}
               key={defaultProjectName}
             />
