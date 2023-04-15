@@ -15,7 +15,7 @@ export function Landing() {
     };
   }, [tick]);
 
-  const githubLoginUrl = `//${Config.GITHUB_OAUTH_URI}?client_id=${Config.CLIENT_ID}&redirect_uri=${Config.REDIRECT_URI}&scope=${Config.API_SCOPE}} className={css.loginButton}`;
+  const githubLoginUrl = `//${Config.GITHUB_OAUTH_URI}?client_id=${Config.CLIENT_ID}&redirect_uri=${Config.REDIRECT_URI}&scope=${Config.API_SCOPE}`;
 
   return (
     <div className={css.container}>
@@ -37,10 +37,10 @@ export function Landing() {
             Continue with GitHub
           </a>
         </div>
-        <footer className={css.footer}>
-          Every deployment from the 2023 edition of Jaam Toast.
-        </footer>
       </div>
+      <footer className={css.footer}>
+        Every deployment from the 2023 edition of Jaam Toast.
+      </footer>
     </div>
   );
 }

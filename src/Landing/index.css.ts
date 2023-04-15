@@ -30,6 +30,8 @@ export const subCopy = style({
   lineHeight: "2.2rem",
 });
 
+const githubIconPath = "/images/github.svg";
+
 export const loginButton = style([
   s.inlineFlex,
   s.alignItemsCenter,
@@ -40,12 +42,21 @@ export const loginButton = style([
   {
     gap: "0.7rem",
     boxSizing: "content-box",
+    fontWeight: 500,
+    "::before": {
+      content: "",
+      display: "block",
+      width: "1.5rem",
+      height: "1.5rem",
+      zoom: "100%",
+      backgroundColor: "currentColor",
+      WebkitMask: `url(${githubIconPath}) no-repeat center`,
+      mask: `url(${githubIconPath}) no-repeat center`,
+    },
   },
 ]);
 
 export const footer = style({
-  position: "absolute",
-  bottom: "1rem",
   height: "5vh",
   padding: "0.5rem 0",
   fontWeight: "300",

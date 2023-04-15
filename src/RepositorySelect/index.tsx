@@ -2,10 +2,7 @@ import { Suspense, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { BuildStepCard, TextField, SelectBox } from "../@shared";
-import {
-  BuildOptionRepoList,
-  BuildOptionRepoListSkeleton,
-} from "./RepositoryList";
+import { RepositoryList, RepositoryListSkeleton } from "./RepositoryList";
 import { useSpaceQuery } from "./useSpaceQuery";
 import {
   PresetBuildOptionStore,
@@ -55,8 +52,8 @@ export function RepositorySelect() {
           </div>
         </div>
         {space ? (
-          <Suspense fallback={<BuildOptionRepoListSkeleton />}>
-            <BuildOptionRepoList
+          <Suspense fallback={<RepositoryListSkeleton />}>
+            <RepositoryList
               searchWord={searchWord}
               onOptionClick={handleRepoClick}
             />

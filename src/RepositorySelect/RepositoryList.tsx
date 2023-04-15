@@ -2,15 +2,15 @@ import { useReposQuery } from "./usePresetBuildOptionStore";
 import { Avatar, AvatarSkeleton } from "../@shared";
 import * as css from "./RepositoryList.css";
 
-type BuildOptionRepoListProps = {
+type RepositoryListProps = {
   searchWord: string;
   onOptionClick: (option: string) => void;
 };
 
-export function BuildOptionRepoList({
+export function RepositoryList({
   searchWord,
   onOptionClick,
-}: BuildOptionRepoListProps) {
+}: RepositoryListProps) {
   const { data: repos } = useReposQuery();
 
   return (
@@ -41,7 +41,7 @@ export function BuildOptionRepoList({
   );
 }
 
-export function BuildOptionRepoListSkeleton() {
+export function RepositoryListSkeleton() {
   return (
     <ul className={css.repoOptionList}>
       {Array.from({ length: 5 }).map((_, idx) => (

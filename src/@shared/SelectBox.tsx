@@ -11,7 +11,6 @@ export function SelectBox<Option extends string>({
   options,
   onSelectionChange,
   defaultSelect,
-  ...props
 }: SelectBoxProps<Option>) {
   const [inputValue, setInputValue] = useState<Option | null>(
     defaultSelect ?? null,
@@ -52,6 +51,13 @@ export function SelectBox<Option extends string>({
       ref={selectBoxRef}
     >
       <span className={css.currentOption}>{inputValue}</span>
+      <span className={css.selectBoxIcon}>
+        {isFold ? (
+          <img src="/images/fold-icon.svg" alt="expand more icon" />
+        ) : (
+          <img src="/images/unfold-icon.svg" alt="expand less icon" />
+        )}
+      </span>
       {!isFold && (
         <>
           <div className={css.selectBoxDivider}></div>
@@ -69,13 +75,6 @@ export function SelectBox<Option extends string>({
           </ul>
         </>
       )}
-      <span className={css.selectBoxIcon}>
-        {isFold ? (
-          <img src="/images/fold-icon.svg" alt="expand more icon" />
-        ) : (
-          <img src="/images/unfold-icon.svg" alt="expand less icon" />
-        )}
-      </span>
     </div>
   );
 }

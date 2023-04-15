@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useProjectListQuery } from "./useProjectListQuery";
 import timeSince from "../@utils/timeSince";
 import * as css from "./ProjectCardList.css";
+import { Avatar } from "../@shared";
 
 type ProjectCardListProps = {
   searchword: string;
@@ -23,8 +24,18 @@ export function ProjectCardList({ searchword }: ProjectCardListProps) {
             onClick={() => naigate(`/${project.space}/${project.repoName}`)}
             className={css.projectCard}
           >
-            <div className={css.projectCardHead}>
-              <div className={css.projectCardAvartars}></div>
+            <li className={css.projectCardhead}>
+              <Avatar size="large" className={css.avatar}>
+                <div className={css.avatarIcon} />
+              </Avatar>
+              <Avatar size="large" className={css.avatar}>
+                <div className={css.avatarIcon} />
+              </Avatar>
+              <Avatar size="large">
+                <div className={css.avatarIcon} />
+              </Avatar>
+            </li>
+            <div className={css.projectCardMain}>
               <strong className={css.projectCardName}>
                 {project.projectName}
               </strong>
