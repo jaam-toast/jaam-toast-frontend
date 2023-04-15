@@ -8,6 +8,7 @@ const Config = {
   GITHUB_OAUTH_URI: import.meta.env.VITE_GITHUB_OAUTH_URI,
   REDIRECT_URI: import.meta.env.VITE_REDIRECT_URI,
   API_SCOPE: import.meta.env.VITE_GITHUB_SCOPE,
+  SCREENSHOT_API_URL: import.meta.env.VITE_SCREENSHOT_API_URL,
 };
 
 export default Config;

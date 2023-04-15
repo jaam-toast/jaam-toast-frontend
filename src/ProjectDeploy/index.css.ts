@@ -76,21 +76,35 @@ export const previewSection = style([
 ]);
 
 export const preview = style([
-  s.full,
   s.boder,
   {
-    height: "30rem",
+    width: "100%",
+    aspectRatio: "1920 / 1280",
     userSelect: "none",
+    overflow: "hidden",
   },
 ]);
 
-export const buttonConsole = style([s.flexColumn, { gap: "0.5rem" }]);
+export const previewFilter = style({
+  ":hover": {
+    filter: "blur(1px)",
+  },
+});
+
+export const previewImage = style([s.full]);
+
+export const buttonConsole = style([
+  s.flexColumn,
+  { flexShrink: 1, gap: "0.5rem" },
+]);
 
 export const previewOptionButton = style([
   s.button,
   s.buttonSize.medium,
   s.buttonColor.dark,
   {
-    width: "18vw",
+    width: "15vw",
   },
 ]);
+
+export const previewSkeleton = style([s.skeleton, preview]);
