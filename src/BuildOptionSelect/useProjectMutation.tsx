@@ -11,16 +11,16 @@ type UseProjectMutationOptions = {
 };
 
 function useProjectMutation({ onSuccess, onError }: UseProjectMutationOptions) {
-  const buildOptions = useBuildOptions();
   const {
-    space,
-    repoName,
-    defaultProjectName,
-    defaultFramework,
-    defaultBuildCommand,
-    defaultInstallCommand,
-    defaultNodeVersion,
-  } = usePresetBuildOptionStore(state => state);
+    projectName,
+    isProjectNameAvailable,
+    nodeVersion,
+    framework,
+    buildCommand,
+    installCommand,
+    envList,
+  } = useBuildOptions();
+  const { space, repoName } = usePresetBuildOptionStore(state => state);
   const { user } = useAuth();
 
   const api = new APIClient()
@@ -32,12 +32,16 @@ function useProjectMutation({ onSuccess, onError }: UseProjectMutationOptions) {
     ["project-create"],
     async () => {
       if (
-        !buildOptions.isProjectNameAvailable ||
+        !isProjectNameAvailable ||
+        !projectName ||
         !space ||
         !repoName ||
-        !defaultProjectName ||
-        !defaultInstallCommand ||
-        !defaultBuildCommand
+        !projectName ||
+        !nodeVersion ||
+        !framework ||
+        !buildCommand ||
+        !installCommand ||
+        !envList
       ) {
         return;
       }
@@ -49,12 +53,12 @@ function useProjectMutation({ onSuccess, onError }: UseProjectMutationOptions) {
         repoCloneUrl: `https://github.com/${space}/${repoName}.git`,
         projectUpdatedAt: new Date().toISOString(),
         githubAccessToken: user.githubAccessToken,
-        projectName: buildOptions.projectName || defaultProjectName,
-        nodeVersion: buildOptions.nodeVersion || defaultNodeVersion,
-        framework: buildOptions.framework || defaultFramework,
-        buildCommand: buildOptions.buildCommand || defaultBuildCommand,
-        installCommand: buildOptions.installCommand || defaultInstallCommand,
-        envList: buildOptions.envList,
+        projectName,
+        nodeVersion,
+        framework: framework,
+        buildCommand,
+        installCommand,
+        envList,
       };
 
       return api.createProject(createProjectOptions);
