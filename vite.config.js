@@ -2,7 +2,15 @@ import { defineConfig } from "vite";
 import { vanillaExtractPlugin } from "@vanilla-extract/vite-plugin";
 import react from "@vitejs/plugin-react";
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), vanillaExtractPlugin()],
+  server: {
+    proxy: {
+      "/screenshot": {
+        target: "https://jaam-toast-screenshot.vercel.app/api",
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/screenshot/, ""),
+      },
+    },
+  },
 });
