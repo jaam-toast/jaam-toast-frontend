@@ -157,7 +157,7 @@ export const searchIcon = style({
   },
 });
 
-const apear = keyframes({
+const appear = keyframes({
   "0%": { opacity: 0.5 },
   "100%": { opacity: 1 },
 });
@@ -165,5 +165,5 @@ const apear = keyframes({
 export const skeleton = style({
   borderRadius: "1.5rem",
   backgroundColor: colors.GREY_CLEAR,
-  animation: `0.8s linear 0s infinite alternate none running ${apear}`,
+  animation: `0.8s linear 0s infinite alternate none running ${appear}`,
 });
