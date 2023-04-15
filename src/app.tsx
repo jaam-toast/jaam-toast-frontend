@@ -8,6 +8,8 @@ import { RepositorySelect } from "./RepositorySelect";
 import { BuildOptionSelect } from "./BuildOptionSelect";
 import { ProjectDeploy } from "./ProjectDeploy";
 import { ProjectDetail } from "./ProjectDetail";
+import { NotFound } from "./Error/NotFound";
+import { Error } from "./Error";
 import { useAuth } from "./@shared";
 import * as css from "./app.css";
 
@@ -40,6 +42,8 @@ export function App() {
             element={<ProjectDeploy />}
           />
           <Route path="/:userName/:projectName" element={<ProjectDetail />} />
+          <Route path="/error" element={<Error />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
     </div>
