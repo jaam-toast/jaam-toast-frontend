@@ -28,20 +28,20 @@ function useProjectMutation({ onSuccess, onError }: UseProjectMutationOptions) {
     .setAccessToken(user?.accessToken)
     .setGithubAccessToken(user?.githubAccessToken);
 
-  if (
-    !buildOptions.isProjectNameAvailable ||
-    !space ||
-    !repoName ||
-    !defaultProjectName ||
-    !defaultInstallCommand ||
-    !defaultBuildCommand
-  ) {
-    return;
-  }
-
   return useMutation(
     ["project-create"],
-    () => {
+    async () => {
+      if (
+        !buildOptions.isProjectNameAvailable ||
+        !space ||
+        !repoName ||
+        !defaultProjectName ||
+        !defaultInstallCommand ||
+        !defaultBuildCommand
+      ) {
+        return;
+      }
+
       const createProjectOptions = {
         userId: user.id,
         space,
