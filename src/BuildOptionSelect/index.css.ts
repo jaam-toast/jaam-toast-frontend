@@ -3,7 +3,7 @@ import { s } from "../@styles";
 import * as colors from "../@config/colors";
 
 export const container = style([
-  s.full,
+  s.fullWidth,
   s.flexColumn,
   {
     gap: "1.5rem",

@@ -23,7 +23,12 @@ export const notCurrentCard = style({
   backgroundColor: colors.GREY_CLEAR,
 });
 
-export const stepAvatar = style([s.flex, s.flexCenter, s.full]);
+export const stepAvatar = style([
+  s.flex,
+  s.flexCenter,
+  s.full,
+  { fontSize: "1.1rem", fontWeight: 700 },
+]);
 
 export const activeAvatar = style({
   backgroundColor: colors.STRAWBERRY,

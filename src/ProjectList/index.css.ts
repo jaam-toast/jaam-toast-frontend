@@ -1,12 +1,10 @@
 import { style } from "@vanilla-extract/css";
 import { s } from "../@styles";
 
-const searchIcon = "/images/search-icon.svg";
-
 export const container = style([
   s.fullWidth,
   {
-    padding: "2rem 10vw 3rem",
+    padding: "2rem 15vw 3rem",
   },
 ]);
 
@@ -15,27 +13,16 @@ export const explorerSection = style([
   s.flexCenter,
   {
     gap: "0.5rem",
-    marginBottom: "2rem",
+    marginBottom: "1.5rem",
   },
 ]);
-
 export const searchInput = style([
   s.flex,
   s.alignItemsCenter,
   s.fullWidth,
+  s.searchIcon,
   {
-    position: "relative",
     flex: 1,
-    "::after": {
-      content: `url(${searchIcon})`,
-      display: "inline",
-      position: "absolute",
-      right: "1rem",
-      width: "1.5rem",
-      height: "1.5rem",
-      zoom: "100%",
-      fill: "currentColor",
-    },
   },
 ]);
 

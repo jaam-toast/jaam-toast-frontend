@@ -17,15 +17,24 @@ export const projectCard = style([
   s.poiner,
   {
     width: "32.5%",
-    height: "15rem",
-    padding: "1.5rem 1.5rem 2rem",
+    height: "16rem",
+    padding: "2rem 1.5rem",
     backgroundColor: colors.LEMON,
     border: `1px solid ${colors.BLACK}`,
     borderRadius: "1.5rem",
   },
 ]);
 
-export const projectCardHead = style([
+export const projectCardhead = style([s.flex, { gap: "0.3rem" }]);
+
+export const avatar = style({ marginRight: "-1rem" });
+
+export const avatarIcon = style([
+  s.full,
+  { backgroundColor: colors.GREY_CLEAR },
+]);
+
+export const projectCardMain = style([
   s.flexColumn,
   {
     gap: "0.5rem",

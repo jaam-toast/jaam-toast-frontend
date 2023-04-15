@@ -1,5 +1,4 @@
 import { Suspense, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { ProjectCardList, ProjectCardListSkeleton } from "./ProjectCardList";
 import { TextField, useAuth } from "../@shared";
@@ -7,12 +6,7 @@ import * as css from "./index.css";
 
 export function ProjectList() {
   const { user } = useAuth();
-  const navigate = useNavigate();
   const [searchword, setSearchword] = useState<string>("");
-
-  const handleCreateProjectClick = () => {
-    navigate(`/new/${user.name}`);
-  };
 
   return (
     <div className={css.container}>
@@ -23,12 +17,9 @@ export function ProjectList() {
             placeholder="Search..."
           />
         </div>
-        <button
-          className={css.newProjectButton}
-          onClick={handleCreateProjectClick}
-        >
+        <a className={css.newProjectButton} href={`/new/${user.name}`}>
           New Project
-        </button>
+        </a>
       </section>
       <Suspense fallback={<ProjectCardListSkeleton />}>
         <ProjectCardList searchword={searchword} />

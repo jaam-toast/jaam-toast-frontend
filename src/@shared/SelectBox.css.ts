@@ -14,7 +14,6 @@ export const container = style([
     fontSize: "0.9rem",
     background: colors.WHITE,
     userSelect: "none",
-    zIndex: 99,
   },
 ]);
 
@@ -22,17 +21,17 @@ export const currentOption = style({
   position: "relative",
   display: "inline-block",
   padding: "0.7rem 1.4rem",
-  zIndex: 999,
+  zIndex: 9,
 });
 
 export const optionList = style([
   s.scroll,
   {
-    width: "calc(100% + 2px)",
-    maxHeight: "15rem",
     position: "absolute",
     top: "100%",
     left: -1,
+    width: "calc(100% + 2px)",
+    maxHeight: "15rem",
     backgroundColor: colors.WHITE,
     listStyle: "none",
     border: `1px solid ${colors.BLACK}`,
@@ -52,17 +51,14 @@ export const selectBoxDivider = style({
   backgroundColor: colors.WHITE,
   borderRight: `1px solid ${colors.BLACK}`,
   borderLeft: `1px solid ${colors.BLACK}`,
-  zIndex: 9,
 });
 
 export const option = style([
   {
-    position: "relative",
     padding: "0.5rem 1.4rem",
     height: "3rem",
     lineHeight: "2rem",
     fontSize: "0.9rem",
-    zIndex: 999,
     ":hover": {
       backgroundColor: colors.PAPER,
     },
@@ -75,5 +71,4 @@ export const option = style([
 export const selectBoxIcon = style({
   position: "absolute",
   right: "1rem",
-  zIndex: 99,
 });

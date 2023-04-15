@@ -3,7 +3,7 @@ import { s } from "../@styles";
 import * as colors from "../@config/colors";
 
 export const container = style([
-  s.full,
+  s.fullWidth,
   s.flexColumn,
   {
     gap: "1.5rem",
@@ -49,13 +49,20 @@ export const buildLogList = style([
     backgroundColor: colors.BLACK,
     color: colors.WHITE,
     listStyle: "none",
-    gap: "0.5rem",
+    gap: "0.1rem",
     userSelect: "none",
   },
 ]);
 
 export const hide = style({
   display: "none",
+  fontStretch: "100%",
+});
+
+export const log = style({
+  fontFamily: "Courier",
+  whiteSpace: "pre",
+  fontSize: "0.9rem",
 });
 
 export const previewSection = style([
@@ -69,11 +76,11 @@ export const previewSection = style([
 ]);
 
 export const preview = style([
+  s.full,
   s.boder,
   {
-    // backgroundColor: "red",
-    width: "100%",
-    height: "50rem",
+    height: "30rem",
+    userSelect: "none",
   },
 ]);
 
@@ -84,6 +91,6 @@ export const previewOptionButton = style([
   s.buttonSize.medium,
   s.buttonColor.dark,
   {
-    width: "20rem",
+    width: "18vw",
   },
 ]);

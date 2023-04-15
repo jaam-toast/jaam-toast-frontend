@@ -33,17 +33,21 @@ export const repositorySection = style([
   },
 ]);
 
-export const searchConsole = style([s.flex, { gap: "0.5rem" }]);
+export const searchConsole = style([
+  s.flex,
+  s.searchIcon,
+  s.alignItemsCenter,
+  { gap: "0.5rem" },
+]);
 
 export const textFieldSection = style({ width: "40%" });
 
 export const selectMessage = style([
   s.flex,
   s.flexCenter,
-  s.fullWidth,
+  s.full,
   s.boder,
   {
-    height: "18.5rem",
     backgroundColor: colors.WHITE,
     fontSize: "1.1rem",
     fontWeight: 300,

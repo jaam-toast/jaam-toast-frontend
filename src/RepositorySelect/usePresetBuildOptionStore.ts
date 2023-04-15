@@ -1,11 +1,11 @@
 import { create } from "zustand";
 import { shallow } from "zustand/shallow";
+import { useQuery } from "@tanstack/react-query";
 import { nanoid } from "nanoid";
 
 import { useAuth } from "../@shared";
 import APIClient from "../@utils/api";
 import { Framework, NodeVersion } from "../@types/build";
-import { useQuery } from "@tanstack/react-query";
 
 export type PresetBuildOptionStore = {
   space: string | null;
