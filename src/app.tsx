@@ -15,7 +15,7 @@ import * as css from "./app.css";
 
 export function App() {
   const { user } = useAuth();
-  const { pathname } = useLocation();
+  const { pathname, state } = useLocation();
 
   if (pathname === "/" && !!user) {
     return <Navigate to="/projects" />;
@@ -42,7 +42,10 @@ export function App() {
             element={<ProjectDeploy />}
           />
           <Route path="/:userName/:projectName" element={<ProjectDetail />} />
-          <Route path="/error" element={<Error />} />
+          <Route
+            path="/error"
+            element={<Error code={state?.code} message={state?.message} />}
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
