@@ -1,4 +1,5 @@
 import { Suspense, useState } from "react";
+import { Link } from "react-router-dom";
 
 import { ProjectCardList, ProjectCardListSkeleton } from "./ProjectCardList";
 import { TextField, useAuth } from "../@shared";
@@ -17,9 +18,9 @@ export function ProjectList() {
             placeholder="Search..."
           />
         </div>
-        <a className={css.newProjectButton} href={`/new/${user.name}`}>
+        <Link className={css.newProjectButton} to={`/new/${user.name}`}>
           New Project
-        </a>
+        </Link>
       </section>
       <Suspense fallback={<ProjectCardListSkeleton />}>
         <ProjectCardList searchword={searchword} />

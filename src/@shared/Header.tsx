@@ -1,7 +1,8 @@
 import { useAuth } from "./useAuth";
-import * as css from "./Header.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+
+import * as css from "./Header.css";
 
 export function Header() {
   const navigate = useNavigate();
@@ -14,9 +15,9 @@ export function Header() {
 
   return (
     <div className={css.container}>
-      <a href="/" className={css.logo}>
+      <Link to="/" className={css.logo}>
         / Jaam Toast
-      </a>
+      </Link>
       {user && (
         <button className={css.logoutButton} onClick={logout}>
           Log out
