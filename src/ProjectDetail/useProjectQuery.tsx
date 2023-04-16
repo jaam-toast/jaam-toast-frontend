@@ -17,15 +17,3 @@ export function useProjectQuery(projectName: string) {
     queryFn: () => api.getProject(projectName),
   });
 }
-
-export function projectPrefetchQuery(user: User, projectName: string) {
-  const api = new APIClient()
-    .setUserId(user?.id)
-    .setAccessToken(user?.accessToken)
-    .setGithubAccessToken(user?.githubAccessToken);
-
-  return {
-    queryKey: ["project", projectName],
-    queryFn: () => api.getProject(projectName),
-  };
-}

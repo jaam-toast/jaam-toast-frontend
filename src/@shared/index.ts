@@ -5,6 +5,7 @@ export { EnvField } from "./EnvField";
 export { Header } from "./Header";
 export { SelectBox } from "./SelectBox";
 export { TextField } from "./TextField";
+export { DashboardHeader } from "./DashboardHeader";
 
 export { useAuth } from "./useAuth";
 export * from "./useProjectNameStore";
