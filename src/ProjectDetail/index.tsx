@@ -1,49 +1,70 @@
-import { useEffect } from "react";
-import { useProjectQuery } from "../ProjectDetail/useProjectQuery";
-import { useNavigate, useParams } from "react-router-dom";
+// import { useProjectQuery } from "../ProjectDetail/useProjectQuery";
+import { Suspense } from "react";
+import { Navigate, useParams } from "react-router-dom";
+
+import { DashboardHeader } from "../@shared";
+import { Preview, PreviewSkeleton } from "../ProjectDeploy/Preview";
+import * as css from "./index.css";
 
 export function ProjectDetail() {
-  const navigate = useNavigate();
   const params = useParams();
   const { projectName } = params;
-  const { data: project } = useProjectQuery(projectName!);
 
-  useEffect(() => {
-    if (!params.projectName) {
-      navigate("/");
-    }
-  }, []);
+  if (!projectName) {
+    return <Navigate to="/" />;
+  }
+
+  // const { data: project } = useProjectQuery(projectName);
+  const MOCK_PROJECT = {
+    projectName: "MOCK_PROJECT",
+    repoName: "MOCK_REPO",
+    space: "MOCK_SPACE",
+    repoCloneUrl: "https://MOCK_PROJECT/MOCK_PROJECT.github.com",
+    projectUpdatedAt: "123",
+    nodeVersion: "12.18.0",
+    buildType: "react",
+    deployedUrl: "https://www.jaamtoast.click",
+    lastCommitMessage: "hello",
+  };
+
+  const project = MOCK_PROJECT;
 
   return (
-    <div>
-      <div>
-        <div>
-          <div>
-            <p>Preview</p>
-          </div>
-          <div>
-            <div>
-              <iframe
-                title="jaam-toast-preview"
-                src={`https://${project?.deployedUrl}`}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                }}
-                sandbox="allow-scripts"
-                loading="eager"
-                frameBorder="0"
-              />
-            </div>
-          </div>
-          <p>{`https://${project?.deployedUrl}`}</p>
-          {/* <PreviewCommandsTextField
-            installCommand={project?.installCommand}
-            buildCommand={project?.buildCommand}
-          />
-          <PreviewEnvList envsList={project?.envList} />
-          <BuildingLog buildingLog={project?.buildingLog} /> */}
-        </div>
+    <div className={css.container}>
+      <DashboardHeader />
+      <div className={css.projectDetails}>
+        <PreviewSkeleton />
+        <section className={css.projectInfoSection}>
+          <span className={css.projectInfoSectionTitle}>
+            project informations
+          </span>
+          <ul className={css.projectInfoList}>
+            <li className={css.projectInfo}>
+              <span className={css.projectInfoTitle}>name</span>
+              <p className={css.projectInfoText}>{projectName}</p>
+            </li>
+            <li className={css.projectInfo}>
+              <span className={css.projectInfoTitle}>package info</span>
+              <p className={css.projectInfoText}>{project.buildType}</p>
+            </li>
+            <li className={css.projectInfo}>
+              <span className={css.projectInfoTitle}>url</span>
+              <p className={css.projectInfoText}>{project.deployedUrl}</p>
+            </li>
+            <li className={css.projectInfo}>
+              <span className={css.projectInfoTitle}>status</span>
+              <p className={css.projectInfoText}>READY</p>
+            </li>
+            <li className={css.projectInfo}>
+              <span className={css.projectInfoTitle}>last commit message</span>
+              <p className={css.projectInfoText}>{project.lastCommitMessage}</p>
+            </li>
+            <li className={css.projectInfo}>
+              <span className={css.projectInfoTitle}>created at</span>
+              <p className={css.projectInfoText}>{project.projectUpdatedAt}</p>
+            </li>
+          </ul>
+        </section>
       </div>
     </div>
   );
