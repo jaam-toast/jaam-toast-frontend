@@ -16,9 +16,9 @@ export const projectDetails = style([s.flex, { gap: "1rem" }]);
 export const projectInfoSection = style([
   s.border,
   s.flexColumn,
-  s.flexSpaceBetween,
   {
     padding: "3rem 3rem 2rem",
+    gap: "2rem",
     width: "90%",
     listStyle: "none",
     backgroundColor: colors.BLACK,
