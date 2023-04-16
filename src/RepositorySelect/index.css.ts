@@ -46,7 +46,7 @@ export const selectMessage = style([
   s.flex,
   s.flexCenter,
   s.full,
-  s.boder,
+  s.border,
   {
     backgroundColor: colors.WHITE,
     fontSize: "1.1rem",

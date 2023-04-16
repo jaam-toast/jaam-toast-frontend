@@ -43,7 +43,7 @@ export const completeButton = style([
 
 export const buildOption = style([
   s.flexColumn,
-  s.boder,
+  s.border,
   {
     gap: "1rem",
     padding: "1.5rem",

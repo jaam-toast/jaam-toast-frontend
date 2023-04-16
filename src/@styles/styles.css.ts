@@ -58,7 +58,7 @@ export const scroll = style({
   },
 });
 
-export const boder = style({
+export const border = style({
   border: `1px solid ${colors.BLACK}`,
   borderRadius: "1.5rem",
 });

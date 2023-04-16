@@ -48,7 +48,7 @@ export function ProjectCardList({ searchword }: ProjectCardListProps) {
                 {project.lastCommitMessage}
               </p>
               <span className={css.projectCardUpdatedAt}>
-                {timeSince(Number(project.projectUpdatedAt))} ago via
+                {timeSince(Number(project.projectUpdatedAt))}
               </span>
             </div>
           </div>
