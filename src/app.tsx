@@ -1,5 +1,5 @@
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Suspense } from "react";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import { Header } from "./@shared/Header";
 import { Landing } from "./Landing";
@@ -8,6 +8,7 @@ import { RepositorySelect } from "./RepositorySelect";
 import { BuildOptionSelect } from "./BuildOptionSelect";
 import { ProjectDeploy } from "./ProjectDeploy";
 import { ProjectDetail } from "./ProjectDetail";
+import { ProjectSettings } from "./ProjectSettings";
 import { NotFound } from "./Error/NotFound";
 import { Error } from "./Error";
 import { useAuth } from "./@shared";
@@ -42,6 +43,10 @@ export function App() {
             element={<ProjectDeploy />}
           />
           <Route path="/:userName/:projectName" element={<ProjectDetail />} />
+          <Route
+            path="/:userName/:projectName/settings"
+            element={<ProjectSettings />}
+          />
           <Route
             path="/error"
             element={<Error code={state?.code} message={state?.message} />}
