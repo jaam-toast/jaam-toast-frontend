@@ -6,7 +6,7 @@ export const container = style([
   s.flex,
   s.alignItemsCenter,
   s.fullWidth,
-  s.boder,
+  s.border,
   s.poiner,
   {
     position: "relative",

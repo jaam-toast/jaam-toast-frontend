@@ -6,7 +6,7 @@ export const container = style([s.full]);
 
 export const repoOptionList = style([
   s.full,
-  s.boder,
+  s.border,
   s.scroll,
   {
     overflow: "scroll",

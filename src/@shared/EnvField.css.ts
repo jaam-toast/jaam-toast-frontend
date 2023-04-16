@@ -31,7 +31,7 @@ export const envList = style([
 ]);
 
 export const envKey = style([
-  s.boder,
+  s.border,
   {
     padding: "0.7rem 2rem",
     width: "25%",
@@ -43,7 +43,7 @@ export const envKey = style([
 ]);
 
 export const envValue = style([
-  s.boder,
+  s.border,
   {
     padding: "0.7rem 2rem",
     width: "100%",

@@ -23,7 +23,7 @@ export const subTitle = style({
 
 export const buildLogSection = style([
   s.flexColumn,
-  s.boder,
+  s.border,
   s.poiner,
   {
     gap: "1rem",
@@ -41,7 +41,7 @@ export const mainSection = style([s.flex, { gap: "1rem" }]);
 
 export const buildLogList = style([
   s.flexColumn,
-  s.boder,
+  s.border,
   s.scroll,
   {
     padding: "2rem",
@@ -67,7 +67,7 @@ export const log = style({
 
 export const previewSection = style([
   s.flexColumn,
-  s.boder,
+  s.border,
   {
     gap: "1rem",
     padding: "2rem",
@@ -76,7 +76,7 @@ export const previewSection = style([
 ]);
 
 export const preview = style([
-  s.boder,
+  s.border,
   {
     width: "100%",
     aspectRatio: "1920 / 1280",
