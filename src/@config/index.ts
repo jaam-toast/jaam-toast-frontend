@@ -9,6 +9,7 @@ const Config = {
   REDIRECT_URI: import.meta.env.VITE_REDIRECT_URI,
   API_SCOPE: import.meta.env.VITE_GITHUB_SCOPE,
   SCREENSHOT_API_URL: import.meta.env.VITE_SCREENSHOT_API_URL,
+  FAVICON_API_URL: import.meta.env.VITE_FAVICON_API_URL,
 };
 
 export default Config;

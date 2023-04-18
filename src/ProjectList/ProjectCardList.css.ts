@@ -88,3 +88,8 @@ export const projectCardSkeleton = style([
     borderRadius: "1.5rem",
   },
 ]);
+
+export const avatarIconSkeleton = style([
+  s.skeleton,
+  { backgroundColor: colors.GREY_CLEAR },
+]);
