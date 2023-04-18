@@ -44,7 +44,7 @@ export const FRAMEWORK = [
 
 export type Framework = typeof FRAMEWORK[number];
 
-export const FrameworkDomain: Record<Framework, string> = {
+export const FRAMEWORK_DOMAIN: Record<Framework, string> = {
   "Create React App": "ko.reactjs.org",
   "React Static": "ko.reactjs.org",
   "Next.js (Static HTML Export)": "nextjs.org",

@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { shallow } from "zustand/shallow";
 import { useQuery } from "@tanstack/react-query";
-import { nanoid } from "nanoid";
+import { customAlphabet } from "nanoid";
 
 import { useAuth } from "../@shared";
 import APIClient from "../@utils/api";
@@ -52,10 +52,14 @@ export const usePresetBuildOptionStore = create<PresetBuildOptionStore>()(
           .setUserId(user.id);
 
         try {
-          const project = await api.getProject(repoName);
+          const project = await api.getProject(repoName.toLowerCase());
+          const randomName = customAlphabet(
+            "0123456789abcdefghijklmnopqrstuvwxyz",
+            7,
+          );
           const newProjectName = !!project
-            ? `${repoName}-${nanoid(7)}`.toLowerCase()
-            : repoName;
+            ? `${repoName.toLowerCase()}-${randomName()}`
+            : repoName.toLowerCase();
 
           set({
             repoName,
@@ -64,7 +68,7 @@ export const usePresetBuildOptionStore = create<PresetBuildOptionStore>()(
         } catch (error) {
           set({
             repoName,
-            defaultProjectName: repoName,
+            defaultProjectName: repoName.toLowerCase(),
           });
         }
       },

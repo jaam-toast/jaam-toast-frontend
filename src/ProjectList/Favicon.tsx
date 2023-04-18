@@ -4,7 +4,7 @@ import { getPageFavicon } from "../@utils/getPageFavicon";
 import Config from "../@config";
 import * as css from "./ProjectCardList.css";
 
-export function FaviconImg({ domain }: { domain: string }) {
+export function Favicon({ domain }: { domain: string }) {
   const { data: faviconUrl } = useQuery({
     queryKey: ["favicon", domain],
     queryFn: () => getPageFavicon(domain),
@@ -20,8 +20,4 @@ export function FaviconImg({ domain }: { domain: string }) {
       }
     />
   );
-}
-
-export function FaviconImgSkeleton() {
-  return <div className={css.avatarIconSkeleton} />;
 }
