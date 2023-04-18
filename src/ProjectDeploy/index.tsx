@@ -39,14 +39,14 @@ export function ProjectDeploy() {
       });
     },
     onComplete: (data: string) => {
-      const { buildOriginalDomain } = JSON.parse(
-        data.match(/\{([^}]+)\}/g)?.pop() as string,
-      );
+      const regExp = /\{([^}]+)\}/g;
+      const resultMessage = data.match(regExp)?.pop() as string;
+      const originalBuildDomain = JSON.parse(resultMessage);
 
       setIsBuildLogFold(true);
 
       setTimeout(() => {
-        setDeployedUrl(`https://${buildOriginalDomain}`);
+        setDeployedUrl(`https://${originalBuildDomain}`);
       }, 500);
 
       setTimeout(() => {
