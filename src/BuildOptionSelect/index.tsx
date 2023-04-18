@@ -14,7 +14,7 @@ import {
 } from "../RepositorySelect/usePresetBuildOptionStore";
 import * as css from "./index.css";
 
-import { Framework, NODE_VERSION } from "../@types/build";
+import { FRAMEWORK, NODE_VERSION } from "../@types/build";
 
 export function BuildOptionSelect() {
   const navigate = useNavigate();
@@ -105,7 +105,7 @@ export function BuildOptionSelect() {
           <div className={css.buildOption}>
             <p className={css.buildOptionTitle}>Framework</p>
             <SelectBox
-              options={Object.values(Framework)}
+              options={FRAMEWORK}
               onSelectionChange={setBuildOptions("framework")}
             />
           </div>
