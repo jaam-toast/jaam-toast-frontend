@@ -54,7 +54,7 @@ export const usePresetBuildOptionStore = create<PresetBuildOptionStore>()(
         try {
           const project = await api.getProject(repoName);
           const newProjectName = !!project
-            ? `${repoName}-${nanoid(7)}`
+            ? `${repoName}-${nanoid(7)}`.toLowerCase()
             : repoName;
 
           set({

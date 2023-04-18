@@ -23,7 +23,7 @@ export function useBuildingLog({
 }: {
   projectName: string;
   onLog: (log: string) => void;
-  onComplete: () => void;
+  onComplete: (log: string) => void;
   onError: () => void;
 }) {
   const [socket, setSocket] = useState<Socket | null>(null);

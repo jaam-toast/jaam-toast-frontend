@@ -38,11 +38,15 @@ export function ProjectDeploy() {
         behavior: "smooth",
       });
     },
-    onComplete: () => {
+    onComplete: (data: string) => {
+      const { buildOriginalDomain } = JSON.parse(
+        data.match(/\{([^}]+)\}/g)?.pop() as string,
+      );
+
       setIsBuildLogFold(true);
 
       setTimeout(() => {
-        setDeployedUrl(`https://${buildOptions.projectName}.jaamtoast.click`);
+        setDeployedUrl(`https://${buildOriginalDomain}`);
       }, 500);
 
       setTimeout(() => {
