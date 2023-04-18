@@ -1,20 +1,3 @@
-// TODO: add build type options
-export enum Framework {
-  CreateReactApp = "Create React App",
-  ReactStatic = "React Static",
-  NextJs = "Next.js (Static HTML Export)",
-  NuxtJs = "Nuxt.js",
-  Angular = "Angular (Angular CLI)",
-  Astro = "Astro",
-  Gatsby = "Gatsby",
-  GitBook = "GitBook",
-  Jekyll = "Jekyll",
-  Remix = "Remix",
-  Svelte = "Svelte",
-  Vue = "Vue",
-  VuePress = "VuePress",
-}
-
 export type Env = {
   key: string;
   value: string;
@@ -43,3 +26,35 @@ export interface BuildOptions {
 export type BuildOptionsKeys = keyof BuildOptions;
 
 export type BuildOptionsTypes = BuildOptions[BuildOptionsKeys];
+
+export const FRAMEWORK = [
+  "Create React App",
+  "React Static",
+  "Next.js (Static HTML Export)",
+  "Nuxt.js",
+  "Angular (Angular CLI)",
+  "Gatsby",
+  "GitBook",
+  "Jekyll",
+  "Remix",
+  "Svelte",
+  "Vue",
+  "VuePress",
+];
+
+export type Framework = typeof FRAMEWORK[number];
+
+export const FrameworkDomain: Record<Framework, string> = {
+  "Create React App": "ko.reactjs.org",
+  "React Static": "ko.reactjs.org",
+  "Next.js (Static HTML Export)": "nextjs.org",
+  "Nuxt.js": "nuxtjs.org",
+  "Angular (Angular CLI)": "angular.io",
+  Gatsby: "www.gatsbyjs.com",
+  GitBook: "www.gitbook.com",
+  Jekyll: "jekyllrb-ko.github.io",
+  Remix: "remix.run",
+  Svelte: "svelte.dev",
+  Vue: "vuejs.org",
+  VuePress: "vuejs.org",
+};
