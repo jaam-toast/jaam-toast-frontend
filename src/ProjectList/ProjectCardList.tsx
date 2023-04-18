@@ -1,8 +1,12 @@
 import { useNavigate } from "react-router-dom";
+
+import { FaviconImg } from "./FaviconImg";
+import { Avatar } from "../@shared";
 import { useProjectListQuery } from "./useProjectListQuery";
 import timeSince from "../@utils/timeSince";
 import * as css from "./ProjectCardList.css";
-import { Avatar } from "../@shared";
+
+import { FrameworkDomain } from "../@types/build";
 
 type ProjectCardListProps = {
   searchword: string;
@@ -21,15 +25,17 @@ export function ProjectCardList({ searchword }: ProjectCardListProps) {
         .map((project, idx) => (
           <div
             key={project.projectName + idx}
-            onClick={() => naigate(`/${project.space}/${project.repoName}`)}
+            onClick={() => {
+              naigate(`/${project.space}/${project.projectName}`);
+            }}
             className={css.projectCard}
           >
             <li className={css.projectCardhead}>
               <Avatar size="large" className={css.avatar}>
-                <div className={css.avatarIcon} />
+                <FaviconImg domain={project.buildDomain} />
               </Avatar>
               <Avatar size="large" className={css.avatar}>
-                <div className={css.avatarIcon} />
+                <FaviconImg domain={FrameworkDomain[project.framework]} />
               </Avatar>
               <Avatar size="large">
                 <div className={css.avatarIcon} />
@@ -40,7 +46,7 @@ export function ProjectCardList({ searchword }: ProjectCardListProps) {
                 {project.projectName}
               </strong>
               <span className={css.projectCardUrl}>
-                {project.deployedUrl ?? "url not found..."}
+                {project.buildDomain ?? "url not found..."}
               </span>
             </div>
             <div className={css.projectCardFooter}>

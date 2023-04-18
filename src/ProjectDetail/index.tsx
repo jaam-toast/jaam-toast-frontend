@@ -1,9 +1,10 @@
-// import { useProjectQuery } from "../ProjectDetail/useProjectQuery";
 import { Suspense } from "react";
 import { Navigate, useParams } from "react-router-dom";
+import dayjs from "dayjs";
 
 import { DashboardHeader } from "../@shared";
 import { Preview, PreviewSkeleton } from "../ProjectDeploy/Preview";
+import { useProjectQuery } from "./useProjectQuery";
 import * as css from "./index.css";
 
 export function ProjectDetail() {
@@ -14,20 +15,7 @@ export function ProjectDetail() {
     return <Navigate to="/" />;
   }
 
-  // const { data: project } = useProjectQuery(projectName);
-  const MOCK_PROJECT = {
-    projectName: "MOCK_PROJECT",
-    repoName: "MOCK_REPO",
-    space: "MOCK_SPACE",
-    repoCloneUrl: "https://MOCK_PROJECT/MOCK_PROJECT.github.com",
-    projectUpdatedAt: "123",
-    nodeVersion: "12.18.0",
-    buildType: "react",
-    deployedUrl: "https://www.jaamtoast.click",
-    lastCommitMessage: "hello",
-  };
-
-  const project = MOCK_PROJECT;
+  const { data: project } = useProjectQuery(projectName);
 
   return (
     <div className={css.container}>
@@ -44,12 +32,18 @@ export function ProjectDetail() {
               <p className={css.projectInfoText}>{projectName}</p>
             </li>
             <li className={css.projectInfo}>
-              <span className={css.projectInfoTitle}>package info</span>
-              <p className={css.projectInfoText}>{project.buildType}</p>
+              <span className={css.projectInfoTitle}>framework</span>
+              <p className={css.projectInfoText}>{project?.framework}</p>
             </li>
             <li className={css.projectInfo}>
               <span className={css.projectInfoTitle}>url</span>
-              <p className={css.projectInfoText}>{project.deployedUrl}</p>
+              <a
+                className={css.projectInfoText}
+                href={`https://${project?.buildDomain}`}
+                target="blank"
+              >
+                {`https://${project?.buildDomain}`}
+              </a>
             </li>
             <li className={css.projectInfo}>
               <span className={css.projectInfoTitle}>status</span>
@@ -57,11 +51,15 @@ export function ProjectDetail() {
             </li>
             <li className={css.projectInfo}>
               <span className={css.projectInfoTitle}>last commit message</span>
-              <p className={css.projectInfoText}>{project.lastCommitMessage}</p>
+              <p className={css.projectInfoText}>
+                {project?.lastCommitMessage}
+              </p>
             </li>
             <li className={css.projectInfo}>
               <span className={css.projectInfoTitle}>created at</span>
-              <p className={css.projectInfoText}>{project.projectUpdatedAt}</p>
+              <p className={css.projectInfoText}>
+                {dayjs(project?.projectUpdatedAt).format("YYYY MM DD dddd")}
+              </p>
             </li>
           </ul>
         </section>
