@@ -33,17 +33,26 @@ export type Project = {
   space: string;
   repoCloneUrl: string;
   projectUpdatedAt: string;
+
+  framework: string;
   nodeVersion: string;
   installCommand: string;
   buildCommand: string;
   envList: Env[];
   buildType: string;
-  deployedUrl: string;
-  buildingLog: string[];
-  instanceId: string;
-  lastCommitMessage: string;
+
+  buildDomain: string;
+  buildOriginalDomain: string;
+  cmsDomain: string;
+  cmsToken: string;
+
+  schemaList: string[];
+  contentList: string[];
+  assetStorageUrl: string;
+
   repoId: string;
   webhookId: string;
+  lastCommitMessage: string;
 };
 
 export type ProjectId = string;
