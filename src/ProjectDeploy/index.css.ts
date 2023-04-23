@@ -24,7 +24,7 @@ export const subTitle = style({
 export const buildLogSection = style([
   s.flexColumn,
   s.border,
-  s.poiner,
+  s.pointer,
   {
     gap: "1rem",
     padding: "2rem",
@@ -76,8 +76,9 @@ export const previewSection = style([
 ]);
 
 export const preview = style([
-  s.border,
+  // s.border,
   {
+    borderRadius: "1.5rem",
     width: "100%",
     aspectRatio: "1920 / 1280",
     userSelect: "none",
@@ -91,7 +92,7 @@ export const previewFilter = style({
   },
 });
 
-export const previewImage = style([s.full]);
+export const previewImage = style([s.full, { objectFit: "cover" }]);
 
 export const buttonConsole = style([
   s.flexColumn,

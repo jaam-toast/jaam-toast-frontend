@@ -1,12 +1,21 @@
 import { style } from "@vanilla-extract/css";
-import { s } from "src/@styles";
+import { s } from "../@styles";
 import * as colors from "../@config/colors";
+
+export const layout = style([
+  s.fullWidth,
+  s.flexColumn,
+  {
+    gap: "1rem",
+    padding: "2rem 15vw 5rem 15vw",
+  },
+]);
 
 export const container = style([
   s.flexColumn,
   {
-    padding: "5rem 15vw",
     gap: "1rem",
+    padding: "2rem 15vw 5rem 15vw",
   },
 ]);
 

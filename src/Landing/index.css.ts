@@ -38,7 +38,7 @@ export const loginButton = style([
   s.button,
   s.buttonColor.dark,
   s.buttonSize.large,
-  s.poiner,
+  s.pointer,
   {
     gap: "0.7rem",
     boxSizing: "content-box",

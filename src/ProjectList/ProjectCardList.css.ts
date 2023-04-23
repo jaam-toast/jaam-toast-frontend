@@ -14,14 +14,17 @@ export const container = style([
 export const projectCard = style([
   s.flexColumn,
   s.flexSpaceBetween,
-  s.poiner,
+  s.pointer,
   {
     width: "32.5%",
     height: "16rem",
     padding: "2rem 1.5rem",
     backgroundColor: colors.LEMON,
-    border: `1px solid ${colors.BLACK}`,
+    border: `1px solid ${colors.GREY}`,
     borderRadius: "1.5rem",
+    ":hover": {
+      backgroundColor: colors.LAVENDER,
+    },
   },
 ]);
 

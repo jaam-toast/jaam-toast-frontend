@@ -6,8 +6,6 @@ export function Preview({ url }: { url: string }) {
   const { data: previwImageSrc } = useQuery({
     queryKey: ["preview", url],
     queryFn: () => getPageScreenshot(url),
-    // TODO: error handling
-    onError: (error: unknown) => console.log,
   });
 
   return (

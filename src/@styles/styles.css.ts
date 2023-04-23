@@ -45,7 +45,7 @@ export const fullHeigth = style({
   height: "100%",
 });
 
-export const poiner = style({
+export const pointer = style({
   cursor: "pointer",
 });
 
@@ -68,7 +68,7 @@ const buttonIconPath = "/images/button-icon.svg";
 export const button = style([
   flex,
   alignItemsCenter,
-  poiner,
+  pointer,
   {
     borderRadius: "5rem",
     textTransform: "uppercase",
