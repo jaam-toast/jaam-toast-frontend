@@ -14,17 +14,35 @@ export const projectTitle = style({
   fontSize: "2rem",
 });
 
-export const dashboardNavBar = style([
+export const navBar = style([
   s.flex,
-  { gap: "0.5rem", listStyle: "none" },
+  {
+    gap: "0.5rem",
+    listStyle: "none",
+  },
 ]);
 
-export const dashboardNavLink = style([
+export const navLinkPoint = style([
+  s.border,
+  {
+    backgroundColor: colors.MINT,
+    padding: "0.6rem 1.5rem",
+    fontWeight: 500,
+    fontSize: "0.8rem",
+    cursor: "pointer",
+  },
+]);
+
+export const navLink = style([
   s.border,
   {
     backgroundColor: colors.WHITE,
     padding: "0.6rem 1.5rem",
     fontWeight: 500,
     fontSize: "0.8rem",
+    cursor: "pointer",
+    ":hover": {
+      backgroundColor: colors.LEMON,
+    },
   },
 ]);
