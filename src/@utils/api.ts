@@ -7,6 +7,7 @@ import {
   Repo,
   Response,
   Space,
+  SchemaList,
 } from "../@types/api";
 
 class APIClient {
@@ -113,7 +114,85 @@ class APIClient {
       const { data } = await this.client().get<Response<Project>>(
         `/projects/${projectName}`,
       );
+
       return data.result;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * schema
+   */
+  async getSchema({
+    projectName,
+  }: {
+    projectName: string;
+  }): Promise<SchemaList[]> {
+    try {
+      const { data } = await this.client().get(
+        `/projects/${projectName}/schemas`,
+      );
+
+      return data.message;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async createSchema({
+    projectName,
+    options,
+  }: {
+    projectName: string;
+    options: SchemaList;
+  }): Promise<string> {
+    try {
+      const { data } = await this.client().post(
+        `/projects/${projectName}/schemas`,
+        options,
+      );
+
+      return data.message;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updateSchema({
+    projectName,
+    schemaName,
+    options,
+  }: {
+    projectName: string;
+    schemaName: string;
+    options: SchemaList;
+  }): Promise<string> {
+    try {
+      const { data } = await this.client().post(
+        `/projects/${projectName}/schemas/${schemaName}`,
+        options,
+      );
+
+      return data.message;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deleteSchema({
+    projectName,
+    schemaName,
+  }: {
+    projectName: string;
+    schemaName: string;
+  }): Promise<string> {
+    try {
+      const { data } = await this.client().delete(
+        `/projects/${projectName}/schemas/${schemaName}`,
+      );
+
+      return data.message;
     } catch (error) {
       throw error;
     }

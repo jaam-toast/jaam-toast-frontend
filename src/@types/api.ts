@@ -1,4 +1,5 @@
 import { BuildOptions, Env } from "./build";
+import { Schema } from "./schema";
 
 export type Response<T> = {
   message: string;
@@ -46,7 +47,7 @@ export type Project = {
   cmsDomain: string;
   cmsToken: string;
 
-  schemaList: string[];
+  schemaList: SchemaList[];
   contentList: string[];
   assetStorageUrl: string;
 
@@ -56,3 +57,8 @@ export type Project = {
 };
 
 export type ProjectId = string;
+
+export type SchemaList = {
+  schema_name: string;
+  schema: Schema;
+};
