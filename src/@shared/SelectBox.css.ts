@@ -7,7 +7,7 @@ export const container = style([
   s.alignItemsCenter,
   s.fullWidth,
   s.border,
-  s.poiner,
+  s.pointer,
   {
     position: "relative",
     height: "3rem",

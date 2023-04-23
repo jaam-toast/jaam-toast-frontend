@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
 
-import { FaviconImg } from "./FaviconImg";
+import { Favicon } from "./Favicon";
 import { Avatar } from "../@shared";
 import { useProjectListQuery } from "./useProjectListQuery";
 import timeSince from "../@utils/timeSince";
 import * as css from "./ProjectCardList.css";
 
-import { FrameworkDomain } from "../@types/build";
+import { FRAMEWORK_DOMAIN } from "../@types/build";
 
 type ProjectCardListProps = {
   searchword: string;
@@ -26,19 +26,19 @@ export function ProjectCardList({ searchword }: ProjectCardListProps) {
           <div
             key={project.projectName + idx}
             onClick={() => {
-              naigate(`/${project.space}/${project.projectName}`);
+              naigate(`/${project.space}/${project.projectName}/dashboard`);
             }}
             className={css.projectCard}
           >
             <li className={css.projectCardhead}>
               <Avatar size="large" className={css.avatar}>
-                <FaviconImg domain={project.buildDomain} />
+                <Favicon domain={project.buildDomain} />
               </Avatar>
               <Avatar size="large" className={css.avatar}>
-                <FaviconImg domain={FrameworkDomain[project.framework]} />
+                <Favicon domain={FRAMEWORK_DOMAIN[project.framework]} />
               </Avatar>
               <Avatar size="large">
-                <div className={css.avatarIcon} />
+                <Favicon domain={""} />
               </Avatar>
             </li>
             <div className={css.projectCardMain}>
