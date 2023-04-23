@@ -23,6 +23,6 @@ export async function getPageScreenshot(url: string): Promise<string> {
       };
     });
   } catch (error) {
-    throw error;
+    return new Promise(resolve => resolve("/images/fail-screenshot.png"));
   }
 }

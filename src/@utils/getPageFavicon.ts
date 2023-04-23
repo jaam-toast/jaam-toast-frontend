@@ -2,8 +2,8 @@ import axios from "axios";
 import Config from "../@config";
 
 type Response = {
-  result: string;
-  faviconPath?: string;
+  result?: string;
+  message: string;
 };
 
 export async function getPageFavicon(domain: string): Promise<string | null> {
@@ -17,7 +17,7 @@ export async function getPageFavicon(domain: string): Promise<string | null> {
       },
     });
 
-    return data.result === "ok" ? data.faviconPath! : null;
+    return data.message === "ok" ? data.result! : null;
   } catch (error) {
     throw error;
   }
