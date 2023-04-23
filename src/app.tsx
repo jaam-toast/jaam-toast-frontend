@@ -7,12 +7,15 @@ import { ProjectList } from "./ProjectList";
 import { RepositorySelect } from "./RepositorySelect";
 import { BuildOptionSelect } from "./BuildOptionSelect";
 import { ProjectDeploy } from "./ProjectDeploy";
-import { ProjectDetail } from "./ProjectDetail";
+import { ProjectDashboard } from "./ProjectDashboard";
+import { ProjectContents } from "./ProjectContents";
+import { ProjectSchema } from "./ProjectSchema";
 import { ProjectSettings } from "./ProjectSettings";
 import { NotFound } from "./Error/NotFound";
 import { Error } from "./Error";
 import { useAuth } from "./@shared";
 import * as css from "./app.css";
+import { ProjectAssets } from "./ProjectAssets";
 
 export function App() {
   const { user } = useAuth();
@@ -42,7 +45,22 @@ export function App() {
             path="/new/:userName/:repository/deploy"
             element={<ProjectDeploy />}
           />
-          <Route path="/:userName/:projectName" element={<ProjectDetail />} />
+          <Route
+            path="/:userName/:projectName/dashboard"
+            element={<ProjectDashboard />}
+          />
+          <Route
+            path="/:userName/:projectName/schema"
+            element={<ProjectSchema />}
+          />
+          <Route
+            path="/:userName/:projectName/contents"
+            element={<ProjectContents />}
+          />
+          <Route
+            path="/:userName/:projectName/assets"
+            element={<ProjectAssets />}
+          />
           <Route
             path="/:userName/:projectName/settings"
             element={<ProjectSettings />}
