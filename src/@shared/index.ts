@@ -6,6 +6,8 @@ export { Header } from "./Header";
 export { SelectBox } from "./SelectBox";
 export { TextField } from "./TextField";
 export { DashboardHeader } from "./DashboardHeader";
+export { Icon } from "./Icon";
+export { TypeIcon } from "./TypeIcon";
 
 export { useAuth } from "./useAuth";
 export * from "./useProjectNameStore";
