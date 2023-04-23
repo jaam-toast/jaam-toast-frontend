@@ -8,6 +8,8 @@ export { TextField } from "./TextField";
 export { DashboardHeader } from "./DashboardHeader";
 export { Icon } from "./Icon";
 export { TypeIcon } from "./TypeIcon";
+export { Modal } from "./Modal";
 
 export { useAuth } from "./useAuth";
+export { useModal } from "./useModalStore";
 export * from "./useProjectNameStore";
