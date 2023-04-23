@@ -4,7 +4,7 @@ import { TextField, useModal } from "../@shared";
 import { FieldTitle } from "./FieldTitle";
 import { FieldInput } from "./FieldInput";
 import { PropertyEditor } from "./PropertyEditor";
-import { SchemaFieldList } from "./SchemaFieldList";
+import { SchemaProperties } from "./SchemaProperties";
 import { useSchemaState, useSetSchemaState } from "./useSchemaStore";
 import { useCreateSchemaMutation } from "./useSchemaMutation";
 import * as css from "./ModalNewSchema.css";
@@ -213,7 +213,7 @@ export function ModalNewSchema({ projectName }: { projectName: string }) {
               <section>
                 <FieldTitle>Field List</FieldTitle>
                 <div className={css.fieldList}>
-                  <SchemaFieldList
+                  <SchemaProperties
                     schema={schema}
                     editHandler={handleClickEditIcon}
                     deleteHandler={handleClickDelete}

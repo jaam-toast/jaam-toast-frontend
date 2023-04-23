@@ -4,7 +4,7 @@ import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 
 import { Icon, Modal, useModal, DashboardHeader, TextField } from "../@shared";
 import { ModalNewSchema } from "./ModalNewSchema";
-import { ModalSchemaField } from "./ModalSchemaField";
+import { ModalSchemaProperties } from "./ModalSchemaProperties";
 import { useProjectQuery } from "../ProjectDashboard/useProjectQuery";
 import { useDeleteSchemaMutation } from "./useSchemaMutation";
 import * as css from "./index.css";
@@ -43,7 +43,7 @@ export function ProjectSchema() {
   const handleSchemaClick = ({ index }: { index: number }) => {
     showModal({
       component: (
-        <ModalSchemaField
+        <ModalSchemaProperties
           currentSchema={project?.schemaList[index].schema!}
           projectName={projectName}
         />
