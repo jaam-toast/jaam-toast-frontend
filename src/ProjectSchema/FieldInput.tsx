@@ -5,6 +5,7 @@ type Options = {
   type: string;
   isEditMode: boolean;
   inputValue: string;
+  wargingMessage?: string;
   changeInputHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
   clickTypeHandler: () => void;
   editHandler: () => void;
@@ -15,6 +16,7 @@ export function FieldInput({
   type,
   isEditMode,
   inputValue,
+  wargingMessage,
   changeInputHandler,
   clickTypeHandler,
   editHandler,
@@ -22,23 +24,29 @@ export function FieldInput({
 }: Options) {
   return (
     <section className={css.fieldNameSection}>
-      <input
-        className={css.fieldNameInput}
-        value={inputValue}
-        onChange={changeInputHandler}
-      />
-      <div className={css.typeButton} onClick={clickTypeHandler}>
-        <TypeIcon size="small" type={type} />
+      <p className={css.warningMessage}>{wargingMessage || "ㅤ"}</p>
+      <div className={css.fieldNameWrapper}>
+        <input
+          className={css.fieldNameInput}
+          value={inputValue}
+          onChange={changeInputHandler}
+        />
+        <div className={css.typeButton} onClick={clickTypeHandler}>
+          <TypeIcon size="small" type={type} />
+        </div>
+        {isEditMode ? (
+          <button onClick={editHandler} className={css.addButton}>
+            Edit
+          </button>
+        ) : (
+          <button
+            onClick={wargingMessage ? () => {} : addHandler}
+            className={css.addButton}
+          >
+            Add
+          </button>
+        )}
       </div>
-      {isEditMode ? (
-        <button onClick={editHandler} className={css.addButton}>
-          Edit
-        </button>
-      ) : (
-        <button onClick={addHandler} className={css.addButton}>
-          Add
-        </button>
-      )}
     </section>
   );
 }

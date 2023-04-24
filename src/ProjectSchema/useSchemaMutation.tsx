@@ -12,7 +12,6 @@ type Options = {
   onError?: (error?: unknown) => Promise<unknown> | unknown;
 };
 
-// TODO 서버, 프론트 - schema_name or schemaName으로 맞추기
 export function useCreateSchemaMutation({ onSuccess, onError }: Options) {
   const { title, description, type, properties, required } = useSchemaState();
   const { user } = useAuth();

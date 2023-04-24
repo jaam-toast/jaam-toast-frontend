@@ -67,6 +67,21 @@ export const schemaNameSection = style([
   { gap: "2rem", height: "30rem;" },
 ]);
 
+export const unavailableOption = style([
+  s.border,
+  {
+    padding: "1rem",
+    borderColor: "white",
+    backgroundColor: colors.STRAWBERRY_LIGHT,
+  },
+]);
+
+export const warningMessage = style({
+  padding: "0 1rem 1rem 1rem",
+  fontSize: "0.8rem",
+  color: COLOR.RED,
+});
+
 export const schemaName = style({ color: COLOR.LAVENDAR_DARK });
 
 export const schemaNameInput = style([
