@@ -116,7 +116,7 @@ export function PropertyEditor({
 
         <FieldTitle>Select a option for your content field type</FieldTitle>
         <ul className={css.optionFieldList}>
-          <li>
+          <li className={css.optionCheckField}>
             <input
               id="required-field"
               type="checkbox"
@@ -129,18 +129,17 @@ export function PropertyEditor({
                 })
               }
             />
-            <label htmlFor="required-field" className={css.optionFieldLabel}>
-              Required field
-            </label>
+            <label htmlFor="required-field">Required field</label>
           </li>
           {(currentProperty.type === "text" ||
             currentProperty.type === "textarea" ||
             currentProperty.type === "string" ||
             currentProperty.type === "number") && (
             <>
-              <li>
-                <label className={css.optionFieldLabel}>minimum</label>
+              <li className={css.optionInputField}>
+                <label>minimum</label>
                 <input
+                  className={css.optionInput}
                   type="number"
                   value={currentProperty.options.min || undefined}
                   onChange={e =>
@@ -151,9 +150,10 @@ export function PropertyEditor({
                   }
                 />
               </li>
-              <li>
-                <label className={css.optionFieldLabel}>maximum</label>
+              <li className={css.optionInputField}>
+                <label>maximum</label>
                 <input
+                  className={css.optionInput}
                   type="number"
                   value={currentProperty.options.max || undefined}
                   onChange={e => {
