@@ -10,31 +10,37 @@ import { useCreateSchemaMutation } from "./useSchemaMutation";
 import * as css from "./ModalNewSchema.css";
 
 import type { SchemaFieldType } from "../@types/schema";
+import type { SchemaList } from "../@types/api";
 
-type Options = {
+type PropertyOptions = {
   min?: number;
   max?: number;
   required?: boolean;
 };
 
-type SchemaField = {
+type Property = {
   name: string;
   type: SchemaFieldType;
-  options: Options;
+  options: PropertyOptions;
 };
 
-const defaultFieldData: SchemaField = {
+type Options = {
+  projectName: string;
+  schemaList?: SchemaList[];
+};
+
+const defaultProperty: Property = {
   name: "",
   type: "text",
   options: {},
 };
 
-export function ModalNewSchema({ projectName }: { projectName: string }) {
+export function ModalNewSchema({ projectName, schemaList }: Options) {
   const [isFieldEditMode, setIsFieldEditMode] = useState<boolean>(false);
   const [isClickTypeIcon, setIsClickTypeIcon] = useState<boolean>(false);
   const [currentMenu, setCurrentMenu] = useState<string>("schema");
   const [currentProperty, setCurrentProperty] =
-    useState<SchemaField>(defaultFieldData);
+    useState<Property>(defaultProperty);
   const [currentEditPropertyName, setCurrentEditPropertyName] = useState<
     null | string
   >(null);
@@ -74,7 +80,7 @@ export function ModalNewSchema({ projectName }: { projectName: string }) {
   const handleClickAdd = () => {
     addProperty(currentProperty);
     setIsFieldEditMode(false);
-    setCurrentProperty(defaultFieldData);
+    setCurrentProperty(defaultProperty);
     setIsClickTypeIcon(false);
   };
 
@@ -83,7 +89,6 @@ export function ModalNewSchema({ projectName }: { projectName: string }) {
    * edit 아이콘을 누르면 현재 선택한 프로퍼티 정보를 state(useState)에 저장합니다.
    */
   const handleClickEditIcon = ({ propertyName }: { propertyName: string }) => {
-    console.log(schema.required);
     const { min, max } = schema.properties[propertyName];
     setCurrentProperty({
       name: propertyName,
@@ -110,7 +115,7 @@ export function ModalNewSchema({ projectName }: { projectName: string }) {
     });
     setCurrentEditPropertyName(null);
     setIsFieldEditMode(false);
-    setCurrentProperty(defaultFieldData);
+    setCurrentProperty(defaultProperty);
   };
 
   const handleClickSave = () => {
@@ -165,8 +170,19 @@ export function ModalNewSchema({ projectName }: { projectName: string }) {
           {/**
            * schema name input
            */}
-          <div>
+          <div
+            className={
+              schemaList?.some(data => data.schema.title === schema.title)
+                ? css.unavailableOption
+                : ""
+            }
+          >
             <FieldTitle>Schema name</FieldTitle>
+            {schemaList?.some(data => data.schema.title === schema.title) && (
+              <p className={css.warningMessage}>
+                Your Schema Name is duplicated.
+              </p>
+            )}
             <TextField
               value={schema.title}
               onTextFieldChange={setTitle}
@@ -195,6 +211,12 @@ export function ModalNewSchema({ projectName }: { projectName: string }) {
             type={currentProperty.type}
             isEditMode={isFieldEditMode}
             inputValue={currentProperty.name}
+            wargingMessage={
+              currentEditPropertyName !== currentProperty.name &&
+              Object.keys(schema.properties).includes(currentProperty.name)
+                ? "Your Property name is duplicated."
+                : ""
+            }
             changeInputHandler={handleChangePropertyName}
             clickTypeHandler={() => setIsClickTypeIcon(!isClickTypeIcon)}
             editHandler={handleClickEdit}

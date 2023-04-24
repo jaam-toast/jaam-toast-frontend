@@ -34,7 +34,12 @@ export function ProjectSchema() {
 
   const handleAddClick = () => {
     showModal({
-      component: <ModalNewSchema projectName={projectName} />,
+      component: (
+        <ModalNewSchema
+          projectName={projectName}
+          schemaList={project?.schemaList}
+        />
+      ),
       location: "right",
       animation: "slideToLeft",
     });

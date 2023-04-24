@@ -1,7 +1,10 @@
 import { style } from "@vanilla-extract/css";
 import { s } from "../@styles";
+import { COLOR } from "../@config/colors";
 
-export const fieldNameSection = style([
+export const fieldNameSection = style([s.flexColumn]);
+
+export const fieldNameWrapper = style([
   s.flex,
   s.alignItemsCenter,
   {
@@ -22,6 +25,12 @@ export const fieldNameInput = style([
     fontSize: "1rem",
   },
 ]);
+
+export const warningMessage = style({
+  padding: "0 1rem",
+  fontSize: "0.8rem",
+  color: COLOR.RED,
+});
 
 export const addButton = style([
   s.buttonColor.dark,
