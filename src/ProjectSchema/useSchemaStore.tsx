@@ -88,7 +88,9 @@ export const useSchemaStore = create<SchemaStore>((set, get) => ({
                 )
               : [...state.required, updateField.name],
           }));
-        } else {
+        }
+
+        if (targetTitle === updateField.name) {
           set(state => ({
             required: state.required.includes(targetTitle)
               ? state.required
