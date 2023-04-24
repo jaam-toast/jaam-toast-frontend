@@ -1,3 +1,4 @@
+import { GREY_CLEAR } from "./../@config/colors";
 import { style } from "@vanilla-extract/css";
 import { s } from "../@styles";
 import * as colors from "../@config/colors";
@@ -37,12 +38,39 @@ export const optionFieldList = style([
   s.flexColumn,
   {
     gap: "0.8rem",
-    padding: "0 1rem",
+    // padding: "0 1rem",
     listStyle: "none",
   },
 ]);
-export const optionFieldLabel = style([
+
+export const optionField = style([
+  s.flex,
+  s.alignItemsCenter,
+  s.border,
   {
-    paddingLeft: "1rem",
+    borderColor: COLOR.GREY_CLEAR,
+    gap: "1rem",
+    padding: "1rem",
+    minHeight: "3rem",
+  },
+]);
+
+export const optionCheckField = style([optionField]);
+
+export const optionInputField = style([
+  optionField,
+  {
+    borderRadius: "3rem",
+    padding: "1rem 1rem 1rem 3rem",
+  },
+]);
+
+export const optionInput = style([s.textField]);
+
+export const fieldSubText = style([
+  {
+    paddingTop: "1rem",
+    fontSize: "0.9rem",
+    color: COLOR.GREY,
   },
 ]);
