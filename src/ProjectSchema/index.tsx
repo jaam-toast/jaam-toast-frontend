@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Navigate, useParams } from "react-router-dom";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
-import * as _ from "lodash";
 
 import {
   Icon,
@@ -20,6 +19,7 @@ import {
   useCheckboxState,
   useSetCheckboxState,
 } from "../@shared/useCheckboxStore";
+import { sortByMode as sortBy } from "../@utils/sortByMode";
 import * as css from "./index.css";
 
 import type { SchemaList } from "../@types/api";
@@ -33,6 +33,7 @@ export function ProjectSchema() {
   const { projectName } = params;
   const [searchword, setSearchword] = useState<string>("");
   const [sortedSchema, setSortedSchema] = useState<SortedSchema>();
+  const [sortMode, setSortMode] = useState<SortMode>("Default");
   const { values: checkboxValues, isAllChecked } = useCheckboxState();
   const { toggleAllChecked, setValue: setCheckboxValue } =
     useSetCheckboxState();
@@ -42,7 +43,7 @@ export function ProjectSchema() {
     return <Navigate to="/" />;
   }
 
-  const { data: project, refetch } = useProjectQuery(projectName!);
+  const { data: project, refetch } = useProjectQuery(projectName);
   const queryClient = useQueryClient();
   const deleteSchema = useDeleteSchemaMutation({
     onSuccess: () => {
@@ -54,29 +55,6 @@ export function ProjectSchema() {
       alert("Failed to delete schema. Please try again.");
     },
   });
-
-  // TODO sort menu 분리 필요
-  const handleChangeSortMode = (mode: SortMode) => {
-    switch (mode) {
-      case "Default": {
-        setSortedSchema(null);
-
-        return;
-      }
-      case "Ascending": {
-        setSortedSchema(_.sortBy([...project?.schemaList!], "schemaName"));
-
-        return;
-      }
-      case "Descending": {
-        setSortedSchema(
-          _.sortBy([...project?.schemaList!], "schemaName").reverse(),
-        );
-
-        return;
-      }
-    }
-  };
 
   const handleAddClick = () => {
     openModal({
@@ -124,7 +102,7 @@ export function ProjectSchema() {
             <SelectBox
               options={["Default", "Ascending", "Descending"]}
               defaultSelect={"Default"}
-              onSelectionChange={handleChangeSortMode}
+              onSelectionChange={setSortMode}
             />
           </div>
         </div>
@@ -165,10 +143,15 @@ export function ProjectSchema() {
           </thead>
           <tbody>
             {project &&
-              (sortedSchema || project?.schemaList)
+              sortBy<SchemaList>({
+                mode: sortMode,
+                data: project?.schemaList!,
+                fieldName: "schemaName",
+              })
                 .filter((data: SchemaList) =>
                   searchword ? data.schema.title.includes(searchword) : true,
                 )
+
                 .map((data: SchemaList, index: number) => (
                   <tr className={css.row} key={data.schema.title}>
                     <td className={css.cell}>
