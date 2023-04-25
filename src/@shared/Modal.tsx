@@ -3,11 +3,11 @@ import * as css from "./Modal.css";
 
 export function Modal() {
   const { isOpen, ModalComponent, location, animation } = useModalState();
-  const { offModal } = useModal();
+  const { closeModal } = useModal();
 
   return isOpen ? (
     <div
-      onClick={offModal}
+      onClick={closeModal}
       className={`${css.container} ${css.location[location!]}`}
     >
       <div

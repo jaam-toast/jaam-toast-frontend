@@ -9,8 +9,10 @@ type ModalState = {
   ModalComponent: null | JSX.Element;
   location?: Location;
   animation?: Animation;
+  closeHandler: () => void;
 
   actions: {
+    setCloseHandler: (callback: () => void) => void;
     openModal: ({
       component,
       location,
@@ -20,26 +22,22 @@ type ModalState = {
       location?: Location;
       animation?: Animation;
     }) => void;
-    offModal: () => void;
+    closeModal: () => void;
   };
 };
 
-export const useModalStore = create<ModalState>(set => ({
+export const useModalStore = create<ModalState>((set, get) => ({
   isOpen: false,
   ModalComponent: null,
   location: "center",
   animaion: "none",
+  closeHandler: () => {},
 
   actions: {
-    openModal: ({
-      component,
-      location = "center",
-      animation = "none",
-    }: {
-      component: JSX.Element;
-      location?: Location;
-      animation?: Animation;
-    }) => {
+    setCloseHandler: callback => {
+      set({ closeHandler: callback });
+    },
+    openModal: ({ component, location = "center", animation = "none" }) => {
       set({
         isOpen: true,
         ModalComponent: component,
@@ -47,12 +45,15 @@ export const useModalStore = create<ModalState>(set => ({
         animation,
       });
     },
-    offModal: () => {
+    closeModal: () => {
+      get().closeHandler();
+
       set({
         isOpen: false,
         ModalComponent: null,
         location: "right",
         animation: "none",
+        closeHandler: () => {},
       });
     },
   },

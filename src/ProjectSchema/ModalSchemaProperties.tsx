@@ -10,6 +10,7 @@ import {
   useSchemaState,
   useSetSchemaState,
 } from "./useSchemaStore";
+import { useModal } from "../@shared";
 import * as css from "./ModalSchemaProperties.css";
 
 import type { Schema } from "../@types/schema";
@@ -33,12 +34,15 @@ export function ModalSchemaProperties({
     addProperty,
     editProperty,
     deleteProperty,
+    reset,
   } = useSetSchemaState();
   const schema = useSchemaState();
   const currentEditProperty = useCurrentEditProperty();
+  const { setCloseHandler: setHandleModalClose } = useModal();
 
   useEffect(() => {
     setState(currentSchema);
+    setHandleModalClose(reset);
   }, []);
 
   const updateSchema = useUpdateSchemaMutation({
@@ -62,33 +66,18 @@ export function ModalSchemaProperties({
   // TODO 해당 스키마에 해당되는 콘텐츠 있는지 체크
   const hasContentsWithCurrentSchema = true;
 
-  const handleClickAdd = () => {
-    addProperty(currentEditProperty);
-    setIsFieldEditMode(false);
-    setCurrentEditProperty({ type: "reset" });
-    setIsClickTypeIcon(false);
-  };
-
-  const handleClickUpdate = () => {
-    const { title, type, properties } = schema;
-
-    if (!title || !type || !Object.keys(properties).length) {
-      return;
-    }
-
-    updateSchema.mutate({ projectName, schemaName: title });
-  };
-
-  const handleClickDelete = ({ propertyName }: { propertyName: string }) => {
-    deleteProperty({ propertyName });
-    deleteSchema.mutate({ projectName, schemaName: schema.title });
-  };
-
   const handleChangePropertyName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentEditProperty({
       type: "update",
       updateData: { ...currentEditProperty, name: e.target.value },
     });
+  };
+
+  const handleClickAdd = () => {
+    addProperty(currentEditProperty);
+    setIsFieldEditMode(false);
+    setCurrentEditProperty({ type: "reset" });
+    setIsClickTypeIcon(false);
   };
 
   const handleClickEditIcon = ({ propertyName }: { propertyName: string }) => {
@@ -105,6 +94,21 @@ export function ModalSchemaProperties({
     setCurrentEditPropertyName(null);
     setIsFieldEditMode(false);
     setCurrentEditProperty({ type: "reset" });
+  };
+
+  const handleClickUpdate = () => {
+    const { title, type, properties } = schema;
+
+    if (!title || !type || !Object.keys(properties).length) {
+      return;
+    }
+
+    updateSchema.mutate({ projectName, schemaName: title });
+  };
+
+  const handleClickDelete = ({ propertyName }: { propertyName: string }) => {
+    deleteProperty({ propertyName });
+    deleteSchema.mutate({ projectName, schemaName: schema.title });
   };
 
   return (
