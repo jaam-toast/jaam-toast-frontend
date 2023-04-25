@@ -44,6 +44,20 @@ export const newButton = style([
   },
 ]);
 
+export const selectOptionField = style([
+  s.flex,
+  s.flexSpaceBetween,
+  s.fullWidth,
+  s.border,
+  {
+    padding: "1rem",
+    borderColor: colors.COLOR.WHITE,
+    color: colors.COLOR.WHITE,
+    backgroundColor: colors.COLOR.LAVENDAR_DARK,
+    fontSize: "0.9rem",
+  },
+]);
+
 export const table = style([
   s.fullWidth,
   {
@@ -103,5 +117,42 @@ export const type = style([
   },
 ]);
 
-export const optionField = style([s.flex, { gap: "1rem" }]);
+export const optionField = style([
+  s.flex,
+  { gap: "1rem", justifyContent: "flex-end" },
+]);
 export const optionIcon = style([{ cursor: "pointer" }]);
+
+export const fieldNameSection = style([s.flexColumn]);
+
+export const fieldNameWrapper = style([
+  s.flex,
+  s.alignItemsCenter,
+  {
+    justifyContent: "flex-end",
+    // height: "3rem",
+    marginBottom: "1rem",
+  },
+]);
+
+export const addButton = style([
+  s.buttonColor.dark,
+  s.pointer,
+  {
+    position: "absolute",
+    padding: "0 1rem",
+    borderRadius: "0 1.5rem 1.5rem 0",
+    border: "1px solid black",
+    height: "inherit",
+    zIndex: 1,
+  },
+]);
+
+export const typeButton = style([
+  // s.inlineFlex,
+  s.pointer,
+  {
+    // position: "absolute",
+    width: "10rem",
+  },
+]);

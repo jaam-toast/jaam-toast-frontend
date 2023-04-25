@@ -5,27 +5,14 @@ import { FieldTitle } from "./FieldTitle";
 import { FieldInput } from "./FieldInput";
 import { PropertyEditor } from "./PropertyEditor";
 import { useUpdateSchemaMutation } from "./useSchemaMutation";
-import { useSchemaState, useSetSchemaState } from "./useSchemaStore";
+import {
+  useCurrentEditProperty,
+  useSchemaState,
+  useSetSchemaState,
+} from "./useSchemaStore";
 import * as css from "./ModalSchemaProperties.css";
 
-import type { Schema, SchemaFieldType } from "../@types/schema";
-
-type Options = {
-  min?: number;
-  max?: number;
-  required?: boolean;
-};
-type SchemaField = {
-  name: string;
-  type: SchemaFieldType;
-  options: Options;
-};
-
-const defaultFieldData: SchemaField = {
-  name: "",
-  type: "text",
-  options: {},
-};
+import type { Schema } from "../@types/schema";
 
 export function ModalSchemaProperties({
   currentSchema,
@@ -36,15 +23,19 @@ export function ModalSchemaProperties({
 }) {
   const [isFieldEditMode, setIsFieldEditMode] = useState<boolean>(false);
   const [isClickTypeIcon, setIsClickTypeIcon] = useState<boolean>(false);
-  const [currentProperty, setCurrentProperty] =
-    useState<SchemaField>(defaultFieldData);
   const [currentEditPropertyName, setCurrentEditPropertyName] = useState<
     null | string
   >(null);
 
-  const { setState, addProperty, editProperty, deleteProperty, reset } =
-    useSetSchemaState();
+  const {
+    setState,
+    setCurrentEditProperty,
+    addProperty,
+    editProperty,
+    deleteProperty,
+  } = useSetSchemaState();
   const schema = useSchemaState();
+  const currentEditProperty = useCurrentEditProperty();
 
   useEffect(() => {
     setState(currentSchema);
@@ -72,9 +63,9 @@ export function ModalSchemaProperties({
   const hasContentsWithCurrentSchema = true;
 
   const handleClickAdd = () => {
-    addProperty(currentProperty);
+    addProperty(currentEditProperty);
     setIsFieldEditMode(false);
-    setCurrentProperty(defaultFieldData);
+    setCurrentEditProperty({ type: "reset" });
     setIsClickTypeIcon(false);
   };
 
@@ -94,28 +85,14 @@ export function ModalSchemaProperties({
   };
 
   const handleChangePropertyName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentProperty(prev => ({
-      ...prev,
-      name: e.target.value,
-    }));
+    setCurrentEditProperty({
+      type: "update",
+      updateData: { ...currentEditProperty, name: e.target.value },
+    });
   };
 
-  /**
-   * schema에 저장하고 나면 string은 minLength, number는 minimum의 형태로
-   * 저장됩니다. 수정모드 일 때는 모두 min, max의 형태로 통일하고 서버로 보낼 때 minLength로 변경하는 후작업을 거치도록 해놓았습니다.
-   */
   const handleClickEditIcon = ({ propertyName }: { propertyName: string }) => {
-    const { minLength, minimum, maxLength, maximum } =
-      schema.properties[propertyName];
-    setCurrentProperty({
-      name: propertyName,
-      type: schema.properties[propertyName].type,
-      options: {
-        ...((minLength || minimum) && { min: minLength || minimum }),
-        ...((maxLength || maximum) && { max: maxLength || maximum }),
-        required: schema.required?.includes(propertyName),
-      },
-    });
+    setCurrentEditProperty({ type: "set", propertyName });
     setCurrentEditPropertyName(propertyName);
     setIsFieldEditMode(true);
   };
@@ -123,11 +100,11 @@ export function ModalSchemaProperties({
   const handleClickEdit = () => {
     editProperty({
       targetTitle: currentEditPropertyName!,
-      updateField: currentProperty,
+      updateField: currentEditProperty,
     });
     setCurrentEditPropertyName(null);
     setIsFieldEditMode(false);
-    setCurrentProperty(defaultFieldData);
+    setCurrentEditProperty({ type: "reset" });
   };
 
   return (
@@ -139,26 +116,24 @@ export function ModalSchemaProperties({
             <span className={css.schemaName}> {schema.title}</span>
           </h3>
         </div>
-        {(isFieldEditMode || !!hasContentsWithCurrentSchema) && (
-          <>
-            <FieldInput
-              type={currentProperty.type || "text"}
-              isEditMode={isFieldEditMode}
-              inputValue={currentProperty.name}
-              changeInputHandler={handleChangePropertyName}
-              clickTypeHandler={() => setIsClickTypeIcon(!isClickTypeIcon)}
-              editHandler={handleClickEdit}
-              addHandler={handleClickAdd}
-            />
-          </>
-        )}
+        <p className={css.fieldSubText}>{schema.description || ""}</p>
       </header>
+      {(isFieldEditMode || !!hasContentsWithCurrentSchema) && (
+        <>
+          <FieldInput
+            type={currentEditProperty.type || "text"}
+            isEditMode={isFieldEditMode}
+            inputValue={currentEditProperty.name}
+            changeInputHandler={handleChangePropertyName}
+            clickTypeHandler={() => setIsClickTypeIcon(!isClickTypeIcon)}
+            editHandler={handleClickEdit}
+            addHandler={handleClickAdd}
+          />
+        </>
+      )}
       <div className={css.wrapper}>
         {isFieldEditMode || isClickTypeIcon ? (
-          <PropertyEditor
-            currentProperty={currentProperty}
-            setCurrentProperty={setCurrentProperty}
-          />
+          <PropertyEditor />
         ) : (
           <section>
             <FieldTitle>Field List</FieldTitle>
@@ -183,7 +158,7 @@ export function ModalSchemaProperties({
             onClick={() => {
               setIsClickTypeIcon(false);
               setIsFieldEditMode(false);
-              setCurrentProperty(defaultFieldData);
+              setCurrentEditProperty({ type: "reset" });
             }}
             className={css.saveButton}
           >
