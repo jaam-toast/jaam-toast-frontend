@@ -39,13 +39,13 @@ export function ModalNewSchema({ projectName, schemaList }: Options) {
   } = useSetSchemaState();
   const schema = useSchemaState();
   const currentEditProperty = useCurrentEditProperty();
-  const { offModal } = useModal();
+  const { closeModal } = useModal();
 
   const createSchema = useCreateSchemaMutation({
     onSuccess: () => {
       reset();
       alert("Success schema creation");
-      offModal();
+      closeModal();
     },
     onError: () => {
       alert("Failed to create schema. Please try again.");

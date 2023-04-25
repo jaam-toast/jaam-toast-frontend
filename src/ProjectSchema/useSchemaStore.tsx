@@ -152,7 +152,6 @@ export const useSchemaStore = create<SchemaStore>((set, get) => ({
           return;
         }
         case "update": {
-          console.log({ updateData });
           if (!updateData) {
             return;
           }
@@ -238,13 +237,7 @@ export const useSchemaStore = create<SchemaStore>((set, get) => ({
       set({ properties: newProperties });
     },
     reset: () => {
-      set({
-        title: "",
-        description: "",
-        type: "object",
-        properties: {},
-        required: [],
-      });
+      set(initialState);
     },
   },
 }));
