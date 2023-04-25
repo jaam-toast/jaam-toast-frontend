@@ -3,8 +3,9 @@ import { shallow } from "zustand/shallow";
 
 import { usePresetBuildOptions } from "../RepositorySelect/usePresetBuildOptionStore";
 import { useAuth } from "../@shared";
-import { Framework, Env, NodeVersion } from "../@types/build";
 import APIClient from "../@utils/api";
+
+import type { Framework, Env, NodeVersion } from "../@types/build";
 
 type BuildOptionsStore = {
   projectName: string | null;

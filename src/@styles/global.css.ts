@@ -1,13 +1,13 @@
 import { globalStyle } from "@vanilla-extract/css";
 import { pretendard } from "./font.css";
-import * as colors from "../@config/colors";
+import { COLORS } from "../@config/colors";
 
 globalStyle("html, body", {
   margin: 0,
   padding: 0,
   font: `300 16px ${pretendard}`,
   boxSizing: "border-box",
-  backgroundColor: colors.PAPER,
+  backgroundColor: COLORS.PAPER,
 });
 
 globalStyle("*", {

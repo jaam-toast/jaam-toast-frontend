@@ -1,6 +1,6 @@
 import { style } from "@vanilla-extract/css";
 import { s } from "../@styles";
-import * as colors from "../@config/colors";
+import { COLORS } from "../@config/colors";
 
 export const layout = style([
   s.fullWidth,
@@ -38,7 +38,7 @@ export const newButton = style([
   s.buttonColor.dark,
   {
     ":hover": {
-      backgroundColor: colors.STRAWBERRY,
+      backgroundColor: COLORS.STRAWBERRY,
       borderColor: "none",
     },
   },
@@ -51,9 +51,9 @@ export const selectOptionField = style([
   s.border,
   {
     padding: "1rem",
-    borderColor: colors.COLOR.WHITE,
-    color: colors.COLOR.WHITE,
-    backgroundColor: colors.COLOR.LAVENDAR_DARK,
+    borderColor: COLORS.WHITE,
+    color: COLORS.WHITE,
+    backgroundColor: COLORS.LAVENDAR_DARK,
     fontSize: "0.9rem",
   },
 ]);
@@ -79,11 +79,11 @@ export const th = style([
     padding: "1rem",
     fontWeight: 300,
     textAlign: "left",
-    color: colors.GREY,
+    color: COLORS.GREY,
   },
 ]);
 
-export const row = style([{ borderBottom: `1px solid ${colors.GREY_CLEAR}` }]);
+export const row = style([{ borderBottom: `1px solid ${COLORS.GREY_CLEAR}` }]);
 
 export const cell = style([{ maxWidth: "30rem", padding: "1rem" }]);
 
@@ -105,15 +105,15 @@ export const typeField = style([
     alignItems: "center",
     gap: "1rem",
     overflow: "auto",
-    color: colors.GREY,
+    color: COLORS.GREY,
   },
 ]);
 export const type = style([
   {
     padding: "0.5rem",
     borderRadius: "0.4rem",
-    backgroundColor: colors.GREY_LIGHT,
-    border: `1px solid ${colors.GREY_CLEAR}`,
+    backgroundColor: COLORS.GREY_LIGHT,
+    border: `1px solid ${COLORS.GREY_CLEAR}`,
   },
 ]);
 
@@ -130,7 +130,6 @@ export const fieldNameWrapper = style([
   s.alignItemsCenter,
   {
     justifyContent: "flex-end",
-    // height: "3rem",
     marginBottom: "1rem",
   },
 ]);
@@ -149,10 +148,8 @@ export const addButton = style([
 ]);
 
 export const typeButton = style([
-  // s.inlineFlex,
   s.pointer,
   {
-    // position: "absolute",
     width: "10rem",
   },
 ]);

@@ -1,14 +1,14 @@
 import { style, styleVariants } from "@vanilla-extract/css";
 import { s } from "../@styles";
-import * as colors from "../@config/colors";
+import { COLORS } from "../@config/colors";
 
 export const container = style([
   s.inlineFlex,
   s.flexCenter,
   {
     borderRadius: "0.4rem",
-    backgroundColor: colors.STRAWBERRY,
-    color: colors.WHITE,
+    backgroundColor: COLORS.STRAWBERRY,
+    color: COLORS.WHITE,
   },
 ]);
 
@@ -27,9 +27,9 @@ export const iconSize = styleVariants({
   },
 });
 
-const base = style({ color: colors.WHITE });
+const base = style({ color: COLORS.WHITE });
 
-export const iconColor = styleVariants(colors.COLOR, color => [
+export const iconColor = styleVariants(COLORS, color => [
   base,
   { backgroundColor: color },
 ]);

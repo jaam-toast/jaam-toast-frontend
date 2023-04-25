@@ -1,7 +1,6 @@
 import { style } from "@vanilla-extract/css";
 import { s } from "../@styles";
-import { COLOR } from "../@config/colors";
-import * as colors from "../@config/colors";
+import { COLORS } from "../@config/colors";
 
 export const container = style([
   s.flexColumn,
@@ -13,7 +12,7 @@ export const container = style([
     width: "30rem",
     minHeight: "40rem",
     maxHeight: "40rem",
-    backgroundColor: colors.WHITE,
+    backgroundColor: COLORS.WHITE,
   },
 ]);
 
@@ -22,19 +21,15 @@ export const header = style([
   {
     position: "sticky",
     top: 0,
-    // padding: "2rem 0",
+    paddingBottom: "1rem",
     backgroundColor: "inherit",
     fontWeight: 400,
   },
 ]);
 
-export const headerFirstLine = style([
-  s.flex,
-  s.flexSpaceBetween,
-  { paddingBottom: "3rem" },
-]);
+export const headerFirstLine = style([s.flex, s.flexSpaceBetween]);
 
-export const schemaName = style({ color: COLOR.LAVENDAR_DARK });
+export const schemaName = style({ color: COLORS.LAVENDAR_DARK });
 
 export const wrapper = style([
   s.scroll,
@@ -60,7 +55,7 @@ export const fieldTitleBox = style([
   {
     padding: "1rem 0 0.5rem 0",
     marginBottom: "1rem",
-    borderBottom: `2px solid ${colors.GREY_CLEAR}`,
+    borderBottom: `2px solid ${COLORS.GREY_CLEAR}`,
   },
 ]);
 
@@ -68,7 +63,7 @@ export const fieldTitle = style([
   {
     padding: "1rem 0 0.48rem 0",
     marginBottom: "50px",
-    borderBottom: `3px solid ${colors.RED_LIGHT}`,
+    borderBottom: `3px solid ${COLORS.RED_LIGHT}`,
     width: "fit-content",
     fontWeight: 450,
   },
@@ -76,9 +71,9 @@ export const fieldTitle = style([
 
 export const fieldSubText = style([
   {
-    paddingTop: "1rem",
+    minHeight: "1.5rem",
+    maxHeight: "2rem",
     fontSize: "0.9rem",
-    color: COLOR.GREY,
   },
 ]);
 
@@ -92,14 +87,14 @@ export const field = style([
   s.flexSpaceBetween,
   s.fullWidth,
   s.border,
-  { gap: "1rem", padding: "1rem", borderColor: colors.GREY_CLEAR },
+  { gap: "1rem", padding: "1rem", borderColor: COLORS.GREY_CLEAR },
 ]);
 export const fieldTypeIcon = style({ maxWidth: "3rem" });
 export const fieldInfoWrapper = style([
   s.flexColumn,
   { gap: "0.3rem", width: "100%" },
 ]);
-export const fieldInfo = style([s.flex, { gap: "1rem", color: colors.GREY }]);
+export const fieldInfo = style([s.flex, { gap: "1rem", color: COLORS.GREY }]);
 export const fieldEditButtons = style([s.flex, { gap: "1rem" }]);
 export const fieldEditButton = style([s.pointer]);
 
@@ -113,8 +108,8 @@ export const saveButton = style([
 ]);
 
 export const disable = style({
-  backgroundColor: COLOR.GREY_CLEAR,
-  color: COLOR.GREY,
+  backgroundColor: COLORS.GREY_CLEAR,
+  color: COLORS.GREY,
   border: "none",
   cursor: "not-allowed",
 });

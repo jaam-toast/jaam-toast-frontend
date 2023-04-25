@@ -22,7 +22,7 @@ import {
 } from "../@shared/useCheckboxStore";
 import * as css from "./index.css";
 
-import { SchemaList } from "../@types/api";
+import type { SchemaList } from "../@types/api";
 
 type SortMode = "Default" | "Ascending" | "Descending";
 

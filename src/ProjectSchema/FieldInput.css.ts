@@ -1,6 +1,6 @@
 import { style } from "@vanilla-extract/css";
 import { s } from "../@styles";
-import { COLOR } from "../@config/colors";
+import { COLORS } from "../@config/colors";
 
 export const fieldNameSection = style([s.flexColumn]);
 
@@ -31,7 +31,7 @@ export const warningMessage = style({
   maxHeight: "1.5rem",
   padding: "0 1rem",
   fontSize: "0.8rem",
-  color: COLOR.RED,
+  color: COLORS.RED,
 });
 
 export const addButton = style([

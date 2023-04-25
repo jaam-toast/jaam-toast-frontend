@@ -1,6 +1,6 @@
 import { style } from "@vanilla-extract/css";
 import { s } from "../@styles";
-import * as colors from "../@config/colors";
+import { COLORS } from "../@config/colors";
 
 export const container = style([s.flex]);
 
@@ -10,17 +10,17 @@ export const card = style([
   {
     gap: "1rem",
     height: "8rem",
-    border: `1px solid ${colors.BLACK}`,
+    border: `1px solid ${COLORS.BLACK}`,
     borderRadius: "4rem",
   },
 ]);
 
 export const currentCard = style({
-  backgroundColor: colors.MINT,
+  backgroundColor: COLORS.MINT,
 });
 
 export const notCurrentCard = style({
-  backgroundColor: colors.GREY_CLEAR,
+  backgroundColor: COLORS.GREY_CLEAR,
 });
 
 export const stepAvatar = style([
@@ -31,11 +31,11 @@ export const stepAvatar = style([
 ]);
 
 export const activeAvatar = style({
-  backgroundColor: colors.STRAWBERRY,
+  backgroundColor: COLORS.STRAWBERRY,
 });
 
 export const inactiveAvatar = style({
-  backgroundColor: colors.GREY,
+  backgroundColor: COLORS.GREY,
 });
 
 export const firstCard = style({

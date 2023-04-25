@@ -8,14 +8,14 @@ import { RepositorySelect } from "./RepositorySelect";
 import { BuildOptionSelect } from "./BuildOptionSelect";
 import { ProjectDeploy } from "./ProjectDeploy";
 import { ProjectDashboard } from "./ProjectDashboard";
-import { ProjectContents } from "./ProjectContents";
 import { ProjectSchema } from "./ProjectSchema";
+import { ProjectContents } from "./ProjectContents";
+import { ProjectAssets } from "./ProjectAssets";
 import { ProjectSettings } from "./ProjectSettings";
 import { NotFound } from "./Error/NotFound";
 import { Error } from "./Error";
 import { useAuth } from "./@shared";
 import * as css from "./app.css";
-import { ProjectAssets } from "./ProjectAssets";
 
 export function App() {
   const { user } = useAuth();

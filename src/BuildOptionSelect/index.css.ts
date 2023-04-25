@@ -1,6 +1,6 @@
 import { style } from "@vanilla-extract/css";
 import { s } from "../@styles";
-import * as colors from "../@config/colors";
+import { COLORS } from "../@config/colors";
 
 export const container = style([
   s.fullWidth,
@@ -47,12 +47,12 @@ export const buildOption = style([
   {
     gap: "1rem",
     padding: "1.5rem",
-    backgroundColor: colors.LAVENDER,
+    backgroundColor: COLORS.LAVENDER,
   },
 ]);
 
 export const unavailableOption = style({
-  backgroundColor: colors.STRAWBERRY,
+  backgroundColor: COLORS.STRAWBERRY,
 });
 
 export const buildOptionList = style([s.flexColumn, { gap: "1rem" }]);

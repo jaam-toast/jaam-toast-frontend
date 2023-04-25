@@ -1,7 +1,6 @@
 import { style } from "@vanilla-extract/css";
 import { s } from "../@styles";
-import * as colors from "../@config/colors";
-import { COLOR } from "../@config/colors";
+import { COLORS } from "../@config/colors";
 
 export const container = style([
   s.flex,
@@ -13,7 +12,7 @@ export const container = style([
     position: "relative",
     height: "3rem",
     fontSize: "0.9rem",
-    background: colors.WHITE,
+    background: COLORS.WHITE,
     userSelect: "none",
   },
 ]);
@@ -33,9 +32,9 @@ export const optionList = style([
     left: -1,
     width: "calc(100% + 2px)",
     maxHeight: "15rem",
-    backgroundColor: colors.WHITE,
+    backgroundColor: COLORS.WHITE,
     listStyle: "none",
-    border: `1px solid ${colors.BLACK}`,
+    border: `1px solid ${COLORS.BLACK}`,
     borderBottomLeftRadius: "1.5rem",
     borderBottomRightRadius: "1.5rem",
     borderTop: "none",
@@ -49,9 +48,9 @@ export const selectBoxDivider = style({
   left: -1,
   width: "calc(100% + 2px)",
   height: "3rem",
-  backgroundColor: colors.WHITE,
-  borderRight: `1px solid ${colors.BLACK}`,
-  borderLeft: `1px solid ${colors.BLACK}`,
+  backgroundColor: COLORS.WHITE,
+  borderRight: `1px solid ${COLORS.BLACK}`,
+  borderLeft: `1px solid ${COLORS.BLACK}`,
 });
 
 export const option = style([
@@ -61,7 +60,7 @@ export const option = style([
     lineHeight: "2rem",
     fontSize: "0.9rem",
     ":hover": {
-      backgroundColor: colors.PAPER,
+      backgroundColor: COLORS.PAPER,
     },
     ":last-child": {
       paddingBottom: "2.8rem",
@@ -69,7 +68,7 @@ export const option = style([
   },
 ]);
 
-export const highlight = style({ color: COLOR.STRAWBERRY });
+export const highlight = style({ color: COLORS.STRAWBERRY });
 
 export const selectBoxIcon = style({
   position: "absolute",

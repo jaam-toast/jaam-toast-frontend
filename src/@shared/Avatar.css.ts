@@ -1,12 +1,12 @@
 import { style, styleVariants } from "@vanilla-extract/css";
-import * as colors from "../@config/colors";
 import { s } from "../@styles";
+import { COLORS } from "../@config/colors";
 
 export const container = style([
   s.flex,
   s.flexCenter,
   {
-    border: `1px solid ${colors.BLACK}`,
+    border: `1px solid ${COLORS.BLACK}`,
     borderRadius: "2rem",
     flexShrink: 1,
     overflow: "hidden",
@@ -33,6 +33,6 @@ export const avatarSkeleton = style([
   {
     flexShrink: 1,
     borderRadius: "2rem",
-    backgroundColor: colors.GREY_CLEAR,
+    backgroundColor: COLORS.GREY_CLEAR,
   },
 ]);

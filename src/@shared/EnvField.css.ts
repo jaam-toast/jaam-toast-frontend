@@ -1,6 +1,6 @@
 import { style } from "@vanilla-extract/css";
 import { s } from "../@styles";
-import * as colors from "../@config/colors";
+import { COLORS } from "../@config/colors";
 
 export const addEnvSection = style([s.flex, { gap: "0.3rem" }]);
 
@@ -36,8 +36,8 @@ export const envKey = style([
     padding: "0.7rem 2rem",
     width: "25%",
     height: "3rem",
-    backgroundColor: colors.BLACK,
-    color: colors.WHITE,
+    backgroundColor: COLORS.BLACK,
+    color: COLORS.WHITE,
     fontSize: "1.1rem",
   },
 ]);
@@ -48,8 +48,8 @@ export const envValue = style([
     padding: "0.7rem 2rem",
     width: "100%",
     height: "3rem",
-    backgroundColor: colors.BLACK,
-    color: colors.WHITE,
+    backgroundColor: COLORS.BLACK,
+    color: COLORS.WHITE,
     fontSize: "1.1rem",
   },
 ]);
