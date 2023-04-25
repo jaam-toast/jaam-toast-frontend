@@ -1,96 +1,48 @@
 import { FieldTitle } from "./FieldTitle";
 import { TypeIcon } from "../@shared";
+import { useCurrentEditProperty, useSetSchemaState } from "./useSchemaStore";
 import * as css from "./PropertyEditor.css";
 
 import { SCHEMA_FIELD_TYPE, SchemaFieldType } from "../@types/schema";
 
-type PropertyOptions = {
-  min?: number;
-  max?: number;
-  required?: boolean;
+const SizeEditableType: Record<
+  string,
+  "text" | "textarea" | "string" | "number"
+> = {
+  text: "text",
+  textarea: "textarea",
+  string: "string",
+  number: "number",
 };
 
-type CurrentProperty = {
-  name: string;
-  type: SchemaFieldType;
-  options: PropertyOptions;
-};
+type EditableTypes =
+  | { name: "type"; editType: SchemaFieldType }
+  | { name: "required"; editType: boolean }
+  | { name: "min"; editType: string }
+  | { name: "max"; editType: string };
 
-type Options = {
-  currentProperty: CurrentProperty;
-  setCurrentProperty: React.Dispatch<React.SetStateAction<CurrentProperty>>;
-};
+export function PropertyEditor() {
+  const { setCurrentEditProperty } = useSetSchemaState();
+  const currentEditProperty = useCurrentEditProperty();
 
-export function PropertyEditor({
-  currentProperty,
-  setCurrentProperty,
-}: Options) {
-  const handleEditProperty = ({
+  const handleEditProperty = <T extends EditableTypes["name"]>({
     editType,
     updateValue,
   }: {
-    editType: string;
-    updateValue:
-      | React.ChangeEvent<HTMLInputElement>
-      | string
-      | boolean
-      | number;
-  }) => {
-    switch (editType) {
-      case "name": {
-        const event = updateValue as React.ChangeEvent<HTMLInputElement>;
-        setCurrentProperty(prev => ({
-          ...prev,
-          name: event.target.value,
-        }));
-
-        return;
-      }
-      case "type": {
-        setCurrentProperty(prev => ({
-          ...prev,
-          type: updateValue as string,
-        }));
-
-        return;
-      }
-      case "required": {
-        setCurrentProperty(prev => ({
-          ...prev,
-          options: {
-            ...prev.options,
-            required: updateValue as boolean,
-          },
-        }));
-
-        return;
-      }
-      case "min": {
-        setCurrentProperty(prev => ({
-          ...prev,
-          options: {
-            ...prev.options,
-            min: updateValue as number,
-          },
-        }));
-
-        return;
-      }
-      case "max": {
-        setCurrentProperty(prev => ({
-          ...prev,
-          options: {
-            ...prev.options,
-            max: updateValue as number,
-          },
-        }));
-
-        return;
-      }
-      default: {
-        return;
-      }
-    }
+    editType: T;
+    updateValue: Extract<EditableTypes, { name: T }>["editType"];
+  }): void => {
+    setCurrentEditProperty({
+      type: "update",
+      updateData: {
+        ...currentEditProperty,
+        ...(editType === "type" && { type: updateValue as string }),
+        options: {
+          ...currentEditProperty.options,
+          [editType]: updateValue,
+        },
+      },
+    });
   };
 
   return (
@@ -102,7 +54,7 @@ export function PropertyEditor({
             <div
               key={type}
               className={`${css.typeWrapper} ${
-                currentProperty.type === type ? css.type : ""
+                currentEditProperty.type === type ? css.type : ""
               }`}
               onClick={() => {
                 handleEditProperty({ editType: "type", updateValue: type });
@@ -121,27 +73,26 @@ export function PropertyEditor({
               id="required-field"
               type="checkbox"
               value="required"
-              checked={currentProperty.options.required || false}
+              checked={currentEditProperty.options.required || false}
               onChange={() =>
                 handleEditProperty({
                   editType: "required",
-                  updateValue: currentProperty.options.required ? false : true,
+                  updateValue: currentEditProperty.options.required
+                    ? false
+                    : true,
                 })
               }
             />
             <label htmlFor="required-field">Required field</label>
           </li>
-          {(currentProperty.type === "text" ||
-            currentProperty.type === "textarea" ||
-            currentProperty.type === "string" ||
-            currentProperty.type === "number") && (
+          {SizeEditableType[currentEditProperty.type] && (
             <>
               <li className={css.optionInputField}>
                 <label>minimum</label>
                 <input
                   className={css.optionInput}
                   type="number"
-                  value={currentProperty.options.min || undefined}
+                  value={currentEditProperty.options.min || undefined}
                   onChange={e =>
                     handleEditProperty({
                       editType: "min",
@@ -155,7 +106,7 @@ export function PropertyEditor({
                 <input
                   className={css.optionInput}
                   type="number"
-                  value={currentProperty.options.max || undefined}
+                  value={currentEditProperty.options.max || undefined}
                   onChange={e => {
                     handleEditProperty({
                       editType: "max",

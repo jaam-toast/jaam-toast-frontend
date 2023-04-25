@@ -11,7 +11,7 @@ type ModalState = {
   animation?: Animation;
 
   actions: {
-    onModal: ({
+    openModal: ({
       component,
       location,
       animation,
@@ -31,7 +31,7 @@ export const useModalStore = create<ModalState>(set => ({
   animaion: "none",
 
   actions: {
-    onModal: ({
+    openModal: ({
       component,
       location = "center",
       animation = "none",
