@@ -1,6 +1,6 @@
 import { style } from "@vanilla-extract/css";
 import { s } from "../@styles";
-import * as colors from "../@config/colors";
+import { COLORS } from "../@config/colors";
 
 export const container = style([
   s.fullWidth,
@@ -46,8 +46,8 @@ export const buildLogList = style([
   {
     padding: "2rem",
     height: "30rem",
-    backgroundColor: colors.BLACK,
-    color: colors.WHITE,
+    backgroundColor: COLORS.BLACK,
+    color: COLORS.WHITE,
     listStyle: "none",
     gap: "0.1rem",
     userSelect: "none",

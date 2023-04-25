@@ -1,7 +1,5 @@
 import { keyframes, style, styleVariants } from "@vanilla-extract/css";
 import { s } from "../@styles";
-import * as colors from "../@config/colors";
-import { fullHeigth } from "src/@styles/styles.css";
 
 /**
  * modal style variants and keyframes
@@ -56,7 +54,7 @@ export const container = style([
 export const modal = style([
   s.flex,
   s.alignItemsCenter,
-  fullHeigth,
+  s.fullHeigth,
   s.scroll,
   {
     transition: "all 0.5s",

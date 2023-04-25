@@ -1,6 +1,6 @@
 import { style } from "@vanilla-extract/css";
 import { s } from "../@styles";
-import * as colors from "../@config/colors";
+import { COLORS } from "../@config/colors";
 
 export const layout = style([
   s.fullWidth,
@@ -22,7 +22,7 @@ export const container = style([
 export const settingOptionSection = style([
   s.border,
   s.flexColumn,
-  { gap: "1.5rem", padding: "1.5rem 2rem", backgroundColor: colors.LAVENDER },
+  { gap: "1.5rem", padding: "1.5rem 2rem", backgroundColor: COLORS.LAVENDER },
 ]);
 
 export const sectionHead = style([s.flex, s.flexSpaceBetween]);
@@ -44,7 +44,7 @@ export const addDomainField = style([
   {
     gap: "0.3rem",
     paddingBottom: "1rem",
-    borderBottom: `1px solid ${colors.BLACK}`,
+    borderBottom: `1px solid ${COLORS.BLACK}`,
   },
 ]);
 
@@ -65,17 +65,17 @@ export const domainList = style([
 export const domain = style([
   s.border,
   {
-    backgroundColor: colors.BLACK,
+    backgroundColor: COLORS.BLACK,
     height: "2.5rem",
     lineHeight: "2.5rem",
     padding: "0 1.5rem",
-    color: colors.WHITE,
+    color: COLORS.WHITE,
     userSelect: "none",
   },
 ]);
 
 export const deleteProjectSection = style({
-  backgroundColor: colors.STRAWBERRY,
+  backgroundColor: COLORS.STRAWBERRY,
   gap: "1.5rem",
 });
 
@@ -88,6 +88,6 @@ export const deleteProjectButton = style([
   s.buttonSize.small,
   {
     backgroundColor: "red",
-    color: colors.WHITE,
+    color: COLORS.WHITE,
   },
 ]);

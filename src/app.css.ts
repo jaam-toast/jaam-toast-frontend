@@ -1,6 +1,6 @@
 import { style } from "@vanilla-extract/css";
 import { s } from "./@styles";
-import * as colors from "./@config/colors";
+import { COLORS } from "./@config/colors";
 
 export const container = style([
   s.flexColumn,
@@ -8,7 +8,7 @@ export const container = style([
   {
     height: "100vh",
     width: "100vw",
-    backgroundColor: colors.PAPER,
+    backgroundColor: COLORS.PAPER,
   },
 ]);
 

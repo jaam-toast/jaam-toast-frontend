@@ -1,6 +1,6 @@
 import { style } from "@vanilla-extract/css";
 import { s } from "../@styles";
-import * as colors from "../@config/colors";
+import { COLORS } from "../@config/colors";
 
 export const container = style([
   s.flex,
@@ -19,11 +19,11 @@ export const projectCard = style([
     width: "32.5%",
     height: "16rem",
     padding: "2rem 1.5rem",
-    backgroundColor: colors.LEMON,
-    border: `1px solid ${colors.GREY}`,
+    backgroundColor: COLORS.LEMON,
+    border: `1px solid ${COLORS.GREY}`,
     borderRadius: "1.5rem",
     ":hover": {
-      backgroundColor: colors.LAVENDER,
+      backgroundColor: COLORS.LAVENDER,
     },
   },
 ]);
@@ -34,7 +34,7 @@ export const avatar = style({ marginRight: "-1rem" });
 
 export const avatarIcon = style([
   s.full,
-  { backgroundColor: colors.GREY_CLEAR },
+  { backgroundColor: COLORS.GREY_CLEAR },
 ]);
 
 export const projectCardMain = style([
@@ -94,5 +94,5 @@ export const projectCardSkeleton = style([
 
 export const avatarIconSkeleton = style([
   s.skeleton,
-  { backgroundColor: colors.GREY_CLEAR },
+  { backgroundColor: COLORS.GREY_CLEAR },
 ]);

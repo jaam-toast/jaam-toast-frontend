@@ -1,6 +1,6 @@
 import { keyframes, style } from "@vanilla-extract/css";
 import { styleVariants } from "@vanilla-extract/css";
-import * as colors from "../@config/colors";
+import { COLORS } from "../@config/colors";
 
 export const flex = style({
   display: "flex",
@@ -59,7 +59,7 @@ export const scroll = style({
 });
 
 export const border = style({
-  border: `1px solid ${colors.BLACK}`,
+  border: `1px solid ${COLORS.BLACK}`,
   borderRadius: "1.5rem",
 });
 
@@ -72,7 +72,7 @@ export const button = style([
   {
     borderRadius: "5rem",
     textTransform: "uppercase",
-    border: `1px solid ${colors.BLACK}`,
+    border: `1px solid ${COLORS.BLACK}`,
     "::after": {
       content: "",
       display: "block",
@@ -110,19 +110,19 @@ export const buttonSize = styleVariants({
 
 export const buttonColor = styleVariants({
   dark: {
-    backgroundColor: colors.BLACK,
-    color: colors.WHITE,
+    backgroundColor: COLORS.BLACK,
+    color: COLORS.WHITE,
     ":hover": {
-      backgroundColor: colors.WHITE,
-      color: colors.BLACK,
+      backgroundColor: COLORS.WHITE,
+      color: COLORS.BLACK,
     },
   },
   light: {
-    backgroundColor: colors.WHITE,
-    color: colors.BLACK,
+    backgroundColor: COLORS.WHITE,
+    color: COLORS.BLACK,
     ":hover": {
-      backgroundColor: colors.BLACK,
-      color: colors.WHITE,
+      backgroundColor: COLORS.BLACK,
+      color: COLORS.WHITE,
     },
   },
 });
@@ -133,7 +133,7 @@ export const textField = style([
     padding: "0.7rem 1.4rem",
     height: "3rem",
     fontSize: "0.9rem",
-    border: `1px solid ${colors.BLACK}`,
+    border: `1px solid ${COLORS.BLACK}`,
     outline: "none",
     borderRadius: "5rem",
     flexShrink: 1,
@@ -164,6 +164,6 @@ const appear = keyframes({
 
 export const skeleton = style({
   borderRadius: "1.5rem",
-  backgroundColor: colors.GREY_CLEAR,
+  backgroundColor: COLORS.GREY_CLEAR,
   animation: `0.8s linear 0s infinite alternate none running ${appear}`,
 });

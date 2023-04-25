@@ -9,7 +9,7 @@ import { Icon } from "../@shared/Icon";
 import { DashboardHeader } from "../@shared";
 import { Preview, PreviewSkeleton } from "../ProjectDeploy/Preview";
 import { useProjectQuery } from "./useProjectQuery";
-import * as colors from "../@config/colors";
+import { COLORS } from "../@config/colors";
 import * as css from "./index.css";
 
 // * 수정중
@@ -80,7 +80,7 @@ export function ProjectDashboard() {
                   <li className={css.cmsInfo}>
                     <div className={css.cmsInfoLeft}>
                       <Icon>
-                        <BsColumnsGap color={colors.LAVENDAR_DARK} />
+                        <BsColumnsGap color={COLORS.LAVENDAR_DARK} />
                       </Icon>
                       <span className={css.infoFieldTitle}>Schema</span>
                     </div>
@@ -91,7 +91,7 @@ export function ProjectDashboard() {
                   <li className={css.cmsInfo}>
                     <div className={css.cmsInfoLeft}>
                       <Icon>
-                        <BsFileEarmarkImage color={colors.LAVENDAR_DARK} />
+                        <BsFileEarmarkImage color={COLORS.LAVENDAR_DARK} />
                       </Icon>
                       <span className={css.infoFieldTitle}>Assets</span>
                     </div>
@@ -102,7 +102,7 @@ export function ProjectDashboard() {
                   <li className={css.cmsInfo}>
                     <div className={css.cmsInfoLeft}>
                       <Icon>
-                        <BsStack color={colors.LAVENDAR_DARK} />
+                        <BsStack color={COLORS.LAVENDAR_DARK} />
                       </Icon>
                       <span className={css.infoFieldTitle}>Contents</span>
                     </div>

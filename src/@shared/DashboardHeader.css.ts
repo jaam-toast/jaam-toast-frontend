@@ -1,6 +1,6 @@
 import { style } from "@vanilla-extract/css";
 import { s } from "../@styles";
-import * as colors from "../@config/colors";
+import { COLORS } from "../@config/colors";
 
 export const container = style([
   s.flexColumn,
@@ -25,7 +25,7 @@ export const navBar = style([
 export const navLinkPoint = style([
   s.border,
   {
-    backgroundColor: colors.MINT,
+    backgroundColor: COLORS.MINT,
     padding: "0.6rem 1.5rem",
     fontWeight: 500,
     fontSize: "0.8rem",
@@ -36,13 +36,13 @@ export const navLinkPoint = style([
 export const navLink = style([
   s.border,
   {
-    backgroundColor: colors.WHITE,
+    backgroundColor: COLORS.WHITE,
     padding: "0.6rem 1.5rem",
     fontWeight: 500,
     fontSize: "0.8rem",
     cursor: "pointer",
     ":hover": {
-      backgroundColor: colors.LEMON,
+      backgroundColor: COLORS.LEMON,
     },
   },
 ]);

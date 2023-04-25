@@ -1,7 +1,6 @@
-import { GREY_CLEAR } from "../@config/colors";
 import { style } from "@vanilla-extract/css";
 import { s } from "../@styles";
-import * as colors from "../@config/colors";
+import { COLORS } from "../@config/colors";
 
 export const layout = style([
   s.fullWidth,
@@ -45,7 +44,7 @@ export const infoText = style({
 export const infoFieldTitle = style({
   fontSize: "0.8rem",
   fontWeight: 400,
-  color: colors.GREY,
+  color: COLORS.GREY,
   textTransform: "uppercase",
 });
 
@@ -75,7 +74,7 @@ export const cmsInfoSection = style([
     width: "90%",
     minHeight: "25rem",
     listStyle: "none",
-    borderColor: colors.GREY_CLEAR,
+    borderColor: COLORS.GREY_CLEAR,
   },
 ]);
 
@@ -91,10 +90,10 @@ export const cmsInfo = style([
     gap: "0.3rem",
     border: "1px solid black",
     padding: "1rem 2rem 1rem",
-    borderColor: colors.GREY_CLEAR,
+    borderColor: COLORS.GREY_CLEAR,
     borderRadius: "1rem",
     ":hover": {
-      backgroundColor: colors.GREY_LIGHT,
+      backgroundColor: COLORS.GREY_LIGHT,
     },
   },
 ]);

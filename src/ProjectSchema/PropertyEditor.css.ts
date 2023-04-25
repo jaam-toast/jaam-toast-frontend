@@ -1,8 +1,6 @@
-import { GREY_CLEAR } from "./../@config/colors";
 import { style } from "@vanilla-extract/css";
 import { s } from "../@styles";
-import * as colors from "../@config/colors";
-import { COLOR } from "../@config/colors";
+import { COLORS } from "../@config/colors";
 
 export const typeList = style([
   s.justifyContentCenter,
@@ -18,18 +16,18 @@ export const typeWrapper = style([
   s.border,
   s.pointer,
   {
-    borderColor: colors.WHITE,
+    borderColor: COLORS.WHITE,
     minWidth: "7rem",
     maxWidth: "7rem",
     padding: "1rem 0",
     gap: "1rem",
     fontSize: "0.8rem",
     ":hover": {
-      backgroundColor: colors.GREY_LIGHT,
+      backgroundColor: COLORS.GREY_LIGHT,
     },
   },
 ]);
-export const type = style({ backgroundColor: COLOR.GREY_LIGHT });
+export const type = style({ backgroundColor: COLORS.GREY_LIGHT });
 
 /**
  * schema field option section
@@ -48,7 +46,7 @@ export const optionField = style([
   s.alignItemsCenter,
   s.border,
   {
-    borderColor: COLOR.GREY_CLEAR,
+    borderColor: COLORS.GREY_CLEAR,
     gap: "1rem",
     padding: "1rem",
     minHeight: "3rem",
@@ -71,6 +69,6 @@ export const fieldSubText = style([
   {
     paddingTop: "1rem",
     fontSize: "0.9rem",
-    color: COLOR.GREY,
+    color: COLORS.GREY,
   },
 ]);
