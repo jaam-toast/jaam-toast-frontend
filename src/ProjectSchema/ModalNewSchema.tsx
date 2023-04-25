@@ -62,30 +62,19 @@ export function ModalNewSchema({ projectName, schemaList }: Options) {
     });
   };
 
-  /**
-   * Add field to schema handler
-   */
   const handleClickAdd = () => {
     addProperty(currentEditProperty);
-    setIsFieldEditMode(false);
     setCurrentEditProperty({ type: "reset" });
+    setIsFieldEditMode(false);
     setIsClickTypeIcon(false);
   };
 
-  /**
-   * change edit mode
-   * edit 아이콘을 누르면 현재 선택한 프로퍼티 정보를 state(useState)에 저장합니다.
-   */
   const handleClickEditIcon = ({ propertyName }: { propertyName: string }) => {
     setCurrentEditProperty({ type: "set", propertyName });
     setCurrentEditPropertyName(propertyName);
     setIsFieldEditMode(true);
   };
 
-  /**
-   * save edit field
-   * edit 버튼을 눌렀을 때 저장한 프로퍼티 정보에서 업데이트 된 정보를 zustand store에 업데이트합니다.
-   */
   const handleClickEdit = () => {
     editProperty({
       targetTitle: currentEditPropertyName!,
