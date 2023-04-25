@@ -73,12 +73,9 @@ export const cmsInfoSection = style([
     padding: "2rem 3rem 2rem",
     gap: "2rem",
     width: "90%",
-    minHeight: "400px",
+    minHeight: "25rem",
     listStyle: "none",
     borderColor: colors.GREY_CLEAR,
-    // backgroundColor: colors.BLACK,
-    // color: colors.WHITE,
-    // userSelect: "none",
   },
 ]);
 
@@ -113,7 +110,7 @@ export const emptyCmsSection = style([
     padding: "2rem 3rem 2rem",
     gap: "2rem",
     width: "90%",
-    minHeight: "400px",
+    minHeight: "25rem",
     borderStyle: "dashed",
     listStyle: "none",
     userSelect: "none",
