@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from "axios";
+
 import Config from "../@config";
 import {
   CreateProjectOptions,
@@ -182,14 +183,19 @@ class APIClient {
 
   async deleteSchema({
     projectName,
-    schemaName,
+    schemaNames,
   }: {
     projectName: string;
-    schemaName: string;
+    schemaNames: string[];
   }): Promise<string> {
     try {
       const { data } = await this.client().delete(
-        `/projects/${projectName}/schemas/${schemaName}`,
+        `/projects/${projectName}/schemas`,
+        {
+          params: {
+            schemaName: schemaNames,
+          },
+        },
       );
 
       return data.message;
