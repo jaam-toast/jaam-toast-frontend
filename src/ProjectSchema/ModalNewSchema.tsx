@@ -5,42 +5,25 @@ import { FieldTitle } from "./FieldTitle";
 import { FieldInput } from "./FieldInput";
 import { PropertyEditor } from "./PropertyEditor";
 import { SchemaProperties } from "./SchemaProperties";
-import { useSchemaState, useSetSchemaState } from "./useSchemaStore";
+import {
+  useCurrentEditProperty,
+  useSchemaState,
+  useSetSchemaState,
+} from "./useSchemaStore";
 import { useCreateSchemaMutation } from "./useSchemaMutation";
 import * as css from "./ModalNewSchema.css";
 
-import type { SchemaFieldType } from "../@types/schema";
 import type { SchemaList } from "../@types/api";
-
-type PropertyOptions = {
-  min?: number;
-  max?: number;
-  required?: boolean;
-};
-
-type Property = {
-  name: string;
-  type: SchemaFieldType;
-  options: PropertyOptions;
-};
 
 type Options = {
   projectName: string;
   schemaList?: SchemaList[];
 };
 
-const defaultProperty: Property = {
-  name: "",
-  type: "text",
-  options: {},
-};
-
 export function ModalNewSchema({ projectName, schemaList }: Options) {
   const [isFieldEditMode, setIsFieldEditMode] = useState<boolean>(false);
   const [isClickTypeIcon, setIsClickTypeIcon] = useState<boolean>(false);
   const [currentMenu, setCurrentMenu] = useState<string>("schema");
-  const [currentProperty, setCurrentProperty] =
-    useState<Property>(defaultProperty);
   const [currentEditPropertyName, setCurrentEditPropertyName] = useState<
     null | string
   >(null);
@@ -48,12 +31,14 @@ export function ModalNewSchema({ projectName, schemaList }: Options) {
   const {
     setTitle,
     setDescription,
+    setCurrentEditProperty,
     addProperty,
     editProperty,
     deleteProperty,
     reset,
   } = useSetSchemaState();
   const schema = useSchemaState();
+  const currentEditProperty = useCurrentEditProperty();
   const { offModal } = useModal();
 
   const createSchema = useCreateSchemaMutation({
@@ -68,19 +53,22 @@ export function ModalNewSchema({ projectName, schemaList }: Options) {
   });
 
   const handleChangePropertyName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentProperty(prev => ({
-      ...prev,
-      name: e.target.value,
-    }));
+    setCurrentEditProperty({
+      type: "update",
+      updateData: {
+        ...currentEditProperty,
+        name: e.target.value,
+      },
+    });
   };
 
   /**
    * Add field to schema handler
    */
   const handleClickAdd = () => {
-    addProperty(currentProperty);
+    addProperty(currentEditProperty);
     setIsFieldEditMode(false);
-    setCurrentProperty(defaultProperty);
+    setCurrentEditProperty({ type: "reset" });
     setIsClickTypeIcon(false);
   };
 
@@ -89,17 +77,7 @@ export function ModalNewSchema({ projectName, schemaList }: Options) {
    * edit 아이콘을 누르면 현재 선택한 프로퍼티 정보를 state(useState)에 저장합니다.
    */
   const handleClickEditIcon = ({ propertyName }: { propertyName: string }) => {
-    const { min, max } = schema.properties[propertyName];
-    setCurrentProperty({
-      name: propertyName,
-      type: schema.properties[propertyName].type,
-      options: {
-        ...(min && { min }),
-        ...(max && { max }),
-        ...(schema.required &&
-          schema.required.includes(propertyName) && { required: true }),
-      },
-    });
+    setCurrentEditProperty({ type: "set", propertyName });
     setCurrentEditPropertyName(propertyName);
     setIsFieldEditMode(true);
   };
@@ -111,11 +89,11 @@ export function ModalNewSchema({ projectName, schemaList }: Options) {
   const handleClickEdit = () => {
     editProperty({
       targetTitle: currentEditPropertyName!,
-      updateField: currentProperty,
+      updateField: currentEditProperty,
     });
     setCurrentEditPropertyName(null);
     setIsFieldEditMode(false);
-    setCurrentProperty(defaultProperty);
+    setCurrentEditProperty({ type: "reset" });
   };
 
   const handleClickSave = () => {
@@ -208,12 +186,12 @@ export function ModalNewSchema({ projectName, schemaList }: Options) {
            * field name input
            */}
           <FieldInput
-            type={currentProperty.type}
+            type={currentEditProperty.type}
             isEditMode={isFieldEditMode}
-            inputValue={currentProperty.name}
-            wargingMessage={
-              currentEditPropertyName !== currentProperty.name &&
-              Object.keys(schema.properties).includes(currentProperty.name)
+            inputValue={currentEditProperty.name}
+            warningMessage={
+              currentEditPropertyName !== currentEditProperty.name &&
+              Object.keys(schema.properties).includes(currentEditProperty.name)
                 ? "Your Property name is duplicated."
                 : ""
             }
@@ -227,10 +205,7 @@ export function ModalNewSchema({ projectName, schemaList }: Options) {
              * field edit input
              */}
             {isFieldEditMode || isClickTypeIcon ? (
-              <PropertyEditor
-                currentProperty={currentProperty}
-                setCurrentProperty={setCurrentProperty}
-              />
+              <PropertyEditor />
             ) : (
               <section>
                 <FieldTitle>Field List</FieldTitle>
