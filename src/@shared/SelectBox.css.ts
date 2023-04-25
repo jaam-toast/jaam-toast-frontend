@@ -1,6 +1,7 @@
 import { style } from "@vanilla-extract/css";
 import { s } from "../@styles";
 import * as colors from "../@config/colors";
+import { COLOR } from "../@config/colors";
 
 export const container = style([
   s.flex,
@@ -67,6 +68,8 @@ export const option = style([
     },
   },
 ]);
+
+export const highlight = style({ color: COLOR.STRAWBERRY });
 
 export const selectBoxIcon = style({
   position: "absolute",

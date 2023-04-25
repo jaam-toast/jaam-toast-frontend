@@ -64,7 +64,9 @@ export function SelectBox<Option extends string>({
           <ul className={css.optionList}>
             {options?.map((option: Option) => (
               <li
-                className={css.option}
+                className={`${inputValue === option ? css.highlight : ""} ${
+                  css.option
+                }`}
                 key={option}
                 value={option}
                 onClick={() => handleChange(option)}
