@@ -1,4 +1,4 @@
-type Properties = {
+export type Properties = {
   type: string;
   minLength?: number;
   maxLength?: number;
@@ -6,6 +6,8 @@ type Properties = {
   maximum?: number;
   min?: number;
   max?: number;
+  description?: string;
+  format?: string;
 };
 
 export type Schema = {

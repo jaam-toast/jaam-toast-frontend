@@ -5,7 +5,7 @@ type Options = {
   type: string;
   isEditMode: boolean;
   inputValue: string;
-  wargingMessage?: string;
+  warningMessage?: string;
   changeInputHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
   clickTypeHandler: () => void;
   editHandler: () => void;
@@ -16,7 +16,7 @@ export function FieldInput({
   type,
   isEditMode,
   inputValue,
-  wargingMessage,
+  warningMessage,
   changeInputHandler,
   clickTypeHandler,
   editHandler,
@@ -24,7 +24,6 @@ export function FieldInput({
 }: Options) {
   return (
     <section className={css.fieldNameSection}>
-      <p className={css.warningMessage}>{wargingMessage || "ㅤ"}</p>
       <div className={css.fieldNameWrapper}>
         <input
           className={css.fieldNameInput}
@@ -40,13 +39,14 @@ export function FieldInput({
           </button>
         ) : (
           <button
-            onClick={wargingMessage ? () => {} : addHandler}
+            onClick={warningMessage ? () => {} : addHandler}
             className={css.addButton}
           >
             Add
           </button>
         )}
       </div>
+      <p className={css.warningMessage}>{warningMessage || ""}</p>
     </section>
   );
 }

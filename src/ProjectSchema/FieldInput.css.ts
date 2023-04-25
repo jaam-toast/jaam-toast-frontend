@@ -27,6 +27,8 @@ export const fieldNameInput = style([
 ]);
 
 export const warningMessage = style({
+  minHeight: "1.5rem",
+  maxHeight: "1.5rem",
   padding: "0 1rem",
   fontSize: "0.8rem",
   color: COLOR.RED,
