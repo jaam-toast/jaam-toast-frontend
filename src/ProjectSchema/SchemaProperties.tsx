@@ -1,12 +1,14 @@
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 
 import { TypeIcon } from "../@shared";
+import {
+  JaamSchema,
+  JaamSchemaProperties,
+} from "../@packages/json-schema-to-jaam-schema/types";
 import * as css from "./SchemaProperties.css";
 
-import type { Schema, Properties } from "../@types/schema";
-
 type Options = {
-  schema: Schema;
+  schema: JaamSchema;
   editHandler: ({ propertyName }: { propertyName: string }) => void;
   deleteHandler: ({ propertyName }: { propertyName: string }) => void;
 };
@@ -23,7 +25,7 @@ export function SchemaProperties({
   return (
     <>
       {Object.entries(schema.properties).map(
-        ([propertyName, data]: [string, Properties]) => (
+        ([propertyName, data]: [string, JaamSchemaProperties]) => (
           <div className={css.field}>
             <div className={css.fieldTypeIcon}>
               <TypeIcon type={data.type === "string" ? "text" : data.type} />

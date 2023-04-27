@@ -1,4 +1,5 @@
 import { style } from "@vanilla-extract/css";
+import { pretendard } from "../@styles/font.css";
 import { s } from "../@styles";
 import { COLORS } from "../@config/colors";
 
@@ -18,11 +19,14 @@ export const container = style([
 
 export const header = style([
   s.flexColumn,
+  s.fullWidth,
   {
     position: "sticky",
+    zIndex: 10,
     top: 0,
+    left: 0,
     padding: "2rem 0",
-    backgroundColor: "inherit",
+    backgroundColor: COLORS.WHITE,
     fontWeight: 400,
   },
 ]);
@@ -34,7 +38,7 @@ export const footer = style([
   s.flexSpaceBetween,
   {
     flexDirection: "row-reverse",
-    position: "sticky",
+    // position: "sticky",
     bottom: 0,
     padding: "1rem 0",
     backgroundColor: "inherit",
@@ -50,21 +54,18 @@ export const menu = style([
   s.pointer,
   {
     ":hover": {
-      borderBottom: "1px solid black",
+      borderBottom: `1px solid ${COLORS.BLACK}`,
     },
   },
 ]);
 
 export const highlightMenu = style({
-  borderBottom: "1px solid black",
+  borderBottom: `1px solid ${COLORS.BLACK}`,
 });
 
 export const headerFirstLine = style([s.flex, s.flexSpaceBetween, {}]);
 
-export const schemaNameSection = style([
-  s.flexColumn,
-  { gap: "2rem", height: "30rem;" },
-]);
+export const schemaNameSection = style([s.flexColumn, { gap: "1rem" }]);
 
 export const unavailableOption = style([
   s.border,
@@ -87,7 +88,7 @@ export const schemaNameInput = style([
   {
     position: "relative",
     borderRadius: "1rem",
-    border: "1px solid black",
+    border: `1px solid ${COLORS.BLACK}`,
     width: "100%",
     height: "3rem",
     padding: "0 2rem",
@@ -110,7 +111,7 @@ export const fieldNameInput = style([
   {
     position: "relative",
     borderRadius: "1.5rem",
-    border: "1px solid black",
+    border: `1px solid ${COLORS.BLACK}`,
     width: "100%",
     height: "3rem",
     padding: "0 2rem",
@@ -128,7 +129,7 @@ export const addButton = style([
     position: "absolute",
     padding: "0 1rem",
     borderRadius: "0 1.5rem 1.5rem 0",
-    border: "1px solid black",
+    border: `1px solid ${COLORS.BLACK}`,
     height: "inherit",
     zIndex: 1,
   },
@@ -252,3 +253,30 @@ export const fieldInfoWrapper = style([
 export const fieldInfo = style([s.flex, { gap: "1rem", color: COLORS.GREY }]);
 export const fieldEditButtons = style([s.flex, { gap: "1rem" }]);
 export const fieldEditButton = style([s.pointer]);
+
+export const fieldHeader = style([
+  s.flex,
+  s.flexSpaceBetween,
+  s.alignItemsCenter,
+]);
+
+export const fieldTypeWrapper = style([s.flex, { gap: "1rem" }]);
+
+export const fieldType = style({
+  padding: "0.2rem 0.3rem",
+  borderRadius: "0.5rem",
+  backgroundColor: COLORS.GREY_CLEAR,
+  color: COLORS.WHITE,
+});
+
+export const textarea = style([
+  s.fullWidth,
+  s.border,
+  {
+    padding: "1.5rem",
+    resize: "vertical",
+    font: `300 16px ${pretendard}`,
+    fontSize: "0.9rem",
+    minHeight: "5rem",
+  },
+]);

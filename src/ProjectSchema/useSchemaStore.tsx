@@ -1,5 +1,9 @@
 import { create } from "zustand";
-import { SchemaFieldType, Schema } from "../@types/schema";
+import {
+  SchemaPropertyType,
+  JaamSchema,
+  JsonSchema,
+} from "../@packages/json-schema-to-jaam-schema/types";
 
 type PropertyOptions = {
   min?: number;
@@ -9,7 +13,7 @@ type PropertyOptions = {
 
 type Property = {
   name: string;
-  type: SchemaFieldType;
+  type: SchemaPropertyType;
   options: PropertyOptions;
 };
 
@@ -17,12 +21,12 @@ type SchemaStore = {
   title: string;
   description?: string;
   type: string;
-  properties: Schema["properties"];
+  properties: JaamSchema["properties"];
   required: string[];
   currentEditProperty: Property;
 
   actions: {
-    setState: (state: Schema) => void;
+    setState: (state: JaamSchema) => void;
     setTitle: (title: string) => void;
     setDescription: (description: string) => void;
     setCurrentEditProperty: ({
@@ -64,7 +68,7 @@ export const useSchemaStore = create<SchemaStore>((set, get) => ({
   ...initialState,
 
   actions: {
-    setState: (state: Schema) => {
+    setState: (state: JsonSchema) => {
       /**
        * 서버에서 가져온 스키마 리스트 수정하기 좋게 가공하는 부분입니다.
        *
@@ -110,7 +114,7 @@ export const useSchemaStore = create<SchemaStore>((set, get) => ({
 
           return propertyObj;
         },
-        {} as Schema["properties"],
+        {} as JsonSchema["properties"],
       );
 
       set({
@@ -242,11 +246,11 @@ export const useSchemaStore = create<SchemaStore>((set, get) => ({
   },
 }));
 
-export const useSchemaState = (): Schema =>
+export const useSchemaState = (): JaamSchema =>
   useSchemaStore(state => ({
     title: state.title,
-    description: state.description,
     type: "object",
+    description: state.description,
     properties: state.properties,
     required: state.required,
   }));

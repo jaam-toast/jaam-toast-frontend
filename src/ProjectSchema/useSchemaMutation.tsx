@@ -5,76 +5,16 @@ import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "../@shared";
 import APIClient from "../@utils/api";
 import { useSchemaState } from "./useSchemaStore";
-
-import type { Schema } from "../@types/schema";
+import jaamSchemaToJsonSchema from "../@packages/jaam-schema-to-json-schema";
 
 type Options = {
   onSuccess?: (data?: string) => Promise<unknown> | unknown;
   onError?: (error?: unknown) => Promise<unknown> | unknown;
 };
 
-const formatingForJsonSchema = ({
-  properties,
-  title,
-  description,
-  required,
-}: {
-  properties: Schema["properties"];
-  title: string;
-  description?: string;
-  required?: string[];
-}) => {
-  return Object.entries(properties).reduce(
-    (schema: Schema, [propName, options]) => {
-      const { type } = options;
-      const formattedType =
-        type === "text" ||
-        type === "textarea" ||
-        type === "email" ||
-        type === "link" ||
-        type === "date"
-          ? "string"
-          : type;
-      const format = (() => {
-        if (type === "email" || type === "dates") {
-          return type;
-        }
-
-        if (type === "link") {
-          return "uri-template";
-        }
-
-        return null;
-      })();
-      const min = type === "number" ? "minimum" : "minLength";
-      const max = type === "number" ? "maximum" : "maxLength";
-
-      const fieldOptions = {
-        ...(options.min !== undefined && { [min]: options.min }),
-        ...(options.max !== undefined && { [max]: options.max }),
-      };
-
-      schema.properties[propName] = {
-        type: formattedType,
-        ...fieldOptions,
-        ...((type === "text" || type === "textarea") && { description: type }),
-        ...(format && { format }),
-      };
-
-      return schema;
-    },
-    {
-      title,
-      type: "object",
-      properties: {},
-      ...(description && { description }),
-      ...(required?.length && { required }),
-    } as Schema,
-  );
-};
-
 export function useCreateSchemaMutation({ onSuccess, onError }: Options) {
-  const { title, description, type, properties, required } = useSchemaState();
+  const schema = useSchemaState();
+  const { title, type, properties } = schema;
   const { user } = useAuth();
 
   const api = new APIClient()
@@ -82,12 +22,7 @@ export function useCreateSchemaMutation({ onSuccess, onError }: Options) {
     .setAccessToken(user?.accessToken)
     .setGithubAccessToken(user?.githubAccessToken);
 
-  const schema = formatingForJsonSchema({
-    title,
-    description,
-    properties,
-    required,
-  });
+  const convertedSchema = jaamSchemaToJsonSchema(schema);
 
   return useMutation(
     ["schema-create"],
@@ -97,8 +32,8 @@ export function useCreateSchemaMutation({ onSuccess, onError }: Options) {
       }
 
       const options = {
-        schema_name: title,
-        schema,
+        schemaName: title,
+        schema: convertedSchema,
       };
 
       // * test 용도 - 이후에 지우겠습니다.
@@ -121,7 +56,8 @@ export function useCreateSchemaMutation({ onSuccess, onError }: Options) {
 }
 
 export function useUpdateSchemaMutation({ onSuccess, onError }: Options) {
-  const { title, description, type, properties, required } = useSchemaState();
+  const schema = useSchemaState();
+  const { type, properties } = schema;
   const { user } = useAuth();
 
   const api = new APIClient()
@@ -129,12 +65,7 @@ export function useUpdateSchemaMutation({ onSuccess, onError }: Options) {
     .setAccessToken(user?.accessToken)
     .setGithubAccessToken(user?.githubAccessToken);
 
-  const schema = formatingForJsonSchema({
-    title,
-    description,
-    properties,
-    required,
-  });
+  const convertedSchema = jaamSchemaToJsonSchema(schema);
 
   return useMutation(
     ["schema-update"],
@@ -150,8 +81,8 @@ export function useUpdateSchemaMutation({ onSuccess, onError }: Options) {
       }
 
       const options = {
-        schema_name: schemaName,
-        schema,
+        schemaName: schemaName,
+        schema: convertedSchema,
       };
 
       return api.updateSchema({ projectName, schemaName, options });
