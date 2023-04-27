@@ -37,13 +37,13 @@ export function ProjectSchema() {
   const { openModal } = useModal();
 
   if (!projectName) {
-    return <Navigate to="/" />;
+    return <Navigate to="/error" />;
   }
 
   const { data: schemaList, refetch } = useProjectSchemaQuery(projectName);
 
   if (!schemaList) {
-    return <Navigate to="/" />;
+    return <Navigate to="/error" />;
   }
 
   const queryClient = useQueryClient();

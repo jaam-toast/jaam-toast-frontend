@@ -99,9 +99,9 @@ class APIClient {
     }
   }
 
-  async getProjectList(): Promise<Project[]> {
+  async getProjectList(): Promise<string[]> {
     try {
-      const { data } = await this.client().get<Response<Project[]>>(
+      const { data } = await this.client().get<Response<string[]>>(
         `users/${this.userId}/projects`,
       );
       return data.result;
@@ -121,7 +121,6 @@ class APIClient {
       throw error;
     }
   }
-
   /**
    * schema
    */

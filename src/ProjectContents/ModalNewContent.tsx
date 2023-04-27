@@ -38,7 +38,7 @@ export function ModalNewContent({ token, schemaList }: Options) {
   const { closeModal } = useModal();
 
   if (!schemaList) {
-    return <Navigate to="/" />;
+    return <Navigate to="/error" />;
   }
 
   const { schema } = useMemo(
