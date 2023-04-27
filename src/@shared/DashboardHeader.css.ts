@@ -12,6 +12,7 @@ export const container = style([
 
 export const projectTitle = style({
   fontSize: "2rem",
+  textTransform: "uppercase",
 });
 
 export const navBar = style([

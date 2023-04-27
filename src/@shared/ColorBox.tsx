@@ -1,9 +1,9 @@
-import * as css from "./Icon.css";
+import * as css from "./ColorBox.css";
 import { ColorKeys } from "../@config/colors";
 
 type Size = "small" | "medium" | "large";
 
-export function Icon({
+export function ColorBox({
   children,
   size = "medium",
   color = "LAVENDER",
