@@ -1,24 +1,21 @@
 import sortBy from "lodash/sortBy";
 
 type Options<T> = {
-  mode: "Default" | "Ascending" | "Descending";
+  mode: "ascending" | "descending";
   data: T[];
   fieldName?: string;
 };
 
 export function sortByMode<T>({ mode, data, fieldName }: Options<T>) {
   switch (mode) {
-    case "Default": {
-      return data;
-    }
-    case "Ascending": {
+    case "ascending": {
       if (!fieldName) {
         return data;
       }
 
       return sortBy(data, fieldName);
     }
-    case "Descending": {
+    case "descending": {
       if (!fieldName) {
         return data;
       }

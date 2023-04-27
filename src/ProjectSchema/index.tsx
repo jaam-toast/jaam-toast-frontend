@@ -4,7 +4,7 @@ import { Navigate, useParams } from "react-router-dom";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 
 import {
-  Icon,
+  ColorBox,
   Modal,
   useModal,
   DashboardHeader,
@@ -13,27 +13,24 @@ import {
 } from "../@shared";
 import { ModalNewSchema } from "./ModalNewSchema";
 import { ModalSchemaProperties } from "./ModalSchemaProperties";
-import { useProjectQuery } from "../ProjectDashboard/useProjectQuery";
+import { useProjectSchemaQuery } from "./useSchemaQuery";
 import { useDeleteSchemaMutation } from "./useSchemaMutation";
+import { useProjectQuery } from "../ProjectDashboard/useProjectQuery";
 import {
   useCheckboxState,
   useSetCheckboxState,
 } from "../@shared/useCheckboxStore";
 import { sortByMode as sortBy } from "../@utils/sortByMode";
 import * as css from "./index.css";
+import { OrderMode } from "src/@types/cms";
 
 import type { SchemaList } from "../@types/api";
-
-type SortMode = "Default" | "Ascending" | "Descending";
-
-type SortedSchema = SchemaList[] | null;
 
 export function ProjectSchema() {
   const params = useParams();
   const { projectName } = params;
   const [searchword, setSearchword] = useState<string>("");
-  const [sortedSchema, setSortedSchema] = useState<SortedSchema>();
-  const [sortMode, setSortMode] = useState<SortMode>("Default");
+  const [orderMode, setOrderMode] = useState<OrderMode>("ascending");
   const { values: checkboxValues, isAllChecked } = useCheckboxState();
   const { toggleAllChecked, setValue: setCheckboxValue } =
     useSetCheckboxState();
@@ -43,7 +40,12 @@ export function ProjectSchema() {
     return <Navigate to="/" />;
   }
 
-  const { data: project, refetch } = useProjectQuery(projectName);
+  const { data: schemaList, refetch } = useProjectSchemaQuery(projectName);
+
+  if (!schemaList) {
+    return <Navigate to="/" />;
+  }
+
   const queryClient = useQueryClient();
   const deleteSchema = useDeleteSchemaMutation({
     onSuccess: () => {
@@ -59,10 +61,7 @@ export function ProjectSchema() {
   const handleAddClick = () => {
     openModal({
       component: (
-        <ModalNewSchema
-          projectName={projectName}
-          schemaList={project?.schemaList}
-        />
+        <ModalNewSchema projectName={projectName} schemaList={schemaList} />
       ),
       location: "right",
       animation: "slideToLeft",
@@ -73,7 +72,7 @@ export function ProjectSchema() {
     openModal({
       component: (
         <ModalSchemaProperties
-          currentSchema={project?.schemaList[index].schema!}
+          currentSchema={schemaList[index].schema!}
           projectName={projectName}
         />
       ),
@@ -100,16 +99,16 @@ export function ProjectSchema() {
           <TextField onTextFieldChange={setSearchword} placeholder="Search.." />
           <div className={css.typeButton}>
             <SelectBox
-              options={["Default", "Ascending", "Descending"]}
-              defaultSelect={"Default"}
-              onSelectionChange={setSortMode}
+              options={["ascending", "descending"]}
+              defaultSelect={"ascending"}
+              onSelectionChange={setOrderMode}
             />
           </div>
         </div>
         {!!checkboxValues.size && (
           <div className={css.selectOptionField}>
             <div>{`${
-              isAllChecked ? project?.schemaList.length : checkboxValues.size
+              isAllChecked ? schemaList.length : checkboxValues.size
             } selected`}</div>
             <BsFillTrashFill
               onClick={() => handleDelete({ schemaNames: [...checkboxValues] })}
@@ -126,11 +125,7 @@ export function ProjectSchema() {
                   value="checkbox-parent"
                   checked={isAllChecked}
                   onChange={() =>
-                    toggleAllChecked(
-                      (sortedSchema || project!.schemaList).map(
-                        data => data.schema.title,
-                      ),
-                    )
+                    toggleAllChecked(schemaList.map(data => data.schema.title))
                   }
                 />
               </th>
@@ -142,69 +137,66 @@ export function ProjectSchema() {
             </tr>
           </thead>
           <tbody>
-            {project &&
-              sortBy<SchemaList>({
-                mode: sortMode,
-                data: project?.schemaList!,
-                fieldName: "schemaName",
-              })
-                .filter((data: SchemaList) =>
-                  searchword ? data.schema.title.includes(searchword) : true,
-                )
-
-                .map((data: SchemaList, index: number) => (
-                  <tr className={css.row} key={data.schema.title}>
-                    <td className={css.cell}>
-                      <div className={css.checkboxField}>
-                        <input
-                          type="checkbox"
-                          value={data.schema.title}
-                          checked={
-                            isAllChecked ||
-                            checkboxValues.has(data.schema.title)
-                          }
-                          onChange={e => setCheckboxValue(e.target.value)}
-                        />
-                      </div>
-                    </td>
-                    <td className={css.cell}>
-                      <div
+            {sortBy<SchemaList>({
+              mode: orderMode,
+              data: schemaList!,
+              fieldName: "schemaName",
+            })
+              .filter((data: SchemaList) =>
+                searchword ? data.schema.title.includes(searchword) : true,
+              )
+              .map((data: SchemaList, index: number) => (
+                <tr className={css.row} key={data.schema.title}>
+                  <td className={css.cell}>
+                    <div className={css.checkboxField}>
+                      <input
+                        type="checkbox"
+                        value={data.schema.title}
+                        checked={
+                          isAllChecked || checkboxValues.has(data.schema.title)
+                        }
+                        onChange={e => setCheckboxValue(e.target.value)}
+                      />
+                    </div>
+                  </td>
+                  <td className={css.cell}>
+                    <div
+                      onClick={() => handleSchemaClick({ index })}
+                      className={css.nameField}
+                    >
+                      <ColorBox>
+                        <span>{data.schema.title[0].toUpperCase()}</span>
+                      </ColorBox>
+                      <span>{data.schema.title}</span>
+                    </div>
+                  </td>
+                  <td className={css.cell}>
+                    <div className={css.typeField}>
+                      {Object.keys(data.schema.properties).map(
+                        (property: string) => (
+                          <span className={css.type} key={property}>
+                            {property}
+                          </span>
+                        ),
+                      )}
+                    </div>
+                  </td>
+                  <td className={css.cell}>
+                    <div className={css.optionField}>
+                      <BsFillPencilFill
                         onClick={() => handleSchemaClick({ index })}
-                        className={css.nameField}
-                      >
-                        <Icon>
-                          <span>{data.schema.title[0].toUpperCase()}</span>
-                        </Icon>
-                        <span>{data.schema.title}</span>
-                      </div>
-                    </td>
-                    <td className={css.cell}>
-                      <div className={css.typeField}>
-                        {Object.keys(data.schema.properties).map(
-                          (property: string) => (
-                            <span className={css.type} key={property}>
-                              {property}
-                            </span>
-                          ),
-                        )}
-                      </div>
-                    </td>
-                    <td className={css.cell}>
-                      <div className={css.optionField}>
-                        <BsFillPencilFill
-                          onClick={() => handleSchemaClick({ index })}
-                          className={css.optionIcon}
-                        />
-                        <BsFillTrashFill
-                          onClick={() =>
-                            handleDelete({ schemaNames: [data.schema.title] })
-                          }
-                          className={css.optionIcon}
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                        className={css.optionIcon}
+                      />
+                      <BsFillTrashFill
+                        onClick={() =>
+                          handleDelete({ schemaNames: [data.schema.title] })
+                        }
+                        className={css.optionIcon}
+                      />
+                    </div>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
