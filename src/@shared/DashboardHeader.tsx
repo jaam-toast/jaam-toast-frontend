@@ -16,7 +16,7 @@ export function DashboardHeader() {
 
   return (
     <div className={css.container}>
-      <h1 className={css.projectTitle}>{projectName?.toUpperCase()}</h1>
+      <h1 className={css.projectTitle}>{projectName}</h1>
       <ul className={css.navBar}>
         <Link to={`/${userName}/${projectName}/dashboard`}>
           <li
