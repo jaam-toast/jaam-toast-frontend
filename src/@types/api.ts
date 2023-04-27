@@ -1,5 +1,5 @@
+import { JsonSchema } from "../@packages/json-schema-to-jaam-schema/types";
 import { BuildOptions, Env } from "./build";
-import { Schema } from "./schema";
 
 export type Response<T> = {
   message: string;
@@ -45,7 +45,7 @@ export type Project = {
   buildDomain: string;
   buildOriginalDomain: string;
   cmsDomain: string;
-  cmsToken: string;
+  token: string;
 
   schemaList: SchemaList[];
   contentList: string[];
@@ -59,6 +59,13 @@ export type Project = {
 export type ProjectId = string;
 
 export type SchemaList = {
-  schema_name: string;
-  schema: Schema;
+  schemaName: string;
+  schema: JsonSchema;
+};
+
+export type ContentType = string | number | boolean;
+
+export type Contents = {
+  _id: string;
+  [key: string]: ContentType;
 };
