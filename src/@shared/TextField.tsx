@@ -3,6 +3,7 @@ import { useDebounce } from "./useDebounce";
 import * as css from "./TextField.css";
 
 type TextFieldProps = InputHTMLAttributes<HTMLInputElement> & {
+  type?: string;
   delay?: number;
   value?: string;
   onTextFieldChange?: (text: string) => void;
@@ -11,6 +12,7 @@ type TextFieldProps = InputHTMLAttributes<HTMLInputElement> & {
 export function TextField({
   delay = 1000,
   value = "",
+  type = "text",
   onTextFieldChange = () => {},
   ...props
 }: TextFieldProps) {
@@ -28,6 +30,7 @@ export function TextField({
 
   return (
     <input
+      type={type}
       value={text}
       className={css.textField}
       onChange={handleMuiTextFieldChange}

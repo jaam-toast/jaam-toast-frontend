@@ -5,14 +5,13 @@ import { BsColumnsGap } from "react-icons/bs";
 import { BsFileEarmarkImage } from "react-icons/bs";
 import { BsStack } from "react-icons/bs";
 
-import { Icon } from "../@shared/Icon";
+import { ColorBox } from "../@shared/ColorBox";
 import { DashboardHeader } from "../@shared";
 import { Preview, PreviewSkeleton } from "../ProjectDeploy/Preview";
 import { useProjectQuery } from "./useProjectQuery";
 import { COLORS } from "../@config/colors";
 import * as css from "./index.css";
 
-// * 수정중
 export function ProjectDashboard() {
   const params = useParams();
   const { userName, projectName } = params;
@@ -79,9 +78,9 @@ export function ProjectDashboard() {
                 <Link to={`/${userName}/${projectName}/schema`}>
                   <li className={css.cmsInfo}>
                     <div className={css.cmsInfoLeft}>
-                      <Icon>
+                      <ColorBox>
                         <BsColumnsGap color={COLORS.LAVENDAR_DARK} />
-                      </Icon>
+                      </ColorBox>
                       <span className={css.infoFieldTitle}>Schema</span>
                     </div>
                     <p className={css.infoText}>{project.schemaList.length}</p>
@@ -90,9 +89,9 @@ export function ProjectDashboard() {
                 <Link to={`/${userName}/${projectName}/contents`}>
                   <li className={css.cmsInfo}>
                     <div className={css.cmsInfoLeft}>
-                      <Icon>
+                      <ColorBox>
                         <BsFileEarmarkImage color={COLORS.LAVENDAR_DARK} />
-                      </Icon>
+                      </ColorBox>
                       <span className={css.infoFieldTitle}>Assets</span>
                     </div>
                     <p className={css.infoText}>10</p>
@@ -101,9 +100,9 @@ export function ProjectDashboard() {
                 <Link to={`/${userName}/${projectName}/assets`}>
                   <li className={css.cmsInfo}>
                     <div className={css.cmsInfoLeft}>
-                      <Icon>
+                      <ColorBox>
                         <BsStack color={COLORS.LAVENDAR_DARK} />
-                      </Icon>
+                      </ColorBox>
                       <span className={css.infoFieldTitle}>Contents</span>
                     </div>
                     <p className={css.infoText}>5</p>

@@ -8,15 +8,15 @@ import {
   BsFillEnvelopeAtFill,
 } from "react-icons/bs";
 
-import { Icon } from "./Icon";
+import { ColorBox } from "./ColorBox";
 import { ColorKeys } from "../@config/colors";
 
-import { SchemaFieldType } from "../@types/schema";
+import { SchemaPropertyType } from "../@packages/json-schema-to-jaam-schema/types";
 
 type Size = "small" | "medium" | "large";
 
 type Options = {
-  type: SchemaFieldType;
+  type: SchemaPropertyType;
   color?: ColorKeys;
   size?: Size;
   onClick?: () => void;
@@ -27,63 +27,63 @@ export function TypeIcon({ type, color, size, onClick }: Options) {
     case "text": {
       return (
         <div onClick={onClick}>
-          <Icon color={color || "LAVENDER"} size={size || "medium"}>
+          <ColorBox color={color || "LAVENDER"} size={size || "medium"}>
             <BsType size={24} />
-          </Icon>
+          </ColorBox>
         </div>
       );
     }
     case "textarea": {
       return (
         <div onClick={onClick}>
-          <Icon color={color || "LAVENDER"} size={size || "medium"}>
+          <ColorBox color={color || "LAVENDER"} size={size || "medium"}>
             <BsFillFileTextFill size={24} />
-          </Icon>
+          </ColorBox>
         </div>
       );
     }
     case "number": {
       return (
         <div onClick={onClick}>
-          <Icon color={color || "TAN"} size={size || "medium"}>
+          <ColorBox color={color || "TAN"} size={size || "medium"}>
             <Bs123 size={24} />
-          </Icon>
+          </ColorBox>
         </div>
       );
     }
     case "date": {
       return (
         <div onClick={onClick}>
-          <Icon color={color || "LEMON"} size={size || "medium"}>
+          <ColorBox color={color || "LEMON"} size={size || "medium"}>
             <BsFillCalendarCheckFill size={24} />
-          </Icon>
+          </ColorBox>
         </div>
       );
     }
     case "boolean": {
       return (
         <div onClick={onClick}>
-          <Icon color={color || "MINT"} size={size || "medium"}>
+          <ColorBox color={color || "MINT"} size={size || "medium"}>
             <BsToggleOn size={24} />
-          </Icon>
+          </ColorBox>
         </div>
       );
     }
     case "link": {
       return (
         <div onClick={onClick}>
-          <Icon color={color || "STRAWBERRY"} size={size || "medium"}>
+          <ColorBox color={color || "STRAWBERRY"} size={size || "medium"}>
             <BsLink45Deg size={24} />
-          </Icon>
+          </ColorBox>
         </div>
       );
     }
     case "email": {
       return (
         <div onClick={onClick}>
-          <Icon color={color || "TAN"} size={size || "medium"}>
+          <ColorBox color={color || "TAN"} size={size || "medium"}>
             <BsFillEnvelopeAtFill size={24} />
-          </Icon>
+          </ColorBox>
         </div>
       );
     }
