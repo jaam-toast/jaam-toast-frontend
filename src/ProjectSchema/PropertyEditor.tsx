@@ -3,7 +3,10 @@ import { TypeIcon } from "../@shared";
 import { useCurrentEditProperty, useSetSchemaState } from "./useSchemaStore";
 import * as css from "./PropertyEditor.css";
 
-import { SCHEMA_FIELD_TYPE, SchemaFieldType } from "../@types/schema";
+import {
+  SCHEMA_PROPERTY_TYPES,
+  SchemaPropertyType,
+} from "../@packages/json-schema-to-jaam-schema/types";
 
 const SizeEditableType: Record<
   string,
@@ -16,7 +19,7 @@ const SizeEditableType: Record<
 };
 
 type EditableTypes =
-  | { name: "type"; editType: SchemaFieldType }
+  | { name: "type"; editType: SchemaPropertyType }
   | { name: "required"; editType: boolean }
   | { name: "min"; editType: string }
   | { name: "max"; editType: string };
@@ -50,7 +53,7 @@ export function PropertyEditor() {
       <section>
         <FieldTitle>Select a type for your content field</FieldTitle>
         <div className={css.typeList}>
-          {SCHEMA_FIELD_TYPE.map(type => (
+          {SCHEMA_PROPERTY_TYPES.map(type => (
             <div
               key={type}
               className={`${css.typeWrapper} ${
