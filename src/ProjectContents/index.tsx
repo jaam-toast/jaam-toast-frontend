@@ -28,16 +28,16 @@ export function ProjectContents() {
   const { openModal } = useModal();
 
   if (!projectName) {
-    return <Navigate to="/" />;
+    return <Navigate to="/error" />;
   }
 
   const { data: project, refetch } = useProjectQuery(projectName);
 
   if (!project) {
-    return <Navigate to="/" />;
+    return <Navigate to="/error" />;
   }
 
-  const { schemaList, token } = project;
+  const { schemaList, storageKey: token } = project;
   const { schema } = useMemo(
     () => schemaList[currentSchemaIndex],
     [currentSchemaIndex],
@@ -45,7 +45,7 @@ export function ProjectContents() {
 
   const handleAddClick = () => {
     openModal({
-      component: <ModalNewContent schemaList={schemaList} token={"test"} />,
+      component: <ModalNewContent schemaList={schemaList} token={token} />,
     });
   };
 

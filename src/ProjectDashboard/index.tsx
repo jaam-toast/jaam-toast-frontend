@@ -17,7 +17,7 @@ export function ProjectDashboard() {
   const { userName, projectName } = params;
 
   if (!projectName) {
-    return <Navigate to="/" />;
+    return <Navigate to="/error" />;
   }
 
   const { data: project } = useProjectQuery(projectName);
@@ -71,7 +71,7 @@ export function ProjectDashboard() {
               </ul>
             </section>
           </div>
-          {project?.schemaList.length ? (
+          {project?.schemaList?.length ? (
             <section className={css.cmsInfoSection}>
               <span className={css.infoFieldTitle}>Api Info</span>
               <ul className={css.cmsInfoList}>

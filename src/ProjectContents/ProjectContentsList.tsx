@@ -13,14 +13,13 @@ import { useDeleteContentsMutation } from "./useContentsMutation";
 import { sortByMode as sortBy } from "../@utils/sortByMode";
 import * as css from "./index.css";
 
-import { JsonSchema } from "../@packages/type";
+import { JsonSchema } from "../@packages/json-schema-to-jaam-schema/types";
 import { Contents, SchemaList } from "../@types/api";
 import type { SortMode, OrderMode } from "../@types/cms";
 
-import { mockContentList } from "../test/mock/schema_mock";
+// import { mockContentList } from "../test/mock/schema_mock";
 
-
-type Options = {
+type ProjectContentsListProps = {
   schema: JsonSchema;
   token: string;
   orderOption: OrderMode;
@@ -35,7 +34,7 @@ export function ProjectContentsList({
   orderOption,
   sortOption,
   searchword,
-}: Options) {
+}: ProjectContentsListProps) {
   const { openModal } = useModal();
   const { values: checkedContentsId, isAllChecked } = useCheckboxState();
   const { toggleAllChecked, setValue: setCheckboxValue } =
@@ -49,7 +48,7 @@ export function ProjectContentsList({
   });
 
   if (!contentsList) {
-    return <Navigate to="/" />;
+    return <Navigate to="/error" />;
   }
 
   // const contentsList = mockContentList;
@@ -91,9 +90,7 @@ export function ProjectContentsList({
     <>
       {!!checkedContentsId.size && (
         <div className={css.selectOptionField}>
-          <div>{`${
-            isAllChecked ? mockContentList.length : checkedContentsId.size
-          } selected`}</div>
+          <div>{`${checkedContentsId.size} selected`}</div>
           <BsFillTrashFill
             onClick={() => handleDelete({ contentIds: [...checkedContentsId] })}
             className={css.optionIcon}

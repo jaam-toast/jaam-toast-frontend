@@ -45,7 +45,7 @@ export type Project = {
   buildDomain: string;
   buildOriginalDomain: string;
   cmsDomain: string;
-  token: string;
+  storageKey: string;
 
   schemaList: SchemaList[];
   contentList: string[];

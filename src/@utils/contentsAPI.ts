@@ -2,7 +2,7 @@ import axios, { AxiosInstance } from "axios";
 
 import Config from "../@config";
 
-import type { Contents } from "../@types/api";
+import type { Contents, Response } from "../@types/api";
 
 export class ContentsAPIClient {
   private token: string = "";
@@ -37,7 +37,7 @@ export class ContentsAPIClient {
     order?: string;
   }): Promise<Contents[]> {
     try {
-      const { data } = await this.client().get(
+      const { data } = await this.client().get<Response<Contents[]>>(
         `/storage/${schemaName}/contents`,
         {
           params: {
@@ -48,7 +48,7 @@ export class ContentsAPIClient {
         },
       );
 
-      return data;
+      return data.result;
     } catch (error) {
       throw error;
     }
@@ -62,11 +62,11 @@ export class ContentsAPIClient {
     contentId?: string;
   }): Promise<Contents> {
     try {
-      const { data } = await this.client().get(
+      const { data } = await this.client().get<Response<Contents>>(
         `/storage/${schemaName}/contents/${contentId}`,
       );
 
-      return data;
+      return data.result;
     } catch (error) {
       throw error;
     }
@@ -80,7 +80,7 @@ export class ContentsAPIClient {
     content: Contents;
   }): Promise<string> {
     try {
-      const { data } = await this.client().post(
+      const { data } = await this.client().post<Response<string>>(
         `/storage/${schemaName}/contents`,
         content,
       );
@@ -100,7 +100,7 @@ export class ContentsAPIClient {
     content: Contents;
   }): Promise<string> {
     try {
-      const { data } = await this.client().put(
+      const { data } = await this.client().put<Response<string>>(
         `/storage/${schemaName}`,
         content,
       );
@@ -119,11 +119,14 @@ export class ContentsAPIClient {
     contentIds: string[];
   }): Promise<string> {
     try {
-      const { data } = await this.client().get(`/storage/${schemaName}`, {
-        params: {
-          contents_id: contentIds,
+      const { data } = await this.client().get<Response<string>>(
+        `/storage/${schemaName}`,
+        {
+          params: {
+            contents_id: contentIds,
+          },
         },
-      });
+      );
 
       return data.result;
     } catch (error) {
