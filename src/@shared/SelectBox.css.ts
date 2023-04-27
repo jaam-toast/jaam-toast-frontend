@@ -17,6 +17,12 @@ export const container = style([
   },
 ]);
 
+export const label = style({
+  zIndex: 9,
+  paddingLeft: "1rem",
+  fontSize: "0.8rem",
+});
+
 export const currentOption = style({
   position: "relative",
   display: "inline-block",
@@ -73,4 +79,5 @@ export const highlight = style({ color: COLORS.STRAWBERRY });
 export const selectBoxIcon = style({
   position: "absolute",
   right: "1rem",
+  zIndex: 9,
 });
