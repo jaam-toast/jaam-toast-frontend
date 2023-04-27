@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { getPageFavicon } from "../@utils/getPageFavicon";
 import Config from "../@config";
-import * as css from "./ProjectCardList.css";
+import * as css from "./Favicon.css";
 
 export function Favicon({ domain }: { domain: string }) {
   const { data: faviconUrl } = useQuery({
