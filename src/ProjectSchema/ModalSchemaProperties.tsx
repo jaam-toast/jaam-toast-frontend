@@ -13,13 +13,13 @@ import {
 import { useModal } from "../@shared";
 import * as css from "./ModalSchemaProperties.css";
 
-import type { Schema } from "../@types/schema";
+import { JsonSchema } from "../@packages/json-schema-to-jaam-schema/types";
 
 export function ModalSchemaProperties({
   currentSchema,
   projectName,
 }: {
-  currentSchema: Schema;
+  currentSchema: JsonSchema;
   projectName: string;
 }) {
   const [isFieldEditMode, setIsFieldEditMode] = useState<boolean>(false);
