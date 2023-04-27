@@ -22,7 +22,6 @@ class APIClient {
       headers: {
         Authorization: `Bearer ${this.accessToken}`,
       },
-      withCredentials: true,
       params: {},
       timeout: 2500,
     });
