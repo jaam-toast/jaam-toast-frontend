@@ -22,6 +22,7 @@ class APIClient {
       headers: {
         Authorization: `Bearer ${this.accessToken}`,
       },
+      withCredentials: true,
       params: {},
       timeout: 2500,
     });
@@ -135,7 +136,7 @@ class APIClient {
         `/projects/${projectName}/schemas`,
       );
 
-      return data.message;
+      return data.result;
     } catch (error) {
       throw error;
     }
@@ -154,7 +155,7 @@ class APIClient {
         options,
       );
 
-      return data.message;
+      return data.result;
     } catch (error) {
       throw error;
     }
@@ -175,7 +176,7 @@ class APIClient {
         options,
       );
 
-      return data.message;
+      return data.result;
     } catch (error) {
       throw error;
     }
@@ -198,7 +199,7 @@ class APIClient {
         },
       );
 
-      return data.message;
+      return data.result;
     } catch (error) {
       throw error;
     }
