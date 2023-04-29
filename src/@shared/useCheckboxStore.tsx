@@ -1,11 +1,18 @@
 import { create } from "zustand";
+import { shallow } from "zustand/shallow";
 
 type CheckboxStore = {
   isAllChecked: boolean;
   values: Set<string>;
   actions: {
     toggleAllChecked: (allValues: string[]) => void;
-    setValue: (value: string) => void;
+    setCheckboxValue: ({
+      value,
+      checkboxCount,
+    }: {
+      value: string;
+      checkboxCount: number;
+    }) => void;
   };
 };
 
@@ -19,15 +26,16 @@ const useCheckboxStore = create<CheckboxStore>((set, get) => ({
         values: state.isAllChecked ? new Set() : new Set(allValues),
         isAllChecked: !state.isAllChecked,
       })),
-    setValue: value => {
+    setCheckboxValue: ({ value, checkboxCount }) => {
       if (get().values.has(value)) {
         const newValues = new Set(get().values);
         newValues.delete(value);
 
-        set({ values: newValues });
+        set({ values: newValues, isAllChecked: false });
       } else {
         set(state => ({
           values: new Set(state.values).add(value),
+          isAllChecked: checkboxCount === state.values.size + 1 ? true : false,
         }));
       }
     },
@@ -38,7 +46,10 @@ export const useSetCheckboxState = () =>
   useCheckboxStore(state => state.actions);
 
 export const useCheckboxState = () =>
-  useCheckboxStore(state => ({
-    isAllChecked: state.isAllChecked,
-    values: state.values,
-  }));
+  useCheckboxStore(
+    state => ({
+      isAllChecked: state.isAllChecked,
+      values: state.values,
+    }),
+    shallow,
+  );
