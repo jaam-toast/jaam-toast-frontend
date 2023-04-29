@@ -2,7 +2,8 @@ import axios, { AxiosInstance } from "axios";
 
 import Config from "../@config";
 
-import type { Contents, Response } from "../@types/api";
+import type { Content as ContentData } from "../@types/cms";
+import type { Content, Response } from "../@types/api";
 
 export class ContentsAPIClient {
   private token: string = "";
@@ -35,9 +36,9 @@ export class ContentsAPIClient {
     page?: number;
     sort?: string;
     order?: string;
-  }): Promise<Contents[]> {
+  }): Promise<Content[]> {
     try {
-      const { data } = await this.client().get<Response<Contents[]>>(
+      const { data } = await this.client().get<Response<Content[]>>(
         `/storage/${schemaName}/contents`,
         {
           params: {
@@ -60,9 +61,9 @@ export class ContentsAPIClient {
   }: {
     schemaName: string;
     contentId?: string;
-  }): Promise<Contents> {
+  }): Promise<Content> {
     try {
-      const { data } = await this.client().get<Response<Contents>>(
+      const { data } = await this.client().get<Response<Content>>(
         `/storage/${schemaName}/contents/${contentId}`,
       );
 
@@ -77,7 +78,7 @@ export class ContentsAPIClient {
     content,
   }: {
     schemaName: string;
-    content: Contents;
+    content: ContentData;
   }): Promise<string> {
     try {
       const { data } = await this.client().post<Response<string>>(
@@ -97,7 +98,7 @@ export class ContentsAPIClient {
     content,
   }: {
     schemaName: string;
-    content: Contents;
+    content: ContentData;
   }): Promise<string> {
     try {
       const { data } = await this.client().put<Response<string>>(
