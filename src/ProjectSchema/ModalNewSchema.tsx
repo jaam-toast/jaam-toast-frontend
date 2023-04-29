@@ -24,9 +24,6 @@ export function ModalNewSchema({ projectName, schemaList }: Options) {
   const [isFieldEditMode, setIsFieldEditMode] = useState<boolean>(false);
   const [isClickTypeIcon, setIsClickTypeIcon] = useState<boolean>(false);
   const [currentMenu, setCurrentMenu] = useState<string>("schema");
-  const [currentEditPropertyName, setCurrentEditPropertyName] = useState<
-    null | string
-  >(null);
 
   const {
     setTitle,
@@ -53,6 +50,7 @@ export function ModalNewSchema({ projectName, schemaList }: Options) {
   });
 
   const handleChangePropertyName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
     setCurrentEditProperty({
       type: "update",
       updateData: {
@@ -63,7 +61,11 @@ export function ModalNewSchema({ projectName, schemaList }: Options) {
   };
 
   const handleClickAdd = () => {
-    addProperty(currentEditProperty);
+    if (!currentEditProperty.name) {
+      return alert("The name field must not be empty.");
+    }
+
+    addProperty();
     setCurrentEditProperty({ type: "reset" });
     setIsFieldEditMode(false);
     setIsClickTypeIcon(false);
@@ -71,16 +73,15 @@ export function ModalNewSchema({ projectName, schemaList }: Options) {
 
   const handleClickEditIcon = ({ propertyName }: { propertyName: string }) => {
     setCurrentEditProperty({ type: "set", propertyName });
-    setCurrentEditPropertyName(propertyName);
     setIsFieldEditMode(true);
   };
 
   const handleClickEdit = () => {
-    editProperty({
-      targetTitle: currentEditPropertyName!,
-      updateField: currentEditProperty,
-    });
-    setCurrentEditPropertyName(null);
+    if (!currentEditProperty.name) {
+      return alert("The name field must not be empty.");
+    }
+
+    editProperty();
     setIsFieldEditMode(false);
     setCurrentEditProperty({ type: "reset" });
   };
@@ -93,6 +94,7 @@ export function ModalNewSchema({ projectName, schemaList }: Options) {
     }
 
     createSchema.mutate({ projectName });
+    reset();
   };
 
   const handleClickDelete = ({ propertyName }: { propertyName: string }) => {
@@ -107,7 +109,7 @@ export function ModalNewSchema({ projectName, schemaList }: Options) {
         <div className={css.headerFirstLine}>
           <h3>
             Create new schema
-            <span className={css.schemaName}> {schema.title}</span>
+            <span className={css.schemaName}>{schema.title}</span>
           </h3>
         </div>
         <span className={css.fieldSubText}>
@@ -175,19 +177,20 @@ export function ModalNewSchema({ projectName, schemaList }: Options) {
            * field name input
            */}
           <FieldInput
-            type={currentEditProperty.type}
+            type={currentEditProperty?.options?.type || "text"}
             isEditMode={isFieldEditMode}
-            inputValue={currentEditProperty.name}
+            inputValue={currentEditProperty?.name || ""}
             warningMessage={
-              currentEditPropertyName !== currentEditProperty.name &&
+              currentEditProperty.originalNameForEditing !==
+                currentEditProperty.name &&
               Object.keys(schema.properties).includes(currentEditProperty.name)
                 ? "Your Property name is duplicated."
                 : ""
             }
-            changeInputHandler={handleChangePropertyName}
-            clickTypeHandler={() => setIsClickTypeIcon(!isClickTypeIcon)}
-            editHandler={handleClickEdit}
-            addHandler={handleClickAdd}
+            onFieldChanged={handleChangePropertyName}
+            onTypeClicked={() => setIsClickTypeIcon(!isClickTypeIcon)}
+            onEditClicked={handleClickEdit}
+            onAddClicked={handleClickAdd}
           />
           <div className={css.wrapper}>
             {/**
@@ -199,8 +202,8 @@ export function ModalNewSchema({ projectName, schemaList }: Options) {
               <section>
                 <FieldTitle>Field List</FieldTitle>
                 <div className={css.fieldList}>
-                  <SchemaProperties
-                    schema={schema}
+                  <PropertyList
+                    propertyList={schema.properties}
                     editHandler={handleClickEditIcon}
                     deleteHandler={handleClickDelete}
                   />

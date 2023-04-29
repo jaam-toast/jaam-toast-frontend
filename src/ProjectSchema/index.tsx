@@ -12,7 +12,7 @@ import {
   SelectBox,
 } from "../@shared";
 import { ModalNewSchema } from "./ModalNewSchema";
-import { ModalSchemaProperties } from "./ModalSchemaProperties";
+import { ModalSchemaPropertList } from "./ModalSchemaPropertList";
 import { useProjectSchemaQuery } from "./useSchemaQuery";
 import { useDeleteSchemaMutation } from "./useSchemaMutation";
 import {
@@ -31,8 +31,7 @@ export function ProjectSchema() {
   const [searchword, setSearchword] = useState<string>("");
   const [orderMode, setOrderMode] = useState<OrderMode>("ascending");
   const { values: checkboxValues, isAllChecked } = useCheckboxState();
-  const { toggleAllChecked, setValue: setCheckboxValue } =
-    useSetCheckboxState();
+  const { toggleAllChecked, setCheckboxValue } = useSetCheckboxState();
   const { openModal } = useModal();
 
   if (!projectName) {
@@ -70,7 +69,7 @@ export function ProjectSchema() {
   const handleSchemaClick = ({ index }: { index: number }) => {
     openModal({
       component: (
-        <ModalSchemaProperties
+        <ModalSchemaPropertList
           currentSchema={schemaList[index].schema!}
           projectName={projectName}
         />
@@ -136,15 +135,15 @@ export function ProjectSchema() {
             </tr>
           </thead>
           <tbody>
-            {sortBy<SchemaList>({
+            {sortBy<SchemaData>({
               mode: orderMode,
               data: schemaList!,
               fieldName: "schemaName",
             })
-              .filter((data: SchemaList) =>
+              .filter((data: SchemaData) =>
                 searchword ? data.schema.title.includes(searchword) : true,
               )
-              .map((data: SchemaList, index: number) => (
+              .map((data: SchemaData, index: number) => (
                 <tr className={css.row} key={data.schema.title}>
                   <td className={css.cell}>
                     <div className={css.checkboxField}>
@@ -154,7 +153,12 @@ export function ProjectSchema() {
                         checked={
                           isAllChecked || checkboxValues.has(data.schema.title)
                         }
-                        onChange={e => setCheckboxValue(e.target.value)}
+                        onChange={e =>
+                          setCheckboxValue({
+                            value: e.target.value,
+                            checkboxCount: schemaList.length,
+                          })
+                        }
                       />
                     </div>
                   </td>

@@ -1,33 +1,29 @@
 import { create } from "zustand";
+import { shallow } from "zustand/shallow";
 import {
   JsonSchema,
   JaamSchema,
-  JaamSchemaPropertyType,
-} from "../@packages/jaam-schema/src";
-import { shallow } from "zustand/shallow";
-
-type PropertyOptions = {
-  min?: number;
-  max?: number;
-  required?: boolean;
-};
+  JaamSchemaProperties,
+  jsonSchemaToJaamSchema,
+} from "@jaam-schema/src";
 
 type Property = {
+  originalNameForEditing: string;
   name: string;
-  type: JaamSchemaPropertyType;
-  options: PropertyOptions;
+  options: JaamSchemaProperties;
 };
 
-type SchemaStore = {
+type SchemaState = {
   title: string;
   description?: string;
   type: string;
   properties: JaamSchema["properties"];
-  required: string[];
   currentEditProperty: Property;
+};
 
+type SchemaStore = SchemaState & {
   actions: {
-    setState: (schema: JsonSchema) => void;
+    setSchema: (schema: JsonSchema) => void;
     setTitle: (title: string) => void;
     setDescription: (description: string) => void;
     setCurrentEditProperty: ({
@@ -36,87 +32,40 @@ type SchemaStore = {
       propertyName,
     }: {
       type: "set" | "update" | "reset";
-      updateData?: Property;
+      updateData?: Exclude<Property, "originalNameForEditing">;
       propertyName?: string;
     }) => void;
-    addProperty: (field: Property) => void;
-    editProperty: ({
-      targetTitle,
-      updateField,
-    }: {
-      targetTitle: string;
-      updateField: Property;
-    }) => void;
+    addProperty: () => void;
+    editProperty: () => void;
     deleteProperty: ({ propertyName }: { propertyName: string }) => void;
     reset: () => void;
   };
 };
 
-const initialState = {
+const initialState: SchemaState = {
   title: "",
   description: "",
   type: "object",
-  properties: {} as JaamSchema["properties"],
-  required: [],
+  properties: {},
   currentEditProperty: {
+    originalNameForEditing: "",
     name: "",
-    type: "text",
-    options: {},
-  } as Property,
+    options: { type: "text" },
+  },
 };
 
 export const useSchemaStore = create<SchemaStore>((set, get) => ({
   ...initialState,
 
   actions: {
-    setState: (schema: JsonSchema) => {
-      const prop = Object.entries(schema.properties).reduce(
-        (propertyObj, [name, data]) => {
-          const {
-            type,
-            format,
-            description,
-            minLength,
-            maxLength,
-            minimum,
-            maximum,
-          } = data;
-          const formattedType = (() => {
-            if (format) {
-              if (format === "uri-template") {
-                return "link";
-              }
-              return format;
-            }
-
-            if (description) {
-              return description;
-            }
-
-            return type;
-          })() as JaamSchemaPropertyType;
-
-          propertyObj[name] = {
-            type: formattedType,
-            ...((minLength !== undefined || minimum !== undefined) && {
-              min: minLength || minimum,
-            }),
-            ...((maxLength !== undefined || maximum !== undefined) && {
-              max: maxLength || maximum,
-            }),
-          };
-
-          return propertyObj;
-        },
-        {} as JaamSchema["properties"],
-      );
+    setSchema: (schema: JsonSchema) => {
+      const jaamSchema = jsonSchemaToJaamSchema(schema);
 
       set({
-        title: schema.title,
+        title: jaamSchema.title,
         type: "object",
-        properties: prop,
-        ...(schema.description && { description: schema.description }),
-        ...(schema.required && { required: schema.required }),
+        properties: jaamSchema.properties,
+        ...(jaamSchema.description && { description: jaamSchema.description }),
       });
     },
     setTitle: (title: string) => {
@@ -125,7 +74,6 @@ export const useSchemaStore = create<SchemaStore>((set, get) => ({
     setDescription: (description: string) => {
       set({ description });
     },
-    // set update reset
     setCurrentEditProperty: ({ type, updateData, propertyName }) => {
       switch (type) {
         case "set": {
@@ -133,17 +81,11 @@ export const useSchemaStore = create<SchemaStore>((set, get) => ({
             return;
           }
 
-          const { min, max } = get().properties[propertyName];
           set(state => ({
             currentEditProperty: {
+              originalNameForEditing: propertyName,
               name: propertyName,
-              type: state.properties[propertyName].type,
-              options: {
-                ...(min && { min }),
-                ...(max && { max }),
-                ...(state.required &&
-                  state.required.includes(propertyName) && { required: true }),
-              },
+              options: state.properties[propertyName],
             },
           }));
 
@@ -154,9 +96,15 @@ export const useSchemaStore = create<SchemaStore>((set, get) => ({
             return;
           }
 
-          set({
-            currentEditProperty: updateData,
-          });
+          const { options, name } = updateData;
+
+          set(state => ({
+            currentEditProperty: {
+              ...state.currentEditProperty,
+              name: name !== undefined ? name : state.currentEditProperty.name,
+              options,
+            },
+          }));
 
           return;
         }
@@ -170,69 +118,39 @@ export const useSchemaStore = create<SchemaStore>((set, get) => ({
         }
       }
     },
-    addProperty: (property: Property) => {
-      const { name, type, options } = property;
+    addProperty: () => {
+      const { options, name } = get().currentEditProperty;
 
-      if (options.required) {
-        set(state => ({ required: [...state.required, property.name] }));
+      set(state => ({
+        properties: {
+          ...state.properties,
+          [name]: { ...options, type: options?.type || "text" },
+        },
+      }));
+      set({ currentEditProperty: initialState.currentEditProperty });
+    },
+    editProperty: () => {
+      const updatedProperties = { ...get().properties };
+      const { originalNameForEditing, name, options } =
+        get().currentEditProperty;
+
+      if (name !== originalNameForEditing) {
+        delete updatedProperties[originalNameForEditing];
       }
 
       set(state => ({
         properties: {
           ...state.properties,
-          [name]: {
-            type,
-            ...(options.min && { min: options.min }),
-            ...(options.max && { max: options.max }),
-          },
+          [name]: options,
         },
       }));
-    },
-    editProperty: ({ targetTitle, updateField }) => {
-      if (updateField.options.required) {
-        if (targetTitle !== updateField.name) {
-          set(state => ({
-            required: state.required.includes(targetTitle)
-              ? state.required.map(title =>
-                  title === targetTitle ? updateField.name : title,
-                )
-              : [...state.required, updateField.name],
-          }));
-        }
-
-        if (targetTitle === updateField.name) {
-          set(state => ({
-            required: state.required.includes(targetTitle)
-              ? state.required
-              : [...state.required, updateField.name],
-          }));
-        }
-      }
-
-      if (!updateField.options.required) {
-        set(state => ({
-          required: state.required.filter(title => title !== targetTitle),
-        }));
-      }
-
-      const newProperties = { ...get().properties };
-      delete newProperties[targetTitle];
-
-      newProperties[updateField.name] = {
-        type: updateField.type,
-        ...(updateField.options.min && { min: updateField.options.min }),
-        ...(updateField.options.max && { max: updateField.options.max }),
-      };
-
-      set({
-        properties: newProperties,
-      });
+      set({ currentEditProperty: initialState.currentEditProperty });
     },
     deleteProperty: ({ propertyName }) => {
-      const newProperties = { ...get().properties };
-      delete newProperties[propertyName];
+      const updatedProperties = { ...get().properties };
+      delete updatedProperties[propertyName];
 
-      set({ properties: newProperties });
+      set({ properties: updatedProperties });
     },
     reset: () => {
       set(initialState);
@@ -247,7 +165,6 @@ export const useSchemaState = (): JaamSchema =>
       type: "object",
       description: state.description,
       properties: state.properties,
-      required: state.required,
     }),
     shallow,
   );
