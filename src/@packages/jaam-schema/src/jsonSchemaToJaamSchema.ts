@@ -2,7 +2,7 @@ import type { JaamSchema, JsonSchema, JaamSchemaPropertyType } from "./types";
 
 export function jsonSchemaToJaamSchema(schema: JsonSchema): JaamSchema {
   return Object.entries(schema.properties).reduce(
-    (schema, [propName, options]) => {
+    (schema: JaamSchema, [propName, options]) => {
       const { type, description, format } = options;
       const formattedType = (() => {
         if (type === "string" && description) {
@@ -33,6 +33,6 @@ export function jsonSchemaToJaamSchema(schema: JsonSchema): JaamSchema {
       properties: {},
       ...(schema.description && { description: schema.description }),
       ...(schema.required?.length && { required: schema.required }),
-    } as JaamSchema,
+    },
   );
 }
