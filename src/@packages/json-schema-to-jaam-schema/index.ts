@@ -10,8 +10,6 @@ export default function jsonSchemaToJaamSchema(schema: JsonSchema): JaamSchema {
         }
 
         if (type === "string" && format) {
-          console.log(format);
-
           if (format === "url") {
             return "link";
           }
