@@ -14,7 +14,7 @@ export type PropertiesForEditing = {
 
 export type ContentType = string | number | boolean;
 
-export type Contents = {
+export type Content = {
   [propertyName in string]: ContentType;
 };
 

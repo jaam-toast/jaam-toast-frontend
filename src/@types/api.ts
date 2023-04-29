@@ -65,7 +65,9 @@ export type SchemaList = {
 
 export type ContentType = string | number | boolean;
 
-export type Contents = {
+export type Content = {
   _id: string;
   [key: string]: ContentType;
+  _createdAt: string;
+  _updatedAt: string;
 };

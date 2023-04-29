@@ -5,7 +5,7 @@ import {
 } from "../@packages/json-schema-to-jaam-schema/types";
 import jsonSchemaValidator from "../@packages/json-schema-validator";
 
-import type { Contents, ContentType } from "../@types/cms";
+import type { Content, ContentType } from "../@types/cms";
 
 type ContentsErrorMessage = {
   [propertyName in string]: string;
@@ -13,7 +13,7 @@ type ContentsErrorMessage = {
 
 type ContentsStore = {
   schema: JsonSchema;
-  content: Contents;
+  content: Content;
   contentsErrorMessage: ContentsErrorMessage;
 
   actions: {
