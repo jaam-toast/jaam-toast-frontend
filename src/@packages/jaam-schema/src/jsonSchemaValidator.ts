@@ -1,21 +1,15 @@
 import Ajv, { DefinedError } from "ajv";
 import addFormats from "ajv-formats";
 
-import type { JsonSchema } from "../json-schema-to-jaam-schema/types";
+import { JsonSchema, JsonSchemaContent } from "./";
 
-type ContentType = string | number | boolean;
-
-type Contents = {
-  [propertyName in string]: ContentType;
-};
-
-const jsonSchemaValidator = ({
+export function jsonSchemaValidator({
   content,
   schema,
 }: {
-  content: Contents;
+  content: JsonSchemaContent;
   schema: JsonSchema;
-}) => {
+}) {
   const ajv = new Ajv();
   addFormats(ajv);
   const validate = ajv.compile(schema);
@@ -53,6 +47,4 @@ const jsonSchemaValidator = ({
   return {
     result: isPassValidate,
   };
-};
-
-export default jsonSchemaValidator;
+}

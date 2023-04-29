@@ -1,11 +1,6 @@
-import {
-  JaamSchema,
-  JsonSchema,
-} from "../json-schema-to-jaam-schema/types";
+import { JaamSchema, JsonSchema } from "./types";
 
-export default function jaamSchemaToJsonSchema(
-  schema: JaamSchema,
-): JsonSchema {
+export function jaamSchemaToJsonSchema(schema: JaamSchema): JsonSchema {
   return Object.entries(schema.properties).reduce(
     (schema, [propName, options]) => {
       const { type } = options;
@@ -18,7 +13,7 @@ export default function jaamSchemaToJsonSchema(
           ? "string"
           : type;
       const format = (() => {
-        if (type === "email" || type === "dates") {
+        if (type === "email" || type === "date") {
           return type;
         }
 
@@ -51,6 +46,6 @@ export default function jaamSchemaToJsonSchema(
       properties: {},
       ...(schema.description && { description: schema.description }),
       ...(schema.required?.length && { required: schema.required }),
-    } as JaamSchema,
+    } as JsonSchema,
   );
 }

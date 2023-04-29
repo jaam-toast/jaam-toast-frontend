@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { Navigate } from "react-router-dom";
 import dayjs from "dayjs";
-import jsonSchemaToJaamSchema from "../@packages/json-schema-to-jaam-schema";
-import jsonSchemaValidator from "../@packages/json-schema-validator";
+import {
+  jsonSchemaToJaamSchema,
+  jsonSchemaValidator,
+} from "../@packages/jaam-schema/src";
 
 import { SelectBox, TextField, useModal } from "../@shared";
 import { FieldTitle } from "../ProjectSchema/FieldTitle";
@@ -11,7 +13,7 @@ import { useCreateContentMutation } from "./useContentsMutation";
 import * as css from "../ProjectSchema/ModalNewSchema.css";
 
 import type { SchemaList } from "../@types/api";
-import type { SchemaPropertyType } from "../@packages/json-schema-to-jaam-schema/types";
+import type { JaamSchemaPropertyType } from "../@packages/jaam-schema/src";
 
 type ModalNewContentProps = {
   token: string;
@@ -20,7 +22,7 @@ type ModalNewContentProps = {
 
 type EditorType = "textfield" | "textarea" | "dateInput";
 
-const editorForType: Record<SchemaPropertyType, EditorType> = {
+const editorForType: Record<JaamSchemaPropertyType, EditorType> = {
   text: "textfield",
   textarea: "textarea",
   email: "textfield",
@@ -32,7 +34,7 @@ const editorForType: Record<SchemaPropertyType, EditorType> = {
 
 export function ModalNewContent({ token, schemaList }: ModalNewContentProps) {
   const [currentSchemaIndex, setCurrentSchemaIndex] = useState<number>(0);
-  const { content, contentsError } = useContentsState();
+  const { content, contentsErrorMessage } = useContentsState();
   const { setContents } = useSetContentsState();
   const { closeModal } = useModal();
 
@@ -44,13 +46,13 @@ export function ModalNewContent({ token, schemaList }: ModalNewContentProps) {
     () => schemaList[currentSchemaIndex],
     [currentSchemaIndex],
   );
-  const schemaProperty = useMemo(
+  const jaamSchemaProperty = useMemo(
     () => Object.entries(jsonSchemaToJaamSchema(schema).properties),
     [currentSchemaIndex],
   );
 
   useEffect(() => {
-    schemaProperty.forEach(([name, data]) => {
+    jaamSchemaProperty.forEach(([name, data]) => {
       if (data.type === "date") {
         setContents({ name, content: dayjs().format("YYYY-MM-DD"), schema });
       }
@@ -99,7 +101,7 @@ export function ModalNewContent({ token, schemaList }: ModalNewContentProps) {
             Choose your schema type for content field.
           </p>
         </div>
-        {schemaProperty.map(([property, data]) => (
+        {jaamSchemaProperty.map(([property, data]) => (
           <div>
             <div className={css.fieldHeader}>
               <FieldTitle>{property}</FieldTitle>
@@ -110,10 +112,9 @@ export function ModalNewContent({ token, schemaList }: ModalNewContentProps) {
                 )}
               </div>
             </div>
-            <div>{contentsError[property]}</div>
+            <div>{contentsErrorMessage[property]}</div>
             {editorForType[data.type] === "textfield" && (
               <TextField
-                value={content[property] as string}
                 onTextFieldChange={text => {
                   data.type === "number"
                     ? setContents<number>({
@@ -133,7 +134,7 @@ export function ModalNewContent({ token, schemaList }: ModalNewContentProps) {
             {editorForType[data.type] === "dateInput" && (
               <TextField
                 type="date"
-                value={dayjs().format("YYYY-MM-DD")}
+                value={content[property] as string}
                 onTextFieldChange={text => {
                   data.type === "number"
                     ? setContents<number>({
@@ -153,9 +154,8 @@ export function ModalNewContent({ token, schemaList }: ModalNewContentProps) {
             {editorForType[data.type] === "textarea" && (
               <textarea
                 className={css.textarea}
-                value={content[property] as string}
                 onChange={e =>
-                  setContents<typeof data.type>({
+                  setContents<string>({
                     name: property,
                     content: e.target.value,
                     schema,

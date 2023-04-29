@@ -13,7 +13,7 @@ import {
 import { useModal } from "../@shared";
 import * as css from "./ModalSchemaProperties.css";
 
-import { JsonSchema } from "../@packages/json-schema-to-jaam-schema/types";
+import { JsonSchema } from "../@packages/jaam-schema/src";
 
 export function ModalSchemaProperties({
   currentSchema,

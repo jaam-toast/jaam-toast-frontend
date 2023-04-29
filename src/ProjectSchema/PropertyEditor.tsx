@@ -4,9 +4,9 @@ import { useCurrentEditProperty, useSetSchemaState } from "./useSchemaStore";
 import * as css from "./PropertyEditor.css";
 
 import {
-  SCHEMA_PROPERTY_TYPES,
-  SchemaPropertyType,
-} from "../@packages/json-schema-to-jaam-schema/types";
+  JAAM_SCHEMA_PROPERTY_TYPES,
+  JaamSchemaPropertyType,
+} from "../@packages/jaam-schema/src";
 
 const SizeEditableType: Record<
   string,
@@ -19,7 +19,7 @@ const SizeEditableType: Record<
 };
 
 type EditableTypes =
-  | { name: "type"; editType: SchemaPropertyType }
+  | { name: "type"; editType: JaamSchemaPropertyType }
   | { name: "required"; editType: boolean }
   | { name: "min"; editType: string }
   | { name: "max"; editType: string };
@@ -35,6 +35,7 @@ export function PropertyEditor() {
     editType: T;
     updateValue: Extract<EditableTypes, { name: T }>["editType"];
   }): void => {
+    // TODO
     setCurrentEditProperty({
       type: "update",
       updateData: {
@@ -53,7 +54,7 @@ export function PropertyEditor() {
       <section>
         <FieldTitle>Select a type for your content field</FieldTitle>
         <div className={css.typeList}>
-          {SCHEMA_PROPERTY_TYPES.map(type => (
+          {JAAM_SCHEMA_PROPERTY_TYPES.map(type => (
             <div
               key={type}
               className={`${css.typeWrapper} ${
