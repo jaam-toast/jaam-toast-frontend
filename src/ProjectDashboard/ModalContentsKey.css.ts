@@ -98,3 +98,26 @@ export const sectionTitle = style({
   fontWeight: 500,
   textTransform: "uppercase",
 });
+
+export const sectionSubtitle = style({
+  fontWeight: 500,
+  fontSize: "0.9rem",
+});
+
+export const contentsKey = style([
+  s.border,
+  s.pointer,
+  {
+    backgroundColor: "#fff",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    padding: "0.7rem 1.4rem",
+    userSelect: "none",
+    color: COLORS.GREY,
+  },
+]);
+
+export const copied = style({
+  backgroundColor: COLORS.MINT,
+});

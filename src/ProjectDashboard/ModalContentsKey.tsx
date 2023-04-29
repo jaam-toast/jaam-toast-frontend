@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { TextField, useModal } from "../@shared";
 import * as css from "./ModalContentsKey.css";
 import { useProjectQuery } from "./useProjectQuery";
@@ -6,6 +7,8 @@ export function ModalContentsKey({ projectName }: { projectName: string }) {
   // TODO useContentsKeyQuery
   const { closeModal } = useModal();
   const { data: project } = useProjectQuery(projectName);
+  const [isApiCopied, setIsApiCopied] = useState<boolean>(false);
+  const [isTokenCopied, setIsTokenCopied] = useState<boolean>(false);
 
   if (!project) {
     closeModal();
@@ -14,6 +17,26 @@ export function ModalContentsKey({ projectName }: { projectName: string }) {
   }
 
   const { cmsDomain, storageKey: contentsKey } = project;
+
+  const handleApiCopy = (api: string) => {
+    setIsApiCopied(true);
+
+    navigator.clipboard.writeText(api);
+
+    setTimeout(() => {
+      setIsApiCopied(false);
+    }, 700);
+  };
+
+  const handleTokenCopy = (token: string) => {
+    setIsTokenCopied(true);
+
+    navigator.clipboard.writeText(token);
+
+    setTimeout(() => {
+      setIsTokenCopied(false);
+    }, 700);
+  };
 
   return (
     <section className={css.container}>
@@ -28,14 +51,23 @@ export function ModalContentsKey({ projectName }: { projectName: string }) {
       <div className={css.fieldWrapper}>
         <div>
           <div>
-            <div className={css.settingOptionSection}>
+            <div
+              className={`${css.settingOptionSection} ${
+                isTokenCopied ? css.copied : ""
+              }`}
+            >
               <div className={css.sectionHead}>
                 <span className={css.sectionTitle}>Content Access Token</span>
+                {isTokenCopied && (
+                  <span className={css.sectionSubtitle}>copied!</span>
+                )}
               </div>
-              <TextField
-                placeholder={contentsKey || "siY89Pm023u$&8RjQqj4%xD8DPl"}
-                disabled
-              />
+              <div
+                className={css.contentsKey}
+                onClick={() => handleTokenCopy(contentsKey)}
+              >
+                {contentsKey}
+              </div>
             </div>
             <p className={css.fieldSubText}>
               The Permanent Auth Token must be passed via the Authorization
@@ -43,15 +75,25 @@ export function ModalContentsKey({ projectName }: { projectName: string }) {
             </p>
           </div>
         </div>
-        <div className={css.settingOptionSection}>
+        <div
+          className={`${css.settingOptionSection} ${
+            isApiCopied ? css.copied : ""
+          }`}
+        >
           <div className={css.sectionHead}>
             <span className={css.sectionTitle}>Content Api</span>
+            {isApiCopied && (
+              <span className={css.sectionSubtitle}>copied!</span>
+            )}
           </div>
-          <TextField
-            value={`${cmsDomain}/[your-schema-name]`}
-            placeholder="https://api.jaamtoast.click/api/[yourSchemaName]"
-            disabled
-          />
+          <div
+            className={css.contentsKey}
+            onClick={() =>
+              handleApiCopy("https://api.jaamtoast.click/api/[yourSchemaName]")
+            }
+          >
+            {"https://api.jaamtoast.click/api/[yourSchemaName]"}
+          </div>
         </div>
       </div>
     </section>
