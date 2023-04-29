@@ -15,15 +15,14 @@ import { ModalNewSchema } from "./ModalNewSchema";
 import { ModalSchemaProperties } from "./ModalSchemaProperties";
 import { useProjectSchemaQuery } from "./useSchemaQuery";
 import { useDeleteSchemaMutation } from "./useSchemaMutation";
-import { useProjectQuery } from "../ProjectDashboard/useProjectQuery";
 import {
   useCheckboxState,
   useSetCheckboxState,
 } from "../@shared/useCheckboxStore";
 import { sortByMode as sortBy } from "../@utils/sortByMode";
 import * as css from "./index.css";
-import { OrderMode } from "src/@types/cms";
 
+import type { OrderMode } from "../@types/cms";
 import type { SchemaList } from "../@types/api";
 
 export function ProjectSchema() {

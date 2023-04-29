@@ -1,11 +1,9 @@
-import Ajv from "ajv";
-import addFormats from "ajv-formats";
 import { useMutation } from "@tanstack/react-query";
+import jaamSchemaToJsonSchema from "../@packages/jaam-schema-to-json-schema";
 
 import { useAuth } from "../@shared";
 import APIClient from "../@utils/api";
 import { useSchemaState } from "./useSchemaStore";
-import jaamSchemaToJsonSchema from "../@packages/jaam-schema-to-json-schema";
 
 type Options = {
   onSuccess?: (data?: string) => Promise<unknown> | unknown;
@@ -35,16 +33,6 @@ export function useCreateSchemaMutation({ onSuccess, onError }: Options) {
         schemaName: title,
         schema: convertedSchema,
       };
-
-      // * test 용도 - 이후에 지우겠습니다.
-      try {
-        const ajv = new Ajv();
-        addFormats(ajv);
-        const test = ajv.compile(schema);
-        console.log({ test });
-      } catch (error) {
-        console.log(error);
-      }
 
       return api.createSchema({ projectName, options });
     },
