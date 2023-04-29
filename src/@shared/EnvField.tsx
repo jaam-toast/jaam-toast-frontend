@@ -65,22 +65,20 @@ export function EnvField() {
       <div className={css.addEnvSection}>
         <div className={css.addEnvKey}>
           <TextField
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setEnvKey(e.target.value)
-            }
+            onTextFieldChange={(key: string) => setEnvKey(key)}
             onKeyDown={handleEnvFieldKeyPress}
             placeholder="Key"
             value={envKey}
+            key={envKey}
           />
         </div>
         <div className={css.addEnvValue}>
           <TextField
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setEnvValue(e.target.value)
-            }
+            onTextFieldChange={(value: string) => setEnvValue(value)}
             onKeyDown={handleEnvFieldKeyPress}
             placeholder="Value"
             value={envValue}
+            key={envValue}
           />
 
           <button onClick={handleAddEnv} className={css.addEnvButton}>
