@@ -1,7 +1,6 @@
 {
   "name": "jaam-toast-frontend",
   "version": "1.12.0",
-  "private": true,
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
