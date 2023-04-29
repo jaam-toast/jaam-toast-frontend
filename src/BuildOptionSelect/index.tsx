@@ -9,12 +9,13 @@ import {
 } from "../BuildOptionSelect/useBuildOptionsStore";
 import useProjectMutaion from "./useProjectMutation";
 import {
-  usePresetBuildOptionStore,
   usePresetBuildOptions,
+  usePresetBuildOptionActions,
 } from "../RepositorySelect/usePresetBuildOptionStore";
 import * as css from "./index.css";
 
 import { FRAMEWORK, NODE_VERSION } from "../@types/build";
+import { FRAMEWORK_PRESET } from "../@config/frameworks";
 
 export function BuildOptionSelect() {
   const navigate = useNavigate();
@@ -29,9 +30,8 @@ export function BuildOptionSelect() {
   const buildOptions = useBuildOptions();
   const setBuildOptions = useSetBuildOptions();
   const setProjectName = useSetProjectName();
-  const { setRepoName, setSpace } = usePresetBuildOptionStore(
-    state => state.actions,
-  );
+  const { setRepoName, setSpace, setDefaultCommand } =
+    usePresetBuildOptionActions();
 
   const deploy = useProjectMutaion({
     onSuccess: () => {
@@ -106,7 +106,17 @@ export function BuildOptionSelect() {
             <p className={css.buildOptionTitle}>Framework</p>
             <SelectBox
               options={FRAMEWORK}
-              onSelectionChange={setBuildOptions("framework")}
+              onSelectionChange={(selection: string) => {
+                setBuildOptions("framework")(selection);
+                setDefaultCommand({
+                  installCommand:
+                    FRAMEWORK_PRESET[selection]?.installCommand ??
+                    "npm install",
+                  buildCommand:
+                    FRAMEWORK_PRESET[selection]?.buildCommand ??
+                    "npm run build",
+                });
+              }}
             />
           </div>
 
