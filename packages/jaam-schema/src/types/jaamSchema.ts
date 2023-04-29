@@ -15,15 +15,13 @@ export type JaamSchema = {
   description?: string;
   type: "object";
   properties: Record<string, JaamSchemaProperties>;
-  required?: string[];
 };
 
 export type JaamSchemaProperties = {
   type: JaamSchemaPropertyType;
   min?: number;
   max?: number;
-  description?: string;
-  format?: string;
+  required?: boolean;
 };
 
 export type JaamSchemaContentProperty = string | number | boolean;

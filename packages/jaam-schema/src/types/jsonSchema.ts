@@ -11,7 +11,7 @@ export type JsonSchema = {
   description?: string;
   type: "object";
   properties: Record<string, JsonSchemaProperties>;
-  required?: string[];
+  required: string[];
 };
 
 export type JsonSchemaProperties = {
