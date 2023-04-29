@@ -1,20 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
+import { Navigate } from "react-router-dom";
 import dayjs from "dayjs";
 import jsonSchemaToJaamSchema from "../@packages/json-schema-to-jaam-schema";
+import jsonSchemaValidator from "../@packages/json-schema-validator";
 
 import { SelectBox, TextField, useModal } from "../@shared";
 import { FieldTitle } from "../ProjectSchema/FieldTitle";
-import { useCreateSchemaMutation } from "../ProjectSchema/useSchemaMutation";
+import { useContentsState, useSetContentsState } from "./useContentsStore";
+import { useCreateContentMutation } from "./useContentsMutation";
 import * as css from "../ProjectSchema/ModalNewSchema.css";
 
-import { SchemaPropertyType } from "../@packages/json-schema-to-jaam-schema/types";
 import type { SchemaList } from "../@types/api";
-import { useContentsState, useSetContentsState } from "./useContentsStore";
-import { Navigate } from "react-router-dom";
-import jsonSchemaValidator from "../@packages/json-schema-validator";
-import { useCreateContentMutation } from "./useContentsMutation";
+import type { SchemaPropertyType } from "../@packages/json-schema-to-jaam-schema/types";
 
-type Options = {
+type ModalNewContentProps = {
   token: string;
   schemaList?: SchemaList[];
 };
@@ -31,7 +30,7 @@ const editorForType: Record<SchemaPropertyType, EditorType> = {
   boolean: "textfield",
 };
 
-export function ModalNewContent({ token, schemaList }: Options) {
+export function ModalNewContent({ token, schemaList }: ModalNewContentProps) {
   const [currentSchemaIndex, setCurrentSchemaIndex] = useState<number>(0);
   const { content, contentsError } = useContentsState();
   const { setContents } = useSetContentsState();
@@ -85,10 +84,7 @@ export function ModalNewContent({ token, schemaList }: Options) {
     <div className={css.container}>
       <header className={css.header}>
         <div className={css.headerFirstLine}>
-          <h3>
-            Create new Content
-            {/* <span className={css.schemaName}> {schema.title}</span> */}
-          </h3>
+          <h3>Create new Content</h3>
         </div>
       </header>
       <section className={css.schemaNameSection}>
