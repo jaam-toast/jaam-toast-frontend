@@ -4,7 +4,7 @@ import { TextField, useModal } from "../@shared";
 import { FieldTitle } from "./FieldTitle";
 import { FieldInput } from "./FieldInput";
 import { PropertyEditor } from "./PropertyEditor";
-import { SchemaProperties } from "./SchemaProperties";
+import { PropertyList } from "./PropertyList";
 import {
   useCurrentEditProperty,
   useSchemaState,

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { SchemaProperties } from "./SchemaProperties";
+import { PropertyList } from "./PropertyList";
 import { FieldTitle } from "./FieldTitle";
 import { FieldInput } from "./FieldInput";
 import { PropertyEditor } from "./PropertyEditor";
@@ -11,11 +11,11 @@ import {
   useSetSchemaState,
 } from "./useSchemaStore";
 import { useModal } from "../@shared";
-import * as css from "./ModalSchemaProperties.css";
+import * as css from "./ModalSchemaPropertList.css";
 
-import { JsonSchema } from "../@packages/jaam-schema/src";
+import type { JsonSchema } from "@jaam-schema/src";
 
-export function ModalSchemaProperties({
+export function ModalSchemaPropertList({
   currentSchema,
   projectName,
 }: {
@@ -24,12 +24,9 @@ export function ModalSchemaProperties({
 }) {
   const [isFieldEditMode, setIsFieldEditMode] = useState<boolean>(false);
   const [isClickTypeIcon, setIsClickTypeIcon] = useState<boolean>(false);
-  const [currentEditPropertyName, setCurrentEditPropertyName] = useState<
-    null | string
-  >(null);
 
   const {
-    setState,
+    setSchema,
     setCurrentEditProperty,
     addProperty,
     editProperty,
@@ -38,11 +35,11 @@ export function ModalSchemaProperties({
   } = useSetSchemaState();
   const schema = useSchemaState();
   const currentEditProperty = useCurrentEditProperty();
-  const { setCloseHandler: setHandleModalClose } = useModal();
+  const { setCloseHandler: setHandlerTriggeredModalClose } = useModal();
 
   useEffect(() => {
-    setState(currentSchema);
-    setHandleModalClose(reset);
+    setSchema(currentSchema);
+    setHandlerTriggeredModalClose(reset);
   }, []);
 
   const updateSchema = useUpdateSchemaMutation({
@@ -64,7 +61,6 @@ export function ModalSchemaProperties({
   });
 
   // TODO 해당 스키마에 해당되는 콘텐츠 있는지 체크
-  const hasContentsWithCurrentSchema = true;
 
   const handleChangePropertyName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentEditProperty({
@@ -74,7 +70,11 @@ export function ModalSchemaProperties({
   };
 
   const handleClickAdd = () => {
-    addProperty(currentEditProperty);
+    if (!currentEditProperty.name) {
+      alert("The name field must not be empty.");
+    }
+
+    addProperty();
     setIsFieldEditMode(false);
     setCurrentEditProperty({ type: "reset" });
     setIsClickTypeIcon(false);
@@ -82,16 +82,15 @@ export function ModalSchemaProperties({
 
   const handleClickEditIcon = ({ propertyName }: { propertyName: string }) => {
     setCurrentEditProperty({ type: "set", propertyName });
-    setCurrentEditPropertyName(propertyName);
     setIsFieldEditMode(true);
   };
 
   const handleClickEdit = () => {
-    editProperty({
-      targetTitle: currentEditPropertyName!,
-      updateField: currentEditProperty,
-    });
-    setCurrentEditPropertyName(null);
+    if (!currentEditProperty.name) {
+      alert("The name field must not be empty.");
+    }
+
+    editProperty();
     setIsFieldEditMode(false);
     setCurrentEditProperty({ type: "reset" });
   };
@@ -122,16 +121,16 @@ export function ModalSchemaProperties({
         </div>
         <p className={css.fieldSubText}>{schema.description || ""}</p>
       </header>
-      {(isFieldEditMode || !!hasContentsWithCurrentSchema) && (
+      {isFieldEditMode && (
         <>
           <FieldInput
-            type={currentEditProperty.type || "text"}
+            type={currentEditProperty.options.type || "text"}
             isEditMode={isFieldEditMode}
             inputValue={currentEditProperty.name}
-            changeInputHandler={handleChangePropertyName}
-            clickTypeHandler={() => setIsClickTypeIcon(!isClickTypeIcon)}
-            editHandler={handleClickEdit}
-            addHandler={handleClickAdd}
+            onFieldChanged={handleChangePropertyName}
+            onTypeClicked={() => setIsClickTypeIcon(!isClickTypeIcon)}
+            onEditClicked={handleClickEdit}
+            onAddClicked={handleClickAdd}
           />
         </>
       )}
@@ -142,8 +141,8 @@ export function ModalSchemaProperties({
           <section>
             <FieldTitle>Field List</FieldTitle>
             <div className={css.fieldList}>
-              <SchemaProperties
-                schema={schema}
+              <PropertyList
+                propertyList={schema.properties}
                 editHandler={handleClickEditIcon}
                 deleteHandler={({ propertyName }: { propertyName: string }) =>
                   handleClickDelete({ propertyName })
