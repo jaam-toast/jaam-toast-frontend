@@ -2,39 +2,6 @@ import { style } from "@vanilla-extract/css";
 import { s } from "../@styles";
 import { COLORS } from "../@config/colors";
 
-export const layout = style([
-  s.fullWidth,
-  s.flexColumn,
-  {
-    gap: "1rem",
-    padding: "2rem 15vw 5rem 15vw",
-    fontSize: "0.9rem",
-  },
-]);
-
-export const container = style([s.fullWidth, s.fullHeigth, { flex: 1 }]);
-
-export const header = style([
-  s.flex,
-  s.fullWidth,
-  {
-    justifyContent: "flex-end",
-    marginBottom: "1rem",
-  },
-]);
-
-export const newButton = style([
-  s.button,
-  s.buttonSize.medium,
-  s.buttonColor.dark,
-  {
-    ":hover": {
-      backgroundColor: COLORS.STRAWBERRY,
-      borderColor: "none",
-    },
-  },
-]);
-
 export const selectOptionField = style([
   s.flex,
   s.flexSpaceBetween,
@@ -48,6 +15,8 @@ export const selectOptionField = style([
     fontSize: "0.9rem",
   },
 ]);
+
+export const optionIcon = style([{ cursor: "pointer" }]);
 
 export const table = style([
   s.fullWidth,
@@ -107,58 +76,5 @@ export const type = style([
     borderRadius: "0.4rem",
     backgroundColor: COLORS.GREY_LIGHT,
     border: `1px solid ${COLORS.GREY_CLEAR}`,
-  },
-]);
-
-export const optionField = style([
-  s.flex,
-  { gap: "1rem", justifyContent: "flex-end" },
-]);
-export const optionIcon = style([{ cursor: "pointer" }]);
-
-export const fieldNameSection = style([s.flexColumn]);
-
-export const fieldNameWrapper = style([
-  s.flex,
-  s.alignItemsCenter,
-  {
-    justifyContent: "flex-end",
-    marginBottom: "1rem",
-  },
-]);
-
-export const addButton = style([
-  s.buttonColor.dark,
-  s.pointer,
-  {
-    position: "absolute",
-    padding: "0 1rem",
-    borderRadius: "0 1.5rem 1.5rem 0",
-    border: "1px solid black",
-    height: "inherit",
-    zIndex: 1,
-  },
-]);
-
-export const inputContainer = style([
-  s.flex,
-  s.fullWidth,
-  s.alignItemsCenter,
-  s.flexSpaceBetween,
-  {
-    gap: "0.5rem",
-    justifyContent: "flex-end",
-    position: "relative",
-  },
-]);
-
-export const inputWrapper = style([
-  s.flex,
-  s.flexCenter,
-  s.pointer,
-  {
-    height: "2.5rem",
-    position: "relative",
-    width: "15rem",
   },
 ]);

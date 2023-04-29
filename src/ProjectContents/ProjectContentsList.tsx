@@ -1,23 +1,19 @@
 import { Navigate } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
-import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
+import { BsFillTrashFill } from "react-icons/bs";
 
 import {
   useCheckboxState,
   useSetCheckboxState,
 } from "../@shared/useCheckboxStore";
 import { useModal } from "../@shared";
-import { ModalSchemaProperties } from "../ProjectSchema/ModalSchemaProperties";
 import { useContentsListQuery } from "./useContentsQuery";
 import { useDeleteContentsMutation } from "./useContentsMutation";
 import { sortByMode as sortBy } from "../@utils/sortByMode";
-import * as css from "./index.css";
+import * as css from "./ProjectContentsList.css";
 
-import { JsonSchema } from "../@packages/json-schema-to-jaam-schema/types";
-import { Contents, SchemaList } from "../@types/api";
+import type { JsonSchema } from "../@packages/json-schema-to-jaam-schema/types";
+import type { Content } from "../@types/api";
 import type { SortMode, OrderMode } from "../@types/cms";
-
-// import { mockContentList } from "../test/mock/schema_mock";
 
 type ProjectContentsListProps = {
   schema: JsonSchema;
@@ -27,7 +23,6 @@ type ProjectContentsListProps = {
   searchword: string;
 };
 
-// TODO type
 export function ProjectContentsList({
   schema,
   token,
@@ -39,7 +34,7 @@ export function ProjectContentsList({
   const { values: checkedContentsId, isAllChecked } = useCheckboxState();
   const { toggleAllChecked, setValue: setCheckboxValue } =
     useSetCheckboxState();
-  const { data: contentsList, refetch } = useContentsListQuery({
+  const { data: contentsList } = useContentsListQuery({
     schemaName: schema.title,
     token,
     page: 1,
@@ -51,29 +46,17 @@ export function ProjectContentsList({
     return <Navigate to="/error" />;
   }
 
-  // const contentsList = mockContentList;
-
-  const queryClient = useQueryClient();
   const deleteContents = useDeleteContentsMutation({
     onSuccess: () => {
       alert("Success contents delete");
-      // queryClient.invalidateQueries({ queryKey: ["contents"] });
-      // refetch();
     },
     onError: () => {
       alert("Failed to delete contents. Please try again.");
     },
   });
 
-  const handleSchemaClick = ({ index }: { index: number }) => {
-    // openModal({
-    //   component: (
-    //     <ModalSchemaProperties
-    //       currentSchema={schema}
-    //       projectName={projectName}
-    //     />
-    //   ),
-    // });
+  const handleContentClick = ({ index }: { index: number }) => {
+    // TODO contents info page
   };
 
   const handleDelete = ({ contentIds }: { contentIds: string[] }) => {
@@ -122,38 +105,33 @@ export function ProjectContentsList({
             mode: orderOption,
             data: contentsList,
             fieldName: "schemaName",
-          })
-            // TODO filter
-            // .filter((data: SchemaList) =>
-            //   searchword ? data.schema.title.includes(searchword) : true,
-            // )
-            .map((data: Contents, index: number) => (
-              <tr className={css.row} key={data._id}>
-                <td className={css.cell}>
-                  <div className={css.checkboxField}>
-                    <input
-                      type="checkbox"
-                      value={data._id}
-                      checked={isAllChecked || checkedContentsId.has(data._id)}
-                      onChange={e => setCheckboxValue(e.target.value)}
-                    />
-                  </div>
-                </td>
-                <td className={css.cell}>
-                  <div
-                    onClick={() => handleSchemaClick({ index })}
-                    className={css.nameField}
-                  >
-                    <span>{data._id}</span>
-                  </div>
-                </td>
-                <td className={css.cell}>
-                  <div className={css.typeField}>{schema.title}</div>
-                </td>
-                <td className={css.cell}>04/18/2023 7:19 AM</td>
-                <td className={css.cell}>04/18/2023 7:19 AM</td>
-              </tr>
-            ))}
+          }).map((data: Content, index: number) => (
+            <tr className={css.row} key={data._id}>
+              <td className={css.cell}>
+                <div className={css.checkboxField}>
+                  <input
+                    type="checkbox"
+                    value={data._id}
+                    checked={isAllChecked || checkedContentsId.has(data._id)}
+                    onChange={e => setCheckboxValue(e.target.value)}
+                  />
+                </div>
+              </td>
+              <td className={css.cell}>
+                <div
+                  onClick={() => handleContentClick({ index })}
+                  className={css.nameField}
+                >
+                  <span>{data._id}</span>
+                </div>
+              </td>
+              <td className={css.cell}>
+                <div className={css.typeField}>{schema.title}</div>
+              </td>
+              <td className={css.cell}>04/18/2023 7:19 AM</td>
+              <td className={css.cell}>04/18/2023 7:19 AM</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </>

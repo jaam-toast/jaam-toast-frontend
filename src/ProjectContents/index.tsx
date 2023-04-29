@@ -1,15 +1,8 @@
-import { Suspense, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 
-import {
-  Modal,
-  useModal,
-  DashboardHeader,
-  TextField,
-  SelectBox,
-} from "../@shared";
+import { Modal, useModal, DashboardHeader, SelectBox } from "../@shared";
 import { ModalNewContent } from "./ModalNewContent";
-import { ModalSchemaProperties } from "../ProjectSchema/ModalSchemaProperties";
 import { ProjectContentsList } from "./ProjectContentsList";
 import { useProjectQuery } from "../ProjectDashboard/useProjectQuery";
 import * as css from "./index.css";
@@ -23,7 +16,6 @@ export function ProjectContents() {
   const [searchword, setSearchword] = useState<string>("");
   const [sortOption, setSortOption] = useState<SortMode>("createdAt");
   const [orderOption, setOrderOption] = useState<OrderMode>("ascending");
-  const [currentSchema, setCurrentSchema] = useState<string>("");
   const [currentSchemaIndex, setCurrentSchemaIndex] = useState<number>(0);
   const { openModal } = useModal();
 
@@ -31,6 +23,7 @@ export function ProjectContents() {
     return <Navigate to="/error" />;
   }
 
+  // TODO contents 없으면 에러나는 부분 해결
   const { data: project, refetch } = useProjectQuery(projectName);
 
   if (!project) {
@@ -59,20 +52,18 @@ export function ProjectContents() {
             + New Contents
           </button>
         </header>
-        <div className={css.searchInputWrapper}>
-          {/* <TextField onTextFieldChange={setSearchword} placeholder="Search.." /> */}
-          <div className={css.filterInputBox}>
+        <div className={css.inputContainer}>
+          <div className={css.inputWrapper}>
             <SelectBox
               options={schemaList.map(data => data.schemaName) || []}
               defaultSelect={schema.title}
-              onSelectionChange={(schema, index) => {
-                setCurrentSchema(schema);
+              onSelectionChange={(_, index) => {
                 setCurrentSchemaIndex(index);
               }}
               label={"Schema"}
             />
           </div>
-          <div className={css.filterInputBox}>
+          <div className={css.inputWrapper}>
             <SelectBox
               options={["ascending", "descending"]}
               defaultSelect={"ascending"}
@@ -80,7 +71,7 @@ export function ProjectContents() {
               label={"Order"}
             />
           </div>
-          <div className={css.sortInputBox}>
+          <div className={css.inputWrapper}>
             <SelectBox
               options={["createdAt", "updatedAt"]}
               defaultSelect={"createdAt"}
