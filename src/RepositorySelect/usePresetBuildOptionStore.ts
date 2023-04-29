@@ -19,6 +19,10 @@ export type PresetBuildOptionStore = {
   actions: {
     setSpace: (space: string) => void;
     setRepoName: (repoName: string) => void;
+    setDefaultCommand: (setDefaultCommandOptions: {
+      installCommand: string;
+      buildCommand: string;
+    }) => void;
   };
 };
 
@@ -72,6 +76,18 @@ export const usePresetBuildOptionStore = create<PresetBuildOptionStore>()(
           });
         }
       },
+      setDefaultCommand: ({
+        installCommand,
+        buildCommand,
+      }: {
+        installCommand: string;
+        buildCommand: string;
+      }) => {
+        set({
+          defaultInstallCommand: installCommand,
+          defaultBuildCommand: buildCommand,
+        });
+      },
     },
   }),
 );
@@ -87,6 +103,9 @@ export const usePresetBuildOptions = () =>
     }),
     shallow,
   );
+
+export const usePresetBuildOptionActions = () =>
+  usePresetBuildOptionStore(store => store.actions);
 
 export const useReposQuery = () => {
   const space = usePresetBuildOptionStore(store => store.space);

@@ -1,5 +1,5 @@
 import { Suspense, useRef, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 
 import { Preview, PreviewSkeleton } from "./Preview";
 import { BuildStepCard } from "../@shared";
@@ -9,6 +9,7 @@ import * as css from "./index.css";
 
 export function ProjectDeploy() {
   const navigate = useNavigate();
+  const { userName } = useParams();
   const logListRef = useRef<HTMLUListElement>(null);
   const [buildingLog, setBuildingLog] = useState<string[]>([]);
   const [isBuildLogFold, setIsBuildLogFold] = useState<boolean>(false);
@@ -103,11 +104,14 @@ export function ProjectDeploy() {
             <a className={css.previewOptionButton} href={deployedUrl}>
               visit to site
             </a>
-            <Link className={css.previewOptionButton} to="/">
+            <Link
+              className={css.previewOptionButton}
+              to={`/${userName}/${buildOptions.projectName}/dashboard`}
+            >
               go to dashboard
             </Link>
-            <Link className={css.previewOptionButton} to="/">
-              add domain
+            <Link className={css.previewOptionButton} to="/projects">
+              go to main
             </Link>
           </div>
         </div>
