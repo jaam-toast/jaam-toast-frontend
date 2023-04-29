@@ -1,12 +1,10 @@
 import { FieldTitle } from "./FieldTitle";
 import { TypeIcon } from "../@shared";
 import { useCurrentEditProperty, useSetSchemaState } from "./useSchemaStore";
+import { JAAM_SCHEMA_PROPERTY_TYPES } from "@jaam-schema/src";
 import * as css from "./PropertyEditor.css";
 
-import type {
-  JAAM_SCHEMA_PROPERTY_TYPES,
-  JaamSchemaPropertyType,
-} from "@jaam-schema/src";
+import type { JaamSchemaPropertyType } from "@jaam-schema/src";
 
 const SizeEditableType: Record<
   string,
