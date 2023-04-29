@@ -2,7 +2,7 @@ import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 
 import { TypeIcon } from "../@shared";
 import { JaamSchema, JaamSchemaProperties } from "@jaam-schema/src";
-import * as css from "./SchemaProperties.css";
+import * as css from "./PropertyList.css";
 
 type SchemaPropertiesProps = {
   propertyList: JaamSchema["properties"];
