@@ -3,10 +3,10 @@ import { TypeIcon } from "../@shared";
 import { useCurrentEditProperty, useSetSchemaState } from "./useSchemaStore";
 import * as css from "./PropertyEditor.css";
 
-import {
+import type {
   JAAM_SCHEMA_PROPERTY_TYPES,
   JaamSchemaPropertyType,
-} from "../@packages/jaam-schema/src";
+} from "@jaam-schema/src";
 
 const SizeEditableType: Record<
   string,
@@ -35,7 +35,6 @@ export function PropertyEditor() {
     editType: T;
     updateValue: Extract<EditableTypes, { name: T }>["editType"];
   }): void => {
-    // TODO
     setCurrentEditProperty({
       type: "update",
       updateData: {
@@ -58,7 +57,7 @@ export function PropertyEditor() {
             <div
               key={type}
               className={`${css.typeWrapper} ${
-                currentEditProperty.type === type ? css.type : ""
+                currentEditProperty.options.type === type ? css.type : ""
               }`}
               onClick={() => {
                 handleEditProperty({ editType: "type", updateValue: type });
@@ -89,7 +88,7 @@ export function PropertyEditor() {
             />
             <label htmlFor="required-field">Required field</label>
           </li>
-          {SizeEditableType[currentEditProperty.type] && (
+          {SizeEditableType[currentEditProperty.options.type] && (
             <>
               <li className={css.optionInputField}>
                 <label>minimum</label>

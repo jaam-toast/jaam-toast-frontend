@@ -13,11 +13,11 @@ import {
 import { useCreateSchemaMutation } from "./useSchemaMutation";
 import * as css from "./ModalNewSchema.css";
 
-import type { SchemaList } from "../@types/api";
+import type { SchemaData } from "../@types/api";
 
 type Options = {
   projectName: string;
-  schemaList?: SchemaList[];
+  schemaList?: SchemaData[];
 };
 
 export function ModalNewSchema({ projectName, schemaList }: Options) {

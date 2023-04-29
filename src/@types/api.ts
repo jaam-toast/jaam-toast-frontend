@@ -1,4 +1,4 @@
-import type { JsonSchema } from "../@packages/jaam-schema/src";
+import type { JsonSchema } from "@jaam-schema/src";
 import type { BuildOptions, Env } from "./build";
 
 export type Response<T> = {
@@ -48,7 +48,7 @@ export type Project = {
   cmsDomain: string;
   storageKey: string;
 
-  schemaList: SchemaList[];
+  schemaList: SchemaData[];
   contentList: string[];
   assetStorageUrl: string;
 
@@ -59,7 +59,7 @@ export type Project = {
 
 export type ProjectId = string;
 
-export type SchemaList = {
+export type SchemaData = {
   schemaName: string;
   schema: JsonSchema;
 };

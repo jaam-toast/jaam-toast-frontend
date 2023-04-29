@@ -1,10 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { Navigate } from "react-router-dom";
 import dayjs from "dayjs";
-import {
-  jsonSchemaToJaamSchema,
-  jsonSchemaValidator,
-} from "../@packages/jaam-schema/src";
+import isEmpty from "lodash/isEmpty";
+import { jsonSchemaToJaamSchema, jsonSchemaValidator } from "@jaam-schema/src";
 
 import { SelectBox, TextField, useModal } from "../@shared";
 import { FieldTitle } from "../ProjectSchema/FieldTitle";
@@ -12,17 +10,17 @@ import { useContentsState, useSetContentsState } from "./useContentsStore";
 import { useCreateContentMutation } from "./useContentsMutation";
 import * as css from "../ProjectSchema/ModalNewSchema.css";
 
-import type { SchemaList } from "../@types/api";
-import type { JaamSchemaPropertyType } from "../@packages/jaam-schema/src";
+import type { SchemaData } from "../@types/api";
+import type { JaamSchemaPropertyType } from "@jaam-schema/src";
 
 type ModalNewContentProps = {
   token: string;
-  schemaList?: SchemaList[];
+  schemaList?: SchemaData[];
 };
 
 type EditorType = "textfield" | "textarea" | "dateInput";
 
-const editorForType: Record<JaamSchemaPropertyType, EditorType> = {
+const EDITOR_BY_TYPE: Record<JaamSchemaPropertyType, EditorType> = {
   text: "textfield",
   textarea: "textarea",
   email: "textfield",
@@ -35,10 +33,10 @@ const editorForType: Record<JaamSchemaPropertyType, EditorType> = {
 export function ModalNewContent({ token, schemaList }: ModalNewContentProps) {
   const [currentSchemaIndex, setCurrentSchemaIndex] = useState<number>(0);
   const { content, contentsErrorMessage } = useContentsState();
-  const { setContents } = useSetContentsState();
+  const { setContents, reset } = useSetContentsState();
   const { closeModal } = useModal();
 
-  if (!schemaList) {
+  if (!schemaList || isEmpty(schemaList)) {
     return <Navigate to="/error" />;
   }
 
@@ -46,13 +44,13 @@ export function ModalNewContent({ token, schemaList }: ModalNewContentProps) {
     () => schemaList[currentSchemaIndex],
     [currentSchemaIndex],
   );
-  const jaamSchemaProperty = useMemo(
+  const jaamSchemaPropertyList = useMemo(
     () => Object.entries(jsonSchemaToJaamSchema(schema).properties),
     [currentSchemaIndex],
   );
 
   useEffect(() => {
-    jaamSchemaProperty.forEach(([name, data]) => {
+    jaamSchemaPropertyList.forEach(([name, data]) => {
       if (data.type === "date") {
         setContents({ name, content: dayjs().format("YYYY-MM-DD"), schema });
       }
@@ -80,6 +78,7 @@ export function ModalNewContent({ token, schemaList }: ModalNewContentProps) {
     }
 
     createContent.mutate({ token, schemaName: schema.title });
+    reset();
   };
 
   return (
@@ -101,7 +100,7 @@ export function ModalNewContent({ token, schemaList }: ModalNewContentProps) {
             Choose your schema type for content field.
           </p>
         </div>
-        {jaamSchemaProperty.map(([property, data]) => (
+        {jaamSchemaPropertyList.map(([property, data]) => (
           <div>
             <div className={css.fieldHeader}>
               <FieldTitle>{property}</FieldTitle>
@@ -113,7 +112,7 @@ export function ModalNewContent({ token, schemaList }: ModalNewContentProps) {
               </div>
             </div>
             <div>{contentsErrorMessage[property]}</div>
-            {editorForType[data.type] === "textfield" && (
+            {EDITOR_BY_TYPE[data.type] === "textfield" && (
               <TextField
                 onTextFieldChange={text => {
                   data.type === "number"
@@ -131,7 +130,7 @@ export function ModalNewContent({ token, schemaList }: ModalNewContentProps) {
                 placeholder={property}
               />
             )}
-            {editorForType[data.type] === "dateInput" && (
+            {EDITOR_BY_TYPE[data.type] === "dateInput" && (
               <TextField
                 type="date"
                 value={content[property] as string}
@@ -151,7 +150,7 @@ export function ModalNewContent({ token, schemaList }: ModalNewContentProps) {
                 placeholder={property}
               />
             )}
-            {editorForType[data.type] === "textarea" && (
+            {EDITOR_BY_TYPE[data.type] === "textarea" && (
               <textarea
                 className={css.textarea}
                 onChange={e =>

@@ -23,7 +23,7 @@ import { sortByMode as sortBy } from "../@utils/sortByMode";
 import * as css from "./index.css";
 
 import type { OrderMode } from "../@types/cms";
-import type { SchemaList } from "../@types/api";
+import type { SchemaData } from "../@types/api";
 
 export function ProjectSchema() {
   const params = useParams();

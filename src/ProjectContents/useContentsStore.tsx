@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import { shallow } from "zustand/shallow";
-import { jsonSchemaValidator } from "../@packages/jaam-schema/src";
+import { jsonSchemaValidator } from "@jaam-schema/src";
 
 import type {
   JsonSchema,
   JaamSchemaContent,
   JaamSchemaContentProperty,
-} from "../@packages/jaam-schema/src";
+} from "@jaam-schema/src";
 
 type ContentsErrorMessage = {
   [propertyName in string]: string;
@@ -26,11 +26,12 @@ type ContentsStore = {
       content: T;
       schema: JsonSchema;
     }) => void;
+    reset: () => void;
   };
 };
 
 const initialState = {
-  schema: {} as JsonSchema,
+  schema: null,
   content: {},
   contentsErrorMessage: {},
 };
@@ -60,6 +61,9 @@ export const useContentsStore = create<ContentsStore>((set, get) => ({
           },
         };
       });
+    },
+    reset: () => {
+      set(initialState);
     },
   },
 }));

@@ -11,7 +11,7 @@ import { useDeleteContentsMutation } from "./useContentsMutation";
 import { sortByMode as sortBy } from "../@utils/sortByMode";
 import * as css from "./ProjectContentsList.css";
 
-import type { JsonSchema } from "../@packages/json-schema-to-jaam-schema/types";
+import type { JsonSchema } from "@jaam-schema/src";
 import type { Content } from "../@types/api";
 import type { SortMode, OrderMode } from "../@types/cms";
 
@@ -20,7 +20,6 @@ type ProjectContentsListProps = {
   token: string;
   orderOption: OrderMode;
   sortOption: SortMode;
-  searchword: string;
 };
 
 export function ProjectContentsList({
@@ -28,12 +27,10 @@ export function ProjectContentsList({
   token,
   orderOption,
   sortOption,
-  searchword,
 }: ProjectContentsListProps) {
   const { openModal } = useModal();
   const { values: checkedContentsId, isAllChecked } = useCheckboxState();
-  const { toggleAllChecked, setValue: setCheckboxValue } =
-    useSetCheckboxState();
+  const { toggleAllChecked, setCheckboxValue } = useSetCheckboxState();
   const { data: contentsList } = useContentsListQuery({
     schemaName: schema.title,
     token,
@@ -113,7 +110,12 @@ export function ProjectContentsList({
                     type="checkbox"
                     value={data._id}
                     checked={isAllChecked || checkedContentsId.has(data._id)}
-                    onChange={e => setCheckboxValue(e.target.value)}
+                    onChange={e =>
+                      setCheckboxValue({
+                        value: e.target.value,
+                        checkboxCount: contentsList.length,
+                      })
+                    }
                   />
                 </div>
               </td>
