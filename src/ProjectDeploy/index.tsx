@@ -41,12 +41,12 @@ export function ProjectDeploy() {
     onComplete: (data: string) => {
       const regExp = /\{([^}]+)\}/g;
       const resultMessage = data.match(regExp)?.pop() as string;
-      const originalBuildDomain = JSON.parse(resultMessage);
+      const { buildOriginalDomain } = JSON.parse(resultMessage);
 
       setIsBuildLogFold(true);
 
       setTimeout(() => {
-        setDeployedUrl(`https://${originalBuildDomain}`);
+        setDeployedUrl(`https://${buildOriginalDomain}`);
       }, 500);
 
       setTimeout(() => {
