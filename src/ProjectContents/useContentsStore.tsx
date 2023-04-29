@@ -1,31 +1,30 @@
 import { create } from "zustand";
-import {
-  JaamSchema,
-  JsonSchema,
-} from "../@packages/json-schema-to-jaam-schema/types";
-import jsonSchemaValidator from "../@packages/json-schema-validator";
+import { shallow } from "zustand/shallow";
+import { jsonSchemaValidator } from "../@packages/jaam-schema/src";
 
-import type { Content, ContentType } from "../@types/cms";
+import type {
+  JsonSchema,
+  JaamSchemaContent,
+  JaamSchemaContentProperty,
+} from "../@packages/jaam-schema/src";
 
 type ContentsErrorMessage = {
   [propertyName in string]: string;
 };
 
 type ContentsStore = {
-  schema: JsonSchema;
-  content: Content;
+  content: JaamSchemaContent;
   contentsErrorMessage: ContentsErrorMessage;
 
   actions: {
-    setSchema: (schema: JsonSchema) => void;
-    setContents: <T extends ContentType>({
+    setContents: <T extends JaamSchemaContentProperty>({
       name,
-      schema,
       content,
+      schema,
     }: {
       name: string;
-      schema: JaamSchema;
       content: T;
+      schema: JsonSchema;
     }) => void;
   };
 };
@@ -40,7 +39,6 @@ export const useContentsStore = create<ContentsStore>((set, get) => ({
   ...initialState,
 
   actions: {
-    setSchema: (schema: JsonSchema) => set({ schema }),
     setContents: ({ name, content, schema }) => {
       const jsonSchema = { ...schema };
 
@@ -50,7 +48,7 @@ export const useContentsStore = create<ContentsStore>((set, get) => ({
 
       const { message: errorMessage } = jsonSchemaValidator({
         content: { [name]: content },
-        schema: jsonSchema,
+        schema,
       });
 
       set(state => {
@@ -70,9 +68,9 @@ export const useContentsState = () =>
   useContentsStore(state => {
     return {
       content: state.content,
-      contentsError: state.contentsErrorMessage,
+      contentsErrorMessage: state.contentsErrorMessage,
     };
-  });
+  }, shallow);
 
 export const useSetContentsState = () =>
   useContentsStore(state => state.actions);

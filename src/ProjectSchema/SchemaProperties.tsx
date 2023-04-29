@@ -1,10 +1,7 @@
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 
 import { TypeIcon } from "../@shared";
-import {
-  JaamSchema,
-  JaamSchemaProperties,
-} from "../@packages/json-schema-to-jaam-schema/types";
+import { JaamSchema, JaamSchemaProperties } from "../@packages/jaam-schema/src";
 import * as css from "./SchemaProperties.css";
 
 type Options = {

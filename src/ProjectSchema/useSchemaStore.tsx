@@ -1,9 +1,10 @@
 import { create } from "zustand";
 import {
-  SchemaPropertyType,
-  JaamSchema,
   JsonSchema,
-} from "../@packages/json-schema-to-jaam-schema/types";
+  JaamSchema,
+  JaamSchemaPropertyType,
+} from "../@packages/jaam-schema/src";
+import { shallow } from "zustand/shallow";
 
 type PropertyOptions = {
   min?: number;
@@ -13,7 +14,7 @@ type PropertyOptions = {
 
 type Property = {
   name: string;
-  type: SchemaPropertyType;
+  type: JaamSchemaPropertyType;
   options: PropertyOptions;
 };
 
@@ -26,7 +27,7 @@ type SchemaStore = {
   currentEditProperty: Property;
 
   actions: {
-    setState: (state: JaamSchema) => void;
+    setState: (schema: JsonSchema) => void;
     setTitle: (title: string) => void;
     setDescription: (description: string) => void;
     setCurrentEditProperty: ({
@@ -55,28 +56,21 @@ const initialState = {
   title: "",
   description: "",
   type: "object",
-  properties: {},
+  properties: {} as JaamSchema["properties"],
   required: [],
   currentEditProperty: {
     name: "",
     type: "text",
     options: {},
-  },
+  } as Property,
 };
 
 export const useSchemaStore = create<SchemaStore>((set, get) => ({
   ...initialState,
 
   actions: {
-    setState: (state: JsonSchema) => {
-      /**
-       * 서버에서 가져온 스키마 리스트 수정하기 좋게 가공하는 부분입니다.
-       *
-       * schema property minLength or minimum 등을 min, max로 통일
-       * date, email, link - format에 적혀있는 것 type으로 이동
-       * schema type이 string일시 description에 등록된 type으로 변경
-       */
-      const prop = Object.entries(state.properties).reduce(
+    setState: (schema: JsonSchema) => {
+      const prop = Object.entries(schema.properties).reduce(
         (propertyObj, [name, data]) => {
           const {
             type,
@@ -100,7 +94,7 @@ export const useSchemaStore = create<SchemaStore>((set, get) => ({
             }
 
             return type;
-          })();
+          })() as JaamSchemaPropertyType;
 
           propertyObj[name] = {
             type: formattedType,
@@ -114,15 +108,15 @@ export const useSchemaStore = create<SchemaStore>((set, get) => ({
 
           return propertyObj;
         },
-        {} as JsonSchema["properties"],
+        {} as JaamSchema["properties"],
       );
 
       set({
-        title: state.title,
+        title: schema.title,
         type: "object",
         properties: prop,
-        ...(state.description && { description: state.description }),
-        ...(state.required && { required: state.required }),
+        ...(schema.description && { description: schema.description }),
+        ...(schema.required && { required: schema.required }),
       });
     },
     setTitle: (title: string) => {
@@ -247,13 +241,16 @@ export const useSchemaStore = create<SchemaStore>((set, get) => ({
 }));
 
 export const useSchemaState = (): JaamSchema =>
-  useSchemaStore(state => ({
-    title: state.title,
-    type: "object",
-    description: state.description,
-    properties: state.properties,
-    required: state.required,
-  }));
+  useSchemaStore(
+    state => ({
+      title: state.title,
+      type: "object",
+      description: state.description,
+      properties: state.properties,
+      required: state.required,
+    }),
+    shallow,
+  );
 
 export const useCurrentEditProperty = () =>
   useSchemaStore(state => state.currentEditProperty);

@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import jaamSchemaToJsonSchema from "../@packages/jaam-schema-to-json-schema";
+import { jaamSchemaToJsonSchema } from "../@packages/jaam-schema/src";
 
 import { useAuth } from "../@shared";
 import APIClient from "../@utils/api";

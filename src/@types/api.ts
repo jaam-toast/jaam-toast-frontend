@@ -1,5 +1,5 @@
-import { JsonSchema } from "../@packages/json-schema-to-jaam-schema/types";
-import { BuildOptions, Env } from "./build";
+import type { JsonSchema } from "../@packages/jaam-schema/src";
+import type { BuildOptions, Env } from "./build";
 
 export type Response<T> = {
   message: string;
@@ -42,6 +42,7 @@ export type Project = {
   envList: Env[];
   buildType: string;
 
+  // TODO 배열로 변경
   buildDomain: string;
   buildOriginalDomain: string;
   cmsDomain: string;

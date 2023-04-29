@@ -11,12 +11,12 @@ import {
 import { ColorBox } from "./ColorBox";
 import { ColorKeys } from "../@config/colors";
 
-import { SchemaPropertyType } from "../@packages/json-schema-to-jaam-schema/types";
+import type { JaamSchemaPropertyType } from "../@packages/jaam-schema/src";
 
 type Size = "small" | "medium" | "large";
 
 type Options = {
-  type: SchemaPropertyType;
+  type: JaamSchemaPropertyType;
   color?: ColorKeys;
   size?: Size;
   onClick?: () => void;

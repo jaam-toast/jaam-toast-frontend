@@ -1,6 +1,6 @@
-import { JaamSchema, JsonSchema } from "./types";
+import type { JaamSchema, JsonSchema, JaamSchemaPropertyType } from "./types";
 
-export default function jsonSchemaToJaamSchema(schema: JsonSchema): JaamSchema {
+export function jsonSchemaToJaamSchema(schema: JsonSchema): JaamSchema {
   return Object.entries(schema.properties).reduce(
     (schema, [propName, options]) => {
       const { type, description, format } = options;
@@ -18,7 +18,7 @@ export default function jsonSchemaToJaamSchema(schema: JsonSchema): JaamSchema {
         }
 
         return type;
-      })();
+      })() as JaamSchemaPropertyType;
 
       schema.properties[propName] = {
         ...options,
@@ -33,6 +33,6 @@ export default function jsonSchemaToJaamSchema(schema: JsonSchema): JaamSchema {
       properties: {},
       ...(schema.description && { description: schema.description }),
       ...(schema.required?.length && { required: schema.required }),
-    } as JsonSchema,
+    } as JaamSchema,
   );
 }

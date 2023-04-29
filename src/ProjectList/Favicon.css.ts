@@ -1,4 +1,4 @@
-import { s } from "src/@styles";
+import { s } from "../@styles";
 import { COLORS } from "../@config/colors";
 import { style } from "@vanilla-extract/css";
 
