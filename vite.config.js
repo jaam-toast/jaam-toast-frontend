@@ -13,4 +13,7 @@ export default defineConfig({
       },
     },
   },
+  resolve: {
+    alias: [{ find: "@jaam-schema", replacement: "/packages/jaam-schema" }],
+  },
 });
