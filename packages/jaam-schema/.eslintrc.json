@@ -1,0 +1,56 @@
+{
+  "env": {
+    "es2021": true,
+    "jest": true
+  },
+  "extends": [
+    "airbnb",
+    "airbnb/hooks",
+    "airbnb-typescript",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:prettier/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "parser": "@typescript-eslint/parser",
+  "rules": {
+    "no-unused-vars": "warn",
+    "no-console": "off",
+    "no-underscore-dangle": "off",
+    "func-names": "off",
+    "consistent-return": "warn",
+    "import/no-anonymous-default-export": "warn",
+    "import/extensions": ["error", "always", { "ignorePackages": true }],
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-unsafe-call": "off",
+    "@typescript-eslint/no-floating-promises": "warn",
+    "@typescript-eslint/no-misused-promises": "warn",
+    "@typescript-eslint/no-unsafe-assignment": "warn",
+    "@typescript-eslint/no-use-before-define": [
+      "error",
+      {
+        "functions": true,
+        "classes": true,
+        "variables": false,
+        "allowNamedExports": false
+      }
+    ],
+    "@typescript-eslint/ban-types": "off"
+  },
+  "root": true,
+  "plugins": ["testing-library"],
+  "overrides": [
+    {
+      "files": [
+        "**/__tests__/**/*.[jt]s?(x)",
+        "**/?(*.)+(spec|test).[jt]s?(x)"
+      ],
+      "extends": ["plugin:testing-library/react"]
+    }
+  ]
+}
