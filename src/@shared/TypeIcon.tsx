@@ -11,7 +11,7 @@ import {
 import { ColorBox } from "./ColorBox";
 import { ColorKeys } from "../@config/colors";
 
-import type { JaamSchemaPropertyType } from "../@packages/jaam-schema/src";
+import { JaamSchemaPropertyType } from "@jaam-schema/src";
 
 type Size = "small" | "medium" | "large";
 

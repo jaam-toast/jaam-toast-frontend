@@ -1,15 +1,17 @@
 import { TypeIcon } from "../@shared";
 import * as css from "./FieldInput.css";
 
+import type { JaamSchemaPropertyType } from "@jaam-schema/src";
+
 type Options = {
-  type: string;
+  type: JaamSchemaPropertyType;
   isEditMode: boolean;
   inputValue: string;
   warningMessage?: string;
-  changeInputHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  clickTypeHandler: () => void;
-  editHandler: () => void;
-  addHandler?: () => void;
+  onFieldChanged: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onTypeClicked: () => void;
+  onEditClicked: () => void;
+  onAddClicked?: () => void;
 };
 
 export function FieldInput({
@@ -17,10 +19,10 @@ export function FieldInput({
   isEditMode,
   inputValue,
   warningMessage,
-  changeInputHandler,
-  clickTypeHandler,
-  editHandler,
-  addHandler,
+  onFieldChanged,
+  onTypeClicked,
+  onEditClicked,
+  onAddClicked,
 }: Options) {
   return (
     <section className={css.fieldNameSection}>
@@ -28,18 +30,18 @@ export function FieldInput({
         <input
           className={css.fieldNameInput}
           value={inputValue}
-          onChange={changeInputHandler}
+          onChange={onFieldChanged}
         />
-        <div className={css.typeButton} onClick={clickTypeHandler}>
+        <div className={css.typeButton} onClick={onTypeClicked}>
           <TypeIcon size="small" type={type} />
         </div>
         {isEditMode ? (
-          <button onClick={editHandler} className={css.addButton}>
+          <button onClick={onEditClicked} className={css.addButton}>
             Edit
           </button>
         ) : (
           <button
-            onClick={warningMessage ? () => {} : addHandler}
+            onClick={warningMessage ? () => {} : onAddClicked}
             className={css.addButton}
           >
             Add
