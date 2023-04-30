@@ -1,6 +1,7 @@
 {
   "name": "jaam-schema",
   "version": "0.3.0",
+  "main": "./index.ts",
   "scripts": {
     "dev": "test --watch",
     "test": "jest --watch",
