@@ -22,43 +22,40 @@ export function PropertyList({
   return (
     <>
       {Object.entries(propertyList).map(
-        ([propertyName, data]: [string, JaamSchemaProperties]) => {
-          console.log({ data });
-          return (
-            <div className={css.field}>
-              <div className={css.fieldTypeIcon}>
-                <TypeIcon type={data.type} />
-              </div>
-              <div className={css.fieldInfoWrapper}>
-                <div>{propertyName}</div>
-                <div className={css.fieldInfo}>
-                  <div>{data.type}</div>
-                  {Object.entries(data).map(([options, value]) => (
-                    <>
-                      {options !== "type" && value !== false && (
-                        <div>{options}</div>
-                      )}
-                    </>
-                  ))}
-                </div>
-              </div>
-              <div className={css.fieldEditButtons}>
-                <BsFillPencilFill
-                  className={css.fieldEditButton}
-                  onClick={() => {
-                    editHandler({ propertyName });
-                  }}
-                />
-                <BsFillTrashFill
-                  className={css.fieldEditButton}
-                  onClick={() => {
-                    deleteHandler({ propertyName });
-                  }}
-                />
+        ([propertyName, data]: [string, JaamSchemaProperties]) => (
+          <div className={css.field}>
+            <div className={css.fieldTypeIcon}>
+              <TypeIcon type={data.type} />
+            </div>
+            <div className={css.fieldInfoWrapper}>
+              <div>{propertyName}</div>
+              <div className={css.fieldInfo}>
+                <div>{data.type}</div>
+                {Object.entries(data).map(([options, value]) => (
+                  <>
+                    {options !== "type" && value !== false && (
+                      <div>{options}</div>
+                    )}
+                  </>
+                ))}
               </div>
             </div>
-          );
-        },
+            <div className={css.fieldEditButtons}>
+              <BsFillPencilFill
+                className={css.fieldEditButton}
+                onClick={() => {
+                  editHandler({ propertyName });
+                }}
+              />
+              <BsFillTrashFill
+                className={css.fieldEditButton}
+                onClick={() => {
+                  deleteHandler({ propertyName });
+                }}
+              />
+            </div>
+          </div>
+        ),
       )}
     </>
   );
