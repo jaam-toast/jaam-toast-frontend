@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import { Header } from "./@shared/Header";
+import { ProjectInfoLayout } from "./@shared/ProjectInfoLayout";
 import { Landing } from "./Landing";
 import { ProjectList } from "./ProjectList";
 import { RepositorySelect } from "./RepositorySelect";
@@ -10,6 +11,7 @@ import { ProjectDeploy } from "./ProjectDeploy";
 import { ProjectDashboard } from "./ProjectDashboard";
 import { ProjectSchema } from "./ProjectSchema";
 import { ProjectContents } from "./ProjectContents";
+import { NewContent } from "./ProjectContents/NewContent";
 import { ProjectAssets } from "./ProjectAssets";
 import { ProjectSettings } from "./ProjectSettings";
 import { NotFound } from "./Error/NotFound";
@@ -45,26 +47,32 @@ export function App() {
             path="/new/:userName/:repository/deploy"
             element={<ProjectDeploy />}
           />
-          <Route
-            path="/:userName/:projectName/dashboard"
-            element={<ProjectDashboard />}
-          />
-          <Route
-            path="/:userName/:projectName/schema"
-            element={<ProjectSchema />}
-          />
-          <Route
-            path="/:userName/:projectName/contents"
-            element={<ProjectContents />}
-          />
-          <Route
-            path="/:userName/:projectName/assets"
-            element={<ProjectAssets />}
-          />
-          <Route
-            path="/:userName/:projectName/settings"
-            element={<ProjectSettings />}
-          />
+          <Route element={<ProjectInfoLayout />}>
+            <Route
+              path="/:userName/:projectName/dashboard"
+              element={<ProjectDashboard />}
+            />
+            <Route
+              path="/:userName/:projectName/schema"
+              element={<ProjectSchema />}
+            />
+            <Route
+              path="/:userName/:projectName/contents"
+              element={<ProjectContents />}
+            />
+            <Route
+              path="/:userName/:projectName/contents/new"
+              element={<NewContent />}
+            />
+            <Route
+              path="/:userName/:projectName/assets"
+              element={<ProjectAssets />}
+            />
+            <Route
+              path="/:userName/:projectName/settings"
+              element={<ProjectSettings />}
+            />
+          </Route>
           <Route
             path="/error"
             element={<Error code={state?.code} message={state?.message} />}

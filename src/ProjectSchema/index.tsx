@@ -3,14 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Navigate, useParams } from "react-router-dom";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 
-import {
-  ColorBox,
-  Modal,
-  useModal,
-  DashboardHeader,
-  TextField,
-  SelectBox,
-} from "../@shared";
+import { ColorBox, Modal, useModal, TextField, SelectBox } from "../@shared";
 import { ModalNewSchema } from "./ModalNewSchema";
 import { ModalSchemaPropertList } from "./ModalSchemaPropertList";
 import { useProjectSchemaQuery } from "./useSchemaQuery";
@@ -84,125 +77,122 @@ export function ProjectSchema() {
   };
 
   return (
-    <div className={css.layout}>
-      <DashboardHeader />
-      <div className={css.container}>
-        <Modal />
-        <header className={css.header}>
-          <button onClick={handleAddClick} className={css.newButton}>
-            + New Schema
-          </button>
-        </header>
-        <div className={css.fieldNameWrapper}>
-          <TextField onTextFieldChange={setSearchword} placeholder="Search.." />
-          <div className={css.typeButton}>
-            <SelectBox
-              options={["ascending", "descending"]}
-              defaultSelect={"ascending"}
-              onSelectionChange={setOrderMode}
-            />
-          </div>
+    <div className={css.container}>
+      <Modal />
+      <header className={css.header}>
+        <button onClick={handleAddClick} className={css.newButton}>
+          + New Schema
+        </button>
+      </header>
+      <div className={css.fieldNameWrapper}>
+        <TextField onTextFieldChange={setSearchword} placeholder="Search.." />
+        <div className={css.typeButton}>
+          <SelectBox
+            options={["ascending", "descending"]}
+            defaultSelect={"ascending"}
+            onSelectionChange={setOrderMode}
+          />
         </div>
-        {!!checkboxValues.size && (
-          <div className={css.selectOptionField}>
-            <div>{`${
-              isAllChecked ? schemaList.length : checkboxValues.size
-            } selected`}</div>
-            <BsFillTrashFill
-              onClick={() => handleDelete({ schemaNames: [...checkboxValues] })}
-              className={css.optionIcon}
-            />
-          </div>
-        )}
-        <table className={css.table}>
-          <thead>
-            <tr>
-              <th className={css.thCheckbox}>
-                <input
-                  type="checkbox"
-                  value="checkbox-parent"
-                  checked={isAllChecked}
-                  onChange={() =>
-                    toggleAllChecked(schemaList.map(data => data.schema.title))
-                  }
-                />
-              </th>
-              <th className={css.th}>Name</th>
-              <th className={css.th}>Field</th>
-              <th className={`${css.th}`}>
-                <div className={css.optionField}>Option</div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {sortBy<SchemaData>({
-              mode: orderMode,
-              data: schemaList!,
-              fieldName: "schemaName",
-            })
-              .filter((data: SchemaData) =>
-                searchword ? data.schema.title.includes(searchword) : true,
-              )
-              .map((data: SchemaData, index: number) => (
-                <tr className={css.row} key={data.schema.title}>
-                  <td className={css.cell}>
-                    <div className={css.checkboxField}>
-                      <input
-                        type="checkbox"
-                        value={data.schema.title}
-                        checked={
-                          isAllChecked || checkboxValues.has(data.schema.title)
-                        }
-                        onChange={e =>
-                          setCheckboxValue({
-                            value: e.target.value,
-                            checkboxCount: schemaList.length,
-                          })
-                        }
-                      />
-                    </div>
-                  </td>
-                  <td className={css.cell}>
-                    <div
-                      onClick={() => handleSchemaClick({ index })}
-                      className={css.nameField}
-                    >
-                      <ColorBox>
-                        <span>{data.schema.title[0].toUpperCase()}</span>
-                      </ColorBox>
-                      <span>{data.schema.title}</span>
-                    </div>
-                  </td>
-                  <td className={css.cell}>
-                    <div className={css.typeField}>
-                      {Object.keys(data.schema.properties).map(
-                        (property: string) => (
-                          <span className={css.type} key={property}>
-                            {property}
-                          </span>
-                        ),
-                      )}
-                    </div>
-                  </td>
-                  <td className={css.cell}>
-                    <div className={css.optionField}>
-                      <BsFillPencilFill
-                        onClick={() => handleSchemaClick({ index })}
-                        className={css.optionIcon}
-                      />
-                      <BsFillTrashFill
-                        onClick={() =>
-                          handleDelete({ schemaNames: [data.schema.title] })
-                        }
-                        className={css.optionIcon}
-                      />
-                    </div>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
       </div>
+      {!!checkboxValues.size && (
+        <div className={css.selectOptionField}>
+          <div>{`${
+            isAllChecked ? schemaList.length : checkboxValues.size
+          } selected`}</div>
+          <BsFillTrashFill
+            onClick={() => handleDelete({ schemaNames: [...checkboxValues] })}
+            className={css.optionIcon}
+          />
+        </div>
+      )}
+      <table className={css.table}>
+        <thead>
+          <tr>
+            <th className={css.thCheckbox}>
+              <input
+                type="checkbox"
+                value="checkbox-parent"
+                checked={isAllChecked}
+                onChange={() =>
+                  toggleAllChecked(schemaList.map(data => data.schema.title))
+                }
+              />
+            </th>
+            <th className={css.th}>Name</th>
+            <th className={css.th}>Field</th>
+            <th className={`${css.th}`}>
+              <div className={css.optionField}>Option</div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {sortBy<SchemaData>({
+            mode: orderMode,
+            data: schemaList!,
+            fieldName: "schemaName",
+          })
+            .filter((data: SchemaData) =>
+              searchword ? data.schema.title.includes(searchword) : true,
+            )
+            .map((data: SchemaData, index: number) => (
+              <tr className={css.row} key={data.schema.title}>
+                <td className={css.cell}>
+                  <div className={css.checkboxField}>
+                    <input
+                      type="checkbox"
+                      value={data.schema.title}
+                      checked={
+                        isAllChecked || checkboxValues.has(data.schema.title)
+                      }
+                      onChange={e =>
+                        setCheckboxValue({
+                          value: e.target.value,
+                          checkboxCount: schemaList.length,
+                        })
+                      }
+                    />
+                  </div>
+                </td>
+                <td className={css.cell}>
+                  <div
+                    onClick={() => handleSchemaClick({ index })}
+                    className={css.nameField}
+                  >
+                    <ColorBox>
+                      <span>{data.schema.title[0].toUpperCase()}</span>
+                    </ColorBox>
+                    <span>{data.schema.title}</span>
+                  </div>
+                </td>
+                <td className={css.cell}>
+                  <div className={css.typeField}>
+                    {Object.keys(data.schema.properties).map(
+                      (property: string) => (
+                        <span className={css.type} key={property}>
+                          {property}
+                        </span>
+                      ),
+                    )}
+                  </div>
+                </td>
+                <td className={css.cell}>
+                  <div className={css.optionField}>
+                    <BsFillPencilFill
+                      onClick={() => handleSchemaClick({ index })}
+                      className={css.optionIcon}
+                    />
+                    <BsFillTrashFill
+                      onClick={() =>
+                        handleDelete({ schemaNames: [data.schema.title] })
+                      }
+                      className={css.optionIcon}
+                    />
+                  </div>
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
     </div>
   );
 }

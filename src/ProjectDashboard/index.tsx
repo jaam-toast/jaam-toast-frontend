@@ -1,15 +1,9 @@
 import { Suspense } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
-import { BsColumnsGap } from "react-icons/bs";
-import { BsFileEarmarkImage } from "react-icons/bs";
-import { BsStack } from "react-icons/bs";
 
-import { ColorBox } from "../@shared/ColorBox";
-import { DashboardHeader } from "../@shared";
 import { Preview, PreviewSkeleton } from "../ProjectDeploy/Preview";
 import { useProjectQuery } from "./useProjectQuery";
-import { COLORS } from "../@config/colors";
 import * as css from "./index.css";
 import { ContentsInfo } from "./ContentsInfo";
 
@@ -24,61 +18,56 @@ export function ProjectDashboard() {
   const { data: project } = useProjectQuery(projectName);
 
   return (
-    <div className={css.layout}>
-      <DashboardHeader />
-      <section className={css.container}>
-        <header>
-          <h2 className={css.sectionTitle}>project informations</h2>
-        </header>
-        <div className={css.wrapper}>
-          <div className={css.projectInfoLeftWrapper}>
-            <section className={css.projectPreviewSection}>
-              <Suspense fallback={<PreviewSkeleton />}>
-                <Preview url={`https://${project?.buildDomain}`} />
-              </Suspense>
-            </section>
-            <section className={css.projectInfoSection}>
-              <ul className={css.projectInfoList}>
-                <li className={css.projectInfo}>
-                  <span className={css.infoFieldTitle}>package info</span>
-                  <p className={css.infoText}>{project?.framework}</p>
-                </li>
-                <li className={css.projectInfo}>
-                  <span className={css.infoFieldTitle}>url</span>
-                  <a
-                    className={css.infoText}
-                    href={`https://${project?.buildDomain}`}
-                    target="_blank"
-                  >
-                    {`https://${project?.buildDomain}`}
-                  </a>
-                </li>
-                <li className={css.projectInfo}>
-                  <span className={css.infoFieldTitle}>status</span>
-                  <p className={css.infoText}>READY</p>
-                </li>
-                <li className={css.projectInfo}>
-                  <span className={css.infoFieldTitle}>
-                    last commit message
-                  </span>
-                  <p className={css.infoText}>{project?.lastCommitMessage}</p>
-                </li>
-                <li className={css.projectInfo}>
-                  <span className={css.infoFieldTitle}>created at</span>
-                  <p className={css.infoText}>
-                    {dayjs(project?.projectUpdatedAt).format("YYYY MM DD dddd")}
-                  </p>
-                </li>
-              </ul>
-            </section>
-          </div>
-          <ContentsInfo
-            schemaListCount={project?.schemaList?.length || 0}
-            userName={userName}
-            projectName={projectName}
-          />
+    <section className={css.container}>
+      <header>
+        <h2 className={css.sectionTitle}>project informations</h2>
+      </header>
+      <div className={css.wrapper}>
+        <div className={css.projectInfoLeftWrapper}>
+          <section className={css.projectPreviewSection}>
+            <Suspense fallback={<PreviewSkeleton />}>
+              <Preview url={`https://${project?.buildDomain}`} />
+            </Suspense>
+          </section>
+          <section className={css.projectInfoSection}>
+            <ul className={css.projectInfoList}>
+              <li className={css.projectInfo}>
+                <span className={css.infoFieldTitle}>package info</span>
+                <p className={css.infoText}>{project?.framework}</p>
+              </li>
+              <li className={css.projectInfo}>
+                <span className={css.infoFieldTitle}>url</span>
+                <a
+                  className={css.infoText}
+                  href={`https://${project?.buildDomain}`}
+                  target="_blank"
+                >
+                  {`https://${project?.buildDomain}`}
+                </a>
+              </li>
+              <li className={css.projectInfo}>
+                <span className={css.infoFieldTitle}>status</span>
+                <p className={css.infoText}>READY</p>
+              </li>
+              <li className={css.projectInfo}>
+                <span className={css.infoFieldTitle}>last commit message</span>
+                <p className={css.infoText}>{project?.lastCommitMessage}</p>
+              </li>
+              <li className={css.projectInfo}>
+                <span className={css.infoFieldTitle}>created at</span>
+                <p className={css.infoText}>
+                  {dayjs(project?.projectUpdatedAt).format("YYYY MM DD dddd")}
+                </p>
+              </li>
+            </ul>
+          </section>
         </div>
-      </section>
-    </div>
+        <ContentsInfo
+          schemaListCount={project?.schemaList?.length || 0}
+          userName={userName}
+          projectName={projectName}
+        />
+      </div>
+    </section>
   );
 }
