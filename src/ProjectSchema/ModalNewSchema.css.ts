@@ -97,7 +97,9 @@ export const schemaNameInput = style([
   },
 ]);
 
-export const fieldNameSection = style([
+export const fieldNameSection = style([s.flexColumn]);
+
+export const fieldNameWrapper = style([
   s.flex,
   s.alignItemsCenter,
   {

@@ -66,3 +66,55 @@ export const saveButton = style([
   s.buttonSize.small,
   s.buttonColor.light,
 ]);
+
+export const typeButton = style([
+  s.inlineFlex,
+  s.pointer,
+  {
+    position: "absolute",
+    paddingRight: "4.5rem",
+  },
+]);
+
+export const addButton = style([
+  s.buttonColor.dark,
+  s.pointer,
+  {
+    position: "absolute",
+    padding: "0 1rem",
+    borderRadius: "0 1.5rem 1.5rem 0",
+    border: `1px solid ${COLORS.BLACK}`,
+    height: "inherit",
+    zIndex: 1,
+  },
+]);
+
+export const fieldNameSection = style([s.flexColumn]);
+
+export const fieldNameWrapper = style([
+  s.flex,
+  s.alignItemsCenter,
+  {
+    justifyContent: "flex-end",
+    height: "3rem",
+    marginBottom: "1rem",
+  },
+]);
+
+export const fieldNameInput = style([
+  {
+    position: "relative",
+    borderRadius: "1.5rem",
+    border: `1px solid ${COLORS.BLACK}`,
+    width: "100%",
+    height: "3rem",
+    padding: "0 2rem",
+    fontSize: "1rem",
+  },
+]);
+
+export const warningMessage = style({
+  padding: "0 1rem 1rem 1rem",
+  fontSize: "0.8rem",
+  color: COLORS.RED,
+});
