@@ -50,7 +50,6 @@ export function ModalNewSchema({ projectName, schemaList }: Options) {
   });
 
   const handleChangePropertyName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     setCurrentEditProperty({
       type: "update",
       updateData: {
