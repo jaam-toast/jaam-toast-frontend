@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 import { PropertyList } from "./PropertyList";
 import { FieldTitle } from "./FieldTitle";
-import { FieldInput } from "./FieldInput";
 import { PropertyEditor } from "./PropertyEditor";
 import { useUpdateSchemaMutation } from "./useSchemaMutation";
 import {
@@ -10,10 +9,10 @@ import {
   useSchemaState,
   useSetSchemaState,
 } from "./useSchemaStore";
-import { useModal } from "../@shared";
+import { TypeIcon, useModal } from "../@shared";
 import * as css from "./ModalSchemaPropertList.css";
 
-import type { JsonSchema } from "@jaam-schema/src";
+import type { JsonSchema } from "@jaam-schema/src/index";
 
 export function ModalSchemaPropertList({
   currentSchema,
@@ -122,17 +121,41 @@ export function ModalSchemaPropertList({
         <p className={css.fieldSubText}>{schema.description || ""}</p>
       </header>
       {isFieldEditMode && (
-        <>
-          <FieldInput
-            type={currentEditProperty.options.type || "text"}
-            isEditMode={isFieldEditMode}
-            inputValue={currentEditProperty.name}
-            onFieldChanged={handleChangePropertyName}
-            onTypeClicked={() => setIsClickTypeIcon(!isClickTypeIcon)}
-            onEditClicked={handleClickEdit}
-            onAddClicked={handleClickAdd}
-          />
-        </>
+        <section className={css.fieldNameSection}>
+          <div className={css.fieldNameWrapper}>
+            <input
+              className={css.fieldNameInput}
+              value={currentEditProperty?.name || ""}
+              onChange={handleChangePropertyName}
+            />
+            <div
+              className={css.typeButton}
+              onClick={() => setIsClickTypeIcon(!isClickTypeIcon)}
+            >
+              <TypeIcon
+                size="small"
+                type={currentEditProperty?.options?.type || "text"}
+              />
+            </div>
+            {isFieldEditMode ? (
+              <button onClick={handleClickEdit} className={css.addButton}>
+                Edit
+              </button>
+            ) : (
+              <button
+                onClick={
+                  currentEditProperty.warningMessage ? () => {} : handleClickAdd
+                }
+                className={css.addButton}
+              >
+                Add
+              </button>
+            )}
+          </div>
+          <p className={css.warningMessage}>
+            {currentEditProperty.warningMessage}
+          </p>
+        </section>
       )}
       <div className={css.wrapper}>
         {isFieldEditMode || isClickTypeIcon ? (

@@ -1,8 +1,7 @@
 import { useState } from "react";
 
-import { TextField, useModal } from "../@shared";
+import { TextField, TypeIcon, useModal } from "../@shared";
 import { FieldTitle } from "./FieldTitle";
-import { FieldInput } from "./FieldInput";
 import { PropertyEditor } from "./PropertyEditor";
 import { PropertyList } from "./PropertyList";
 import {
@@ -175,22 +174,44 @@ export function ModalNewSchema({ projectName, schemaList }: Options) {
           {/**
            * field name input
            */}
-          <FieldInput
-            type={currentEditProperty?.options?.type || "text"}
-            isEditMode={isFieldEditMode}
-            inputValue={currentEditProperty?.name || ""}
-            warningMessage={
-              currentEditProperty.originalNameForEditing !==
-                currentEditProperty.name &&
-              Object.keys(schema.properties).includes(currentEditProperty.name)
-                ? "Your Property name is duplicated."
-                : ""
-            }
-            onFieldChanged={handleChangePropertyName}
-            onTypeClicked={() => setIsClickTypeIcon(!isClickTypeIcon)}
-            onEditClicked={handleClickEdit}
-            onAddClicked={handleClickAdd}
-          />
+          <section className={css.fieldNameSection}>
+            <div className={css.fieldNameWrapper}>
+              <input
+                className={css.fieldNameInput}
+                value={currentEditProperty?.name || ""}
+                onChange={handleChangePropertyName}
+              />
+              <div
+                className={css.typeButton}
+                onClick={() => setIsClickTypeIcon(!isClickTypeIcon)}
+              >
+                <TypeIcon
+                  size="small"
+                  type={currentEditProperty?.options?.type || "text"}
+                />
+              </div>
+              {isFieldEditMode ? (
+                <button onClick={handleClickEdit} className={css.addButton}>
+                  Edit
+                </button>
+              ) : (
+                <button
+                  onClick={
+                    currentEditProperty.warningMessage
+                      ? () => {}
+                      : handleClickAdd
+                  }
+                  className={css.addButton}
+                >
+                  Add
+                </button>
+              )}
+            </div>
+            <p className={css.warningMessage}>
+              {currentEditProperty.warningMessage}
+            </p>
+          </section>
+
           <div className={css.wrapper}>
             {/**
              * field edit input
