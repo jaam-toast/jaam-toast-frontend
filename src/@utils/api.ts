@@ -8,7 +8,7 @@ import {
   Repo,
   Response,
   Space,
-  SchemaList,
+  SchemaData,
 } from "../@types/api";
 
 class APIClient {
@@ -50,20 +50,6 @@ class APIClient {
   setUserId(userId?: string): APIClient {
     this.userId = userId ?? "";
     return this;
-  }
-
-  async createProject(
-    createProjectOptions: CreateProjectOptions,
-  ): Promise<ProjectId> {
-    try {
-      const { data } = await this.client().post<Response<ProjectId>>(
-        "/projects",
-        createProjectOptions,
-      );
-      return data.result;
-    } catch (error) {
-      throw error;
-    }
   }
 
   async getUserRepos(): Promise<Repo[]> {
@@ -121,6 +107,40 @@ class APIClient {
       throw error;
     }
   }
+
+  /**
+   * project
+   */
+  async createProject(
+    createProjectOptions: CreateProjectOptions,
+  ): Promise<ProjectId> {
+    try {
+      const { data } = await this.client().post<Response<ProjectId>>(
+        "/projects",
+        createProjectOptions,
+      );
+      return data.result;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deleteProject({
+    projectName,
+  }: {
+    projectName: string;
+  }): Promise<string> {
+    try {
+      const { data } = await this.client().delete<Response<string>>(
+        `/projects/${projectName}`,
+      );
+
+      return data.message;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   /**
    * schema
    */
@@ -128,9 +148,9 @@ class APIClient {
     projectName,
   }: {
     projectName: string;
-  }): Promise<SchemaList[]> {
+  }): Promise<SchemaData[]> {
     try {
-      const { data } = await this.client().get(
+      const { data } = await this.client().get<Response<SchemaData[]>>(
         `/projects/${projectName}/schemas`,
       );
 
@@ -145,15 +165,15 @@ class APIClient {
     options,
   }: {
     projectName: string;
-    options: SchemaList;
+    options: SchemaData;
   }): Promise<string> {
     try {
-      const { data } = await this.client().post(
+      const { data } = await this.client().post<Response<string>>(
         `/projects/${projectName}/schemas`,
         options,
       );
 
-      return data.result;
+      return data.message;
     } catch (error) {
       throw error;
     }
@@ -166,10 +186,10 @@ class APIClient {
   }: {
     projectName: string;
     schemaName: string;
-    options: SchemaList;
+    options: SchemaData;
   }): Promise<string> {
     try {
-      const { data } = await this.client().post(
+      const { data } = await this.client().put<Response<string>>(
         `/projects/${projectName}/schemas/${schemaName}`,
         options,
       );
@@ -188,7 +208,7 @@ class APIClient {
     schemaNames: string[];
   }): Promise<string> {
     try {
-      const { data } = await this.client().delete(
+      const { data } = await this.client().delete<Response<string>>(
         `/projects/${projectName}/schemas`,
         {
           params: {

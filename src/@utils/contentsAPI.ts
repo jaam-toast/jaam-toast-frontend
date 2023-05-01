@@ -2,8 +2,8 @@ import axios, { AxiosInstance } from "axios";
 
 import Config from "../@config";
 
-import type { Content as ContentData } from "../@types/cms";
-import type { Content, Response } from "../@types/api";
+import type { Content, ContentsData, Response } from "../@types/api";
+import type { JaamSchemaContent } from "@jaam-schema/src";
 
 export class ContentsAPIClient {
   private token: string = "";
@@ -29,20 +29,23 @@ export class ContentsAPIClient {
   async getContentsList({
     schemaName,
     page = 1,
-    sort,
-    order,
+    pageLength = 20,
+    sort = "createAt",
+    order = "ascending",
   }: {
     schemaName: string;
     page?: number;
+    pageLength?: number;
     sort?: string;
     order?: string;
-  }): Promise<Content[]> {
+  }): Promise<ContentsData> {
     try {
-      const { data } = await this.client().get<Response<Content[]>>(
+      const { data } = await this.client().get<Response<ContentsData>>(
         `/storage/${schemaName}/contents`,
         {
           params: {
             page,
+            pageLength,
             sort,
             order,
           },
@@ -78,10 +81,10 @@ export class ContentsAPIClient {
     content,
   }: {
     schemaName: string;
-    content: ContentData;
-  }): Promise<string> {
+    content: JaamSchemaContent;
+  }): Promise<Content> {
     try {
-      const { data } = await this.client().post<Response<string>>(
+      const { data } = await this.client().post<Response<Content>>(
         `/storage/${schemaName}/contents`,
         content,
       );
@@ -95,17 +98,19 @@ export class ContentsAPIClient {
   async updateContent({
     schemaName,
     content,
+    contentId,
   }: {
     schemaName: string;
-    content: ContentData;
+    content: JaamSchemaContent;
+    contentId: string;
   }): Promise<string> {
     try {
       const { data } = await this.client().put<Response<string>>(
-        `/storage/${schemaName}`,
+        `/storage/${schemaName}/contents/${contentId}`,
         content,
       );
 
-      return data.result;
+      return data.message;
     } catch (error) {
       throw error;
     }
@@ -128,7 +133,7 @@ export class ContentsAPIClient {
         },
       );
 
-      return data.result;
+      return data.message;
     } catch (error) {
       throw error;
     }
