@@ -9,7 +9,7 @@ import {
   useSetContentsState,
 } from "../ProjectContents/useContentsStore";
 import { useContentQuery } from "../ProjectContents/useContentQuery";
-import * as css from "./index.css";
+import * as css from "./ContentPropertyList.css";
 
 export function ContentPropertyList({
   contentId,
