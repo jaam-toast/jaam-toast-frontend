@@ -36,12 +36,11 @@ export const optionFieldList = style([
   s.flexColumn,
   {
     gap: "0.8rem",
-    // padding: "0 1rem",
     listStyle: "none",
   },
 ]);
 
-export const optionField = style([
+const optionField = style([
   s.flex,
   s.alignItemsCenter,
   s.border,
@@ -64,11 +63,3 @@ export const optionInputField = style([
 ]);
 
 export const optionInput = style([s.textField]);
-
-export const fieldSubText = style([
-  {
-    paddingTop: "1rem",
-    fontSize: "0.9rem",
-    color: COLORS.GREY,
-  },
-]);

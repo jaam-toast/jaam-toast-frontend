@@ -2,23 +2,6 @@ import { style } from "@vanilla-extract/css";
 import { s } from "../@styles";
 import { COLORS } from "../@config/colors";
 
-export const selectOptionField = style([
-  s.flex,
-  s.alignItemsCenter,
-  s.flexSpaceBetween,
-  s.fullWidth,
-  s.border,
-  {
-    height: "3rem",
-    borderColor: COLORS.WHITE,
-    color: COLORS.WHITE,
-    backgroundColor: COLORS.LAVENDAR_DARK,
-    fontSize: "0.9rem",
-  },
-]);
-
-export const optionIcon = style([{ cursor: "pointer" }]);
-
 /**
  * table
  */
@@ -40,6 +23,7 @@ export const nameField = style([
     cursor: "pointer",
   },
 ]);
+
 export const typeField = style([
   s.inlineFlex,
   {
@@ -50,6 +34,7 @@ export const typeField = style([
     color: COLORS.GREY,
   },
 ]);
+
 export const type = style([
   {
     padding: "0.5rem",

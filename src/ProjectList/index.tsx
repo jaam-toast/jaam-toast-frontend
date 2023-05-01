@@ -1,6 +1,7 @@
 import { Suspense, useState } from "react";
 import { Link } from "react-router-dom";
 
+import ErrorBoundary from "../@shared/ErrorBoundary";
 import { ProjectCardList, ProjectCardListSkeleton } from "./ProjectCardList";
 import { TextField } from "../@shared";
 import { useAuth } from "../@hooks";
@@ -24,7 +25,9 @@ export function ProjectList() {
         </Link>
       </section>
       <Suspense fallback={<ProjectCardListSkeleton />}>
-        <ProjectCardList searchword={searchword} />
+        <ErrorBoundary>
+          <ProjectCardList searchword={searchword} />
+        </ErrorBoundary>
       </Suspense>
     </div>
   );

@@ -75,8 +75,24 @@ export const previewSection = style([
   },
 ]);
 
+export const buttonConsole = style([
+  s.flexColumn,
+  { flexShrink: 1, gap: "0.5rem" },
+]);
+
+export const previewOptionButton = style([
+  s.button,
+  s.buttonSize.medium,
+  s.buttonColor.dark,
+  {
+    width: "15vw",
+  },
+]);
+
+/**
+ * preview
+ */
 export const preview = style([
-  // s.border,
   {
     borderRadius: "1.5rem",
     width: "100%",
@@ -93,19 +109,5 @@ export const previewFilter = style({
 });
 
 export const previewImage = style([s.full, { objectFit: "cover" }]);
-
-export const buttonConsole = style([
-  s.flexColumn,
-  { flexShrink: 1, gap: "0.5rem" },
-]);
-
-export const previewOptionButton = style([
-  s.button,
-  s.buttonSize.medium,
-  s.buttonColor.dark,
-  {
-    width: "15vw",
-  },
-]);
 
 export const previewSkeleton = style([s.skeleton, preview]);
