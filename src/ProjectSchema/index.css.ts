@@ -18,17 +18,7 @@ export const header = style([
   s.fullWidth,
   {
     justifyContent: "flex-end",
-    marginBottom: "1rem",
-  },
-]);
-
-export const searchInput = style([
-  s.flex,
-  s.alignItemsCenter,
-  s.fullWidth,
-  s.searchIcon,
-  {
-    flex: 1,
+    paddingBottom: "1.5rem",
   },
 ]);
 
@@ -37,6 +27,7 @@ export const newButton = style([
   s.buttonSize.medium,
   s.buttonColor.dark,
   {
+    width: "12.15rem",
     ":hover": {
       backgroundColor: COLORS.STRAWBERRY,
       borderColor: "none",
@@ -44,13 +35,31 @@ export const newButton = style([
   },
 ]);
 
+export const inputContainer = style([
+  s.flex,
+  {
+    borderTop: `1px solid ${COLORS.GREY_CLEAR}`,
+    paddingTop: "1.5rem",
+    gap: "1rem",
+    marginBottom: "1rem",
+  },
+]);
+
+export const orderInputBox = style([
+  {
+    width: "20rem",
+  },
+]);
+
 export const selectOptionField = style([
   s.flex,
   s.flexSpaceBetween,
+  s.alignItemsCenter,
   s.fullWidth,
   s.border,
   {
-    padding: "1rem",
+    padding: "0 1rem",
+    height: "3rem",
     borderColor: COLORS.WHITE,
     color: COLORS.WHITE,
     backgroundColor: COLORS.LAVENDAR_DARK,
@@ -88,6 +97,7 @@ export const row = style([{ borderBottom: `1px solid ${COLORS.GREY_CLEAR}` }]);
 export const cell = style([{ maxWidth: "30rem", padding: "1rem" }]);
 
 export const checkboxField = style([{ textAlign: "center" }]);
+
 export const nameField = style([
   s.inlineFlex,
   {
@@ -98,6 +108,7 @@ export const nameField = style([
     cursor: "pointer",
   },
 ]);
+
 export const typeField = style([
   s.inlineFlex,
   {
@@ -108,6 +119,7 @@ export const typeField = style([
     color: COLORS.GREY,
   },
 ]);
+
 export const type = style([
   {
     padding: "0.5rem",
@@ -121,35 +133,5 @@ export const optionField = style([
   s.flex,
   { gap: "1rem", justifyContent: "flex-end" },
 ]);
+
 export const optionIcon = style([{ cursor: "pointer" }]);
-
-export const fieldNameSection = style([s.flexColumn]);
-
-export const fieldNameWrapper = style([
-  s.flex,
-  s.alignItemsCenter,
-  {
-    justifyContent: "flex-end",
-    marginBottom: "1rem",
-  },
-]);
-
-export const addButton = style([
-  s.buttonColor.dark,
-  s.pointer,
-  {
-    position: "absolute",
-    padding: "0 1rem",
-    borderRadius: "0 1.5rem 1.5rem 0",
-    border: "1px solid black",
-    height: "inherit",
-    zIndex: 1,
-  },
-]);
-
-export const typeButton = style([
-  s.pointer,
-  {
-    width: "10rem",
-  },
-]);

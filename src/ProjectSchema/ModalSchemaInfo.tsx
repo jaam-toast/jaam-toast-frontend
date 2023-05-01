@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import { TypeIcon, useModal } from "../@shared";
 import { PropertyList } from "./PropertyList";
 import { FieldTitle } from "./FieldTitle";
 import { PropertyEditor } from "./PropertyEditor";
@@ -9,17 +10,19 @@ import {
   useSchemaState,
   useSetSchemaState,
 } from "./useSchemaStore";
-import { TypeIcon, useModal } from "../@shared";
-import * as css from "./ModalSchemaPropertList.css";
+import * as css from "./ModalSchemaInfo.css";
 
-import type { JsonSchema } from "@jaam-schema/src/index";
+import type { JsonSchema } from "@jaam-schema/src";
+import { useContentsListQuery } from "../ProjectContents/useContentsListQuery";
 
-export function ModalSchemaPropertList({
+export function ModalSchemaInfo({
   currentSchema,
   projectName,
+  token,
 }: {
   currentSchema: JsonSchema;
   projectName: string;
+  token: string;
 }) {
   const [isFieldEditMode, setIsFieldEditMode] = useState<boolean>(false);
   const [isClickTypeIcon, setIsClickTypeIcon] = useState<boolean>(false);
@@ -35,6 +38,13 @@ export function ModalSchemaPropertList({
   const schema = useSchemaState();
   const currentEditProperty = useCurrentEditProperty();
   const { setCloseHandler: setHandlerTriggeredModalClose } = useModal();
+
+  const { data } = useContentsListQuery({
+    schemaName: currentSchema.title,
+    token,
+    pageLength: 1,
+  });
+  const hasContents = !!data?.totalCounts;
 
   useEffect(() => {
     setSchema(currentSchema);
@@ -58,8 +68,6 @@ export function ModalSchemaPropertList({
       alert("Failed to delete schema. Please try again.");
     },
   });
-
-  // TODO 해당 스키마에 해당되는 콘텐츠 있는지 체크
 
   const handleChangePropertyName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentEditProperty({
@@ -120,7 +128,7 @@ export function ModalSchemaPropertList({
         </div>
         <p className={css.fieldSubText}>{schema.description || ""}</p>
       </header>
-      {isFieldEditMode && (
+      {!hasContents && (
         <section className={css.fieldNameSection}>
           <div className={css.fieldNameWrapper}>
             <input
@@ -157,41 +165,83 @@ export function ModalSchemaPropertList({
           </p>
         </section>
       )}
-      <div className={css.wrapper}>
-        {isFieldEditMode || isClickTypeIcon ? (
-          <PropertyEditor />
-        ) : (
-          <section>
-            <FieldTitle>Field List</FieldTitle>
-            <div className={css.fieldList}>
-              <PropertyList
-                propertyList={schema.properties}
-                editHandler={handleClickEditIcon}
-                deleteHandler={({ propertyName }: { propertyName: string }) =>
-                  handleClickDelete({ propertyName })
-                }
-              />
-            </div>
-          </section>
-        )}
-      </div>
-      <footer className={css.footer}>
-        <button onClick={handleClickUpdate} className={css.saveButton}>
-          Update
-        </button>
-        {(isFieldEditMode || isClickTypeIcon) && (
-          <button
-            onClick={() => {
-              setIsClickTypeIcon(false);
-              setIsFieldEditMode(false);
-              setCurrentEditProperty({ type: "reset" });
-            }}
-            className={css.saveButton}
-          >
-            Prev
-          </button>
-        )}
-      </footer>
+      {/**
+       * schema edit mode
+       */}
+      {isFieldEditMode ? (
+        <>
+          {hasContents && (
+            <section className={css.fieldNameSection}>
+              <div className={css.fieldNameWrapper}>
+                <input
+                  className={css.fieldNameInput}
+                  value={currentEditProperty?.name || ""}
+                  onChange={handleChangePropertyName}
+                />
+                <div
+                  className={css.typeButton}
+                  onClick={() => setIsClickTypeIcon(!isClickTypeIcon)}
+                >
+                  <TypeIcon
+                    size="small"
+                    type={currentEditProperty?.options?.type || "text"}
+                  />
+                </div>
+                <button onClick={handleClickEdit} className={css.addButton}>
+                  Edit
+                </button>
+              </div>
+              <p className={css.warningMessage}>
+                {currentEditProperty.warningMessage}
+              </p>
+            </section>
+          )}
+          <div className={css.wrapper}>
+            <PropertyEditor />
+          </div>
+          <footer className={css.footer}>
+            <button onClick={handleClickUpdate} className={css.saveButton}>
+              Update
+            </button>
+            <button
+              onClick={() => {
+                setIsClickTypeIcon(false);
+                setIsFieldEditMode(false);
+                setCurrentEditProperty({ type: "reset" });
+              }}
+              className={css.saveButton}
+            >
+              Prev
+            </button>
+          </footer>
+        </>
+      ) : (
+        <>
+          {/**
+           * schema view mode
+           */}
+          <div className={css.wrapper}>
+            <section>
+              <FieldTitle>Field List</FieldTitle>
+              <div className={css.fieldList}>
+                <PropertyList
+                  isEditable={!hasContents}
+                  propertyList={schema.properties}
+                  editHandler={handleClickEditIcon}
+                  deleteHandler={({ propertyName }: { propertyName: string }) =>
+                    deleteProperty({ propertyName })
+                  }
+                />
+              </div>
+            </section>
+          </div>
+          <footer className={css.footer}>
+            <button onClick={handleClickUpdate} className={css.saveButton}>
+              Update
+            </button>
+          </footer>
+        </>
+      )}
     </section>
   );
 }
