@@ -6,13 +6,11 @@ import {
 } from "react-icons/bs";
 import { BsStack } from "react-icons/bs";
 
+import { Modal, ColorBox } from "../@shared";
+import { useModal } from "../@hooks";
 import { ModalContentsKey } from "./ModalContentsKey";
-import { Modal } from "../@shared";
-import { ColorBox } from "../@shared/ColorBox";
-import { COLORS } from "../@config/colors";
+import { COLORS, ColorKeys } from "../@config/colors";
 import * as css from "./CmsInfo.css";
-import { useModal } from "../@shared";
-import { ColorKeys } from "../@config/colors";
 
 type Options = {
   schemaListCount: number;
@@ -20,11 +18,7 @@ type Options = {
   projectName: string;
 };
 
-export function CmsInfo({
-  schemaListCount,
-  userName,
-  projectName,
-}: Options) {
+export function CmsInfo({ schemaListCount, userName, projectName }: Options) {
   const { openModal } = useModal();
 
   const handleClickKey = () => {

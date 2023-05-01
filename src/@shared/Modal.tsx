@@ -1,4 +1,4 @@
-import { useModal, useModalState } from "./useModalStore";
+import { useModal, useModalState } from "../@hooks";
 import * as css from "./Modal.css";
 
 export function Modal() {

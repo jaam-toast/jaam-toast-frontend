@@ -2,14 +2,13 @@ import { useMemo, useState } from "react";
 import { BsFillTrashFill } from "react-icons/bs";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 
+import { Modal, SelectBox } from "../@shared";
 import {
-  Modal,
-  SelectBox,
   useProjectQuery,
   useCheckboxState,
-} from "../@shared";
+  useDeleteContentsMutation,
+} from "../@hooks";
 import { ContentsList } from "./ContentsList";
-import { useDeleteContentsMutation } from "./useContentsMutation";
 import * as css from "./index.css";
 
 import type { SortMode, OrderMode } from "../@types/cms";

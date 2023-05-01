@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
-import { Header } from "./@shared/Header";
-import { ProjectInfoLayout } from "./@shared/ProjectInfoLayout";
+import { Header, ProjectInfoLayout } from "./@shared";
+import { useAuth } from "./@hooks";
 import { Landing } from "./Landing";
 import { ProjectList } from "./ProjectList";
 import { RepositorySelect } from "./RepositorySelect";
@@ -17,7 +17,6 @@ import { ProjectAssets } from "./ProjectAssets";
 import { ProjectSettings } from "./ProjectSettings";
 import { NotFound } from "./Error/NotFound";
 import { Error } from "./Error";
-import { useAuth } from "./@shared";
 import * as css from "./app.css";
 
 export function App() {

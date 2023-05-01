@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useModal, useProjectQuery } from "../@shared";
+import { useModal, useProjectQuery } from "../@hooks";
 import * as css from "./ModalContentsKey.css";
 
 export function ModalContentsKey({ projectName }: { projectName: string }) {

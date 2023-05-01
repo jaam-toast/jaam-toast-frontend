@@ -1,7 +1,8 @@
 import { Navigate } from "react-router-dom";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 
-import { ColorBox, useModal, Checkbox, useProjectQuery } from "../@shared";
+import { ColorBox, Checkbox } from "../@shared";
+import { useModal, useProjectQuery } from "../@hooks";
 import { ModalSchemaInfo } from "./ModalSchemaInfo";
 import { sortByMode as sortBy } from "../@utils/sortByMode";
 import * as css from "./SchemaList.css";

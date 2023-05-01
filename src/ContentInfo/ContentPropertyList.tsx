@@ -7,8 +7,8 @@ import { ContentPropertyEditor } from "../ProjectContents/ContentPropertyEditor"
 import {
   useContentsState,
   useSetContentsState,
-} from "../ProjectContents/useContentsStore";
-import { useContentQuery } from "../ProjectContents/useContentQuery";
+  useContentQuery,
+} from "../@hooks";
 import * as css from "./ContentPropertyList.css";
 
 export function ContentPropertyList({

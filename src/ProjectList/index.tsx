@@ -2,7 +2,8 @@ import { Suspense, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { ProjectCardList, ProjectCardListSkeleton } from "./ProjectCardList";
-import { TextField, useAuth } from "../@shared";
+import { TextField } from "../@shared";
+import { useAuth } from "../@hooks";
 import * as css from "./index.css";
 
 export function ProjectList() {

@@ -1,27 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   useBuildOptions,
   useSetBuildOptions,
-} from "../BuildOptionSelect/useBuildOptionsStore";
+} from "../@hooks/useBuildOptionsStore";
 import { TextField } from "./";
 import isEmpty from "../@utils/isEmpty";
 import * as css from "./EnvField.css";
 
 import type { ChangeEvent, KeyboardEvent } from "react";
+import { Env } from "../@types/build";
 
-export function EnvField() {
+type EnvFieldProps = {
+  envs?: Env[];
+  onEnvAdded: (select: Env[] | ((prev: Env[]) => Env[])) => void;
+};
+
+export function EnvField({ envs, onEnvAdded }: EnvFieldProps) {
   const [envKey, setEnvKey] = useState<string>("");
   const [envValue, setEnvValue] = useState<string>("");
   const { envList } = useBuildOptions();
   const setEnv = useSetBuildOptions()("envList");
 
+  useEffect(() => {
+    if (!envs) {
+      return;
+    }
+  }, []);
+
   const handleAddEnv = () => {
     if (!envKey || !envValue) {
       return;
     }
-    // TODO
-    setEnv(prev =>
+    // TODO ?
+    onEnvAdded(prev =>
       prev.concat({
         key: envKey,
         value: envValue,

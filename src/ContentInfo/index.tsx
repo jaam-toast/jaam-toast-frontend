@@ -3,14 +3,14 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 
 import { jsonSchemaValidator } from "@jaam-schema/src";
 
-import { useProjectQuery } from "../@shared/useProjectQuery";
 import { ContentPropertyList } from "./ContentPropertyList";
 import { TimeInfo } from "./TimeInfo";
 import {
+  useProjectQuery,
+  useUpdateContentMutation,
   useContentsState,
   useSetContentsState,
-} from "../ProjectContents/useContentsStore";
-import { useUpdateContentMutation } from "../ProjectContents/useContentsMutation";
+} from "../@hooks";
 import * as css from "./index.css";
 
 export function ContentInfo() {

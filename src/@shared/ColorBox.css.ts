@@ -1,6 +1,12 @@
-import { style, styleVariants } from "@vanilla-extract/css";
+import { createVar, style, styleVariants } from "@vanilla-extract/css";
 import { s } from "../@styles";
 import { COLORS } from "../@config/colors";
+
+export const accentVar = createVar();
+
+export const accentText = style({
+  backgroundColor: accentVar,
+});
 
 export const container = style([
   s.inlineFlex,

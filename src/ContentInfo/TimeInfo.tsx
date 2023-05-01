@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 
-import { useContentQuery } from "../ProjectContents/useContentQuery";
+import { useContentQuery } from "../@hooks";
 
 import type { JsonSchema } from "@jaam-schema/src";
 import { Navigate } from "react-router-dom";

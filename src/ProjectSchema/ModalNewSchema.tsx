@@ -1,18 +1,19 @@
 import { useState } from "react";
 
-import { TextField, TypeIcon, useModal } from "../@shared";
+import { TextField, TypeIcon } from "../@shared";
 import { FieldTitle } from "./FieldTitle";
 import { PropertyEditor } from "./PropertyEditor";
 import { PropertyList } from "./PropertyList";
 import {
+  useModal,
   useCurrentEditProperty,
   useSchemaState,
   useSetSchemaState,
-} from "./useSchemaStore";
-import { useCreateSchemaMutation } from "./useSchemaMutation";
+  useProjectSchemaQuery,
+} from "../@hooks";
+import { useCreateSchemaMutation } from "../@hooks/useSchemaMutation";
 import * as css from "./ModalNewSchema.css";
 
-import { useProjectSchemaQuery } from "./useSchemaQuery";
 import { Navigate } from "react-router-dom";
 
 type Options = {

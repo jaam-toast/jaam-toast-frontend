@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { shallow } from "zustand/shallow";
 
-import { usePresetBuildOptions } from "../RepositorySelect/usePresetBuildOptionStore";
-import { useAuth } from "../@shared";
+import { usePresetBuildOptions } from "./usePresetBuildOptionStore";
+import { useAuth } from "./useAuth";
 import APIClient from "../@utils/api";
 
 import type { Framework, Env, NodeVersion } from "../@types/build";

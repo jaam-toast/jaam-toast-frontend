@@ -1,8 +1,9 @@
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 
 import { TypeIcon } from "../@shared";
-import { JaamSchema, JaamSchemaProperties } from "@jaam-schema/src";
 import * as css from "./PropertyList.css";
+
+import type { JaamSchema, JaamSchemaProperties } from "@jaam-schema/src";
 
 type SchemaPropertiesProps = {
   isEditable?: boolean;
