@@ -42,14 +42,12 @@ export type Project = {
   envList: Env[];
   buildType: string;
 
-  // TODO 배열로 변경
-  buildDomain: string;
+  buildDomain: string[];
   buildOriginalDomain: string;
   cmsDomain: string;
   storageKey: string;
 
   schemaList: SchemaData[];
-  contentList: string[];
   assetStorageUrl: string;
 
   repoId: string;
@@ -65,6 +63,11 @@ export type SchemaData = {
 };
 
 export type ContentType = string | number | boolean;
+
+export type ContentsData = {
+  contents: Content[];
+  totalCounts: number;
+};
 
 export type Content = {
   _id: string;
