@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
 
-import { TypeIcon, useModal } from "../@shared";
+import { TypeIcon } from "../@shared";
 import { PropertyList } from "./PropertyList";
 import { FieldTitle } from "./FieldTitle";
 import { PropertyEditor } from "./PropertyEditor";
-import { useUpdateSchemaMutation } from "./useSchemaMutation";
+import { useUpdateSchemaMutation } from "../@hooks/useSchemaMutation";
 import {
+  useModal,
   useCurrentEditProperty,
   useSchemaState,
   useSetSchemaState,
-} from "./useSchemaStore";
+  useContentsListQuery,
+} from "../@hooks";
 import * as css from "./ModalSchemaInfo.css";
 
 import type { JsonSchema } from "@jaam-schema/src";
-import { useContentsListQuery } from "../ProjectContents/useContentsListQuery";
 
 export function ModalSchemaInfo({
   currentSchema,

@@ -3,8 +3,7 @@ import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 
 import { Preview, PreviewSkeleton } from "./Preview";
 import { BuildStepCard } from "../@shared";
-import { useBuildingLog } from "./useBuildingLog";
-import { useBuildOptions } from "../BuildOptionSelect/useBuildOptionsStore";
+import { useBuildingLog, useBuildOptions } from "../@hooks";
 import * as css from "./index.css";
 
 export function ProjectDeploy() {

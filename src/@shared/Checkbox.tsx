@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-import { useCheckboxState, useSetCheckboxState } from "./useCheckboxStore";
+import { useCheckboxState, useSetCheckboxState } from "../@hooks";
 
 type CheckBoxProps = {
   value: string;

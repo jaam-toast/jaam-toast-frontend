@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
+import { useAuth } from "./useAuth";
 import APIClient from "../@utils/api";
-import { useAuth } from "../@shared/useAuth";
 
 export function useProjectListQuery() {
   const { user } = useAuth();

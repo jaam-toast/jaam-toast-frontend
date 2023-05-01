@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { BsFillTrashFill } from "react-icons/bs";
 
-import { Modal, useModal, TextField, SelectBox } from "../@shared";
+import { Modal, TextField, SelectBox } from "../@shared";
+import { useModal, useCheckboxState } from "../@hooks";
 import { ModalNewSchema } from "./ModalNewSchema";
-import { useDeleteSchemaMutation } from "./useSchemaMutation";
-import { useCheckboxState } from "../@shared/useCheckboxStore";
+import { useDeleteSchemaMutation } from "../@hooks/useSchemaMutation";
 import * as css from "./index.css";
 
 import type { OrderMode } from "../@types/cms";

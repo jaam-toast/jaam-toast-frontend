@@ -5,7 +5,7 @@ import utc from "dayjs/plugin/utc";
 
 import { Checkbox } from "../@shared";
 import { Pagination } from "./Pagination";
-import { useContentsListQuery } from "./useContentsListQuery";
+import { useContentsListQuery } from "../@hooks";
 import { sortByMode as sortBy } from "../@utils/sortByMode";
 import * as css from "./ContentsList.css";
 

@@ -1,5 +1,5 @@
-import { useReposQuery } from "./usePresetBuildOptionStore";
 import { Avatar, AvatarSkeleton } from "../@shared";
+import { useReposQuery } from "../@hooks";
 import * as css from "./RepositoryList.css";
 
 type RepositoryListProps = {

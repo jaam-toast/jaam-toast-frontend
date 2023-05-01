@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 import timeSince from "../@utils/timeSince";
 import { Favicon } from "./Favicon";
-import { Avatar, useProjectQuery } from "../@shared";
+import { Avatar } from "../@shared";
+import { useProjectQuery } from "../@hooks";
 import * as css from "./ProjectCard.css";
 
 import { FRAMEWORK_DOMAIN } from "../@types/build";

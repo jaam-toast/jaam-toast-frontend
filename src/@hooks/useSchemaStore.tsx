@@ -1,10 +1,11 @@
 import { create } from "zustand";
 import { shallow } from "zustand/shallow";
-import {
+import { jsonSchemaToJaamSchema } from "@jaam-schema/src";
+
+import type {
   JsonSchema,
   JaamSchema,
   JaamSchemaProperties,
-  jsonSchemaToJaamSchema,
 } from "@jaam-schema/src";
 
 type Property = {

@@ -1,5 +1,5 @@
 import { TextField } from "../@shared";
-import { useContentsState, useSetContentsState } from "./useContentsStore";
+import { useContentsState, useSetContentsState } from "../@hooks";
 import * as css from "./ContentPropertyEditor.css";
 
 import type {

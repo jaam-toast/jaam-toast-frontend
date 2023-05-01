@@ -1,4 +1,4 @@
-import { useProjectListQuery } from "./useProjectListQuery";
+import { useProjectListQuery } from "../@hooks/useProjectListQuery";
 
 import { ProjectCard } from "./ProjectCard";
 import * as css from "./ProjectCardList.css";

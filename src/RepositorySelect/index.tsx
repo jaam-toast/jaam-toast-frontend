@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 
 import { BuildStepCard, TextField, SelectBox } from "../@shared";
 import { RepositoryList, RepositoryListSkeleton } from "./RepositoryList";
-import { useSpaceQuery } from "./useSpaceQuery";
 import {
+  useSpaceQuery,
   PresetBuildOptionStore,
   usePresetBuildOptionStore,
-} from "./usePresetBuildOptionStore";
+} from "../@hooks";
 import * as css from "./index.css";
 
 export function RepositorySelect() {

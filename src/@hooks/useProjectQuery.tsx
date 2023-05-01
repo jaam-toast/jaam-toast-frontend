@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { useAuth } from "../@shared/useAuth";
+import { useAuth } from "./useAuth";
 import APIClient from "../@utils/api";
 
-export function useProjectSchemaQuery(projectName: string) {
+export function useProjectQuery(projectName: string) {
   const { user } = useAuth();
   const api = new APIClient()
     .setUserId(user?.id)
@@ -13,6 +13,5 @@ export function useProjectSchemaQuery(projectName: string) {
   return useQuery({
     queryKey: ["project", projectName],
     queryFn: () => api.getProject(projectName),
-    select: project => project.schemaList,
   });
 }

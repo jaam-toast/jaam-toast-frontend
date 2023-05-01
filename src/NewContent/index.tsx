@@ -2,14 +2,16 @@ import { useEffect, useMemo, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { jsonSchemaToJaamSchema, jsonSchemaValidator } from "@jaam-schema/src";
 
-import { SelectBox, useModal, useProjectQuery } from "../@shared";
+import { SelectBox } from "../@shared";
 import { FieldTitle } from "../ProjectSchema/FieldTitle";
 import { ContentPropertyEditor } from "../ProjectContents/ContentPropertyEditor";
 import {
+  useModal,
+  useProjectQuery,
   useContentsState,
   useSetContentsState,
-} from "../ProjectContents/useContentsStore";
-import { useCreateContentMutation } from "../ProjectContents/useContentsMutation";
+  useCreateContentMutation,
+} from "../@hooks";
 import * as css from "./index.css";
 
 import { DEFAULT_VALUE_FOR_TYPE } from "../@types/cms";

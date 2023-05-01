@@ -1,9 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 import { jaamSchemaToJsonSchema } from "@jaam-schema/src";
 
-import { useAuth } from "../@shared";
-import APIClient from "../@utils/api";
+import { useAuth } from "./useAuth";
 import { useSchemaState } from "./useSchemaStore";
+import APIClient from "../@utils/api";
 
 type Options = {
   onSuccess?: (data?: string) => Promise<unknown> | unknown;

@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 
 import { useBuildOptions } from "./useBuildOptionsStore";
-import { usePresetBuildOptionStore } from "../RepositorySelect/usePresetBuildOptionStore";
-import { useAuth } from "../@shared/useAuth";
+import { usePresetBuildOptionStore } from "./usePresetBuildOptionStore";
+import { useAuth } from "./useAuth";
 import APIClient from "../@utils/api";
 
 type UseProjectMutationOptions = {

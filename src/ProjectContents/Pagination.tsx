@@ -59,6 +59,7 @@ export function Pagination({
           .filter((_, index) => offset + index < totalPageCount)
           .map((_, index) => (
             <span
+              key={index + offset + 1}
               onClick={() => handlePageNumberClick(index + offset + 1)}
               className={`${css.paginationCell} ${
                 index + offset + 1 === page ? css.paginationNumberPoint : ""

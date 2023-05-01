@@ -6,12 +6,12 @@ import {
   useBuildOptions,
   useSetBuildOptions,
   useSetProjectName,
-} from "../BuildOptionSelect/useBuildOptionsStore";
-import useProjectMutaion from "./useProjectMutation";
+} from "../@hooks/useBuildOptionsStore";
+import useProjectMutaion from "../@hooks/useProjectMutation";
 import {
   usePresetBuildOptions,
   usePresetBuildOptionActions,
-} from "../RepositorySelect/usePresetBuildOptionStore";
+} from "../@hooks/usePresetBuildOptionStore";
 import * as css from "./index.css";
 
 import { FRAMEWORK, NODE_VERSION } from "../@types/build";
@@ -147,7 +147,7 @@ export function BuildOptionSelect() {
 
           <div className={css.buildOption}>
             <p className={css.buildOptionTitle}>Environment Varables</p>
-            <EnvField />
+            <EnvField onEnvAdded={setBuildOptions("envList")} />
           </div>
         </div>
       </section>

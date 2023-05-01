@@ -3,7 +3,7 @@ import { shallow } from "zustand/shallow";
 import { useQuery } from "@tanstack/react-query";
 import { customAlphabet } from "nanoid";
 
-import { useAuth } from "../@shared";
+import { useAuth } from "./useAuth";
 import APIClient from "../@utils/api";
 import { Framework, NodeVersion } from "../@types/build";
 

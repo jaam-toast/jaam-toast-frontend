@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
 
-import { useProjectQuery } from "../@shared";
+import { useProjectQuery } from "../@hooks";
 import { Preview, PreviewSkeleton } from "../ProjectDeploy/Preview";
 import { CmsInfo } from "./CmsInfo";
 import * as css from "./index.css";
