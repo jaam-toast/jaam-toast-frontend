@@ -19,7 +19,7 @@ export const header = style([
   s.fullWidth,
   {
     justifyContent: "flex-end",
-    marginBottom: "1rem",
+    paddingBottom: "1.5rem",
   },
 ]);
 
@@ -35,13 +35,40 @@ export const newButton = style([
   },
 ]);
 
+export const inputContainer = style([
+  s.flex,
+  s.flexSpaceBetween,
+  {
+    borderTop: `1px solid ${COLORS.GREY_CLEAR}`,
+    paddingTop: "1.5rem",
+    gap: "1rem",
+    marginBottom: "1rem",
+  },
+]);
+
+export const sortOrderInputWrapper = style([s.flex, { gap: "0.5rem" }]);
+
+export const schemaInputBox = style([
+  {
+    width: "20rem",
+  },
+]);
+
+export const sortOrderInputBox = style([
+  {
+    width: "14.8rem",
+  },
+]);
+
 export const selectOptionField = style([
   s.flex,
   s.flexSpaceBetween,
+  s.alignItemsCenter,
   s.fullWidth,
   s.border,
   {
-    padding: "1rem",
+    padding: "0 1rem",
+    height: "3rem",
     borderColor: COLORS.WHITE,
     color: COLORS.WHITE,
     backgroundColor: COLORS.LAVENDAR_DARK,
@@ -134,31 +161,51 @@ export const addButton = style([
     position: "absolute",
     padding: "0 1rem",
     borderRadius: "0 1.5rem 1.5rem 0",
-    border: "1px solid black",
+    border: `1px solid ${COLORS.BLACK}`,
     height: "inherit",
     zIndex: 1,
   },
 ]);
 
-export const inputContainer = style([
+export const hidden = style({ visibility: "hidden" });
+
+export const paginationContainer = style([
   s.flex,
-  s.fullWidth,
   s.alignItemsCenter,
-  s.flexSpaceBetween,
+  s.justifyContentCenter,
+]);
+
+export const paginationNumberWrapper = style([
+  s.flex,
+  s.justifyContentCenter,
+  s.alignItemsCenter,
   {
-    gap: "0.5rem",
-    justifyContent: "flex-end",
-    position: "relative",
+    minWidth: "12rem",
+    maxWidth: "12rem",
   },
 ]);
 
-export const inputWrapper = style([
+export const paginationNumberPoint = style({ color: "red" });
+
+export const paginationSideWrapper = style([
   s.flex,
-  s.flexCenter,
+  s.flexSpaceBetween,
+  s.alignItemsCenter,
+]);
+
+export const paginationArrow = style([s.pointer]);
+
+export const paginationCell = style([
+  s.inlineFlex,
+  s.justifyContentCenter,
   s.pointer,
   {
-    height: "2.5rem",
-    position: "relative",
-    width: "15rem",
+    padding: "0.3rem 0.5rem",
+    minWidth: "2rem",
+    maxWidth: "2rem",
+    fontSize: "0.9rem",
+    ":hover": {
+      backgroundColor: "red",
+    },
   },
 ]);
