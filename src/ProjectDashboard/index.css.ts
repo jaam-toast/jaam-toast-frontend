@@ -88,7 +88,7 @@ export const cmsInfo = style([
   {
     flex: 4,
     gap: "0.3rem",
-    border: "1px solid black",
+    border: `1px solid ${COLORS.BLACK}`,
     padding: "1rem 2rem 1rem",
     borderColor: COLORS.GREY_CLEAR,
     borderRadius: "1rem",

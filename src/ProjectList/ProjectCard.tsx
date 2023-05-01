@@ -1,12 +1,12 @@
-import { useNavigate } from "react-router-dom";
-import timeSince from "../@utils/timeSince";
-import { FRAMEWORK_DOMAIN } from "../@types/build";
-import { Favicon } from "./Favicon";
-import { Avatar } from "../@shared";
-
-import * as css from "./ProjectCard.css";
-import { useProjectQuery } from "../ProjectDashboard/useProjectQuery";
 import { Suspense } from "react";
+import { useNavigate } from "react-router-dom";
+
+import timeSince from "../@utils/timeSince";
+import { Favicon } from "./Favicon";
+import { Avatar, useProjectQuery } from "../@shared";
+import * as css from "./ProjectCard.css";
+
+import { FRAMEWORK_DOMAIN } from "../@types/build";
 
 export function ProjectCard({ projectId }: { projectId: string }) {
   const { data: project } = useProjectQuery(projectId);
@@ -16,6 +16,7 @@ export function ProjectCard({ projectId }: { projectId: string }) {
     return null;
   }
 
+  // TODO domain
   return (
     <div
       onClick={() => {
@@ -26,7 +27,7 @@ export function ProjectCard({ projectId }: { projectId: string }) {
       <li className={css.projectCardhead}>
         <Avatar size="large" className={css.avatar}>
           <Suspense fallback={<div className={css.avatarIconSkeleton} />}>
-            <Favicon domain={project.buildDomain} />
+            <Favicon domain={project.buildDomain[0]} />
           </Suspense>
         </Avatar>
         <Avatar size="large" className={css.avatar}>

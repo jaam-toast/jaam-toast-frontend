@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { TextField, useModal } from "../@shared";
+import { useModal, useProjectQuery } from "../@shared";
 import * as css from "./ModalContentsKey.css";
-import { useProjectQuery } from "./useProjectQuery";
 
 export function ModalContentsKey({ projectName }: { projectName: string }) {
   // TODO useContentsKeyQuery

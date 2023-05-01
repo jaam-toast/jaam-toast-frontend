@@ -28,16 +28,16 @@ export class ContentsAPIClient {
 
   async getContentsList({
     schemaName,
-    page = 1,
-    pageLength = 20,
-    sort = "createAt",
-    order = "ascending",
+    page,
+    pageLength,
+    sort,
+    order,
   }: {
     schemaName: string;
-    page?: number;
-    pageLength?: number;
-    sort?: string;
-    order?: string;
+    page: number;
+    pageLength: number;
+    sort: string;
+    order: string;
   }): Promise<ContentsData> {
     try {
       const { data } = await this.client().get<Response<ContentsData>>(
@@ -82,14 +82,14 @@ export class ContentsAPIClient {
   }: {
     schemaName: string;
     content: JaamSchemaContent;
-  }): Promise<Content> {
+  }): Promise<string> {
     try {
-      const { data } = await this.client().post<Response<Content>>(
+      const { data } = await this.client().post<Response<string>>(
         `/storage/${schemaName}/contents`,
         content,
       );
 
-      return data.result;
+      return data.message;
     } catch (error) {
       throw error;
     }
@@ -124,11 +124,11 @@ export class ContentsAPIClient {
     contentIds: string[];
   }): Promise<string> {
     try {
-      const { data } = await this.client().get<Response<string>>(
-        `/storage/${schemaName}`,
+      const { data } = await this.client().delete<Response<string>>(
+        `/storage/${schemaName}/contents`,
         {
           params: {
-            contents_id: contentIds,
+            contentsId: contentIds,
           },
         },
       );

@@ -43,7 +43,6 @@ export function ContentInfo() {
       navigate(-1);
     },
     onError: e => {
-      console.log(e);
       alert("Failed to update content. Please try again.");
     },
   });
