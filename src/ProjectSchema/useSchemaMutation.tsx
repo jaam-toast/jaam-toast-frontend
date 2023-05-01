@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { jaamSchemaToJsonSchema } from "../@packages/jaam-schema/src";
+import { jaamSchemaToJsonSchema } from "@jaam-schema/src";
 
 import { useAuth } from "../@shared";
 import APIClient from "../@utils/api";
@@ -20,18 +20,20 @@ export function useCreateSchemaMutation({ onSuccess, onError }: Options) {
     .setAccessToken(user?.accessToken)
     .setGithubAccessToken(user?.githubAccessToken);
 
-  const convertedSchema = jaamSchemaToJsonSchema(schema);
-
   return useMutation(
     ["schema-create"],
     async ({ projectName }: { projectName: string }) => {
+      if (!projectName) {
+        return Promise.reject(new Error("Cannot find project name"));
+      }
+
       if (!title || !type || !Object.keys(properties).length) {
-        return;
+        return Promise.reject(new Error("Cannot find schema data"));
       }
 
       const options = {
         schemaName: title,
-        schema: convertedSchema,
+        schema: jaamSchemaToJsonSchema(schema),
       };
 
       return api.createSchema({ projectName, options });
@@ -53,8 +55,6 @@ export function useUpdateSchemaMutation({ onSuccess, onError }: Options) {
     .setAccessToken(user?.accessToken)
     .setGithubAccessToken(user?.githubAccessToken);
 
-  const convertedSchema = jaamSchemaToJsonSchema(schema);
-
   return useMutation(
     ["schema-update"],
     async ({
@@ -64,13 +64,21 @@ export function useUpdateSchemaMutation({ onSuccess, onError }: Options) {
       projectName: string;
       schemaName: string;
     }) => {
-      if (!schemaName || !type || !Object.keys(properties).length) {
-        return;
+      if (!projectName) {
+        return Promise.reject(new Error("Cannot find project name"));
+      }
+
+      if (!schemaName) {
+        return Promise.reject(new Error("Cannot find schema name"));
+      }
+
+      if (!type || !Object.keys(properties).length) {
+        return Promise.reject(new Error("Cannot find schema data"));
       }
 
       const options = {
         schemaName: schemaName,
-        schema: convertedSchema,
+        schema: jaamSchemaToJsonSchema(schema),
       };
 
       return api.updateSchema({ projectName, schemaName, options });
@@ -99,6 +107,18 @@ export function useDeleteSchemaMutation({ onSuccess, onError }: Options) {
       projectName: string;
       schemaNames: string[];
     }) => {
+      if (!projectName) {
+        return Promise.reject(new Error("Cannot find project name"));
+      }
+
+      if (!schemaNames) {
+        return Promise.reject(new Error("Cannot find schema name"));
+      }
+
+      if (!!Array.isArray(schemaNames)) {
+        return Promise.reject(new Error("schema names must be array"));
+      }
+
       return api.deleteSchema({ projectName, schemaNames });
     },
     {
