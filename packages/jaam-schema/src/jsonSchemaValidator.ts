@@ -1,7 +1,10 @@
 import Ajv, { DefinedError } from "ajv";
 import addFormats from "ajv-formats";
 
-import { JsonSchema, JsonSchemaContent } from ".";
+import type { JsonSchema, JsonSchemaContent } from ".";
+
+const ajv = new Ajv();
+addFormats(ajv);
 
 export function jsonSchemaValidator({
   content,
