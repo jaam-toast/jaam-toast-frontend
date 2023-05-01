@@ -5,12 +5,14 @@ import { JaamSchema, JaamSchemaProperties } from "@jaam-schema/src";
 import * as css from "./PropertyList.css";
 
 type SchemaPropertiesProps = {
+  isEditable?: boolean;
   propertyList: JaamSchema["properties"];
   editHandler: ({ propertyName }: { propertyName: string }) => void;
   deleteHandler: ({ propertyName }: { propertyName: string }) => void;
 };
 
 export function PropertyList({
+  isEditable = true,
   propertyList,
   editHandler,
   deleteHandler,
@@ -40,20 +42,22 @@ export function PropertyList({
                 ))}
               </div>
             </div>
-            <div className={css.fieldEditButtons}>
-              <BsFillPencilFill
-                className={css.fieldEditButton}
-                onClick={() => {
-                  editHandler({ propertyName });
-                }}
-              />
-              <BsFillTrashFill
-                className={css.fieldEditButton}
-                onClick={() => {
-                  deleteHandler({ propertyName });
-                }}
-              />
-            </div>
+            {isEditable && (
+              <div className={css.fieldEditButtons}>
+                <BsFillPencilFill
+                  className={css.fieldEditButton}
+                  onClick={() => {
+                    editHandler({ propertyName });
+                  }}
+                />
+                <BsFillTrashFill
+                  className={css.fieldEditButton}
+                  onClick={() => {
+                    deleteHandler({ propertyName });
+                  }}
+                />
+              </div>
+            )}
           </div>
         ),
       )}
