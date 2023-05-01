@@ -8,8 +8,7 @@ import { CmsInfo } from "./CmsInfo";
 import * as css from "./index.css";
 
 export function ProjectDashboard() {
-  const params = useParams();
-  const { userName, projectName } = params;
+  const { userName, projectName } = useParams();
 
   if (!projectName || !userName) {
     return <Navigate to="/error" />;

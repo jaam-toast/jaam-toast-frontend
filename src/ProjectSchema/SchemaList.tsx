@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { Navigate } from "react-router-dom";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 
@@ -32,7 +33,18 @@ export function SchemaList({
     return <Navigate to="/error" />;
   }
 
-  const { schemaList, storageKey } = data;
+  const { schemaList: schemaListData, storageKey } = data;
+  const schemaList = useMemo(
+    () =>
+      sortBy<SchemaData>({
+        mode: orderOption,
+        data: schemaListData,
+        fieldName: "schemaName",
+      }).filter((data: SchemaData) =>
+        searchword ? data.schema.title.includes(searchword) : true,
+      ),
+    [orderOption, schemaListData, searchword],
+  );
 
   const handleSchemaClick = ({ schema }: { schema: JsonSchema }) => {
     openModal({
@@ -64,62 +76,50 @@ export function SchemaList({
         </tr>
       </thead>
       <tbody>
-        {sortBy<SchemaData>({
-          mode: orderOption,
-          data: schemaList,
-          fieldName: "schemaName",
-        })
-          .filter((data: SchemaData) =>
-            searchword ? data.schema.title.includes(searchword) : true,
-          )
-          .map((data: SchemaData, index: number) => (
-            <tr className={css.row} key={data.schema.title}>
-              <td className={css.cell}>
-                <div className={css.checkboxField}>
-                  <Checkbox
-                    value={data.schema.title}
-                    valuesCount={schemaList.length}
-                  />
-                </div>
-              </td>
-              <td className={css.cell}>
-                <div
+        {schemaList.map((data: SchemaData) => (
+          <tr className={css.row} key={data.schema.title}>
+            <td className={css.cell}>
+              <div className={css.checkboxField}>
+                <Checkbox
+                  value={data.schema.title}
+                  valuesCount={schemaList.length}
+                />
+              </div>
+            </td>
+            <td className={css.cell}>
+              <div
+                onClick={() => handleSchemaClick({ schema: data.schema })}
+                className={css.nameField}
+              >
+                <ColorBox randomColor={true}>
+                  <span>{data.schema.title[0].toUpperCase()}</span>
+                </ColorBox>
+                <span>{data.schema.title}</span>
+              </div>
+            </td>
+            <td className={css.cell}>
+              <div className={css.typeField}>
+                {Object.keys(data.schema.properties).map((property: string) => (
+                  <span className={css.type} key={property}>
+                    {property}
+                  </span>
+                ))}
+              </div>
+            </td>
+            <td className={css.cell}>
+              <div className={css.optionField}>
+                <BsFillPencilFill
                   onClick={() => handleSchemaClick({ schema: data.schema })}
-                  className={css.nameField}
-                >
-                  <ColorBox randomColor={true}>
-                    <span>{data.schema.title[0].toUpperCase()}</span>
-                  </ColorBox>
-                  <span>{data.schema.title}</span>
-                </div>
-              </td>
-              <td className={css.cell}>
-                <div className={css.typeField}>
-                  {Object.keys(data.schema.properties).map(
-                    (property: string) => (
-                      <span className={css.type} key={property}>
-                        {property}
-                      </span>
-                    ),
-                  )}
-                </div>
-              </td>
-              <td className={css.cell}>
-                <div className={css.optionField}>
-                  <BsFillPencilFill
-                    onClick={() => handleSchemaClick({ schema: data.schema })}
-                    className={css.optionIcon}
-                  />
-                  <BsFillTrashFill
-                    onClick={() =>
-                      onDelete({ schemaNames: [data.schema.title] })
-                    }
-                    className={css.optionIcon}
-                  />
-                </div>
-              </td>
-            </tr>
-          ))}
+                  className={css.optionIcon}
+                />
+                <BsFillTrashFill
+                  onClick={() => onDelete({ schemaNames: [data.schema.title] })}
+                  className={css.optionIcon}
+                />
+              </div>
+            </td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );

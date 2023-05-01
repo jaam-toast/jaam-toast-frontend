@@ -14,9 +14,8 @@ import * as css from "./index.css";
 import type { SortMode, OrderMode } from "../@types/cms";
 
 export function ProjectContents() {
-  const params = useParams();
+  const { projectName } = useParams();
   const navigate = useNavigate();
-  const { projectName } = params;
   const [sortOption, setSortOption] = useState<SortMode>("createdAt");
   const [orderOption, setOrderOption] = useState<OrderMode>("ascending");
   const [currentSchemaIndex, setCurrentSchemaIndex] = useState<number>(0);

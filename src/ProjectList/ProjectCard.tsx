@@ -17,7 +17,6 @@ export function ProjectCard({ projectId }: { projectId: string }) {
     return null;
   }
 
-  // TODO domain
   return (
     <div
       onClick={() => {
@@ -41,7 +40,7 @@ export function ProjectCard({ projectId }: { projectId: string }) {
       <div className={css.projectCardMain}>
         <strong className={css.projectCardName}>{project.projectName}</strong>
         <span className={css.projectCardUrl}>
-          {project.buildDomain ?? "url not found..."}
+          {!!project.buildDomain.length && "url not found..."}
         </span>
       </div>
       <div className={css.projectCardFooter}>

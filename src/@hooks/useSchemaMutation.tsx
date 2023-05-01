@@ -24,11 +24,11 @@ export function useCreateSchemaMutation({ onSuccess, onError }: Options) {
     ["schema-create"],
     async ({ projectName }: { projectName: string }) => {
       if (!projectName) {
-        return Promise.reject(new Error("Cannot find project name"));
+        throw Error("Cannot find project name");
       }
 
       if (!title || !type || !Object.keys(properties).length) {
-        return Promise.reject(new Error("Cannot find schema data"));
+        throw Error("Cannot find schema data");
       }
 
       const options = {
@@ -65,15 +65,15 @@ export function useUpdateSchemaMutation({ onSuccess, onError }: Options) {
       schemaName: string;
     }) => {
       if (!projectName) {
-        return Promise.reject(new Error("Cannot find project name"));
+        throw Error("Cannot find project name");
       }
 
       if (!schemaName) {
-        return Promise.reject(new Error("Cannot find schema name"));
+        throw Error("Cannot find schema name");
       }
 
       if (!type || !Object.keys(properties).length) {
-        return Promise.reject(new Error("Cannot find schema data"));
+        throw Error("Cannot find schema data");
       }
 
       const options = {
@@ -108,15 +108,15 @@ export function useDeleteSchemaMutation({ onSuccess, onError }: Options) {
       schemaNames: string[];
     }) => {
       if (!projectName) {
-        return Promise.reject(new Error("Cannot find project name"));
+        throw Error("Cannot find project name");
       }
 
       if (!schemaNames) {
-        return Promise.reject(new Error("Cannot find schema name"));
+        throw Error("Cannot find schema name");
       }
 
       if (!!Array.isArray(schemaNames)) {
-        return Promise.reject(new Error("schema names must be array"));
+        throw Error("schema names must be array");
       }
 
       return api.deleteSchema({ projectName, schemaNames });

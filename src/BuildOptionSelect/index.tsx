@@ -6,12 +6,10 @@ import {
   useBuildOptions,
   useSetBuildOptions,
   useSetProjectName,
-} from "../@hooks/useBuildOptionsStore";
-import useProjectMutaion from "../@hooks/useProjectMutation";
-import {
+  useProjectMutation,
   usePresetBuildOptions,
   usePresetBuildOptionActions,
-} from "../@hooks/usePresetBuildOptionStore";
+} from "../@hooks";
 import * as css from "./index.css";
 
 import { FRAMEWORK, NODE_VERSION } from "../@types/build";
@@ -33,7 +31,7 @@ export function BuildOptionSelect() {
   const { setRepoName, setSpace, setDefaultCommand } =
     usePresetBuildOptionActions();
 
-  const deploy = useProjectMutaion({
+  const deploy = useProjectMutation({
     onSuccess: () => {
       navigate(`./deploy`);
     },

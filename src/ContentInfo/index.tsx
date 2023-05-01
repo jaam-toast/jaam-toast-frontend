@@ -15,8 +15,7 @@ import * as css from "./index.css";
 
 export function ContentInfo() {
   const navigate = useNavigate();
-  const params = useParams();
-  const { projectName, schemaName, contentId } = params;
+  const { projectName, schemaName, contentId } = useParams();
   const { content: contentState } = useContentsState();
   const { reset } = useSetContentsState();
 

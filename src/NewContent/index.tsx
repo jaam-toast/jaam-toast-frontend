@@ -21,9 +21,7 @@ import { DEFAULT_VALUE_FOR_TYPE } from "../@types/cms";
 
 export function NewContent() {
   const navigate = useNavigate();
-  const params = useParams();
-  const { projectName } = params;
-
+  const { projectName } = useParams();
   const [currentSchemaIndex, setCurrentSchemaIndex] = useState<number>(0);
   const { content, contentsErrorMessage } = useContentsState();
   const { setContentProperty, reset } = useSetContentsState();

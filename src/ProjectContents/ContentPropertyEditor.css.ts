@@ -32,10 +32,10 @@ export const toggleButtonBox = style([
 
 export const toggleSwitch = style([
   {
-    width: "4rem",
-    height: "2.1rem",
     display: "block",
     position: "relative",
+    width: "4rem",
+    height: "2.1rem",
     borderRadius: "2.1rem",
     backgroundColor: COLORS.BLACK,
     cursor: "pointer",
@@ -54,7 +54,7 @@ export const toggleButton = style({
   width: "2rem",
   height: "2rem",
   position: "absolute",
-  top: "1px",
+  top: "0.05rem",
   borderRadius: "50%",
   backgroundColor: COLORS.WHITE,
   zIndex: "10",
@@ -70,7 +70,7 @@ export const toggleButtonLeft = style([
 export const toggleButtonRight = style([
   toggleButton,
   {
-    left: "calc(100% - 2.05rem)",
+    transform: "translateX(1.95rem)",
     backgroundColor: COLORS.LEMON,
   },
 ]);
