@@ -4,11 +4,12 @@ import { COLORS } from "../@config/colors";
 
 export const selectOptionField = style([
   s.flex,
+  s.alignItemsCenter,
   s.flexSpaceBetween,
   s.fullWidth,
   s.border,
   {
-    padding: "1rem",
+    height: "3rem",
     borderColor: COLORS.WHITE,
     color: COLORS.WHITE,
     backgroundColor: COLORS.LAVENDAR_DARK,
@@ -18,38 +19,17 @@ export const selectOptionField = style([
 
 export const optionIcon = style([{ cursor: "pointer" }]);
 
-export const table = style([
-  s.fullWidth,
-  {
-    marginTop: "1rem",
-    borderCollapse: "collapse",
-    borderSpacing: 0,
-    fontSize: "0.95rem",
-  },
-]);
+/**
+ * table
+ */
+export const table = style([s.table]);
+export const thCheckbox = style([s.thCheckbox]);
+export const th = style([s.th]);
+export const tbody = style([s.tbody]);
+export const row = style([s.tableRow]);
+export const cell = style([s.tableCell]);
+export const checkboxField = style([s.checkbox]);
 
-export const thCheckbox = style([
-  {
-    maxWidth: "10px",
-  },
-]);
-
-export const th = style([
-  {
-    padding: "1rem",
-    fontWeight: 300,
-    textAlign: "left",
-    color: COLORS.GREY,
-  },
-]);
-
-export const tbody = style([s.fullWidth]);
-
-export const row = style([{ borderBottom: `1px solid ${COLORS.GREY_CLEAR}` }]);
-
-export const cell = style([{ maxWidth: "30rem", padding: "1rem" }]);
-
-export const checkboxField = style([{ textAlign: "center" }]);
 export const nameField = style([
   s.inlineFlex,
   {
