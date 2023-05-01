@@ -1,4 +1,5 @@
 import { Link, Navigate, useParams, useLocation } from "react-router-dom";
+
 import * as css from "./DashboardHeader.css";
 
 export function DashboardHeader() {
@@ -39,7 +40,9 @@ export function DashboardHeader() {
         <Link to={`/${userName}/${projectName}/contents`}>
           <li
             className={
-              currentPage === "contents" ? css.navLinkPoint : css.navLink
+              currentPage === "contents" || currentPage === "new"
+                ? css.navLinkPoint
+                : css.navLink
             }
           >
             Contents

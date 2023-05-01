@@ -11,7 +11,8 @@ import { ProjectDeploy } from "./ProjectDeploy";
 import { ProjectDashboard } from "./ProjectDashboard";
 import { ProjectSchema } from "./ProjectSchema";
 import { ProjectContents } from "./ProjectContents";
-import { NewContent } from "./ProjectContents/NewContent";
+import { NewContent } from "./NewContent";
+import { ContentInfo } from "./ContentInfo";
 import { ProjectAssets } from "./ProjectAssets";
 import { ProjectSettings } from "./ProjectSettings";
 import { NotFound } from "./Error/NotFound";
@@ -63,6 +64,10 @@ export function App() {
             <Route
               path="/:userName/:projectName/contents/new"
               element={<NewContent />}
+            />
+            <Route
+              path="/:userName/:projectName/contents/:schemaName/:contentId"
+              element={<ContentInfo />}
             />
             <Route
               path="/:userName/:projectName/assets"
