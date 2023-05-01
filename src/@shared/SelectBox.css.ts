@@ -19,7 +19,7 @@ export const container = style([
 
 export const label = style({
   zIndex: 9,
-  paddingLeft: "1rem",
+  paddingLeft: "1.5rem",
   fontSize: "0.8rem",
 });
 

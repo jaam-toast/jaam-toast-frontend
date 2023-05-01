@@ -162,6 +162,42 @@ const appear = keyframes({
   "100%": { opacity: 1 },
 });
 
+export const table = style([
+  fullWidth,
+  {
+    marginTop: "1rem",
+    borderCollapse: "collapse",
+    borderSpacing: 0,
+    fontSize: "0.95rem",
+  },
+]);
+
+export const thCheckbox = style([
+  {
+    minWidth: "3px",
+    maxWidth: "3px",
+  },
+]);
+
+export const th = style([
+  {
+    padding: "1rem",
+    fontWeight: 300,
+    textAlign: "left",
+    color: COLORS.GREY,
+  },
+]);
+
+export const tbody = style([fullWidth]);
+
+export const tableRow = style([
+  { borderBottom: `1px solid ${COLORS.GREY_CLEAR}` },
+]);
+
+export const tableCell = style([{ maxWidth: "30rem", padding: "1rem" }]);
+
+export const checkbox = style([{ textAlign: "center" }]);
+
 export const skeleton = style({
   borderRadius: "1.5rem",
   backgroundColor: COLORS.GREY_CLEAR,
