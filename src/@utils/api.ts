@@ -57,6 +57,7 @@ class APIClient {
       const { data } = await this.client().get<Response<Repo[]>>(
         `/users/${this.userId}/repos`,
       );
+
       return data.result;
     } catch (error) {
       throw error;
@@ -68,6 +69,7 @@ class APIClient {
       const { data } = await this.client().get<Response<Space[]>>(
         `/users/${this.userId}/orgs`,
       );
+
       return data.result;
     } catch (error) {
       throw error;
@@ -79,6 +81,7 @@ class APIClient {
       const { data } = await this.client().get<Response<Repo[]>>(
         `/users/${this.userId}/orgs/${space}/repos`,
       );
+
       return data.result;
     } catch (error) {
       throw error;
@@ -90,6 +93,7 @@ class APIClient {
       const { data } = await this.client().get<Response<string[]>>(
         `users/${this.userId}/projects`,
       );
+
       return data.result;
     } catch (error) {
       throw error;
@@ -119,6 +123,7 @@ class APIClient {
         "/projects",
         createProjectOptions,
       );
+
       return data.result;
     } catch (error) {
       throw error;

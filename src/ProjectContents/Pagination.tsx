@@ -30,9 +30,7 @@ export function Pagination({
     page - pageLimit < 1 ? onClickPage(1) : onClickPage(page - pageLimit);
   };
 
-  const handlePageNumberClick = (page: number) => {
-    onClickPage(page);
-  };
+  const handlePageNumberClick = onClickPage;
 
   return (
     <div className={css.paginationContainer}>

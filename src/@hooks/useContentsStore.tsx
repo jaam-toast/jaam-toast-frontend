@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { shallow } from "zustand/shallow";
+import omit from "lodash/omit";
 import { jsonSchemaValidator } from "@jaam-schema/src";
 
 import type {
@@ -52,12 +53,7 @@ export const useContentsStore = create<ContentsStore>((set, get) => ({
       set({ currentSchema: schema });
     },
     setContent: content => {
-      const copyContent = { ...content };
-      delete copyContent._createdAt;
-      delete copyContent._updatedAt;
-      delete copyContent._id;
-
-      set({ content: copyContent });
+      set({ content: omit(content, ["_createAt", "_updatedAt", "_id"]) });
     },
     setContentProperty: ({ name, content }) => {
       const jsonSchema = { ...get().currentSchema };

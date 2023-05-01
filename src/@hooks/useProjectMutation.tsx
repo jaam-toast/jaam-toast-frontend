@@ -10,7 +10,10 @@ type UseProjectMutationOptions = {
   onError?: (error?: unknown) => Promise<unknown> | unknown;
 };
 
-function useProjectMutation({ onSuccess, onError }: UseProjectMutationOptions) {
+export function useProjectMutation({
+  onSuccess,
+  onError,
+}: UseProjectMutationOptions) {
   const {
     projectName,
     isProjectNameAvailable,
@@ -69,5 +72,3 @@ function useProjectMutation({ onSuccess, onError }: UseProjectMutationOptions) {
     },
   );
 }
-
-export default useProjectMutation;

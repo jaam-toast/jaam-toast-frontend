@@ -43,7 +43,7 @@ export type Project = {
   buildType: string;
 
   buildDomain: string[];
-  buildOriginalDomain: string;
+  originalBuildDomain: string;
   cmsDomain: string;
   storageKey: string;
 

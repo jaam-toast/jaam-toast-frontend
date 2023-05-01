@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+dayjs.extend(utc);
 
 import { useContentQuery } from "../@hooks";
 
@@ -15,7 +16,6 @@ export function TimeInfo({
   schema: JsonSchema;
   token: string;
 }) {
-  dayjs.extend(utc);
   const { data: content } = useContentQuery({
     schemaName: schema.title,
     token,

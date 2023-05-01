@@ -12,8 +12,7 @@ import type { OrderMode } from "../@types/cms";
 import { SchemaList } from "./SchemaList";
 
 export function ProjectSchema() {
-  const params = useParams();
-  const { projectName } = params;
+  const { projectName } = useParams();
   const [searchword, setSearchword] = useState<string>("");
   const [orderMode, setOrderMode] = useState<OrderMode>("ascending");
   const { values: checkboxValues, isAllChecked } = useCheckboxState();

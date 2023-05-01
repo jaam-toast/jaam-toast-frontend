@@ -3,9 +3,8 @@ import { Link, Navigate, useParams, useLocation } from "react-router-dom";
 import * as css from "./DashboardHeader.css";
 
 export function DashboardHeader() {
-  const params = useParams();
+  const { userName, projectName } = useParams();
   const location = useLocation();
-  const { userName, projectName } = params;
   const { pathname } = location;
 
   const regExp = /\/(\w+)$/;

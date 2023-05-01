@@ -15,15 +15,15 @@ export function useCreateContentMutation({ onSuccess, onError }: Options) {
     ["content-create"],
     async ({ token, schemaName }: { token: string; schemaName: string }) => {
       if (!content) {
-        return Promise.reject(new Error("Cannot find content data."));
+        throw Error("Cannot find content data.");
       }
 
       if (!token) {
-        return Promise.reject(new Error("Cannot find api key."));
+        throw Error("Cannot find api key.");
       }
 
       if (!schemaName) {
-        return Promise.reject(new Error("Cannot find schema name."));
+        throw Error("Cannot find schema name.");
       }
 
       const contentsAPI = new ContentsAPIClient().setToken(token);
@@ -52,15 +52,15 @@ export function useUpdateContentMutation({ onSuccess, onError }: Options) {
       contentId: string;
     }) => {
       if (!content) {
-        return Promise.reject(new Error("Cannot find content data."));
+        throw Error("Cannot find content data.");
       }
 
       if (!token) {
-        return Promise.reject(new Error("Cannot find api key."));
+        throw Error("Cannot find api key.");
       }
 
       if (!schemaName) {
-        return Promise.reject(new Error("Cannot find schema name."));
+        throw Error("Cannot find schema name.");
       }
 
       const contentsAPI = new ContentsAPIClient().setToken(token);
@@ -87,11 +87,11 @@ export function useDeleteContentsMutation({ onSuccess, onError }: Options) {
       contentIds: string[];
     }) => {
       if (!token) {
-        return Promise.reject(new Error("Cannot find api key."));
+        throw Error("Cannot find api key.");
       }
 
       if (!schemaName) {
-        return Promise.reject(new Error("Cannot find schema name."));
+        throw Error("Cannot find schema name.");
       }
 
       const contentsAPI = new ContentsAPIClient().setToken(token);
