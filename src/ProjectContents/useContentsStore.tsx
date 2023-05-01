@@ -12,26 +12,34 @@ type ContentsErrorMessage = {
   [propertyName in string]: string;
 };
 
-type ContentsStore = {
+type ContentState = {
+  currentSchema: JsonSchema;
   content: JaamSchemaContent;
   contentsErrorMessage: ContentsErrorMessage;
+};
 
+type ContentsStore = ContentState & {
   actions: {
-    setContents: <T extends JaamSchemaContentProperty>({
+    setSchema: (schema: JsonSchema) => void;
+    setContent: (content: JaamSchemaContent) => void;
+    setContentProperty: <T extends JaamSchemaContentProperty>({
       name,
       content,
-      schema,
     }: {
       name: string;
       content: T;
-      schema: JsonSchema;
     }) => void;
     reset: () => void;
   };
 };
 
-const initialState = {
-  schema: null,
+const initialState: ContentState = {
+  currentSchema: {
+    title: "",
+    type: "object",
+    properties: {},
+    required: [],
+  },
   content: {},
   contentsErrorMessage: {},
 };
@@ -40,16 +48,27 @@ export const useContentsStore = create<ContentsStore>((set, get) => ({
   ...initialState,
 
   actions: {
-    setContents: ({ name, content, schema }) => {
-      const jsonSchema = { ...schema };
+    setSchema: schema => {
+      set({ currentSchema: schema });
+    },
+    setContent: content => {
+      const copyContent = { ...content };
+      delete copyContent._createdAt;
+      delete copyContent._updatedAt;
+      delete copyContent._id;
 
-      if (schema.required) {
+      set({ content: copyContent });
+    },
+    setContentProperty: ({ name, content }) => {
+      const jsonSchema = { ...get().currentSchema };
+
+      if (get().currentSchema.required) {
         jsonSchema.required = [];
       }
 
       const { message: errorMessage } = jsonSchemaValidator({
         content: { [name]: content },
-        schema,
+        schema: get().currentSchema,
       });
 
       set(state => {
@@ -71,6 +90,7 @@ export const useContentsStore = create<ContentsStore>((set, get) => ({
 export const useContentsState = () =>
   useContentsStore(state => {
     return {
+      schema: state.currentSchema,
       content: state.content,
       contentsErrorMessage: state.contentsErrorMessage,
     };
