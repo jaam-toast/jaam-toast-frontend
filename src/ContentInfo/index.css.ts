@@ -1,5 +1,4 @@
 import { style } from "@vanilla-extract/css";
-import { pretendard } from "../@styles/font.css";
 import { s } from "../@styles";
 import { COLORS } from "../@config/colors";
 

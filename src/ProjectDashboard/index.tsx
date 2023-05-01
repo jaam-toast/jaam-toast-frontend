@@ -2,10 +2,10 @@ import { Suspense } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
 
+import { useProjectQuery } from "../@shared";
 import { Preview, PreviewSkeleton } from "../ProjectDeploy/Preview";
-import { useProjectQuery } from "./useProjectQuery";
+import { CmsInfo } from "./CmsInfo";
 import * as css from "./index.css";
-import { ContentsInfo } from "./ContentsInfo";
 
 export function ProjectDashboard() {
   const params = useParams();
@@ -62,7 +62,7 @@ export function ProjectDashboard() {
             </ul>
           </section>
         </div>
-        <ContentsInfo
+        <CmsInfo
           schemaListCount={project?.schemaList?.length || 0}
           userName={userName}
           projectName={projectName}
