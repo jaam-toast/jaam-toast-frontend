@@ -37,8 +37,6 @@ export const projectCardFooter = style([
   },
 ]);
 
-export const projectCardAvartars = style({ height: "2.5rem" });
-
 export const projectCardName = style({
   fontSize: "1.4rem",
   fontWeight: "700",

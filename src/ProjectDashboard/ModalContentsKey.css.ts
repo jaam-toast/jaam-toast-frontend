@@ -27,51 +27,7 @@ export const header = style([
   },
 ]);
 
-export const headerFirstLine = style([
-  s.flex,
-  s.flexSpaceBetween,
-  // { paddingBottom: "1rem" },
-]);
-
-export const schemaName = style({ color: COLORS.LAVENDAR_DARK });
-
-export const wrapper = style([
-  s.scroll,
-  { flex: 1, height: "100%", paddingBottom: "3rem", fontSize: "0.95rem" },
-]);
-
-export const footer = style([
-  s.flex,
-  s.flexSpaceBetween,
-  {
-    flexDirection: "row-reverse",
-    position: "sticky",
-    bottom: 0,
-    padding: "1rem 0",
-    backgroundColor: "inherit",
-  },
-]);
-
-/**
- * field title
- */
-export const fieldTitleBox = style([
-  {
-    padding: "1rem 0 0.5rem 0",
-    marginBottom: "1rem",
-    borderBottom: `2px solid ${COLORS.GREY_CLEAR}`,
-  },
-]);
-
-export const fieldTitle = style([
-  {
-    padding: "1rem 0 0.48rem 0",
-    marginBottom: "50px",
-    borderBottom: `3px solid ${COLORS.RED_LIGHT}`,
-    width: "fit-content",
-    fontWeight: 450,
-  },
-]);
+export const headerFirstLine = style([s.flex, s.flexSpaceBetween]);
 
 export const fieldSubText = style([
   {
