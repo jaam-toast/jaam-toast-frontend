@@ -14,8 +14,16 @@ export function useCreateContentMutation({ onSuccess, onError }: Options) {
   return useMutation(
     ["content-create"],
     async ({ token, schemaName }: { token: string; schemaName: string }) => {
-      if (!token || !schemaName) {
-        return;
+      if (!content) {
+        return Promise.reject(new Error("Cannot find content data."));
+      }
+
+      if (!token) {
+        return Promise.reject(new Error("Cannot find api key."));
+      }
+
+      if (!schemaName) {
+        return Promise.reject(new Error("Cannot find schema name."));
       }
 
       const contentsAPI = new ContentsAPIClient().setToken(token);
@@ -34,14 +42,30 @@ export function useUpdateContentMutation({ onSuccess, onError }: Options) {
 
   return useMutation(
     ["content-create"],
-    async ({ token, schemaName }: { token: string; schemaName: string }) => {
-      if (!token || !schemaName) {
-        return;
+    async ({
+      token,
+      schemaName,
+      contentId,
+    }: {
+      token: string;
+      schemaName: string;
+      contentId: string;
+    }) => {
+      if (!content) {
+        return Promise.reject(new Error("Cannot find content data."));
+      }
+
+      if (!token) {
+        return Promise.reject(new Error("Cannot find api key."));
+      }
+
+      if (!schemaName) {
+        return Promise.reject(new Error("Cannot find schema name."));
       }
 
       const contentsAPI = new ContentsAPIClient().setToken(token);
 
-      return contentsAPI.updateContent({ schemaName, content });
+      return contentsAPI.updateContent({ schemaName, content, contentId });
     },
     {
       onSuccess,
@@ -62,8 +86,12 @@ export function useDeleteContentsMutation({ onSuccess, onError }: Options) {
       schemaName: string;
       contentIds: string[];
     }) => {
-      if (!token || !schemaName) {
-        return;
+      if (!token) {
+        return Promise.reject(new Error("Cannot find api key."));
+      }
+
+      if (!schemaName) {
+        return Promise.reject(new Error("Cannot find schema name."));
       }
 
       const contentsAPI = new ContentsAPIClient().setToken(token);
