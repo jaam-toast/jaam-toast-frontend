@@ -10,6 +10,7 @@ import {
 type Property = {
   originalNameForEditing: string;
   name: string;
+  warningMessage?: string;
   options: JaamSchemaProperties;
 };
 
@@ -51,6 +52,7 @@ const initialState: SchemaState = {
     originalNameForEditing: "",
     name: "",
     options: { type: "text" },
+    warningMessage: "",
   },
 };
 
@@ -98,11 +100,30 @@ export const useSchemaStore = create<SchemaStore>((set, get) => ({
 
           const { options, name } = updateData;
 
+          const validateRegex = /^[a-zA-Z\s-]*$/;
+
+          const createValidateMessage = (text: string) => {
+            if (!validateRegex.test(text)) {
+              return "You can only enter English lowercase and uppercase letters and ' - '";
+            }
+
+            if (
+              get().currentEditProperty.originalNameForEditing !==
+                get().currentEditProperty.name &&
+              Object.keys(get().properties).includes(text)
+            ) {
+              return "Your Property name is duplicated.";
+            }
+
+            return "";
+          };
+
           set(state => ({
             currentEditProperty: {
               ...state.currentEditProperty,
               name: name !== undefined ? name : state.currentEditProperty.name,
               options,
+              warningMessage: createValidateMessage(name),
             },
           }));
 
