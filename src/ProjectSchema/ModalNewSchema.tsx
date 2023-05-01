@@ -12,14 +12,14 @@ import {
 import { useCreateSchemaMutation } from "./useSchemaMutation";
 import * as css from "./ModalNewSchema.css";
 
-import type { SchemaData } from "../@types/api";
+import { useProjectSchemaQuery } from "./useSchemaQuery";
+import { Navigate } from "react-router-dom";
 
 type Options = {
   projectName: string;
-  schemaList?: SchemaData[];
 };
 
-export function ModalNewSchema({ projectName, schemaList }: Options) {
+export function ModalNewSchema({ projectName }: Options) {
   const [isFieldEditMode, setIsFieldEditMode] = useState<boolean>(false);
   const [isClickTypeIcon, setIsClickTypeIcon] = useState<boolean>(false);
   const [currentMenu, setCurrentMenu] = useState<string>("schema");
@@ -36,6 +36,12 @@ export function ModalNewSchema({ projectName, schemaList }: Options) {
   const schema = useSchemaState();
   const currentEditProperty = useCurrentEditProperty();
   const { closeModal } = useModal();
+
+  const { data: schemaList } = useProjectSchemaQuery(projectName);
+
+  if (!schemaList) {
+    return <Navigate to="/error" />;
+  }
 
   const createSchema = useCreateSchemaMutation({
     onSuccess: () => {
@@ -92,7 +98,6 @@ export function ModalNewSchema({ projectName, schemaList }: Options) {
     }
 
     createSchema.mutate({ projectName });
-    reset();
   };
 
   const handleClickDelete = ({ propertyName }: { propertyName: string }) => {
@@ -107,7 +112,7 @@ export function ModalNewSchema({ projectName, schemaList }: Options) {
         <div className={css.headerFirstLine}>
           <h3>
             Create new schema
-            <span className={css.schemaName}>{schema.title}</span>
+            <span className={css.schemaName}> {schema.title}</span>
           </h3>
         </div>
         <span className={css.fieldSubText}>
