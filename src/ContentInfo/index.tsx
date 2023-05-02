@@ -1,12 +1,15 @@
-import { useMemo } from "react";
+import { Suspense } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
-
 import { jsonSchemaValidator } from "@jaam-schema/src";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+dayjs.extend(utc);
 
-import { ContentPropertyList } from "./ContentPropertyList";
-import { TimeInfo } from "./TimeInfo";
 import {
-  useProjectQuery,
+  ContentPropertyList,
+  ContentPropertyListSkeleton,
+} from "./ContentPropertyList";
+import {
   useUpdateContentMutation,
   useContentsState,
   useSetContentsState,
@@ -16,32 +19,21 @@ import * as css from "./index.css";
 export function ContentInfo() {
   const navigate = useNavigate();
   const { projectName, schemaName, contentId } = useParams();
-  const { content: contentState } = useContentsState();
+  const { content: contentState, schema, token } = useContentsState();
   const { reset } = useSetContentsState();
 
   if (!projectName || !contentId || !schemaName) {
     return <Navigate to="/error" />;
   }
 
-  const { data: project } = useProjectQuery(projectName);
-
-  if (!project) {
-    return <Navigate to="/error" />;
-  }
-
-  const { schemaList, storageKey: token } = project;
-  const schema = useMemo(
-    () => schemaList.filter(data => data.schemaName === schemaName)[0].schema,
-    [],
-  );
-
+  // TODO async로 변경
   const updateContent = useUpdateContentMutation({
     onSuccess: () => {
       alert("Success content update");
       reset();
       navigate(-1);
     },
-    onError: e => {
+    onError: () => {
       alert("Failed to update content. Please try again.");
     },
   });
@@ -84,15 +76,36 @@ export function ContentInfo() {
           <div className={css.titleWrapper}>
             <h3>Content Info</h3>
           </div>
-          <div className={css.timeWrapper}>
-            <TimeInfo schema={schema} token={token} contentId={contentId} />
-          </div>
+          {!!schema.title && (
+            <div className={css.timeWrapper}>
+              <div>
+                <p>Created At</p>
+                <div>
+                  {dayjs
+                    .utc(contentState._createdAt)
+                    .local()
+                    .format("YYYY/MM/DD HH:mm a")}
+                </div>
+              </div>
+              <div>
+                <p>Updated At</p>
+                <div>
+                  {dayjs
+                    .utc(contentState._updatedAt)
+                    .local()
+                    .format("YYYY/MM/DD HH:mm a")}
+                </div>
+              </div>
+            </div>
+          )}
         </header>
-        <ContentPropertyList
-          schema={schema}
-          token={token}
-          contentId={contentId}
-        />
+        <Suspense fallback={<ContentPropertyListSkeleton />}>
+          <ContentPropertyList
+            schemaName={schemaName}
+            projectName={projectName}
+            contentId={contentId}
+          />
+        </Suspense>
       </section>
     </div>
   );

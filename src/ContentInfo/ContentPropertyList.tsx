@@ -1,33 +1,54 @@
 import { useEffect, useMemo } from "react";
 import { Navigate } from "react-router-dom";
-import { JsonSchema, jsonSchemaToJaamSchema } from "@jaam-schema/src";
+import { jsonSchemaToJaamSchema } from "@jaam-schema/src";
 
-import { FieldTitle } from "../ProjectSchema/FieldTitle";
-import { ContentPropertyEditor } from "../ProjectContents/ContentPropertyEditor";
 import {
   useContentsState,
   useSetContentsState,
   useContentQuery,
+  useProjectQuery,
 } from "../@hooks";
+import { FieldTitle } from "../ProjectSchema/FieldTitle";
+import { ContentPropertyEditor } from "../ProjectContents/ContentPropertyEditor";
 import * as css from "./ContentPropertyList.css";
+
+type ContentPropertyListProps = {
+  contentId: string;
+  schemaName: string;
+  projectName: string;
+};
 
 export function ContentPropertyList({
   contentId,
-  schema,
-  token,
-}: {
-  contentId: string;
-  schema: JsonSchema;
-  token: string;
-}) {
+  schemaName,
+  projectName,
+}: ContentPropertyListProps) {
   const { contentsErrorMessage } = useContentsState();
-  const { setContent } = useSetContentsState();
+  const { setContent, setSchema, setToken } = useSetContentsState();
 
+  const { data: project } = useProjectQuery(projectName);
+  const schema = useMemo(
+    () =>
+      project?.schemaList.filter(data => data.schemaName === schemaName)[0]
+        .schema,
+    [],
+  );
+
+  // TODO error handeling
+  if (!schema || !project) {
+    return null;
+  }
+
+  // TODO error handeling
   const { data: content } = useContentQuery({
-    schemaName: schema.title,
-    token,
+    schemaName: schemaName,
+    token: project?.storageKey,
     contentId,
   });
+
+  if (!content) {
+    return <Navigate to="/error" />;
+  }
 
   useEffect(() => {
     if (!content) {
@@ -35,15 +56,13 @@ export function ContentPropertyList({
     }
 
     setContent(content);
+    setSchema(schema);
+    setToken(project.storageKey);
   }, []);
 
   const jaamSchemaPropertyList = useMemo(() => {
     return Object.entries(jsonSchemaToJaamSchema(schema).properties);
   }, [contentId, schema]);
-
-  if (!content) {
-    return <Navigate to="/error" />;
-  }
 
   return (
     <section className={css.schemaNameSection}>
@@ -68,4 +87,8 @@ export function ContentPropertyList({
       ))}
     </section>
   );
+}
+
+export function ContentPropertyListSkeleton() {
+  return <div className={css.schemaNameSectionSkeleton}></div>;
 }
