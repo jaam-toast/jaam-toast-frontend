@@ -11,8 +11,6 @@ export * from "./usePresetBuildOptionStore";
 export * from "./useProjectQuery";
 export * from "./useProjectMutation";
 export * from "./useProjectNameStore";
-// TODO create project setting query
-// export * from "./useProjectSettingsQuery";
 export * from "./useProjectSettingsMutation";
 export * from "./useProjectListQuery";
 
