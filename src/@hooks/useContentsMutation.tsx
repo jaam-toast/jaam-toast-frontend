@@ -1,4 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
+import omit from "lodash/omit";
 
 import { ContentsAPIClient } from "../@utils/contentsAPI";
 import { useContentsState } from "./useContentsStore";
@@ -65,7 +66,11 @@ export function useUpdateContentMutation({ onSuccess, onError }: Options) {
 
       const contentsAPI = new ContentsAPIClient().setToken(token);
 
-      return contentsAPI.updateContent({ schemaName, content, contentId });
+      return contentsAPI.updateContent({
+        schemaName,
+        content: omit(content, ["_createAt", "_updatedAt", "_id"]),
+        contentId,
+      });
     },
     {
       onSuccess,
