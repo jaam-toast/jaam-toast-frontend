@@ -26,7 +26,7 @@ export function PropertyList({
     <>
       {Object.entries(propertyList).map(
         ([propertyName, data]: [string, JaamSchemaProperties]) => (
-          <div className={css.field}>
+          <div key={propertyName} className={css.field}>
             <div className={css.fieldTypeIcon}>
               <TypeIcon type={data.type} />
             </div>
@@ -35,11 +35,11 @@ export function PropertyList({
               <div className={css.fieldInfo}>
                 <div>{data.type}</div>
                 {Object.entries(data).map(([options, value]) => (
-                  <>
+                  <div key={options + value}>
                     {options !== "type" && value !== false && (
                       <div>{options}</div>
                     )}
-                  </>
+                  </div>
                 ))}
               </div>
             </div>

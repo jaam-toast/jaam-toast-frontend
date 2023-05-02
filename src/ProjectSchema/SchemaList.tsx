@@ -1,16 +1,16 @@
-import { useMemo } from "react";
+import { Suspense, useMemo } from "react";
 import { Navigate } from "react-router-dom";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 
 import { ColorBox, Checkbox } from "../@shared";
 import { useModal, useProjectQuery } from "../@hooks";
-import { ModalSchemaInfo } from "./ModalSchemaInfo";
+import { ModalSchemaInfo, ModalSchemaInfoSkeleton } from "./ModalSchemaInfo";
 import { sortByMode as sortBy } from "../@utils/sortByMode";
 import * as css from "./SchemaList.css";
 
+import type { JsonSchema } from "@jaam-schema/src";
 import type { SchemaData } from "../@types/api";
 import type { OrderMode } from "../@types/cms";
-import type { JsonSchema } from "@jaam-schema/src";
 
 type SchemaListProps = {
   projectName: string;
@@ -49,11 +49,13 @@ export function SchemaList({
   const handleSchemaClick = ({ schema }: { schema: JsonSchema }) => {
     openModal({
       component: (
-        <ModalSchemaInfo
-          currentSchema={schema}
-          projectName={projectName}
-          token={storageKey}
-        />
+        <Suspense fallback={<ModalSchemaInfoSkeleton />}>
+          <ModalSchemaInfo
+            currentSchema={schema}
+            projectName={projectName}
+            token={storageKey}
+          />
+        </Suspense>
       ),
     });
   };
@@ -64,7 +66,7 @@ export function SchemaList({
         <tr>
           <th className={`${css.thCheckbox}`}>
             <Checkbox
-              value="checkbox-parent"
+              isParent={true}
               valuesList={schemaList.map(data => data.schema.title)}
             />
           </th>
@@ -94,7 +96,7 @@ export function SchemaList({
                 <ColorBox randomColor={true}>
                   <span>{data.schema.title[0].toUpperCase()}</span>
                 </ColorBox>
-                <span>{data.schema.title}</span>
+                <span className={css.schemaName}>{data.schema.title}</span>
               </div>
             </td>
             <td className={css.cell}>
@@ -118,6 +120,25 @@ export function SchemaList({
                 />
               </div>
             </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+export function SchemaListSkeleton() {
+  return (
+    <table className={css.table}>
+      <thead>
+        <tr>
+          <th className={css.th}></th>
+        </tr>
+      </thead>
+      <tbody className={css.tbody}>
+        {[...new Array(10)].map((_, index) => (
+          <tr className={css.row} key={index}>
+            <td className={css.cell}></td>
           </tr>
         ))}
       </tbody>
