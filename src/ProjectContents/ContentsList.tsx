@@ -2,10 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+dayjs.extend(utc);
 
 import { Checkbox } from "../@shared";
-import { Pagination } from "./Pagination";
 import { useContentsListQuery } from "../@hooks";
+import { Pagination } from "./Pagination";
 import { sortByMode as sortBy } from "../@utils/sortByMode";
 import * as css from "./ContentsList.css";
 
@@ -13,35 +14,33 @@ import type { Content } from "../@types/api";
 import type { SortMode, OrderMode } from "../@types/cms";
 
 type ContentsListProps = {
-  schemaName: string | null;
   token: string;
+  schemaName: string;
+  projectName: string;
   orderOption: OrderMode;
   sortOption: SortMode;
 };
 
 export function ContentsList({
-  schemaName,
   token,
+  schemaName,
   orderOption,
   sortOption,
 }: ContentsListProps) {
-  dayjs.extend(utc);
   const navigate = useNavigate();
   const [page, setPage] = useState<number>(1);
-
-  if (!schemaName) {
-    return null;
-  }
-
   const { data } = useContentsListQuery({
-    schemaName: schemaName,
+    schemaName,
     token,
     page,
     sort: sortOption,
     order: orderOption,
   });
   const contentsList = data?.contents;
-  const contentsCount = data?.totalCounts;
+
+  if (!schemaName || !contentsList) {
+    return null;
+  }
 
   const handleContentClick = ({ id }: { id: string }) => {
     navigate(`${schemaName}/${id}`);
@@ -54,7 +53,7 @@ export function ContentsList({
           <tr>
             <th className={css.thCheckbox}>
               <Checkbox
-                value="checkbox-parent"
+                isParent={true}
                 valuesList={
                   contentsList && contentsList.length
                     ? contentsList.map(data => data._id)
@@ -68,55 +67,71 @@ export function ContentsList({
             <th className={css.th}>Updated At</th>
           </tr>
         </thead>
-        {schemaName && contentsList && (
-          <tbody className={css.tbody}>
-            {sortBy<any>({
-              mode: orderOption,
-              data: contentsList,
-              fieldName: "schemaName",
-            }).map((data: Content, index: number) => (
-              <tr className={css.row} key={data._id}>
-                <td className={css.cell}>
-                  <div className={css.checkboxField}>
-                    <Checkbox
-                      value={data._id}
-                      valuesCount={contentsList?.length}
-                    />
-                  </div>
-                </td>
-                <td className={css.cell}>
-                  <div
-                    onClick={() => handleContentClick({ id: data._id })}
-                    className={css.nameField}
-                  >
-                    <span>{data._id}</span>
-                  </div>
-                </td>
-                <td className={css.cell}>
-                  <div className={css.typeField}>{schemaName}</div>
-                </td>
-                <td className={css.cell}>
-                  {dayjs
-                    .utc(data._createdAt)
-                    .local()
-                    .format("YYYY/MM/DD HH:mm a")}
-                </td>
-                <td className={css.cell}>
-                  {dayjs
-                    .utc(data._updatedAt)
-                    .local()
-                    .format("YYYY/MM/DD HH:mm a")}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        )}
+        <tbody className={css.tbody}>
+          {sortBy<any>({
+            mode: orderOption,
+            data: contentsList,
+            fieldName: "schemaName",
+          }).map((data: Content, index: number) => (
+            <tr className={css.row} key={data._id}>
+              <td className={css.cell}>
+                <div className={css.checkboxField}>
+                  <Checkbox
+                    value={data._id}
+                    valuesCount={contentsList?.length}
+                  />
+                </div>
+              </td>
+              <td className={css.cell}>
+                <div
+                  onClick={() => handleContentClick({ id: data._id })}
+                  className={css.nameField}
+                >
+                  <span>{data._id}</span>
+                </div>
+              </td>
+              <td className={css.cell}>
+                <div className={css.typeField}>{schemaName}</div>
+              </td>
+              <td className={css.cell}>
+                {dayjs
+                  .utc(data._createdAt)
+                  .local()
+                  .format("YYYY/MM/DD HH:mm a")}
+              </td>
+              <td className={css.cell}>
+                {dayjs
+                  .utc(data._updatedAt)
+                  .local()
+                  .format("YYYY/MM/DD HH:mm a")}
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
       <Pagination
         page={page}
-        contentsCount={contentsCount || 0}
+        contentsCount={contentsList?.length || 0}
         onClickPage={setPage}
       />
     </>
+  );
+}
+
+export function ContentsListSkeleton() {
+  return (
+    <table className={css.table}>
+      <tbody className={css.tbody}>
+        {[...new Array(10)].map((_, index) => (
+          <tr className={css.row} key={index}>
+            <td className={css.cell}></td>
+            <td className={css.cell}></td>
+            <td className={css.cell}></td>
+            <td className={css.cell}></td>
+            <td className={css.cell}></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }

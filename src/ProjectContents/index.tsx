@@ -1,14 +1,14 @@
-import { useMemo, useState } from "react";
-import { BsFillTrashFill } from "react-icons/bs";
+import { Suspense, useEffect, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 
 import { Modal, SelectBox } from "../@shared";
 import {
-  useProjectQuery,
   useCheckboxState,
   useDeleteContentsMutation,
+  useProjectQuery,
 } from "../@hooks";
-import { ContentsList } from "./ContentsList";
+import { ContentsList, ContentsListSkeleton } from "./ContentsList";
+import { ContentsDeleteBox } from "./ContentsDeleteBox";
 import * as css from "./index.css";
 
 import type { SortMode, OrderMode } from "../@types/cms";
@@ -18,8 +18,8 @@ export function ProjectContents() {
   const navigate = useNavigate();
   const [sortOption, setSortOption] = useState<SortMode>("createdAt");
   const [orderOption, setOrderOption] = useState<OrderMode>("ascending");
-  const [currentSchemaIndex, setCurrentSchemaIndex] = useState<number>(0);
   const { values: checkboxValues } = useCheckboxState();
+  const [currentSchemaName, setCurrentSchemaName] = useState<string>("");
 
   if (!projectName) {
     return <Navigate to="/error" />;
@@ -27,16 +27,19 @@ export function ProjectContents() {
 
   const { data: project } = useProjectQuery(projectName);
 
+  // TODO error handling
   if (!project) {
-    return <Navigate to="/error" />;
+    return <Navigate to="/error" state={{ code: 404, message: "" }} />;
   }
 
-  const { schemaList, storageKey: token } = project;
-  const schema = useMemo(
-    () => (schemaList.length ? schemaList[currentSchemaIndex] : null),
-    [currentSchemaIndex],
-  );
+  const token = project.storageKey;
+  const schemaList = project.schemaList;
 
+  useEffect(() => {
+    setCurrentSchemaName(schemaList[0].schemaName);
+  }, []);
+
+  // TODO 삭제시 체크 해제 스토어에 반영
   const deleteContents = useDeleteContentsMutation({
     onSuccess: () => {
       alert("Success contents delete");
@@ -50,11 +53,17 @@ export function ProjectContents() {
     navigate("new");
   };
 
-  const handleDelete = ({ contentIds }: { contentIds: string[] }) => {
+  const handleDelete = ({
+    contentIds,
+    token,
+  }: {
+    contentIds: string[];
+    token: string;
+  }) => {
     if (window.confirm("Do you want to delete the field?")) {
       deleteContents.mutate({
         token,
-        schemaName: schemaList[currentSchemaIndex].schemaName,
+        schemaName: currentSchemaName,
         contentIds,
       });
     }
@@ -72,18 +81,20 @@ export function ProjectContents() {
         {checkboxValues.size === 0 ? (
           <>
             <div className={css.schemaInputBox}>
-              <SelectBox
-                options={schemaList?.map(data => data.schemaName) || ["Preset"]}
-                defaultSelect={
-                  !!schemaList.length
-                    ? schemaList[currentSchemaIndex].schemaName
-                    : "Preset"
-                }
-                onSelectionChange={(_, index) => {
-                  setCurrentSchemaIndex(index);
-                }}
-                label={"Schema"}
-              />
+              <div className={css.schemaInputBox}>
+                <SelectBox
+                  options={
+                    schemaList?.map(data => data.schemaName) || ["Preset"]
+                  }
+                  defaultSelect={
+                    schemaList && !!schemaList.length
+                      ? schemaList[0].schemaName
+                      : "Preset"
+                  }
+                  onSelectionChange={setCurrentSchemaName}
+                  label={"Schema"}
+                />
+              </div>
             </div>
             <div className={css.sortOrderInputWrapper}>
               <div className={css.sortOrderInputBox}>
@@ -105,21 +116,21 @@ export function ProjectContents() {
             </div>
           </>
         ) : (
-          <div className={css.selectOptionField}>
-            <div>{`${checkboxValues.size} selected`}</div>
-            <BsFillTrashFill
-              onClick={() => handleDelete({ contentIds: [...checkboxValues] })}
-              className={css.optionIcon}
-            />
-          </div>
+          <ContentsDeleteBox
+            projectName={projectName}
+            onDelete={handleDelete}
+          />
         )}
       </div>
-      <ContentsList
-        schemaName={schema && schema.schemaName}
-        token={token}
-        orderOption={orderOption}
-        sortOption={sortOption}
-      />
+      <Suspense fallback={<ContentsListSkeleton />}>
+        <ContentsList
+          token={token}
+          schemaName={currentSchemaName}
+          projectName={projectName}
+          orderOption={orderOption}
+          sortOption={sortOption}
+        />
+      </Suspense>
     </div>
   );
 }
