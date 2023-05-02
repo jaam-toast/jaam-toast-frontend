@@ -7,7 +7,7 @@ export const infoText = style({
   fontWeight: 500,
 });
 
-export const cmsInfoSection = style([
+const container = style([
   s.border,
   s.flexColumn,
   {
@@ -20,6 +20,8 @@ export const cmsInfoSection = style([
     borderColor: COLORS.GREY_CLEAR,
   },
 ]);
+
+export const cmsInfoSection = style([container]);
 
 export const infoFieldTitle = style({
   fontSize: "0.8rem",
@@ -67,18 +69,14 @@ export const contentsKey = style([
 
 export const cmsInfoLeft = style([s.flex, s.flexCenter, { gap: "1rem" }]);
 
+/**
+ * empty section
+ */
 export const emptyCmsSection = style([
-  s.border,
-  s.flexColumn,
+  container,
   s.flexCenter,
   {
-    flex: "60%",
-    padding: "2rem 3rem 2rem",
-    gap: "2rem",
-    width: "90%",
-    minHeight: "25rem",
     borderStyle: "dashed",
-    listStyle: "none",
     userSelect: "none",
   },
 ]);
@@ -95,3 +93,5 @@ export const emptyCmsButton = style([
   s.buttonSize.small,
   s.buttonColor.dark,
 ]);
+
+export const cmsInfoSectionSkeleton = style([s.skeleton, cmsInfoSection]);
