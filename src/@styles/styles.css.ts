@@ -182,7 +182,7 @@ export const thCheckbox = style([
 export const th = style([
   {
     padding: "1rem",
-    minHeight: "3.2rem",
+    height: "3.2rem",
     fontWeight: 300,
     textAlign: "left",
     color: COLORS.GREY,
@@ -194,7 +194,7 @@ export const tbody = style([fullWidth]);
 export const tableRow = style([
   {
     borderBottom: `1px solid ${COLORS.GREY_CLEAR}`,
-    minHeight: "4.5rem",
+    height: "4.5rem",
     ":hover": {
       backgroundColor: COLORS.GREY_LIGHT,
     },

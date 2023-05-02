@@ -14,6 +14,7 @@ type ContentsErrorMessage = {
 };
 
 type ContentState = {
+  token: string;
   currentSchema: JsonSchema;
   content: JaamSchemaContent;
   contentsErrorMessage: ContentsErrorMessage;
@@ -21,6 +22,7 @@ type ContentState = {
 
 type ContentsStore = ContentState & {
   actions: {
+    setToken: (token: string) => void;
     setSchema: (schema: JsonSchema) => void;
     setContent: (content: JaamSchemaContent) => void;
     setContentProperty: <T extends JaamSchemaContentProperty>({
@@ -35,6 +37,7 @@ type ContentsStore = ContentState & {
 };
 
 const initialState: ContentState = {
+  token: "",
   currentSchema: {
     title: "",
     type: "object",
@@ -49,11 +52,14 @@ export const useContentsStore = create<ContentsStore>((set, get) => ({
   ...initialState,
 
   actions: {
+    setToken: token => {
+      set({ token });
+    },
     setSchema: schema => {
       set({ currentSchema: schema });
     },
     setContent: content => {
-      set({ content: omit(content, ["_createAt", "_updatedAt", "_id"]) });
+      set({ content });
     },
     setContentProperty: ({ name, content }) => {
       const jsonSchema = { ...get().currentSchema };
@@ -86,6 +92,7 @@ export const useContentsStore = create<ContentsStore>((set, get) => ({
 export const useContentsState = () =>
   useContentsStore(state => {
     return {
+      token: state.token,
       schema: state.currentSchema,
       content: state.content,
       contentsErrorMessage: state.contentsErrorMessage,

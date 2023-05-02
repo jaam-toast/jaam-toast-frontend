@@ -1,22 +1,21 @@
 import { useEffect, useState } from "react";
+import isEmpty from "lodash/isEmpty";
 
 import {
   useBuildOptions,
   useSetBuildOptions,
 } from "../@hooks/useBuildOptionsStore";
 import { TextField } from "./";
-import isEmpty from "../@utils/isEmpty";
 import * as css from "./EnvField.css";
 
-import type { ChangeEvent, KeyboardEvent } from "react";
+import type { KeyboardEvent } from "react";
 import { Env } from "../@types/build";
 
 type EnvFieldProps = {
   envs?: Env[];
-  onEnvAdded: (select: Env[] | ((prev: Env[]) => Env[])) => void;
 };
 
-export function EnvField({ envs, onEnvAdded }: EnvFieldProps) {
+export function EnvField({ envs }: EnvFieldProps) {
   const [envKey, setEnvKey] = useState<string>("");
   const [envValue, setEnvValue] = useState<string>("");
   const { envList } = useBuildOptions();
@@ -26,14 +25,16 @@ export function EnvField({ envs, onEnvAdded }: EnvFieldProps) {
     if (!envs) {
       return;
     }
+
+    setEnv(envs);
   }, []);
 
   const handleAddEnv = () => {
     if (!envKey || !envValue) {
       return;
     }
-    // TODO ?
-    onEnvAdded(prev =>
+
+    setEnv(prev =>
       prev.concat({
         key: envKey,
         value: envValue,
