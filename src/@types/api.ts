@@ -28,6 +28,12 @@ export type CreateProjectOptions = BuildOptions & {
   githubAccessToken: string;
 };
 
+export type UpdateProjectOptions = Partial<
+  Omit<BuildOptions, "projectName" | "framework" | "nodeVersion"> & {
+    domain: string;
+  }
+>;
+
 export type Project = {
   projectName: string;
   repoName: string;
