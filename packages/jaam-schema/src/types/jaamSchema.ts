@@ -27,5 +27,5 @@ export type JaamSchemaProperties = {
 export type JaamSchemaContentProperty = string | number | boolean;
 
 export type JaamSchemaContent = {
-  [propertyName in string]: JaamSchemaContentProperty;
-};
+  [propertyName: string]: JaamSchemaContentProperty;
+} & { _id?: string; _createdAt?: string; _updatedAt?: string };
