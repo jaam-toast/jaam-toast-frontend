@@ -40,7 +40,7 @@ export function jsonSchemaValidator({
         return {
           result: isPassValidate,
           message: instancePath
-            ? `"${instancePath.slice(1)}" field ${message}`
+            ? `"${instancePath.slice(1)}" property ${message}`
             : message,
         };
       }

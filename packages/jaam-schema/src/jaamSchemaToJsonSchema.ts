@@ -24,7 +24,7 @@ export function jaamSchemaToJsonSchema(schema: JaamSchema): JsonSchema {
       const min = type === "number" ? "minimum" : "minLength";
       const max = type === "number" ? "maximum" : "maxLength";
 
-      const fieldOptions = {
+      const propertyOptions = {
         ...(typeof options.min === "number" && { [min]: options.min }),
         ...(typeof options.max === "number" && { [max]: options.max }),
       };
@@ -35,7 +35,7 @@ export function jaamSchemaToJsonSchema(schema: JaamSchema): JsonSchema {
           ...schema.properties,
           [propName]: {
             type: convertedType,
-            ...fieldOptions,
+            ...propertyOptions,
             ...((type === "text" || type === "textarea") && {
               description: type,
             }),
