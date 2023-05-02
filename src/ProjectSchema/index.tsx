@@ -1,21 +1,21 @@
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { BsFillTrashFill } from "react-icons/bs";
 
 import { Modal, TextField, SelectBox } from "../@shared";
 import { useModal, useCheckboxState } from "../@hooks";
 import { ModalNewSchema } from "./ModalNewSchema";
+import { SchemaList, SchemaListSkeleton } from "./SchemaList";
 import { useDeleteSchemaMutation } from "../@hooks/useSchemaMutation";
 import * as css from "./index.css";
 
 import type { OrderMode } from "../@types/cms";
-import { SchemaList } from "./SchemaList";
 
 export function ProjectSchema() {
   const { projectName } = useParams();
   const [searchword, setSearchword] = useState<string>("");
   const [orderMode, setOrderMode] = useState<OrderMode>("ascending");
-  const { values: checkboxValues, isAllChecked } = useCheckboxState();
+  const { values: checkboxValues } = useCheckboxState();
   const { openModal } = useModal();
 
   if (!projectName) {
@@ -79,12 +79,14 @@ export function ProjectSchema() {
           </div>
         )}
       </div>
-      <SchemaList
-        projectName={projectName}
-        orderOption={orderMode}
-        searchword={searchword}
-        onDelete={handleDelete}
-      />
+      <Suspense fallback={<SchemaListSkeleton />}>
+        <SchemaList
+          projectName={projectName}
+          orderOption={orderMode}
+          searchword={searchword}
+          onDelete={handleDelete}
+        />
+      </Suspense>
     </div>
   );
 }

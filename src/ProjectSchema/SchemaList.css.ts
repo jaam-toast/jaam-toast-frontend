@@ -24,6 +24,12 @@ export const nameField = style([
   },
 ]);
 
+export const schemaName = style({
+  ":hover": {
+    borderBottom: `1px solid ${COLORS.BLACK}`,
+  },
+});
+
 export const typeField = style([
   s.inlineFlex,
   {

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ThreeDots } from "react-loader-spinner";
 
 import { TypeIcon } from "../@shared";
 import { PropertyList } from "./PropertyList";
@@ -12,6 +13,7 @@ import {
   useSetSchemaState,
   useContentsListQuery,
 } from "../@hooks";
+import { COLORS } from "../@config/colors";
 import * as css from "./ModalSchemaInfo.css";
 
 import type { JsonSchema } from "@jaam-schema/src";
@@ -61,15 +63,6 @@ export function ModalSchemaInfo({
     },
   });
 
-  const deleteSchema = useUpdateSchemaMutation({
-    onSuccess: () => {
-      alert("Success schema delete");
-    },
-    onError: () => {
-      alert("Failed to delete schema. Please try again.");
-    },
-  });
-
   const handleChangePropertyName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentEditProperty({
       type: "update",
@@ -111,11 +104,6 @@ export function ModalSchemaInfo({
     }
 
     updateSchema.mutate({ projectName, schemaName: title });
-  };
-
-  const handleClickDelete = ({ propertyName }: { propertyName: string }) => {
-    deleteProperty({ propertyName });
-    deleteSchema.mutate({ projectName, schemaName: schema.title });
   };
 
   return (
@@ -243,6 +231,20 @@ export function ModalSchemaInfo({
           </footer>
         </>
       )}
+    </section>
+  );
+}
+
+export function ModalSchemaInfoSkeleton() {
+  return (
+    <section className={css.containerSkeleton}>
+      <ThreeDots
+        height="80"
+        width="80"
+        radius="9"
+        color={COLORS.GREY}
+        ariaLabel="three-dots-loading"
+      />
     </section>
   );
 }

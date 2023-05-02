@@ -2,7 +2,10 @@ import { style } from "@vanilla-extract/css";
 import { s } from "../@styles";
 import { COLORS } from "../@config/colors";
 
-export const schemaNameSection = style([s.flexColumn, { gap: "1rem" }]);
+export const schemaNameSection = style([
+  s.flexColumn,
+  { gap: "1rem", minHeight: "10rem" },
+]);
 
 export const fieldHeader = style([
   s.flex,
@@ -18,3 +21,9 @@ export const fieldType = style({
   backgroundColor: COLORS.GREY_CLEAR,
   color: COLORS.WHITE,
 });
+
+export const schemaNameSectionSkeleton = style([
+  s.skeleton,
+  schemaNameSection,
+  { minHeight: "5rem" },
+]);

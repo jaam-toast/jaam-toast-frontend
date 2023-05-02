@@ -118,3 +118,10 @@ export const warningMessage = style({
   fontSize: "0.8rem",
   color: COLORS.RED,
 });
+
+export const containerSkeleton = style([
+  s.alignItemsCenter,
+  s.justifyContentCenter,
+  s.skeleton,
+  container,
+]);
