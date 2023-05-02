@@ -3,6 +3,7 @@ import axios, { AxiosInstance } from "axios";
 import Config from "../@config";
 import {
   CreateProjectOptions,
+  UpdateProjectOptions,
   Project,
   ProjectId,
   Repo,
@@ -125,6 +126,21 @@ class APIClient {
       );
 
       return data.result;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updateProject(
+    updateProjectOptions: UpdateProjectOptions,
+  ): Promise<string> {
+    try {
+      const { data } = await this.client().put<Response<string>>(
+        "/projects",
+        updateProjectOptions,
+      );
+
+      return data.message;
     } catch (error) {
       throw error;
     }

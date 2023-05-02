@@ -4,13 +4,19 @@ import { useLocation } from "react-router-dom";
 import { useCheckboxState, useSetCheckboxState } from "../@hooks";
 
 type CheckBoxProps = {
-  value: string;
+  isParent?: boolean;
+  value?: string;
   checkboxCount?: number;
   valuesList?: string[];
   valuesCount?: number;
 };
 
-export function Checkbox({ value, valuesList, valuesCount }: CheckBoxProps) {
+export function Checkbox({
+  isParent,
+  value,
+  valuesList,
+  valuesCount,
+}: CheckBoxProps) {
   const location = useLocation();
   const { values: checkboxValues, isAllChecked } = useCheckboxState();
   const { toggleAllChecked, setCheckboxValue, setName } = useSetCheckboxState();
@@ -19,11 +25,11 @@ export function Checkbox({ value, valuesList, valuesCount }: CheckBoxProps) {
     setName(location.pathname);
   }, []);
 
-  if (value === "checkbox-parent") {
+  if (isParent) {
     return (
       <input
         type="checkbox"
-        value="checkbox-parent"
+        value={"checkbox-parent"}
         checked={isAllChecked}
         onChange={() => {
           if (valuesList) {
@@ -38,7 +44,7 @@ export function Checkbox({ value, valuesList, valuesCount }: CheckBoxProps) {
     <input
       type="checkbox"
       value={value}
-      checked={isAllChecked || checkboxValues.has(value)}
+      checked={isAllChecked || checkboxValues.has(value || "")}
       onChange={e =>
         setCheckboxValue({
           value: e.target.value,
