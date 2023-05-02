@@ -34,54 +34,64 @@ export function App() {
   return (
     <div className={css.container}>
       <Header />
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/projects" element={<ProjectList />} />
-        <Route path="/new/:userName" element={<RepositorySelect />} />
-        <Route
-          path="/new/:userName/:repository"
-          element={<BuildOptionSelect />}
-        />
-        <Route
-          path="/new/:userName/:repository/deploy"
-          element={<ProjectDeploy />}
-        />
-        <Route element={<ProjectInfoLayout />}>
+      <Suspense fallback={<PageSkeleton />}>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/projects" element={<ProjectList />} />
+          <Route path="/new/:userName" element={<RepositorySelect />} />
           <Route
-            path="/:userName/:projectName/dashboard"
-            element={<ProjectDashboard />}
+            path="/new/:userName/:repository"
+            element={<BuildOptionSelect />}
           />
           <Route
-            path="/:userName/:projectName/schema"
-            element={<ProjectSchema />}
+            path="/new/:userName/:repository/deploy"
+            element={<ProjectDeploy />}
           />
+          <Route element={<ProjectInfoLayout />}>
+            <Route
+              path="/:userName/:projectName/dashboard"
+              element={<ProjectDashboard />}
+            />
+            <Route
+              path="/:userName/:projectName/schema"
+              element={<ProjectSchema />}
+            />
+            <Route
+              path="/:userName/:projectName/contents"
+              element={<ProjectContents />}
+            />
+            <Route
+              path="/:userName/:projectName/contents/new"
+              element={<NewContent />}
+            />
+            <Route
+              path="/:userName/:projectName/contents/:schemaName/:contentId"
+              element={<ContentInfo />}
+            />
+            <Route
+              path="/:userName/:projectName/assets"
+              element={<ProjectAssets />}
+            />
+            <Route
+              path="/:userName/:projectName/settings"
+              element={<ProjectSettings />}
+            />
+          </Route>
           <Route
-            path="/:userName/:projectName/contents"
-            element={<ProjectContents />}
+            path="/error"
+            element={<Error code={state?.code} message={state?.message} />}
           />
-          <Route
-            path="/:userName/:projectName/contents/new"
-            element={<NewContent />}
-          />
-          <Route
-            path="/:userName/:projectName/contents/:schemaName/:contentId"
-            element={<ContentInfo />}
-          />
-          <Route
-            path="/:userName/:projectName/assets"
-            element={<ProjectAssets />}
-          />
-          <Route
-            path="/:userName/:projectName/settings"
-            element={<ProjectSettings />}
-          />
-        </Route>
-        <Route
-          path="/error"
-          element={<Error code={state?.code} message={state?.message} />}
-        />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
+    </div>
+  );
+}
+
+function PageSkeleton() {
+  return (
+    <div className={css.containerSkeleton}>
+      <div className={css.pageSkeleton} />
     </div>
   );
 }
