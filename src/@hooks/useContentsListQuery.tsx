@@ -29,6 +29,6 @@ export function useContentsListQuery({
         sort,
         order,
       }),
-    suspense: true,
+    enabled: !!schemaName,
   });
 }
