@@ -12,13 +12,7 @@ export const container = style([
 
 export const wrapper = style([s.flex, { flexDirection: "row", gap: "1rem" }]);
 
-export const projectInfoLeftWrapper = style([
-  s.flexColumn,
-  {
-    flex: "40%",
-    gap: "1rem",
-  },
-]);
+
 
 export const sectionTitle = style({
   paddingBottom: "2rem",
@@ -40,16 +34,6 @@ export const infoFieldTitle = style({
 });
 
 export const projectPreviewSection = style([s.full]);
-
-export const projectInfoSection = style([
-  s.full,
-  s.border,
-  {
-    gap: "2rem",
-    padding: "2rem",
-    height: "90%",
-  },
-]);
 
 export const projectInfoList = style([s.flexColumn, { gap: "1rem" }]);
 

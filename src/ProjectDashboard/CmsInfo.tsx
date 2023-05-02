@@ -7,19 +7,21 @@ import {
 import { BsStack } from "react-icons/bs";
 
 import { Modal, ColorBox } from "../@shared";
-import { useModal } from "../@hooks";
+import { useModal, useProjectQuery } from "../@hooks";
 import { ModalContentsKey } from "./ModalContentsKey";
 import { COLORS, ColorKeys } from "../@config/colors";
 import * as css from "./CmsInfo.css";
 
 type Options = {
-  schemaListCount: number;
   userName: string;
   projectName: string;
 };
 
-export function CmsInfo({ schemaListCount, userName, projectName }: Options) {
+export function CmsInfo({ userName, projectName }: Options) {
   const { openModal } = useModal();
+
+  const { data: project } = useProjectQuery(projectName);
+  const schemaListCount = project?.schemaList?.length || 0;
 
   const handleClickKey = () => {
     openModal({
@@ -30,7 +32,7 @@ export function CmsInfo({ schemaListCount, userName, projectName }: Options) {
   return (
     <>
       <Modal />
-      {schemaListCount ? (
+      {schemaListCount || 0 ? (
         <section className={css.cmsInfoSection}>
           <span className={css.infoFieldTitle}>Api Info</span>
           <ul className={css.cmsInfoList}>
@@ -97,4 +99,8 @@ export function CmsInfo({ schemaListCount, userName, projectName }: Options) {
       )}
     </>
   );
+}
+
+export function CmsInfoSkeleton() {
+  return <div className={css.cmsInfoSectionSkeleton} />;
 }
