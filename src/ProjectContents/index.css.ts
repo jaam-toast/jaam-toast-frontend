@@ -41,6 +41,7 @@ export const sortOrderInputWrapper = style([s.flex, { gap: "0.5rem" }]);
 export const schemaInputBox = style([
   {
     width: "20rem",
+    height: "3rem",
   },
 ]);
 
@@ -67,3 +68,7 @@ export const selectOptionField = style([
 ]);
 
 export const optionIcon = style([{ cursor: "pointer" }]);
+
+export const schemaInputBoxSkeleton = style([s.skeleton, schemaInputBox]);
+
+export const selectOptionFieldSkeleton = style([s.skeleton, selectOptionField]);
