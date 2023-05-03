@@ -6,9 +6,10 @@ import {
   useBuildOptions,
   useSetBuildOptions,
   useSetProjectName,
-  useProjectMutation,
+  useCreateProjectMutation,
   usePresetBuildOptions,
   usePresetBuildOptionActions,
+  useSpaceQuery,
 } from "../@hooks";
 import * as css from "./index.css";
 
@@ -19,6 +20,7 @@ export function BuildOptionSelect() {
   const navigate = useNavigate();
   const params = useParams();
 
+  const { data: spaces } = useSpaceQuery();
   const {
     defaultProjectName,
     defaultBuildCommand,
@@ -31,7 +33,7 @@ export function BuildOptionSelect() {
   const { setRepoName, setSpace, setDefaultCommand } =
     usePresetBuildOptionActions();
 
-  const deploy = useProjectMutation({
+  const deploy = useCreateProjectMutation({
     onSuccess: () => {
       navigate(`./deploy`);
     },
@@ -47,11 +49,13 @@ export function BuildOptionSelect() {
 
   useEffect(() => {
     const { userName, repository } = params;
-    if (!repository || !userName || !!buildOptions.projectName) {
+    const space = spaces?.find(space => space.spaceName === userName);
+
+    if (!repository || !userName || !!buildOptions.projectName || !space) {
       return;
     }
 
-    setSpace(userName);
+    setSpace(space);
     setRepoName(repository);
   }, []);
 
@@ -145,7 +149,7 @@ export function BuildOptionSelect() {
 
           <div className={css.buildOption}>
             <p className={css.buildOptionTitle}>Environment Varables</p>
-            <EnvField onEnvAdded={setBuildOptions("envList")} />
+            <EnvField />
           </div>
         </div>
       </section>
