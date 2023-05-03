@@ -65,10 +65,10 @@ class APIClient {
     }
   }
 
-  async getOrgs(): Promise<Space[]> {
+  async getSpaces(): Promise<Space[]> {
     try {
       const { data } = await this.client().get<Response<Space[]>>(
-        `/users/${this.userId}/orgs`,
+        `/users/${this.userId}/spaces`,
       );
 
       return data.result;
