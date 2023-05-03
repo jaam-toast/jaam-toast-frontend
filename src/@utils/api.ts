@@ -77,6 +77,18 @@ class APIClient {
     }
   }
 
+  async getSpaceRepos(space: Space): Promise<Repo[]> {
+    try {
+      const { data } = await this.client().get<Response<Repo[]>>(
+        `/users/${this.userId}/spaces/${space.installId}/repos`,
+      );
+
+      return data.result;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async getOrgRepos(space: string): Promise<Repo[]> {
     try {
       const { data } = await this.client().get<Response<Repo[]>>(

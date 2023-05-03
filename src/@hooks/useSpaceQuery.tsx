@@ -11,7 +11,7 @@ export function useSpaceQuery() {
     .setUserId(user?.id);
 
   return useQuery({
-    queryKey: ["orgs"],
+    queryKey: ["spaces"],
     queryFn: () => {
       if (!user) {
         return [];

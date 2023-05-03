@@ -5,10 +5,12 @@ import { customAlphabet } from "nanoid";
 
 import { useAuth } from "./useAuth";
 import APIClient from "../@utils/api";
-import { Framework, NodeVersion } from "../@types/build";
+
+import type { Framework, NodeVersion } from "../@types/build";
+import type { Space } from "../@types/api";
 
 export type PresetBuildOptionStore = {
-  space: string | null;
+  space: Space | null;
   repoName: string | null;
   defaultProjectName: string | null;
   defaultFramework: Framework | null;
@@ -17,7 +19,7 @@ export type PresetBuildOptionStore = {
   defaultNodeVersion: NodeVersion;
 
   actions: {
-    setSpace: (space: string) => void;
+    setSpace: (space: Space) => void;
     setRepoName: (repoName: string) => void;
     setDefaultCommand: (setDefaultCommandOptions: {
       installCommand: string;
@@ -37,7 +39,7 @@ export const usePresetBuildOptionStore = create<PresetBuildOptionStore>()(
     defaultNodeVersion: "12.18.0",
 
     actions: {
-      setSpace: (space: string) => {
+      setSpace: (space: Space) => {
         set({ space });
       },
       setRepoName: async (repoName: string) => {
@@ -117,13 +119,13 @@ export const useReposQuery = () => {
     .setGithubAccessToken(user?.githubAccessToken);
 
   return useQuery({
-    queryKey: ["repos", space],
+    queryKey: ["repos", space?.spaceName ?? ""],
     queryFn: () => {
       if (!user || !space) {
         return [];
       }
 
-      return space === user.name ? api.getUserRepos() : api.getOrgRepos(space);
+      return api.getSpaceRepos(space);
     },
   });
 };
