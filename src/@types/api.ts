@@ -7,6 +7,7 @@ export type Response<T> = {
 };
 
 export type Space = {
+  installId: number;
   spaceName: string;
   spaceUrl: string;
   spaceImage: string;

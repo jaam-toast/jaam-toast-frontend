@@ -27,6 +27,20 @@ export function RepositorySelect() {
     navigate(`/new/${space}/${repo}`);
   };
 
+  const handleSpaceClick = (selectedSpace: string) => {
+    if (!spaces) {
+      return;
+    }
+
+    const space = spaces.find(({ spaceName }) => spaceName == selectedSpace);
+
+    if (!space) {
+      return;
+    }
+
+    setSpace(space);
+  };
+
   return (
     <div className={css.container}>
       <section className={css.titleSection}>
@@ -41,7 +55,7 @@ export function RepositorySelect() {
       <section className={css.repositorySection}>
         <div className={css.searchConsole}>
           <SelectBox
-            onSelectionChange={setSpace}
+            onSelectionChange={handleSpaceClick}
             options={spaces?.map(({ spaceName }) => spaceName) ?? []}
           />
           <div className={css.textFieldSection}>
