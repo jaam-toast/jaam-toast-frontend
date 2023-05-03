@@ -17,18 +17,7 @@ export function useSpaceQuery() {
         return [];
       }
 
-      return api.getOrgs();
-    },
-    select: orgs => {
-      if (!user) {
-        return [];
-      }
-
-      return orgs.concat({
-        spaceName: user.name,
-        spaceUrl: user.githubUri,
-        spaceImage: user.image ?? "",
-      });
+      return api.getSpaces();
     },
   });
 }
