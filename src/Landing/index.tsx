@@ -15,7 +15,7 @@ export function Landing() {
     };
   }, [tick]);
 
-  const githubLoginUrl = `//${Config.GITHUB_OAUTH_URI}?client_id=${Config.CLIENT_ID}&redirect_uri=${Config.REDIRECT_URI}&scope=${Config.API_SCOPE}`;
+  const githubLoginUrl = `//${Config.GITHUB_OAUTH_URI}?client_id=${Config.CLIENT_ID}&redirect_uri=${Config.REDIRECT_URI}`;
 
   return (
     <div className={css.container}>
