@@ -53,18 +53,6 @@ class APIClient {
     return this;
   }
 
-  async getUserRepos(): Promise<Repo[]> {
-    try {
-      const { data } = await this.client().get<Response<Repo[]>>(
-        `/users/${this.userId}/repos`,
-      );
-
-      return data.result;
-    } catch (error) {
-      throw error;
-    }
-  }
-
   async getSpaces(): Promise<Space[]> {
     try {
       const { data } = await this.client().get<Response<Space[]>>(
@@ -81,18 +69,6 @@ class APIClient {
     try {
       const { data } = await this.client().get<Response<Repo[]>>(
         `/users/${this.userId}/spaces/${space.installId}/repos`,
-      );
-
-      return data.result;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  async getOrgRepos(space: string): Promise<Repo[]> {
-    try {
-      const { data } = await this.client().get<Response<Repo[]>>(
-        `/users/${this.userId}/orgs/${space}/repos`,
       );
 
       return data.result;
