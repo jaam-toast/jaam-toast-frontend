@@ -1,25 +1,44 @@
 import { Link } from "react-router-dom";
 import * as css from "./index.css";
+import { NotFound } from "./NotFound";
 
 export function Error({
   code = 500,
   message = "An unknown error has occurred.",
+  onResetError,
 }: {
-  code?: number;
+  code?: number | string;
   message?: string;
+  isNetworkError?: boolean;
+  onResetError?: () => void;
 }) {
+  if (code === 404) {
+    return <NotFound />;
+  }
+
   return (
     <section className={css.container}>
-      <strong className={css.errorCode}>{code}</strong>
+      <strong
+        className={
+          typeof code === "number" ? css.errorCode : css.errorCodeSmall
+        }
+      >
+        {code}
+      </strong>
       <p className={css.errorMessage}>
-        작업 진행 중, 에러가 발생했어요.
+        An error occurred during the operation.
         <br />
-        에러 메시지: {message}
+        Error Message: {message}
       </p>
       <div className={css.buttonConsole}>
         <Link className={css.navigateButton} to="/">
-          return to the home
+          Return to the home
         </Link>
+        {!!onResetError && (
+          <div onClick={onResetError} className={css.navigateButton}>
+            Retry
+          </div>
+        )}
       </div>
     </section>
   );

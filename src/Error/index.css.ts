@@ -10,6 +10,13 @@ export const container = style([
 
 export const errorCode = style({
   fontSize: "10rem",
+  textAlign: "center",
+});
+
+export const errorCodeSmall = style({ fontSize: "5rem", textAlign: "center" });
+
+export const networkErrorCode = style({
+  fontSize: "5rem",
 });
 
 export const errorMessage = style({
