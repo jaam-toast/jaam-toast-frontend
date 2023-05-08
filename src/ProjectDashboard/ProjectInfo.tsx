@@ -36,12 +36,6 @@ export function ProjectInfo({ projectName }: { projectName: string }) {
             <p className={css.projectInfoText}>READY</p>
           </li>
           <li className={css.projectInfo}>
-            <span className={css.projectInfoFieldTitle}>
-              last commit message
-            </span>
-            <p className={css.projectInfoText}>{project?.lastCommitMessage}</p>
-          </li>
-          <li className={css.projectInfo}>
             <span className={css.projectInfoFieldTitle}>created at</span>
             <p className={css.projectInfoText}>
               {dayjs(project?.projectUpdatedAt).format("YYYY MM DD dddd")}
