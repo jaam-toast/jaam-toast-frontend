@@ -5,6 +5,8 @@ import { CheckDeleteBox, SelectBox } from "../@shared";
 import { useCheckboxState, useSetConfirmModal } from "../@hooks";
 import { ValidationError } from "../@utils/createError";
 import { WebhookList } from "./WebhookList";
+import { AsyncBoundary } from "../Error/AsyncBoundary";
+import { ContentsListSkeleton } from "../ProjectContents/ContentsList";
 import * as css from "./index.css";
 
 import type { OrderMode } from "../@types/cms";
@@ -16,7 +18,7 @@ export function ProjectWebhook() {
   const { values: checkboxValues } = useCheckboxState();
   const { openConfirm } = useSetConfirmModal();
 
-  if (!projectName || !userName) {
+  if (!userName || !projectName) {
     throw new ValidationError("projectName, userName not found");
   }
 
@@ -79,7 +81,9 @@ export function ProjectWebhook() {
           </div>
         )}
       </div>
-      <WebhookList projectName={projectName} orderOption={orderMode} />
+      <AsyncBoundary suspenseFallback={<ContentsListSkeleton />}>
+        <WebhookList projectName={projectName} orderOption={orderMode} />
+      </AsyncBoundary>
     </section>
   );
 }

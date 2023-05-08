@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import values from "lodash/values";
 import keys from "lodash/keys";
-import isURL from "validator/lib/isURL";
 
 import { Checkbox, TextField } from "../@shared";
 import {
@@ -9,6 +8,7 @@ import {
   useWebhookState,
   useCheckboxState,
   useSetCheckboxState,
+  useWebhookErrorMessageState,
 } from "../@hooks";
 import { TitleField } from "../ProjectSchema/TitleField";
 import * as css from "./NewWebhook.css";
@@ -17,7 +17,8 @@ import { WEBHOOK_EVENTS_RECORD, WebhookEvent } from "../@types/cms";
 
 export function NewWebhook() {
   const navigate = useNavigate();
-  const setWebhook = useSetWebhook();
+  const { setWebhookName, setWebhookUrl } = useSetWebhook();
+  const warningMessage = useWebhookErrorMessageState();
   const { name, url } = useWebhookState();
   const { values: checkboxValues } = useCheckboxState();
   const { setCheckboxValue } = useSetCheckboxState();
@@ -63,12 +64,17 @@ export function NewWebhook() {
         <main className={css.sectionWrapper}>
           <div className={css.sectionFieldWrapper}>
             <TitleField>Webhook Name</TitleField>
-            <TextField onTextFieldChange={name => setWebhook({ name })} />
+            <TextField onTextFieldChange={name => setWebhookName(name)} />
+            {!!warningMessage.name && (
+              <p className={css.warningMessage}>{warningMessage.name}</p>
+            )}
           </div>
           <div className={css.sectionFieldWrapper}>
             <TitleField>URL</TitleField>
-            <TextField onTextFieldChange={url => setWebhook({ url })} />
-            {!isURL(url) && <p className={css.warningMessage}>nono</p>}
+            <TextField onTextFieldChange={url => setWebhookUrl(url)} />
+            {!!warningMessage.url && (
+              <p className={css.warningMessage}>{warningMessage.url}</p>
+            )}
           </div>
           <div>
             <TitleField>Events</TitleField>
