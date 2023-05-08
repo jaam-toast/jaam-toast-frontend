@@ -1,7 +1,7 @@
 import { Suspense, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { BuildStepCard, TextField, SelectBox } from "../@shared";
+import { BuildStepCard, TextField, SelectBox, EmptyCard } from "../@shared";
 import { RepositoryList, RepositoryListSkeleton } from "./RepositoryList";
 import {
   useSpaceQuery,
@@ -32,6 +32,12 @@ export function RepositorySelect() {
       return;
     }
 
+    if (selectedSpace === "+ Add Repository") {
+      return window.open(
+        "https://github.com/apps/jaam-toast/installations/new",
+      );
+    }
+
     const space = spaces.find(({ spaceName }) => spaceName == selectedSpace);
 
     if (!space) {
@@ -56,7 +62,14 @@ export function RepositorySelect() {
         <div className={css.searchConsole}>
           <SelectBox
             onSelectionChange={handleSpaceClick}
-            options={spaces?.map(({ spaceName }) => spaceName) ?? []}
+            options={
+              spaces
+                ? [
+                    ...spaces?.map(({ spaceName }) => spaceName),
+                    "+ Add Repository",
+                  ]
+                : []
+            }
           />
           <div className={css.textFieldSection}>
             <TextField
@@ -73,7 +86,17 @@ export function RepositorySelect() {
             />
           </Suspense>
         ) : (
-          <p className={css.selectMessage}>Select your github repository.</p>
+          <div className={css.githubSettingMessage}>
+            {!spaces?.length && (
+              <EmptyCard
+                title="There are no registered repositories."
+                description="Please register your GitHub to add."
+                link="https://github.com/apps/jaam-toast/installations/new"
+                linkTitle="Adjust GitHub App Permissions"
+              />
+            )}
+            <p className={css.selectMessage}>Select your github repository.</p>
+          </div>
         )}
       </section>
     </div>
