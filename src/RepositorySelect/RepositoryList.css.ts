@@ -50,6 +50,7 @@ export const importButton = style([
 export const textSkeleton = style([
   s.skeleton,
   {
+    borderRadius: "1.5rem",
     width: "10rem",
     height: "2rem",
   },
@@ -58,5 +59,5 @@ export const textSkeleton = style([
 export const buttonSkeleton = style([
   s.skeleton,
   s.buttonSize.small,
-  { width: "6rem" },
+  { borderRadius: "1.5rem", width: "6rem" },
 ]);

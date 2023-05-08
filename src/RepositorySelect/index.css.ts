@@ -42,6 +42,19 @@ export const searchConsole = style([
 
 export const textFieldSection = style({ width: "40%" });
 
+export const githubSettingMessage = style([
+  s.flex,
+  s.flexCenter,
+  s.full,
+  s.border,
+  {
+    border: "none",
+    backgroundColor: COLORS.WHITE,
+    fontSize: "1.1rem",
+    fontWeight: 300,
+  },
+]);
+
 export const selectMessage = style([
   s.flex,
   s.flexCenter,
