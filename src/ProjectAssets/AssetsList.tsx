@@ -20,6 +20,7 @@ export function AssetsList({
   const [onMouseImgIndex, setOnMouseImgIndex] = useState<number | null>(null);
   const { openModal } = useModal();
 
+  // TODO db query로 변경
   useEffect(() => {
     const assetAPI = new AssetAPIClient();
     assetAPI.connect();
@@ -62,5 +63,15 @@ export function AssetsList({
         </div>
       ))}
     </section>
+  );
+}
+
+export function AssetsListSkeleton() {
+  return (
+    <div className={css.container}>
+      {[...new Array(10)].map(() => (
+        <div className={css.assetPreviewWrapperSkeleton} />
+      ))}
+    </div>
   );
 }

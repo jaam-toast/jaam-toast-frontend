@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 
 import { useCreateAssetsMutation, useProjectQuery } from "../@hooks";
 import { ValidationError } from "../@utils/createError";
-import { AssetsList } from "./AssetsList";
+import { AssetsList, AssetsListSkeleton } from "./AssetsList";
+import { AsyncBoundary } from "../Error/AsyncBoundary";
 import * as css from "./index.css";
 
 const MB = 1048576;
@@ -65,7 +66,9 @@ export function ProjectAssets() {
           + New Asset
         </label>
       </header>
-      <AssetsList projectName={projectName} token={project?.storageKey} />
+      <AsyncBoundary suspenseFallback={<AssetsListSkeleton />}>
+        <AssetsList projectName={projectName} token={project?.storageKey} />
+      </AsyncBoundary>
     </section>
   );
 }
