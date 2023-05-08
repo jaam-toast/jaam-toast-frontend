@@ -10,6 +10,9 @@ const Config = {
   API_SCOPE: import.meta.env.VITE_GITHUB_SCOPE,
   SCREENSHOT_API_URL: import.meta.env.VITE_SCREENSHOT_API_URL,
   FAVICON_API_URL: import.meta.env.VITE_FAVICON_API_URL,
+  POOL_ID: import.meta.env.VITE_POOL_ID,
+  REGION: import.meta.env.VITE_REGION,
+  BUCKET_NAME: import.meta.env.VITE_BUCKET_NAME,
 };
 
 export default Config;

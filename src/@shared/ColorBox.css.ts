@@ -39,3 +39,23 @@ export const iconColor = styleVariants(COLORS, color => [
   base,
   { backgroundColor: color },
 ]);
+
+export const containerSkeleton = style([s.skeleton, container]);
+
+export const selectOptionField = style([
+  s.flex,
+  s.flexSpaceBetween,
+  s.alignItemsCenter,
+  s.fullWidth,
+  s.border,
+  {
+    padding: "0 1rem",
+    height: "3rem",
+    borderColor: COLORS.WHITE,
+    color: COLORS.WHITE,
+    backgroundColor: COLORS.LAVENDAR_DARK,
+    fontSize: "0.9rem",
+  },
+]);
+
+export const optionIcon = style([{ cursor: "pointer" }]);

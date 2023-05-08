@@ -13,7 +13,6 @@ type TextFieldProps = InputHTMLAttributes<HTMLInputElement> & {
 export function TextField({
   delay = 1000,
   value = "",
-  type = "text",
   onTextFieldChange = () => {},
   ...props
 }: TextFieldProps) {
@@ -31,7 +30,7 @@ export function TextField({
 
   return (
     <input
-      type={type}
+      type="text"
       value={text}
       className={css.textField}
       onChange={handleMuiTextFieldChange}
