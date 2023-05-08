@@ -4,7 +4,11 @@ import { useNavigate } from "react-router-dom";
 
 import { Checkbox } from "../@shared";
 import { sortByMode as sortBy } from "../@utils/sortByMode";
-import { useSetWebhookList, useWebhookListState } from "../@hooks";
+import {
+  usePutProjectMutaion,
+  useSetWebhookList,
+  useWebhookListState,
+} from "../@hooks";
 import * as css from "./WebhookList.css";
 
 import { WEBHOOK_EVENTS_RECORD } from "../@types/cms";
@@ -26,10 +30,11 @@ export function WebhookList({
   const setWebhookList = useSetWebhookList();
   const webhookList = useWebhookListState();
   const { openConfirm } = useSetConfirmModal();
+  const deleteWebhook = usePutProjectMutaion();
 
   // MOCK data
   const webhookListData: WebhookData = {
-    UPDATE_BUILD: [
+    DEPLOYMENT_UPDATED: [
       {
         name: "my_blog",
         url: "https://my_blog_url",
@@ -39,7 +44,7 @@ export function WebhookList({
         url: "https://my_blog_url",
       },
     ],
-    CREATE_CONTENT: [
+    CONTENT_CREATED: [
       {
         name: "my_web",
         url: "https://my_blog_url",
@@ -49,7 +54,7 @@ export function WebhookList({
         url: "https://my_blog_url",
       },
     ],
-    UPDATE_CONTENT: [
+    CONTENT_UPDATED: [
       {
         name: "my_blog",
         url: "https://my_blog_url",
@@ -59,7 +64,7 @@ export function WebhookList({
         url: "https://my_blog_url",
       },
     ],
-    DELETE_CONTENT: [
+    CONTENT_DELETED: [
       {
         name: "my_blog",
         url: "https://my_blog_url",
@@ -79,10 +84,41 @@ export function WebhookList({
     navigate("new");
   };
 
-  const handleDeleteClick = (name: string) => {
+  const handleDeleteClick = (webhook: WebhookForEditing) => {
+    // TODO 중복 줄이기
+    const newWebhook = {
+      DEPLOYMENT_UPDATED: webhook.events.has("DEPLOYMENT_UPDATED")
+        ? webhookListData.DEPLOYMENT_UPDATED.filter(
+            data => data.name !== webhook.name,
+          )
+        : webhookListData.DEPLOYMENT_UPDATED,
+      CONTENT_CREATED: webhook.events.has("CONTENT_CREATED")
+        ? webhookListData.CONTENT_CREATED.filter(
+            data => data.name !== webhook.name,
+          )
+        : webhookListData.CONTENT_CREATED,
+      CONTENT_UPDATED: webhook.events.has("CONTENT_UPDATED")
+        ? webhookListData.CONTENT_UPDATED.filter(
+            data => data.name !== webhook.name,
+          )
+        : webhookListData.CONTENT_UPDATED,
+      CONTENT_DELETED: webhook.events.has("CONTENT_DELETED")
+        ? webhookListData.CONTENT_DELETED.filter(
+            data => data.name !== webhook.name,
+          )
+        : webhookListData.CONTENT_DELETED,
+    };
+
     openConfirm({
       message: `Do you want to delete ${name} webhook?`,
-      onConfirm: () => console.log("삭제로직 실행"),
+      onConfirm: async () => {
+        await deleteWebhook.mutateAsync({
+          projectName,
+          option: {
+            webhook: newWebhook,
+          },
+        });
+      },
     });
   };
 
@@ -112,7 +148,14 @@ export function WebhookList({
         }).map(data => (
           <tr key={data.name} className={css.row}>
             <td className={css.checkboxField}>
-              <Checkbox value={data.name} valuesCount={webhookList.length} />
+              <Checkbox
+                value={JSON.stringify({
+                  name: data.name,
+                  url: data.url,
+                  event: data.events,
+                })}
+                valuesCount={webhookList.length}
+              />
             </td>
             <td className={css.cell}>
               <div>{data.name}</div>
@@ -135,7 +178,13 @@ export function WebhookList({
                 />
                 <BsFillTrashFill
                   className={css.optionIcon}
-                  onClick={() => handleDeleteClick(data.name)}
+                  onClick={() =>
+                    handleDeleteClick({
+                      name: data.name,
+                      url: data.url,
+                      events: data.events,
+                    })
+                  }
                 />
               </div>
             </td>
