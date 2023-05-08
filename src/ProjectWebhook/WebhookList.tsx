@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Checkbox } from "../@shared";
 import { sortByMode as sortBy } from "../@utils/sortByMode";
-import { useSetWebhookList, useWebhookListState } from "./useWebhookStore";
+import { useSetWebhookList, useWebhookListState } from "../@hooks";
 import * as css from "./WebhookList.css";
 
 import { WEBHOOK_EVENTS_RECORD } from "../@types/cms";
