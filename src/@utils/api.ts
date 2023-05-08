@@ -1,15 +1,18 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 
 import Config from "../@config";
 import {
   CreateProjectOptions,
-  UpdateProjectOptions,
+  PutProjectOption,
+  CreateWebhookOptions,
   Project,
   ProjectId,
   Repo,
   Response,
   Space,
+  User,
   SchemaData,
+  PatchProjectOption,
 } from "../@types/api";
 
 class APIClient {
@@ -77,6 +80,16 @@ class APIClient {
     }
   }
 
+  async getUserData(userId: string): Promise<User> {
+    try {
+      const { data } = await this.client().get(`/users/${userId}`);
+
+      return data.result;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async getProjectList(): Promise<string[]> {
     try {
       const { data } = await this.client().get<Response<string[]>>(
@@ -119,13 +132,17 @@ class APIClient {
     }
   }
 
-  async updateProject(
-    updateProjectOptions: UpdateProjectOptions,
-  ): Promise<string> {
+  async patchProject({
+    projectName,
+    option,
+  }: {
+    projectName: string;
+    option: PatchProjectOption;
+  }): Promise<string> {
     try {
-      const { data } = await this.client().put<Response<string>>(
-        "/projects",
-        updateProjectOptions,
+      const { data } = await this.client().patch<Response<string>>(
+        `/projects/${projectName}`,
+        option,
       );
 
       return data.message;
@@ -134,11 +151,26 @@ class APIClient {
     }
   }
 
-  async deleteProject({
+  async putProject({
     projectName,
+    option,
   }: {
     projectName: string;
+    option: PutProjectOption;
   }): Promise<string> {
+    try {
+      const { data } = await this.client().put<Response<string>>(
+        `/projects/${projectName}`,
+        option,
+      );
+
+      return data.message;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deleteProject(projectName: string): Promise<string> {
     try {
       const { data } = await this.client().delete<Response<string>>(
         `/projects/${projectName}`,

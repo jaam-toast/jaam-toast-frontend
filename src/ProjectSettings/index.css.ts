@@ -22,7 +22,12 @@ export const container = style([
 export const settingOptionSection = style([
   s.border,
   s.flexColumn,
-  { gap: "1.5rem", padding: "1.5rem 2rem", backgroundColor: COLORS.LAVENDER },
+  {
+    gap: "1.5rem",
+    padding: "1.5rem 2rem",
+    minHeight: "9rem",
+    backgroundColor: COLORS.LAVENDER,
+  },
 ]);
 
 export const sectionHead = style([s.flex, s.flexSpaceBetween]);
@@ -32,13 +37,61 @@ export const sectionTitle = style({
   textTransform: "uppercase",
 });
 
+/**
+ * button
+ */
+export const addButton = style([
+  s.button,
+  s.buttonSize.medium,
+  s.buttonColor.dark,
+]);
+
 export const saveButton = style([
   s.button,
   s.buttonSize.small,
   s.buttonColor.dark,
 ]);
 
-export const addDomainField = style([
+export const deleteButton = style([
+  s.button,
+  s.buttonSize.small,
+  {
+    backgroundColor: COLORS.RED,
+    color: COLORS.WHITE,
+
+    ":hover": {
+      backgroundColor: COLORS.WHITE,
+      color: COLORS.RED,
+      fontWeight: 700,
+      borderColor: COLORS.RED,
+    },
+  },
+]);
+
+export const sectionDescription = style({
+  fontSize: "0.9rem",
+  lineHeight: "1.5rem",
+});
+
+export const sectionDescriptionHighlight = style({
+  padding: "0.2rem 0.3rem",
+  border: `2px solid ${COLORS.RED}`,
+  borderRadius: "0.5rem",
+  fontWeight: 500,
+});
+
+export const settingOptionSectionSkeleton = style([
+  s.skeleton,
+  settingOptionSection,
+  { backgroundColor: COLORS.GREY_CLEAR, border: "none" },
+]);
+
+export const deleteProjectSection = style({
+  backgroundColor: COLORS.STRAWBERRY,
+  gap: "1.5rem",
+});
+
+export const sectionOptionWrapper = style([
   s.flex,
   s.flexSpaceBetween,
   {
@@ -46,12 +99,6 @@ export const addDomainField = style([
     paddingBottom: "1rem",
     borderBottom: `1px solid ${COLORS.BLACK}`,
   },
-]);
-
-export const addButton = style([
-  s.button,
-  s.buttonSize.medium,
-  s.buttonColor.dark,
 ]);
 
 export const domainList = style([
@@ -62,32 +109,24 @@ export const domainList = style([
   },
 ]);
 
-export const domain = style([
-  s.border,
-  {
-    backgroundColor: COLORS.BLACK,
-    height: "2.5rem",
-    lineHeight: "2.5rem",
-    padding: "0 1.5rem",
-    color: COLORS.WHITE,
-    userSelect: "none",
-  },
+export const domainWrapper = style([
+  s.flex,
+  s.flexSpaceBetween,
+  s.alignItemsCenter,
+  { gap: "1rem" },
 ]);
 
-export const deleteProjectSection = style({
-  backgroundColor: COLORS.STRAWBERRY,
-  gap: "1.5rem",
-});
-
-export const sectionDescription = style({
-  fontSize: "0.9rem",
-});
-
-export const deleteProjectButton = style([
-  s.button,
-  s.buttonSize.small,
+export const domain = style([
+  s.flex,
+  s.alignItemsCenter,
+  s.border,
+  s.full,
   {
-    backgroundColor: "red",
+    padding: "0.5rem 1.4rem",
+    height: "3rem",
+    lineHeight: "2.5rem",
+    backgroundColor: COLORS.BLACK,
     color: COLORS.WHITE,
+    userSelect: "none",
   },
 ]);

@@ -6,7 +6,7 @@ import { usePresetBuildOptionStore } from "./usePresetBuildOptionStore";
 import { useAuth } from "./useAuth";
 import APIClient from "../@utils/api";
 
-import type { UpdateProjectOptions } from "../@types/api";
+import type { PatchProjectOption, PutProjectOption } from "../@types/api";
 
 type UseProjectMutationOptions = {
   onSuccess?: (data?: string) => Promise<unknown> | unknown;
@@ -76,8 +76,7 @@ export function useCreateProjectMutation({
   );
 }
 
-// 진행중
-export function useUpdateProjectMutaion() {
+export function usePatchProjectMutaion() {
   const { user } = useAuth();
 
   const api = new APIClient()
@@ -85,11 +84,60 @@ export function useUpdateProjectMutaion() {
     .setAccessToken(user?.accessToken)
     .setGithubAccessToken(user?.githubAccessToken);
 
-  return useMutation(["project-update"], async (data: UpdateProjectOptions) => {
-    if (isEmpty(data)) {
+  return useMutation(
+    ["project-patch"],
+    async ({
+      projectName,
+      option,
+    }: {
+      projectName: string;
+      option: PatchProjectOption;
+    }) => {
+      if (isEmpty(option)) {
+        return;
+      }
+
+      return api.patchProject({ projectName, option });
+    },
+  );
+}
+
+export function usePutProjectMutaion() {
+  const { user } = useAuth();
+
+  const api = new APIClient()
+    .setUserId(user?.id)
+    .setAccessToken(user?.accessToken)
+    .setGithubAccessToken(user?.githubAccessToken);
+
+  // TODO domain delete
+  return useMutation(
+    ["project-put"],
+    async ({
+      projectName,
+      option,
+    }: {
+      projectName: string;
+      option: PutProjectOption;
+    }) => {
+      return api.putProject({ projectName, option });
+    },
+  );
+}
+
+export function useDeleteProjectMutaion() {
+  const { user } = useAuth();
+
+  const api = new APIClient()
+    .setUserId(user?.id)
+    .setAccessToken(user?.accessToken)
+    .setGithubAccessToken(user?.githubAccessToken);
+
+  return useMutation(["project-delete"], async (projectName: string) => {
+    if (!projectName) {
       return;
     }
 
-    return api.updateProject(data);
+    return api.deleteProject(projectName);
   });
 }
