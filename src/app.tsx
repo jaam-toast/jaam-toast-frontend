@@ -73,6 +73,14 @@ export function App() {
               element={<ProjectAssets />}
             />
             <Route
+              path="/:userName/:projectName/webhook"
+              element={<ProjectWebhook />}
+            />
+            <Route
+              path="/:userName/:projectName/webhook/new"
+              element={<NewWebhook />}
+            />
+            <Route
               path="/:userName/:projectName/settings"
               element={<ProjectSettings />}
             />
