@@ -26,16 +26,16 @@ export type AssetInfoForEditing = {
 };
 
 export type WebhookEvent =
-  | "UPDATE_BUILD"
-  | "CREATE_CONTENT"
-  | "UPDATE_CONTENT"
-  | "DELETE_CONTENT";
+  | "DEPLOYMENT_UPDATED"
+  | "CONTENT_CREATED"
+  | "CONTENT_UPDATED"
+  | "CONTENT_DELETED";
 
 export const WEBHOOK_EVENTS_RECORD: Record<WebhookEvent, string> = {
-  UPDATE_BUILD: "Update Build",
-  CREATE_CONTENT: "Create Content",
-  UPDATE_CONTENT: "Update Content",
-  DELETE_CONTENT: "Delete content",
+  DEPLOYMENT_UPDATED: "Deployment Updated",
+  CONTENT_CREATED: "Content Created",
+  CONTENT_UPDATED: "Content Updated",
+  CONTENT_DELETED: "Content Deleted",
 };
 
 export type Webhook = {

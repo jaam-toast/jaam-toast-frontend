@@ -10,6 +10,9 @@ interface ImportMetaEnv {
   readonly VITE_HOST_API_URL: string;
   readonly VITE_SCREENSHOT_API_URL: string;
   readonly VITE_FAVICON_API_URL: string;
+  readonly VITE_POOL_ID: string;
+  readonly VITE_REGION: string;
+  readonly VITE_BUCKET_NAME: string;
 }
 
 interface ImportMeta {
