@@ -44,7 +44,7 @@ export const container = style([
     top: 0,
     bottom: 0,
     left: 0,
-    zIndex: 10,
+    zIndex: 9,
     backgroundColor: "rgba(0, 0, 0, 0.2)",
     transition: "opacity 3s",
     animation: `${fadeInKeyframe} 0.3s`,
@@ -57,6 +57,7 @@ export const modal = style([
   s.fullHeigth,
   s.scroll,
   {
+    overflow: "scroll",
     transition: "all 0.5s",
   },
 ]);
