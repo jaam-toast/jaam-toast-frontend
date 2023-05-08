@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { shallow } from "zustand/shallow";
 
 type Location = "center" | "right";
 
@@ -6,9 +7,13 @@ type Animation = "slideToLeft" | "none";
 
 type ModalState = {
   isOpen: boolean;
+  isOpenConfirmModal: boolean;
+  isOpenAlert: boolean;
+  confirmMessage: string;
   ModalComponent: null | JSX.Element;
   location?: Location;
   animation?: Animation;
+  onConfirm: () => void;
   closeHandler: () => void;
 
   actions: {
@@ -22,12 +27,25 @@ type ModalState = {
       location?: Location;
       animation?: Animation;
     }) => void;
+    openConfirm: ({
+      message,
+      onConfirm,
+    }: {
+      message: string;
+      onConfirm: () => void;
+    }) => void;
+    openAlert: (message: string) => void;
+    closeConfirm: () => void;
     closeModal: () => void;
   };
 };
 
 export const useModalStore = create<ModalState>((set, get) => ({
   isOpen: false,
+  isOpenConfirmModal: false,
+  isOpenAlert: false,
+  onConfirm: () => {},
+  confirmMessage: "",
   ModalComponent: null,
   location: "center",
   animaion: "none",
@@ -45,6 +63,14 @@ export const useModalStore = create<ModalState>((set, get) => ({
         animation,
       });
     },
+    openConfirm: ({ message, onConfirm }) => {
+      console.log("클릭");
+      set({ isOpenConfirmModal: true, confirmMessage: message, onConfirm });
+    },
+    openAlert: message => {},
+    closeConfirm: () => {
+      set({ isOpenConfirmModal: false, confirmMessage: "" });
+    },
     closeModal: () => {
       get().closeHandler();
 
@@ -60,5 +86,23 @@ export const useModalStore = create<ModalState>((set, get) => ({
 }));
 
 export const useModalState = () => useModalStore();
+
+export const useConfirmModalState = () =>
+  useModalStore(
+    state => ({
+      message: state.confirmMessage,
+      isOpenConfirmModal: state.isOpenConfirmModal,
+      onConfirm: state.onConfirm,
+    }),
+    shallow,
+  );
+
+export const useSetConfirmModal = () =>
+  useModalStore(state => {
+    return {
+      openConfirm: state.actions.openConfirm,
+      closeConfirm: state.actions.closeConfirm,
+    };
+  }, shallow);
 
 export const useModal = () => useModalStore(state => state.actions);
