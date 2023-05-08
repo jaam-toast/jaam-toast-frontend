@@ -9,6 +9,7 @@ export const container = style([
     height: "100vh",
     width: "100vw",
     backgroundColor: COLORS.PAPER,
+    zIndex: 9,
   },
 ]);
 

@@ -1,27 +1,36 @@
-import { Suspense } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import { Header, ProjectInfoLayout } from "./@shared";
 import { useAuth } from "./@hooks";
+
 import { Landing } from "./Landing";
 import { ProjectList } from "./ProjectList";
+
 import { RepositorySelect } from "./RepositorySelect";
 import { BuildOptionSelect } from "./BuildOptionSelect";
 import { ProjectDeploy } from "./ProjectDeploy";
+
 import { ProjectDashboard } from "./ProjectDashboard";
 import { ProjectSchema } from "./ProjectSchema";
 import { ProjectContents } from "./ProjectContents";
 import { NewContent } from "./NewContent";
 import { ContentInfo } from "./ContentInfo";
 import { ProjectAssets } from "./ProjectAssets";
+import { ProjectWebhook } from "./ProjectWebhook";
+import { NewWebhook } from "./ProjectWebhook/NewWebhook";
 import { ProjectSettings } from "./ProjectSettings";
+
 import { NotFound } from "./Error/NotFound";
 import { Error } from "./Error";
+import { AsyncBoundary } from "./Error/AsyncBoundary";
+import { Portal } from "./Portal";
+import { createPortal } from "react-dom";
 import * as css from "./app.css";
 
 export function App() {
   const { user } = useAuth();
   const { pathname, state } = useLocation();
+  const portalRoot = document.getElementById("portal-root")!;
 
   if (pathname === "/" && !!user) {
     return <Navigate to="/projects" />;
@@ -34,7 +43,8 @@ export function App() {
   return (
     <div className={css.container}>
       <Header />
-      <Suspense fallback={<PageSkeleton />}>
+      {createPortal(<Portal />, portalRoot)}
+      <AsyncBoundary suspenseFallback={<PageSkeleton />}>
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/projects" element={<ProjectList />} />
@@ -91,7 +101,7 @@ export function App() {
           />
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </Suspense>
+      </AsyncBoundary>
     </div>
   );
 }
