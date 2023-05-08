@@ -1,27 +1,35 @@
-import { useProjectListQuery } from "../@hooks/useProjectListQuery";
-
-import { ProjectCard } from "./ProjectCard";
-import * as css from "./ProjectCardList.css";
 import { Suspense } from "react";
 
-type ProjectCardListProps = {
-  searchword: string;
-};
+import { EmptyCard } from "../@shared";
+import { useAuth, useProjectListQuery } from "../@hooks";
+import { ProjectCard } from "./ProjectCard";
+import * as css from "./ProjectCardList.css";
 
-export function ProjectCardList({ searchword }: ProjectCardListProps) {
+export function ProjectCardList({ searchword }: { searchword: string }) {
+  const { user } = useAuth();
   const { data: projects } = useProjectListQuery();
 
   return (
     <section className={css.container}>
-      {projects
-        // ?.filter(project =>
-        //   searchword ? project.repoName.includes(searchword) : true,
-        // )
-        ?.map(project => (
-          <Suspense fallback={<ProjectCardSkeleton />} key={project}>
-            <ProjectCard projectId={project} />
-          </Suspense>
-        ))}
+      {projects && projects.length ? (
+        projects
+          ?.filter(project =>
+            searchword ? project.includes(searchword) : true,
+          )
+          ?.map(project => (
+            <Suspense fallback={<ProjectCardSkeleton />} key={project}>
+              <ProjectCard projectId={project} />
+            </Suspense>
+          ))
+      ) : (
+        <EmptyCard
+          title="No project here."
+          description="Let's create project! You can deploy using github, and
+          you can use a headless cms"
+          link={`/new/${user.name}`}
+          linkTitle="Create New Project"
+        />
+      )}
     </section>
   );
 }

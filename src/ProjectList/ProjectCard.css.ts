@@ -23,6 +23,8 @@ export const projectCardhead = style([s.flex, { gap: "0.3rem" }]);
 
 export const avatar = style({ marginRight: "-1rem" });
 
+export const userProfile = style({ width: "3rem", objectFit: "contain" });
+
 export const projectCardMain = style([
   s.flexColumn,
   {
@@ -67,7 +69,4 @@ export const projectCardUpdatedAt = style({
   fontSize: "0.8rem",
 });
 
-export const avatarIconSkeleton = style([
-  s.skeleton,
-  { backgroundColor: COLORS.GREY_CLEAR },
-]);
+export const avatarIconSkeleton = style([s.skeleton, avatar]);

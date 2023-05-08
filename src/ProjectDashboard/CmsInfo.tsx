@@ -6,7 +6,7 @@ import {
 } from "react-icons/bs";
 import { BsStack } from "react-icons/bs";
 
-import { Modal, ColorBox } from "../@shared";
+import { ColorBox, EmptyCard } from "../@shared";
 import { useModal, useProjectQuery } from "../@hooks";
 import { ModalContentsKey } from "./ModalContentsKey";
 import { COLORS, ColorKeys } from "../@config/colors";
@@ -31,7 +31,6 @@ export function CmsInfo({ userName, projectName }: Options) {
 
   return (
     <>
-      <Modal />
       {schemaListCount || 0 ? (
         <section className={css.cmsInfoSection}>
           <span className={css.infoFieldTitle}>Api Info</span>
@@ -47,7 +46,7 @@ export function CmsInfo({ userName, projectName }: Options) {
                 <p className={css.infoText}>{schemaListCount}</p>
               </li>
             </Link>
-            <Link to={`/${userName}/${projectName}/contents`}>
+            <Link to={`/${userName}/${projectName}/assets`}>
               <li className={css.cmsInfo}>
                 <div className={css.cmsInfoLeft}>
                   <ColorBox>
@@ -58,7 +57,7 @@ export function CmsInfo({ userName, projectName }: Options) {
                 <p className={css.infoText}>0</p>
               </li>
             </Link>
-            <Link to={`/${userName}/${projectName}/assets`}>
+            <Link to={`/${userName}/${projectName}/contents`}>
               <li className={css.cmsInfo}>
                 <div className={css.cmsInfoLeft}>
                   <ColorBox>
@@ -80,22 +79,12 @@ export function CmsInfo({ userName, projectName }: Options) {
           </ul>
         </section>
       ) : (
-        <section className={css.emptyCmsSection}>
-          <span className={css.infoText}>
-            No contents here. <br />
-            <strong>Let's create some!</strong> Ready to start?
-          </span>
-          <div className={css.emptyCmsButtonWrapper}>
-            {/**TODO? Quick start */}
-            {/* <button className={css.emptyCmsButton}>Quick Start</button> */}
-            <Link
-              to={`/${userName}/${projectName}/schema`}
-              className={css.emptyCmsButton}
-            >
-              Add Schema
-            </Link>
-          </div>
-        </section>
+        <EmptyCard
+          title="No contents here."
+          description="Let's create some! Ready to start?"
+          link={`/${userName}/${projectName}/schema`}
+          linkTitle="Add Schema"
+        />
       )}
     </>
   );
