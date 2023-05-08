@@ -4,7 +4,7 @@ import { COLORS } from "../@config/colors";
 
 export const container = style([
   s.flex,
-  s.full,
+  s.fullWidth,
   {
     borderTop: `1px solid ${COLORS.GREY_CLEAR}`,
     paddingTop: "1.5rem",
@@ -49,7 +49,6 @@ export const assetPreviewInfo = style([
     gap: "1rem",
     zIndex: 99,
     color: COLORS.WHITE,
-    overflowX: "scroll",
     textOverflow: "ellipsis",
     textAlign: "left",
     fontSize: "0.8rem",
@@ -75,6 +74,11 @@ export const assetPreviewImg = style([
     borderRadius: "0.5rem",
     width: "100%",
     height: "100%",
-    objectFit: "contain",
+    objectFit: "scale-down",
   },
+]);
+
+export const assetPreviewWrapperSkeleton = style([
+  s.skeleton,
+  assetPreviewWrapper,
 ]);
