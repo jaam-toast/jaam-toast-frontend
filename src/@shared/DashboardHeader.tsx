@@ -1,18 +1,19 @@
-import { Link, Navigate, useParams, useLocation } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 
 import * as css from "./DashboardHeader.css";
+import { ValidationError } from "../@utils/createError";
 
 export function DashboardHeader() {
   const { userName, projectName } = useParams();
   const location = useLocation();
   const { pathname } = location;
 
-  const regExp = /\/(\w+)$/;
-  const currentPage = pathname.match(regExp)![1];
-
   if (!projectName || !userName) {
-    return <Navigate to="/error" />;
+    throw new ValidationError("projectName, userName not found");
   }
+
+  const regExp = /\/([^/]+)\/([^/]+)\/([^/]+)$/;
+  const currentPathArr = pathname.match(regExp)!;
 
   return (
     <div className={css.container}>
@@ -21,7 +22,7 @@ export function DashboardHeader() {
         <Link to={`/${userName}/${projectName}/dashboard`}>
           <li
             className={
-              currentPage === "dashboard" ? css.navLinkPoint : css.navLink
+              currentPathArr[3] === "dashboard" ? css.navLinkPoint : css.navLink
             }
           >
             Project
@@ -30,7 +31,7 @@ export function DashboardHeader() {
         <Link to={`/${userName}/${projectName}/schema`}>
           <li
             className={
-              currentPage === "schema" ? css.navLinkPoint : css.navLink
+              currentPathArr[3] === "schema" ? css.navLinkPoint : css.navLink
             }
           >
             Schema
@@ -39,7 +40,8 @@ export function DashboardHeader() {
         <Link to={`/${userName}/${projectName}/contents`}>
           <li
             className={
-              currentPage === "contents" || currentPage === "new"
+              currentPathArr[3] === "contents" ||
+              (currentPathArr[2] === "contents" && currentPathArr[3] === "new")
                 ? css.navLinkPoint
                 : css.navLink
             }
@@ -50,16 +52,28 @@ export function DashboardHeader() {
         <Link to={`/${userName}/${projectName}/assets`}>
           <li
             className={
-              currentPage === "assets" ? css.navLinkPoint : css.navLink
+              currentPathArr[3] === "assets" ? css.navLinkPoint : css.navLink
             }
           >
             Assets
           </li>
         </Link>
+        <Link to={`/${userName}/${projectName}/webhook`}>
+          <li
+            className={
+              currentPathArr[3] === "webhook" ||
+              (currentPathArr[2] === "webhook" && currentPathArr[3] === "new")
+                ? css.navLinkPoint
+                : css.navLink
+            }
+          >
+            Webhook
+          </li>
+        </Link>
         <Link to={`/${userName}/${projectName}/settings`}>
           <li
             className={
-              currentPage === "settings" ? css.navLinkPoint : css.navLink
+              currentPathArr[3] === "settings" ? css.navLinkPoint : css.navLink
             }
           >
             Settings

@@ -5,7 +5,7 @@ import * as css from "./Pagination.css";
 type PaginationProps = {
   page: number;
   pageLimit?: number;
-  contentsLimit?: number;
+  contentsLimit: number;
   contentsCount: number;
   onClickPage: (page: number) => void;
 };
@@ -13,7 +13,7 @@ type PaginationProps = {
 export function Pagination({
   page,
   pageLimit = 5,
-  contentsLimit = 20,
+  contentsLimit,
   contentsCount,
   onClickPage,
 }: PaginationProps) {

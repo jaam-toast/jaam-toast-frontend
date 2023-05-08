@@ -10,6 +10,7 @@ export const COLORS = {
   TAN: "#d2b48c",
   RED_LIGHT: "#ff9999",
   RED: "#ff0000",
+  RED_DARK: "#de0000",
   LEMON: "#FEECB7",
   MINT_LIGHT: "#ecfad7",
   MINT: "#E0F3C2",

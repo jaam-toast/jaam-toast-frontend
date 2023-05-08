@@ -2,6 +2,23 @@ import dayjs from "dayjs";
 
 import type { JaamSchemaPropertyType } from "@jaam-schema/src";
 
+export const ASSET_SCHEMA = {
+  title: "assets",
+  type: "object",
+  properties: {
+    url: {
+      type: "string",
+      format: "url",
+    },
+    name: {
+      type: "string",
+    },
+    size: {
+      type: "number",
+    },
+  },
+};
+
 export const DEFAULT_VALUE_FOR_TYPE: Record<
   JaamSchemaPropertyType,
   string | number | boolean

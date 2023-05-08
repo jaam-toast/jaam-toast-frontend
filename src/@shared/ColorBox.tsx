@@ -25,7 +25,10 @@ export function ColorBox({
     : {};
 
   return (
-    <div style={style} className={`${css.container} ${css.iconSize[size]} `}>
+    <div
+      style={style}
+      className={`${css.container} ${css.iconSize[size]} ${css.iconColor[color]} `}
+    >
       {children}
     </div>
   );

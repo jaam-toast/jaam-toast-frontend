@@ -37,14 +37,15 @@ export function ProjectAssets() {
       return alert("File uploads are limited to 100MB or less.");
     }
 
-    // TODO error handle
-    try {
-      await createAssets.mutateAsync({
-        token: project?.storageKey,
-        storagePath: `${projectName}/${name}`,
-        asset: ref.current.files[0],
-      });
-    } catch (error) {}
+    // TODO api 적용
+    // content 추가로 적용
+    // try {
+    //   await createAssets.mutateAsync({
+    //     token: project?.storageKey,
+    //     storagePath: `${projectName}/${name}`,
+    //     asset: ref.current.files[0],
+    //   });
+    // } catch (error) {}
   };
 
   return (

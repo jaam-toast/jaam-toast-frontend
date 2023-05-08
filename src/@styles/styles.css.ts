@@ -137,6 +137,10 @@ export const textField = style([
     outline: "none",
     borderRadius: "5rem",
     flexShrink: 1,
+
+    ":invalid": {
+      borderColor: COLORS.RED_LIGHT,
+    },
   },
 ]);
 
@@ -172,12 +176,7 @@ export const table = style([
   },
 ]);
 
-export const thCheckbox = style([
-  {
-    minWidth: "3px",
-    maxWidth: "3px",
-  },
-]);
+export const tdCheckbox = style({ textAlign: "center", width: "3%" });
 
 export const th = style([
   {
@@ -203,7 +202,7 @@ export const tableRow = style([
 
 export const tableCell = style([{ maxWidth: "30rem", padding: "1rem" }]);
 
-export const checkbox = style([{ textAlign: "center" }]);
+export const tableOptionCell = style({ width: "5%" });
 
 export const skeleton = style({
   borderRadius: "1.5rem",

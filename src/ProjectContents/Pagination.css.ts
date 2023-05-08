@@ -9,7 +9,7 @@ export const paginationContainer = style([
   s.alignItemsCenter,
   s.justifyContentCenter,
   {
-    height: "30%",
+    height: "5rem",
   },
 ]);
 
