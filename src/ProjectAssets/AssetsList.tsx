@@ -5,11 +5,7 @@ import { AssetAPIClient } from "../@utils/assetsAPI";
 import { ModalAssetInfo } from "./ModalAssetInfo";
 import * as css from "./AssetsList.css";
 
-type AssetInfo = {
-  url?: string;
-  name?: string;
-  size?: number;
-};
+import type { AssetInfoForEditing } from "../@types/cms";
 
 export function AssetsList({
   projectName,
@@ -18,7 +14,9 @@ export function AssetsList({
   projectName: string;
   token: string;
 }) {
-  const [assetsInfoList, setAssetsInfoList] = useState<AssetInfo[]>([]);
+  const [assetsInfoList, setAssetsInfoList] = useState<AssetInfoForEditing[]>(
+    [],
+  );
   const [onMouseImgIndex, setOnMouseImgIndex] = useState<number | null>(null);
   const { openModal } = useModal();
 
@@ -33,7 +31,7 @@ export function AssetsList({
     })();
   }, []);
 
-  const handleAseetClick = (asset: AssetInfo) => {
+  const handleAseetClick = (asset: AssetInfoForEditing) => {
     openModal({ component: <ModalAssetInfo asset={asset} token={token} /> });
   };
 
