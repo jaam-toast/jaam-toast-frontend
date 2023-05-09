@@ -2,16 +2,19 @@ import { style } from "@vanilla-extract/css";
 import { s } from "../@styles";
 import { COLORS } from "../@config/colors";
 
+export const container = style({
+  maxHeight: "50rem",
+});
+
 /**
  * table
  */
 export const table = style([s.table]);
-export const thCheckbox = style([s.thCheckbox]);
 export const th = style([s.th]);
 export const tbody = style([s.tbody]);
 export const row = style([s.tableRow]);
 export const cell = style([s.tableCell]);
-export const checkboxField = style([s.checkbox]);
+export const checkboxField = style([s.tdCheckbox]);
 
 export const nameField = style([
   s.inlineFlex,
@@ -41,5 +44,21 @@ export const type = style([
     borderRadius: "0.4rem",
     backgroundColor: COLORS.GREY_LIGHT,
     border: `1px solid ${COLORS.GREY_CLEAR}`,
+  },
+]);
+
+export const tbodySkeleton = style([table, { marginTop: "4rem" }]);
+
+export const cellSkeleton = style([
+  cell,
+  { width: "27rem", paddingLeft: "4rem" },
+]);
+
+export const textSkeleton = style([
+  s.skeleton,
+  {
+    borderRadius: "1.5rem",
+    width: "15rem",
+    height: "2rem",
   },
 ]);

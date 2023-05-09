@@ -1,17 +1,19 @@
-import { Suspense, useEffect, useState } from "react";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { Modal, SelectBox } from "../@shared";
+import { SelectBox, CheckDeleteBox } from "../@shared";
 import {
   useCheckboxState,
   useDeleteContentsMutation,
   useProjectQuery,
+  useSetConfirmModal,
 } from "../@hooks";
 import { ContentsList, ContentsListSkeleton } from "./ContentsList";
-import { ContentsDeleteBox } from "./ContentsDeleteBox";
 import * as css from "./index.css";
 
 import type { SortMode, OrderMode } from "../@types/cms";
+import { ValidationError } from "../@utils/createError";
+import { AsyncBoundary } from "../Error/AsyncBoundary";
 
 export function ProjectContents() {
   const { projectName } = useParams();
@@ -20,16 +22,17 @@ export function ProjectContents() {
   const [orderOption, setOrderOption] = useState<OrderMode>("ascending");
   const { values: checkboxValues } = useCheckboxState();
   const [currentSchemaName, setCurrentSchemaName] = useState<string>("");
+  const { openConfirm } = useSetConfirmModal();
 
   if (!projectName) {
-    return <Navigate to="/error" />;
+    throw new ValidationError("projectName not found");
   }
 
   const { data: project } = useProjectQuery(projectName);
 
   // TODO error handling
   if (!project) {
-    return <Navigate to="/error" state={{ code: 404, message: "" }} />;
+    throw new ValidationError("project data not found");
   }
 
   const token = project.storageKey;
@@ -53,25 +56,20 @@ export function ProjectContents() {
     navigate("new");
   };
 
-  const handleDelete = ({
-    contentIds,
-    token,
-  }: {
-    contentIds: string[];
-    token: string;
-  }) => {
-    if (window.confirm("Do you want to delete the field?")) {
-      deleteContents.mutate({
-        token,
-        schemaName: currentSchemaName,
-        contentIds,
-      });
-    }
+  const handleDeleteClick = (contentIds: string[]) => {
+    openConfirm({
+      message: "Do you want to delete the field?",
+      onConfirm: () =>
+        deleteContents.mutate({
+          token,
+          schemaName: currentSchemaName,
+          contentIds,
+        }),
+    });
   };
 
   return (
     <div className={css.container}>
-      <Modal />
       <header className={css.header}>
         <button onClick={handleAddClick} className={css.newButton}>
           + New Contents
@@ -116,13 +114,10 @@ export function ProjectContents() {
             </div>
           </>
         ) : (
-          <ContentsDeleteBox
-            projectName={projectName}
-            onDelete={handleDelete}
-          />
+          <CheckDeleteBox onDelete={handleDeleteClick} />
         )}
       </div>
-      <Suspense fallback={<ContentsListSkeleton />}>
+      <AsyncBoundary suspenseFallback={<ContentsListSkeleton />}>
         <ContentsList
           token={token}
           schemaName={currentSchemaName}
@@ -130,7 +125,7 @@ export function ProjectContents() {
           orderOption={orderOption}
           sortOption={sortOption}
         />
-      </Suspense>
+      </AsyncBoundary>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { TextField, TypeIcon } from "../@shared";
-import { FieldTitle } from "./FieldTitle";
+import { TitleField } from "./TitleField";
 import { PropertyEditor } from "./PropertyEditor";
 import { PropertyList } from "./PropertyList";
 import {
@@ -10,11 +10,13 @@ import {
   useSchemaState,
   useSetSchemaState,
   useProjectSchemaQuery,
+  useSetConfirmModal,
 } from "../@hooks";
 import { useCreateSchemaMutation } from "../@hooks/useSchemaMutation";
 import * as css from "./ModalNewSchema.css";
 
-import { Navigate } from "react-router-dom";
+import { ValidationError } from "../@utils/createError";
+import { toast } from "react-toastify";
 
 type Options = {
   projectName: string;
@@ -37,23 +39,25 @@ export function ModalNewSchema({ projectName }: Options) {
   const schema = useSchemaState();
   const currentEditProperty = useCurrentEditProperty();
   const { closeModal } = useModal();
+  const { openConfirm } = useSetConfirmModal();
 
   const { data: schemaList } = useProjectSchemaQuery(projectName);
 
   if (!schemaList) {
-    return <Navigate to="/error" />;
+    throw new ValidationError("schemaList not found");
   }
 
-  const createSchema = useCreateSchemaMutation({
-    onSuccess: () => {
-      reset();
-      alert("Success schema creation");
-      closeModal();
-    },
-    onError: () => {
-      alert("Failed to create schema. Please try again.");
-    },
-  });
+  // const createSchema = useCreateSchemaMutation({
+  //   onSuccess: () => {
+  //     reset();
+  //     alert("Success schema creation");
+  //     closeModal();
+  //   },
+  //   onError: () => {
+  //     alert("Failed to create schema. Please try again.");
+  //   },
+  // });
+  const createSchema = useCreateSchemaMutation();
 
   const handleChangePropertyName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentEditProperty({
@@ -91,20 +95,26 @@ export function ModalNewSchema({ projectName }: Options) {
     setCurrentEditProperty({ type: "reset" });
   };
 
-  const handleClickSave = () => {
+  const handleClickSave = async () => {
     const { title, type, properties } = schema;
 
     if (!title || !type || !Object.keys(properties).length) {
       return;
     }
 
-    createSchema.mutate({ projectName });
+    try {
+      await createSchema.mutateAsync({ projectName });
+    } catch (error) {
+      throw error;
+      return toast.error("error");
+    }
   };
 
   const handleClickDelete = ({ propertyName }: { propertyName: string }) => {
-    if (window.confirm("Do you want to delete the field?")) {
-      deleteProperty({ propertyName });
-    }
+    openConfirm({
+      message: "Do you want to delete the field?",
+      onConfirm: () => deleteProperty({ propertyName }),
+    });
   };
 
   return (
@@ -150,7 +160,7 @@ export function ModalNewSchema({ projectName }: Options) {
                 : ""
             }
           >
-            <FieldTitle>Schema name</FieldTitle>
+            <TitleField>Schema name</TitleField>
             {schemaList?.some(data => data.schema.title === schema.title) && (
               <p className={css.warningMessage}>
                 Your Schema Name is duplicated.
@@ -169,7 +179,7 @@ export function ModalNewSchema({ projectName }: Options) {
             {/**
              * schema description input
              */}
-            <FieldTitle>Description (optional)</FieldTitle>
+            <TitleField>Description (optional)</TitleField>
             <TextField onTextFieldChange={setDescription} delay={0} />
             <p className={css.fieldSubText}>Description of the schema</p>
           </div>
@@ -226,7 +236,7 @@ export function ModalNewSchema({ projectName }: Options) {
               <PropertyEditor />
             ) : (
               <section>
-                <FieldTitle>Field List</FieldTitle>
+                <TitleField>Field List</TitleField>
                 <div className={css.fieldList}>
                   <PropertyList
                     propertyList={schema.properties}

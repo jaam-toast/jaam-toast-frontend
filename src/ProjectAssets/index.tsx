@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useParams } from "react-router-dom";
 
-import { useCreateAssetsMutation, useProjectQuery } from "../@hooks";
+import { useProjectQuery } from "../@hooks";
 import { ValidationError } from "../@utils/createError";
 import { AssetsList, AssetsListSkeleton } from "./AssetsList";
 import { AsyncBoundary } from "../Error/AsyncBoundary";
@@ -12,7 +12,7 @@ const MB = 1024 * 1024;
 export function ProjectAssets() {
   const { projectName } = useParams();
   const ref = useRef<HTMLInputElement>(null);
-  const createAssets = useCreateAssetsMutation();
+  // const createAssets = useCreateAssetsMutation();
 
   if (!projectName) {
     throw new ValidationError("project not found");

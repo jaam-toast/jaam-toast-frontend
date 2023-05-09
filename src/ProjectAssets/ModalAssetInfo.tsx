@@ -1,5 +1,5 @@
 import { BsFillTrashFill } from "react-icons/bs";
-import { useDeleteAssetsMutation } from "../@hooks";
+// import { useDeleteAssetsMutation } from "../@hooks";
 import * as css from "./ModalAssetInfo.css";
 
 import type { AssetInfoForEditing } from "../@types/cms";
@@ -12,7 +12,7 @@ export function ModalAssetInfo({
   token: string;
 }) {
   // TODO useContentsKeyQuery
-  const deleteAsset = useDeleteAssetsMutation();
+  // const deleteAsset = useDeleteAssetsMutation();
 
   const handleDeleteClick = async () => {
     if (!asset.name) {
@@ -22,7 +22,7 @@ export function ModalAssetInfo({
 
     //TODO error handle
     try {
-      await deleteAsset.mutateAsync({ token, asset: asset.name });
+      // await deleteAsset.mutateAsync({ token, asset: asset.name });
     } catch (error) {}
   };
 

@@ -8,9 +8,10 @@ import {
   useContentQuery,
   useProjectQuery,
 } from "../@hooks";
-import { FieldTitle } from "../ProjectSchema/FieldTitle";
+import { TitleField } from "../ProjectSchema/TitleField";
 import { ContentPropertyEditor } from "../ProjectContents/ContentPropertyEditor";
 import * as css from "./ContentPropertyList.css";
+import { ValidationError } from "../@utils/createError";
 
 type ContentPropertyListProps = {
   contentId: string;
@@ -34,12 +35,10 @@ export function ContentPropertyList({
     [],
   );
 
-  // TODO error handeling
   if (!schema || !project) {
-    return null;
+    throw new ValidationError("schema, project not found");
   }
 
-  // TODO error handeling
   const { data: content } = useContentQuery({
     schemaName: schemaName,
     token: project?.storageKey,
@@ -47,7 +46,7 @@ export function ContentPropertyList({
   });
 
   if (!content) {
-    return <Navigate to="/error" />;
+    throw new ValidationError("content not found");
   }
 
   useEffect(() => {
@@ -69,7 +68,7 @@ export function ContentPropertyList({
       {jaamSchemaPropertyList.map(([property, data]) => (
         <div key={property}>
           <div className={css.fieldHeader}>
-            <FieldTitle>{property}</FieldTitle>
+            <TitleField>{property}</TitleField>
             <div className={css.fieldTypeWrapper}>
               <div className={css.fieldType}>{data.type}</div>
               {schema.required && schema.required.includes(property) && (

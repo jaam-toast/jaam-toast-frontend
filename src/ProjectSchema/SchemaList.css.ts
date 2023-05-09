@@ -6,12 +6,11 @@ import { COLORS } from "../@config/colors";
  * table
  */
 export const table = style([s.table]);
-export const thCheckbox = style([s.thCheckbox]);
 export const th = style([s.th]);
 export const tbody = style([s.tbody]);
 export const row = style([s.tableRow]);
 export const cell = style([s.tableCell]);
-export const checkboxField = style([s.checkbox]);
+export const checkboxField = style([s.tdCheckbox]);
 
 export const nameField = style([
   s.inlineFlex,
@@ -50,9 +49,26 @@ export const type = style([
   },
 ]);
 
+export const optionCell = style([s.tableOptionCell]);
+
 export const optionField = style([
   s.flex,
-  { gap: "1rem", justifyContent: "flex-end" },
+  s.justifyContentCenter,
+  { gap: "1rem" },
 ]);
 
 export const optionIcon = style([{ cursor: "pointer" }]);
+
+export const cellSkeleton = style([
+  cell,
+  { width: "27rem", paddingLeft: "3.9rem" },
+]);
+
+export const textSkeleton = style([
+  s.skeleton,
+  {
+    borderRadius: "1.5rem",
+    width: "10rem",
+    height: "2rem",
+  },
+]);
