@@ -16,13 +16,13 @@ export function EmptyCard({
   linkTitle,
 }: EmptyCardProps) {
   return (
-    <section className={css.emptyCmsSection}>
+    <section className={css.emptySection}>
       <span className={css.infoText}>
-        <strong>{title}</strong> <br />
+        <b>{title}</b> <br />
         {description}
       </span>
-      <div className={css.emptyCmsButtonWrapper}>
-        <Link to={link} className={css.emptyCmsButton}>
+      <div className={css.emptyButtonWrapper}>
+        <Link to={link} className={css.emptyButton}>
           {linkTitle}
         </Link>
       </div>

@@ -1,33 +1,33 @@
 import { create } from "zustand";
-import { shallow } from "zustand/shallow";
 import toPairs from "lodash/toPairs";
+import isURL from "validator/lib/isURL";
 
-import type { Webhook, WebhookForEditing } from "../@types/cms";
-import type { WebhookData } from "../@types/api";
+import type { WebhookForEditing } from "../@types/cms";
+import type { Webhook } from "../@types/api";
 
-type WebhookStore = WebhookState & {
-  actions: {
-    setWebhook: ({ name, url }: { name?: string; url?: string }) => void;
-    setWebhookList: (webhook: WebhookData) => void;
-    reset: () => void;
-  };
-};
-
-type WebhookState = {
+type WebhookStore = {
   webhookList: WebhookForEditing[];
-  webhook: Webhook;
+  webhook: WebhookForEditing;
   webhookErrorMessage: {
     name: string;
     url: string;
     events?: Set<string>;
   };
+
+  actions: {
+    setWebhookName: (name: string) => void;
+    setWebhookUrl: (url: string) => void;
+    setWebhookList: (webhook: Webhook) => void;
+    reset: () => void;
+  };
 };
 
-const initialState: WebhookState = {
+const initialState: Omit<WebhookStore, "actions"> = {
   webhookList: [],
   webhook: {
     name: "",
     url: "",
+    events: new Set<string>(),
   },
   webhookErrorMessage: {
     name: "",
@@ -39,12 +39,53 @@ export const useWebhookStore = create<WebhookStore>((set, get) => ({
   ...initialState,
 
   actions: {
-    setWebhook: ({ name, url }) => {
+    setWebhookName: name => {
+      // TODO name 중복 검사 추가
+      if (name) {
+        // TODO 중복시 에러메시지 설정
+      }
+
+      if (get().webhookErrorMessage.name) {
+        set(state => ({
+          webhookErrorMessage: {
+            ...state.webhookErrorMessage,
+            name: "",
+          },
+        }));
+      }
+
       set(state => ({
         webhook: {
           ...state.webhook,
-          ...(name && { name }),
-          ...(url && { url }),
+          name,
+        },
+      }));
+    },
+    setWebhookUrl: url => {
+      if (!isURL(url)) {
+        set(state => ({
+          webhookErrorMessage: {
+            ...state.webhookErrorMessage,
+            url: "The URL is not formatted correctly",
+          },
+        }));
+
+        return;
+      }
+
+      if (get().webhookErrorMessage.url) {
+        set(state => ({
+          webhookErrorMessage: {
+            ...state.webhookErrorMessage,
+            url: "",
+          },
+        }));
+      }
+
+      set(state => ({
+        webhook: {
+          ...state.webhook,
+          url,
         },
       }));
     },
@@ -77,14 +118,19 @@ export const useWebhookStore = create<WebhookStore>((set, get) => ({
   },
 }));
 
-export const useWebhookState = () =>
-  useWebhookStore(state => state.webhook, shallow);
+export const useWebhookState = () => useWebhookStore(state => state.webhook);
 
 export const useWebhookListState = () =>
-  useWebhookStore(state => state.webhookList, shallow);
+  useWebhookStore(state => state.webhookList);
+
+export const useWebhookErrorMessageState = () =>
+  useWebhookStore(state => state.webhookErrorMessage);
 
 export const useSetWebhook = () =>
-  useWebhookStore(state => state.actions.setWebhook);
+  useWebhookStore(state => ({
+    setWebhookName: state.actions.setWebhookName,
+    setWebhookUrl: state.actions.setWebhookUrl,
+  }));
 
 export const useSetWebhookList = () =>
   useWebhookStore(state => state.actions.setWebhookList);

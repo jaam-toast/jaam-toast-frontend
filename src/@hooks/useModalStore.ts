@@ -5,7 +5,7 @@ type Location = "center" | "right";
 
 type Animation = "slideToLeft" | "none";
 
-type ModalState = {
+type ModalStore = {
   isOpen: boolean;
   isOpenConfirmModal: boolean;
   isOpenAlert: boolean;
@@ -40,7 +40,7 @@ type ModalState = {
   };
 };
 
-export const useModalStore = create<ModalState>((set, get) => ({
+export const useModalStore = create<ModalStore>((set, get) => ({
   isOpen: false,
   isOpenConfirmModal: false,
   isOpenAlert: false,

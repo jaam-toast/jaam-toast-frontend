@@ -6,7 +6,12 @@ import { usePresetBuildOptionStore } from "./usePresetBuildOptionStore";
 import { useAuth } from "./useAuth";
 import APIClient from "../@utils/api";
 
-import type { PatchProjectOption, PutProjectOption } from "../@types/api";
+import type {
+  UpdateProjectBuildOption,
+  UpdateProjectBuildOptions,
+  UpdateProjectOption,
+  UpdateProjectOptions,
+} from "../@types/api";
 
 type UseProjectMutationOptions = {
   onSuccess?: (data?: string) => Promise<unknown> | unknown;
@@ -76,7 +81,9 @@ export function useCreateProjectMutation({
   );
 }
 
-export function usePatchProjectMutaion() {
+export function useUpdateProjectMutaion<
+  T extends keyof UpdateProjectOptions,
+>() {
   const { user } = useAuth();
 
   const api = new APIClient()
@@ -91,18 +98,47 @@ export function usePatchProjectMutaion() {
       option,
     }: {
       projectName: string;
-      option: PatchProjectOption;
+      option: UpdateProjectOption<T>;
     }) => {
       if (isEmpty(option)) {
         return;
       }
 
-      return api.patchProject({ projectName, option });
+      return api.updateProject<T>({ projectName, updateOption: option });
     },
   );
 }
 
-export function usePutProjectMutaion() {
+export function useDeleteProjectOptionMutation<
+  T extends keyof UpdateProjectOptions,
+>() {
+  const { user } = useAuth();
+
+  const api = new APIClient()
+    .setUserId(user?.id)
+    .setAccessToken(user?.accessToken)
+    .setGithubAccessToken(user?.githubAccessToken);
+
+  return useMutation(
+    ["project-option-delete"],
+    async ({
+      projectName,
+      option,
+    }: {
+      projectName: string;
+      option: UpdateProjectOption<T>;
+    }) => {
+      return api.deleteProjectOption<T>({
+        projectName,
+        deleteOption: option,
+      });
+    },
+  );
+}
+
+export function useUpdateBuildOptionMutation<
+  T extends keyof UpdateProjectBuildOptions,
+>() {
   const { user } = useAuth();
 
   const api = new APIClient()
@@ -118,9 +154,12 @@ export function usePutProjectMutaion() {
       option,
     }: {
       projectName: string;
-      option: PutProjectOption;
+      option: UpdateProjectBuildOption<T>;
     }) => {
-      return api.putProject({ projectName, option });
+      return api.updateProjectBuildOption<T>({
+        projectName,
+        updateBuildOption: option,
+      });
     },
   );
 }

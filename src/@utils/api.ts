@@ -3,8 +3,6 @@ import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import Config from "../@config";
 import {
   CreateProjectOptions,
-  PutProjectOption,
-  CreateWebhookOptions,
   Project,
   ProjectId,
   Repo,
@@ -12,7 +10,11 @@ import {
   Space,
   User,
   SchemaData,
-  PatchProjectOption,
+  UpdateProjectOption,
+  UpdateProjectOptions,
+  UpdateProjectBuildOption,
+  UpdateProjectBuildOptions,
+  DeleteProjectOption,
 } from "../@types/api";
 
 class APIClient {
@@ -132,17 +134,17 @@ class APIClient {
     }
   }
 
-  async patchProject({
+  async updateProject<T extends keyof UpdateProjectOptions>({
     projectName,
-    option,
+    updateOption,
   }: {
     projectName: string;
-    option: PatchProjectOption;
+    updateOption: UpdateProjectOption<T>;
   }): Promise<string> {
     try {
       const { data } = await this.client().patch<Response<string>>(
         `/projects/${projectName}`,
-        option,
+        updateOption,
       );
 
       return data.message;
@@ -151,17 +153,17 @@ class APIClient {
     }
   }
 
-  async putProject({
+  async updateProjectBuildOption<T extends keyof UpdateProjectBuildOptions>({
     projectName,
-    option,
+    updateBuildOption,
   }: {
     projectName: string;
-    option: PutProjectOption;
+    updateBuildOption: UpdateProjectBuildOption<T>;
   }): Promise<string> {
     try {
-      const { data } = await this.client().put<Response<string>>(
-        `/projects/${projectName}`,
-        option,
+      const { data } = await this.client().post<Response<string>>(
+        `/projects/${projectName}/options`,
+        updateBuildOption,
       );
 
       return data.message;
@@ -174,6 +176,27 @@ class APIClient {
     try {
       const { data } = await this.client().delete<Response<string>>(
         `/projects/${projectName}`,
+      );
+
+      return data.message;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deleteProjectOption<T extends keyof UpdateProjectOptions>({
+    projectName,
+    deleteOption,
+  }: {
+    projectName: string;
+    deleteOption: DeleteProjectOption<T>;
+  }): Promise<string> {
+    try {
+      const { data } = await this.client().delete<Response<string>>(
+        `/projects/${projectName}`,
+        {
+          data: deleteOption,
+        },
       );
 
       return data.message;

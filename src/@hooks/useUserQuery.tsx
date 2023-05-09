@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "./useAuth";
 import APIClient from "../@utils/api";
 
-export function useUserDataQuery() {
+export function useUserQuery() {
   const { user } = useAuth();
   const api = new APIClient()
     .setUserId(user?.id)

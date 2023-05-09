@@ -1,13 +1,11 @@
 import { create } from "zustand";
 import { shallow } from "zustand/shallow";
 
-type CheckboxState = {
+type CheckboxStore = {
   name: string;
   isAllChecked: boolean;
   values: Set<string>;
-};
 
-type CheckboxStore = CheckboxState & {
   actions: {
     setName: (name: string) => void;
     toggleAllChecked: (allValues: string[]) => void;
@@ -21,7 +19,7 @@ type CheckboxStore = CheckboxState & {
   };
 };
 
-const initialState: CheckboxState = {
+const initialState: Omit<CheckboxStore, "actions"> = {
   name: "",
   isAllChecked: false,
   values: new Set<string>(),

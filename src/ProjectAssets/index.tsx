@@ -7,7 +7,7 @@ import { AssetsList, AssetsListSkeleton } from "./AssetsList";
 import { AsyncBoundary } from "../Error/AsyncBoundary";
 import * as css from "./index.css";
 
-const MB = 1048576;
+const MB = 1024 * 1024;
 
 export function ProjectAssets() {
   const { projectName } = useParams();

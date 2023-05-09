@@ -55,12 +55,8 @@ export const WEBHOOK_EVENTS_RECORD: Record<WebhookEvent, string> = {
   CONTENT_DELETED: "Content Deleted",
 };
 
-export type Webhook = {
+export type WebhookForEditing = {
   name: string;
   url: string;
-  events?: string[];
-};
-
-export type WebhookForEditing = Omit<Webhook, "events"> & {
   events: Set<string>;
 };

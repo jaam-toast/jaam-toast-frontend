@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { CheckDeleteBox, SelectBox } from "../@shared";
 import {
   useCheckboxState,
-  usePutProjectMutaion,
+  useDeleteProjectOptionMutation,
   useSetConfirmModal,
 } from "../@hooks";
 import { ValidationError } from "../@utils/createError";
@@ -14,7 +14,7 @@ import { ContentsListSkeleton } from "../ProjectContents/ContentsList";
 import * as css from "./index.css";
 
 import type { OrderMode, WebhookEvent, WebhookForEditing } from "../@types/cms";
-import { WebhookData } from "src/@types/api";
+import { Webhook } from "../@types/api";
 
 export function ProjectWebhook() {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ export function ProjectWebhook() {
   }
 
   // mock data
-  const webhookListData: WebhookData = {
+  const webhookListData: Webhook = {
     DEPLOYMENT_UPDATED: [
       {
         name: "my_blog",
@@ -71,7 +71,7 @@ export function ProjectWebhook() {
     ],
   };
 
-  const deleteWebhooks = usePutProjectMutaion();
+  const deleteWebhooks = useDeleteProjectOptionMutation<"webhook">();
 
   const handleNewClick = () => {
     navigate("new");
@@ -84,7 +84,7 @@ export function ProjectWebhook() {
 
     webhook.forEach(data => {
       const objData: WebhookForEditing = JSON.parse(data);
-      const arr = [...objData.events];
+      const arr = [...objData.events] as WebhookEvent[];
       arr.forEach((event: WebhookEvent) => {
         copyWebhookList[event] = copyWebhookList[event].filter(
           originalData => originalData.name !== objData.name,

@@ -8,7 +8,7 @@ export * from "./useBuildOptionsStore";
 export * from "./useBuildingLog";
 export * from "./usePresetBuildOptionStore";
 
-export * from "./useUserDataQuery";
+export * from "./useUserQuery";
 
 export * from "./useProjectQuery";
 export * from "./useProjectMutation";

@@ -21,7 +21,7 @@ export const infoText = style({
   fontWeight: 500,
 });
 
-export const emptyCmsSection = style([
+export const emptySection = style([
   container,
   s.flexCenter,
   {
@@ -30,14 +30,14 @@ export const emptyCmsSection = style([
   },
 ]);
 
-export const emptyCmsButtonWrapper = style([
+export const emptyButtonWrapper = style([
   s.flex,
   {
     gap: "2rem",
   },
 ]);
 
-export const emptyCmsButton = style([
+export const emptyButton = style([
   s.button,
   s.buttonSize.small,
   s.buttonColor.dark,

@@ -8,14 +8,14 @@ dayjs.extend(relativeTime);
 
 import { Favicon } from "./Favicon";
 import { Avatar } from "../@shared";
-import { useProjectQuery, useUserDataQuery } from "../@hooks";
+import { useProjectQuery, useUserQuery } from "../@hooks";
 import * as css from "./ProjectCard.css";
 
 import { FRAMEWORK_DOMAIN } from "../@types/build";
 
 export function ProjectCard({ projectId }: { projectId: string }) {
   const { data: project } = useProjectQuery(projectId);
-  const { data: userData } = useUserDataQuery();
+  const { data: userData } = useUserQuery();
   const navigate = useNavigate();
 
   // TODO error
@@ -58,7 +58,7 @@ export function ProjectCard({ projectId }: { projectId: string }) {
         </li>
       </Suspense>
       <div className={css.projectCardMain}>
-        <strong className={css.projectCardName}>{project.projectName}</strong>
+        <b className={css.projectCardName}>{project.projectName}</b>
         <span className={css.projectCardUrl}>
           {!!project.buildDomain.length
             ? project.buildDomain[project.buildDomain.length - 1]

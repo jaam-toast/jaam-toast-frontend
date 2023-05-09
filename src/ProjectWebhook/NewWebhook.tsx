@@ -9,6 +9,7 @@ import {
   useCheckboxState,
   useSetCheckboxState,
   useWebhookErrorMessageState,
+  useUpdateProjectMutaion,
 } from "../@hooks";
 import { TitleField } from "../ProjectSchema/TitleField";
 import * as css from "./NewWebhook.css";
@@ -22,6 +23,7 @@ export function NewWebhook() {
   const { name, url } = useWebhookState();
   const { values: checkboxValues } = useCheckboxState();
   const { setCheckboxValue } = useSetCheckboxState();
+  const updateWebhook = useUpdateProjectMutaion<"webhook">();
 
   const handlePrevClick = () => {
     navigate(-1);

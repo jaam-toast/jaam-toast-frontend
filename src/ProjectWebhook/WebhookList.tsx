@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Checkbox } from "../@shared";
 import { sortByMode as sortBy } from "../@utils/sortByMode";
 import {
-  usePutProjectMutaion,
+  useDeleteProjectOptionMutation,
   useSetWebhookList,
   useWebhookListState,
 } from "../@hooks";
@@ -13,7 +13,7 @@ import * as css from "./WebhookList.css";
 
 import { WEBHOOK_EVENTS_RECORD } from "../@types/cms";
 import type { WebhookEvent, WebhookForEditing, OrderMode } from "../@types/cms";
-import { WebhookData } from "../@types/api";
+import { Webhook } from "../@types/api";
 import { useSetConfirmModal } from "../@hooks";
 
 export function WebhookList({
@@ -30,10 +30,10 @@ export function WebhookList({
   const setWebhookList = useSetWebhookList();
   const webhookList = useWebhookListState();
   const { openConfirm } = useSetConfirmModal();
-  const deleteWebhook = usePutProjectMutaion();
+  const deleteWebhook = useDeleteProjectOptionMutation<"webhook">();
 
   // MOCK data
-  const webhookListData: WebhookData = {
+  const webhookListData: Webhook = {
     DEPLOYMENT_UPDATED: [
       {
         name: "my_blog",

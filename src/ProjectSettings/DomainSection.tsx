@@ -3,13 +3,13 @@ import { useState } from "react";
 import { TextField } from "../@shared";
 import {
   useProjectQuery,
-  usePutProjectMutaion,
-  usePatchProjectMutaion,
+  useUpdateProjectMutaion,
+  useDeleteProjectOptionMutation,
 } from "../@hooks";
 import { ValidationError } from "../@utils/createError";
 import * as css from "./index.css";
 
-import type { PatchProjectOption } from "../@types/api";
+import type { UpdateProjectOption } from "../@types/api";
 
 export function DomainSection({ projectName }: { projectName: string }) {
   const [domain, setDomain] = useState<string>("");
@@ -19,24 +19,20 @@ export function DomainSection({ projectName }: { projectName: string }) {
     throw new ValidationError("project not found");
   }
   const { buildDomain, originalBuildDomain } = project;
-  const updateDomain = usePatchProjectMutaion();
-  const deleteDomain = usePutProjectMutaion();
+  const updateDomain = useUpdateProjectMutaion<"buildDomain">();
+  const deleteDomain = useDeleteProjectOptionMutation<"buildDomain">();
 
   // TODO error handle
   const handleDeleteClick = async (domain: string) => {
-    const filteredDomainArr = buildDomain.filter(
-      originalDomain => originalDomain !== domain,
-    );
-
     try {
       await deleteDomain.mutateAsync({
         projectName,
-        option: { buildDomain: filteredDomainArr },
+        option: { buildDomain: domain },
       });
     } catch (error) {}
   };
 
-  const handleAddClick = (data: Pick<PatchProjectOption, "buildDomain">) => {
+  const handleAddClick = (data: UpdateProjectOption<"buildDomain">) => {
     if (!data) {
       // TODO toast
       alert("Domain data not found");

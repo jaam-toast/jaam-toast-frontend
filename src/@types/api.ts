@@ -1,6 +1,6 @@
 import type { JsonSchema } from "@jaam-schema/src";
 import type { BuildOptions, Env } from "./build";
-import { Webhook, WebhookEvent } from "./cms";
+import { WebhookEvent } from "./cms";
 
 export type Response<T> = {
   message: string;
@@ -39,20 +39,35 @@ export type CreateProjectOptions = BuildOptions & {
   githubAccessToken: string;
 };
 
-export type PatchProjectOption = Partial<{
+export type UpdateProjectOptions = {
   buildDomain: string;
-  webhook: WebhookData;
-}>;
+  webhook: Webhook;
+};
 
-export type PutProjectOption = Partial<PutProjectOptions>;
+export type UpdateProjectOption<T extends keyof UpdateProjectOptions> = Pick<
+  UpdateProjectOptions,
+  T
+>;
 
-export type PutProjectOptions = Omit<
+export type UpdateProjectBuildOptions = Omit<
   BuildOptions,
   "projectName" | "framework" | "nodeVersion"
-> & {
-  buildDomain: string[];
-  webhook: WebhookData;
-};
+>;
+
+export type UpdateProjectBuildOption<
+  T extends keyof UpdateProjectBuildOptions,
+> = Pick<UpdateProjectBuildOptions, T>;
+
+export type DeleteProjectOption<T extends keyof UpdateProjectOptions> = Pick<
+  UpdateProjectOptions,
+  T
+>;
+
+export enum ProjectStatus {
+  Pending = "pending",
+  Ready = "ready",
+  Fail = "fail",
+}
 
 export type Project = {
   projectName: string;
@@ -60,6 +75,7 @@ export type Project = {
   space: string;
   repoCloneUrl: string;
   projectUpdatedAt: string;
+  status: `${ProjectStatus}`;
 
   framework: string;
   nodeVersion: string;
@@ -75,7 +91,7 @@ export type Project = {
 
   schemaList: SchemaData[];
   assetStorageUrl: string;
-  webhookList?: WebhookData;
+  webhookList?: Webhook;
 
   repoId: string;
   webhookId: string;
@@ -103,8 +119,8 @@ export type Content = {
   _updatedAt: string;
 };
 
-export type WebhookData = {
-  [key in WebhookEvent]: Omit<Webhook, "events">[];
+export type Webhook = {
+  [key in WebhookEvent]: { name: string; url: string }[];
 };
 
 export type CreateWebhookOptions = {
