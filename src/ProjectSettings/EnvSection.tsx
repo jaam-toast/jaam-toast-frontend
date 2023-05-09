@@ -1,25 +1,25 @@
 import {
   useBuildOptions,
   useProjectQuery,
-  usePutProjectMutaion,
+  useUpdateBuildOptionMutation,
 } from "../@hooks";
 import { EnvField } from "../@shared";
 import { ValidationError } from "../@utils/createError";
 import * as css from "./index.css";
 
-import type { PutProjectOption } from "../@types/api";
+import type { UpdateProjectBuildOption } from "../@types/api";
 
 export function EnvSection({ projectName }: { projectName: string }) {
   const { data: project } = useProjectQuery(projectName);
   const { envList } = useBuildOptions();
-  const updateEnv = usePutProjectMutaion();
+  const updateEnv = useUpdateBuildOptionMutation<"envList">();
 
   if (!project) {
     throw new ValidationError("schema, project not found");
   }
 
   // TODO error toast
-  const handleSaveClick = async (data: Pick<PutProjectOption, "envList">) => {
+  const handleSaveClick = async (data: UpdateProjectBuildOption<"envList">) => {
     try {
       await updateEnv.mutateAsync({ projectName, option: data });
     } catch (error) {}

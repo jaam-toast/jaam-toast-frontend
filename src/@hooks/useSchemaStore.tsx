@@ -15,15 +15,13 @@ type Property = {
   options: JaamSchemaProperties;
 };
 
-type SchemaState = {
+type SchemaStore = {
   title: string;
   description?: string;
   type: string;
   properties: JaamSchema["properties"];
   currentEditProperty: Property;
-};
 
-type SchemaStore = SchemaState & {
   actions: {
     setSchema: (schema: JsonSchema) => void;
     setTitle: (title: string) => void;
@@ -44,7 +42,7 @@ type SchemaStore = SchemaState & {
   };
 };
 
-const initialState: SchemaState = {
+const initialState: Omit<SchemaStore, "actions"> = {
   title: "",
   description: "",
   type: "object",
@@ -153,6 +151,7 @@ export const useSchemaStore = create<SchemaStore>((set, get) => ({
     },
     editProperty: () => {
       const updatedProperties = { ...get().properties };
+      console.log("1", updatedProperties);
       const { originalNameForEditing, name, options } =
         get().currentEditProperty;
 
@@ -162,7 +161,7 @@ export const useSchemaStore = create<SchemaStore>((set, get) => ({
 
       set(state => ({
         properties: {
-          ...state.properties,
+          ...updatedProperties,
           [name]: options,
         },
       }));

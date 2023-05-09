@@ -1,11 +1,14 @@
 import { useState } from "react";
 
 import { TextField } from "../@shared";
-import { useProjectQuery, usePutProjectMutaion } from "../@hooks";
+import { useProjectQuery, useUpdateBuildOptionMutation } from "../@hooks";
 import { ValidationError } from "../@utils/createError";
 import * as css from "./index.css";
 
-import type { PutProjectOptions } from "../@types/api";
+import type {
+  UpdateProjectBuildOption,
+  UpdateProjectBuildOptions,
+} from "../@types/api";
 
 export function CommandSectionList({ projectName }: { projectName: string }) {
   const [buildCommand, setBuildCommand] = useState<string>("");
@@ -16,18 +19,21 @@ export function CommandSectionList({ projectName }: { projectName: string }) {
     throw new ValidationError("projectName not found");
   }
 
-  const updateCommand = usePutProjectMutaion();
-
-  const handleSaveClick = (
-    data: Partial<Pick<PutProjectOptions, "buildCommand" | "installCommand">>,
+  const handleSaveClick = <
+    T extends keyof Omit<UpdateProjectBuildOptions, "envList">,
+  >(
+    option: UpdateProjectBuildOption<T>,
   ) => {
-    if (!data || (!data.buildCommand && !data.installCommand)) {
-      // TODO toast
+    if (!option) {
       alert("Command data not found.");
+      return;
     }
     // TODO error handle
     try {
-      updateCommand.mutateAsync({ projectName, option: data });
+      useUpdateBuildOptionMutation<T>().mutateAsync({
+        projectName,
+        option,
+      });
     } catch (error) {}
   };
 
@@ -37,7 +43,7 @@ export function CommandSectionList({ projectName }: { projectName: string }) {
         <div className={css.sectionHead}>
           <span className={css.sectionTitle}>Build Command</span>
           <button
-            onClick={() => handleSaveClick({ buildCommand })}
+            onClick={() => handleSaveClick<"buildCommand">({ buildCommand })}
             className={css.saveButton}
           >
             save
@@ -52,7 +58,9 @@ export function CommandSectionList({ projectName }: { projectName: string }) {
         <div className={css.sectionHead}>
           <span className={css.sectionTitle}>Install Command</span>
           <button
-            onClick={() => handleSaveClick({ installCommand })}
+            onClick={() =>
+              handleSaveClick<"installCommand">({ installCommand })
+            }
             className={css.saveButton}
           >
             save
