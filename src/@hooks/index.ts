@@ -19,7 +19,7 @@ export * from "./useContentQuery";
 export * from "./useContentsListQuery";
 export * from "./useContentsMutation";
 export * from "./useContentsStore";
-export * from "./useAssetsMutation";
+// export * from "./useAssetsMutation";
 export * from "./useWebhookStore";
 
 export * from "./useSchemaQuery";

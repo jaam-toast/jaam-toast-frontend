@@ -3,7 +3,7 @@ import { ThreeDots } from "react-loader-spinner";
 
 import { TypeIcon } from "../@shared";
 import { PropertyList } from "./PropertyList";
-import { FieldTitle } from "./FieldTitle";
+import { TitleField } from "./TitleField";
 import { PropertyEditor } from "./PropertyEditor";
 import { useUpdateSchemaMutation } from "../@hooks/useSchemaMutation";
 import {
@@ -157,7 +157,7 @@ export function ModalSchemaInfo({
       {/**
        * schema edit mode
        */}
-      {isFieldEditMode ? (
+      {isFieldEditMode || isClickTypeIcon ? (
         <>
           {hasContents && (
             <section className={css.fieldNameSection}>
@@ -211,7 +211,7 @@ export function ModalSchemaInfo({
            */}
           <div className={css.wrapper}>
             <section>
-              <FieldTitle>Field List</FieldTitle>
+              <TitleField>Field List</TitleField>
               <div className={css.fieldList}>
                 <PropertyList
                   isEditable={!hasContents}

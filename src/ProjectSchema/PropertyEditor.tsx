@@ -1,4 +1,4 @@
-import { FieldTitle } from "./FieldTitle";
+import { TitleField } from "./TitleField";
 import { TypeIcon } from "../@shared";
 import { useCurrentEditProperty, useSetSchemaState } from "../@hooks";
 import * as css from "./PropertyEditor.css";
@@ -49,7 +49,7 @@ export function PropertyEditor() {
   return (
     <>
       <section>
-        <FieldTitle>Select a type for your content field</FieldTitle>
+        <TitleField>Select a type for your content field</TitleField>
         <div className={css.typeList}>
           {JAAM_SCHEMA_PROPERTY_TYPES.map(type => (
             <div
@@ -67,7 +67,7 @@ export function PropertyEditor() {
           ))}
         </div>
 
-        <FieldTitle>Select a option for your content field type</FieldTitle>
+        <TitleField>Select a option for your content field type</TitleField>
         <ul className={css.optionFieldList}>
           <li className={css.optionCheckField}>
             <input

@@ -3,7 +3,7 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { jsonSchemaToJaamSchema, jsonSchemaValidator } from "@jaam-schema/src";
 
 import { SelectBox } from "../@shared";
-import { FieldTitle } from "../ProjectSchema/FieldTitle";
+import { TitleField } from "../ProjectSchema/TitleField";
 import { ContentPropertyEditor } from "../ProjectContents/ContentPropertyEditor";
 import {
   useModal,
@@ -15,6 +15,7 @@ import {
 import * as css from "./index.css";
 
 import { DEFAULT_VALUE_FOR_TYPE } from "../@types/cms";
+import { ValidationError } from "../@utils/createError";
 
 // TODO preset
 // TODO 콘텐츠 작성중인 경우 페이지 벗어나거나 스키마 선택시 warning 메시지
@@ -28,19 +29,19 @@ export function NewContent() {
   const { closeModal } = useModal();
 
   if (!projectName) {
-    return <Navigate to="/error" />;
+    throw new ValidationError("projectName not found");
   }
 
   const { data: project, refetch } = useProjectQuery(projectName);
 
   if (!project) {
-    return <Navigate to="/error" />;
+    throw new ValidationError("project data not found");
   }
 
   const { schemaList, storageKey: token } = project;
 
   if (!schemaList || !schemaList.length) {
-    return <Navigate to="/error" />;
+    throw new ValidationError("schema data not found");
   }
 
   const { schema } = useMemo(
@@ -57,21 +58,21 @@ export function NewContent() {
     });
   }, [currentSchemaIndex, schema]);
 
-  const createContent = useCreateContentMutation({
-    onSuccess: () => {
-      alert("Success content creation");
-      closeModal();
-    },
-    onError: () => {
-      alert("Failed to create content. Please try again.");
-    },
-  });
+  const createContent = useCreateContentMutation();
+  //   onSuccess: () => {
+  //     alert("Success content creation");
+  //     closeModal();
+  //   },
+  //   onError: () => {
+  //     alert("Failed to create content. Please try again.");
+  //   },
+  // });
 
-  const handlePrevBtnClick = () => {
+  const handlePrevClick = () => {
     navigate(-1);
   };
 
-  const handleSaveBtnClick = () => {
+  const handleSaveClick = async () => {
     const { result, message } = jsonSchemaValidator({
       schema,
       content,
@@ -81,20 +82,21 @@ export function NewContent() {
       return alert(message);
     }
 
-    createContent.mutate({ token, schemaName: schema.title });
+    // TODO error handle
+    await createContent.mutateAsync({ token, schemaName: schema.title });
   };
 
   return (
     <div className={css.container}>
       <header className={css.header}>
         <button
-          onClick={handlePrevBtnClick}
+          onClick={handlePrevClick}
           className={`${css.button} ${css.prevButton}`}
         >
-          + Prev
+          Prev
         </button>
         <button
-          onClick={handleSaveBtnClick}
+          onClick={handleSaveClick}
           className={`${css.button} ${css.saveButton}`}
         >
           + Save
@@ -108,7 +110,7 @@ export function NewContent() {
         </div>
         <section className={css.schemaNameSection}>
           <div>
-            <FieldTitle>Schema Type</FieldTitle>
+            <TitleField>Schema Type</TitleField>
             <SelectBox
               options={schemaList?.map(data => data.schemaName) || ["Preset"]}
               defaultSelect={schemaList ? schemaList[0].schemaName : "Preset"}
@@ -124,7 +126,7 @@ export function NewContent() {
           {jaamSchemaPropertyList.map(([property, data]) => (
             <div key={property}>
               <div className={css.fieldHeader}>
-                <FieldTitle>{property}</FieldTitle>
+                <TitleField>{property}</TitleField>
                 <div className={css.fieldTypeWrapper}>
                   <div className={css.fieldType}>{data.type}</div>
                   {schema.required && schema.required.includes(property) && (
