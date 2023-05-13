@@ -17,7 +17,8 @@ import { NewContent } from "./NewContent";
 import { ContentInfo } from "./ContentInfo";
 import { ProjectAssets } from "./ProjectAssets";
 import { ProjectWebhook } from "./ProjectWebhook";
-import { NewWebhook } from "./ProjectWebhook/NewWebhook";
+import { NewWebhook } from "./NewWebhook";
+import { WebhookInfo } from "./WebhookInfo";
 import { ProjectSettings } from "./ProjectSettings";
 
 import { NotFound } from "./Error/NotFound";
@@ -89,6 +90,10 @@ export function App() {
             <Route
               path="/:userName/:projectName/webhook/new"
               element={<NewWebhook />}
+            />
+            <Route
+              path="/:userName/:projectName/webhook/:webhookName"
+              element={<WebhookInfo />}
             />
             <Route
               path="/:userName/:projectName/settings"

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 
@@ -8,13 +8,15 @@ import {
   useDeleteProjectOptionMutation,
   useSetWebhookList,
   useWebhookListState,
+  useSetConfirmModal,
+  useProjectQuery,
+  useSetWebhook,
 } from "../@hooks";
 import * as css from "./WebhookList.css";
 
 import { WEBHOOK_EVENTS_RECORD } from "../@types/cms";
-import type { WebhookEvent, WebhookForEditing, OrderMode } from "../@types/cms";
-import { Webhook } from "../@types/api";
-import { useSetConfirmModal } from "../@hooks";
+import type { WebhookEvent, OrderMode } from "../@types/cms";
+import type { Webhook } from "../@types/cms";
 
 export function WebhookList({
   projectName,
@@ -24,98 +26,30 @@ export function WebhookList({
   orderOption: OrderMode;
 }) {
   const navigate = useNavigate();
-  const [orderMode, setOrderMode] = useState<OrderMode>("ascending");
-  // TODO query 적용
-  // const { data: webhookListData } = useWebhookQuery(projectName);
-  const setWebhookList = useSetWebhookList();
-  const webhookList = useWebhookListState();
   const { openConfirm } = useSetConfirmModal();
+  const webhookList = useWebhookListState();
+  const { setWebhook } = useSetWebhook();
+  const setWebhookList = useSetWebhookList();
   const deleteWebhook = useDeleteProjectOptionMutation<"webhook">();
-
-  // MOCK data
-  const webhookListData: Webhook = {
-    DEPLOYMENT_UPDATED: [
-      {
-        name: "my_blog",
-        url: "https://my_blog_url",
-      },
-      {
-        name: "my_blog2",
-        url: "https://my_blog_url",
-      },
-    ],
-    CONTENT_CREATED: [
-      {
-        name: "my_web",
-        url: "https://my_blog_url",
-      },
-      {
-        name: "my_blog",
-        url: "https://my_blog_url",
-      },
-    ],
-    CONTENT_UPDATED: [
-      {
-        name: "my_blog",
-        url: "https://my_blog_url",
-      },
-      {
-        name: "my_blog",
-        url: "https://my_blog_url",
-      },
-    ],
-    CONTENT_DELETED: [
-      {
-        name: "my_blog",
-        url: "https://my_blog_url",
-      },
-      {
-        name: "my_blog",
-        url: "https://my_blog_url",
-      },
-    ],
-  };
+  const { data: project } = useProjectQuery(projectName);
 
   useEffect(() => {
-    setWebhookList(webhookListData);
+    setWebhookList(project?.webhookList ?? []);
   }, []);
 
-  const handleEditClick = () => {
-    navigate("new");
+  const handleEditClick = (webhook: Webhook) => {
+    setWebhook(webhook);
+    navigate(webhook.name);
   };
 
-  const handleDeleteClick = (webhook: WebhookForEditing) => {
-    // TODO 중복 줄이기
-    const newWebhook = {
-      DEPLOYMENT_UPDATED: webhook.events.has("DEPLOYMENT_UPDATED")
-        ? webhookListData.DEPLOYMENT_UPDATED.filter(
-            data => data.name !== webhook.name,
-          )
-        : webhookListData.DEPLOYMENT_UPDATED,
-      CONTENT_CREATED: webhook.events.has("CONTENT_CREATED")
-        ? webhookListData.CONTENT_CREATED.filter(
-            data => data.name !== webhook.name,
-          )
-        : webhookListData.CONTENT_CREATED,
-      CONTENT_UPDATED: webhook.events.has("CONTENT_UPDATED")
-        ? webhookListData.CONTENT_UPDATED.filter(
-            data => data.name !== webhook.name,
-          )
-        : webhookListData.CONTENT_UPDATED,
-      CONTENT_DELETED: webhook.events.has("CONTENT_DELETED")
-        ? webhookListData.CONTENT_DELETED.filter(
-            data => data.name !== webhook.name,
-          )
-        : webhookListData.CONTENT_DELETED,
-    };
-
+  const handleDeleteClick = (webhook: Webhook) => {
     openConfirm({
       message: `Do you want to delete ${name} webhook?`,
-      onConfirm: async () => {
-        await deleteWebhook.mutateAsync({
+      onConfirm: () => {
+        deleteWebhook.mutate({
           projectName,
           option: {
-            webhook: newWebhook,
+            webhook,
           },
         });
       },
@@ -141,48 +75,49 @@ export function WebhookList({
         </tr>
       </thead>
       <tbody>
-        {sortBy<WebhookForEditing>({
+        {sortBy<Webhook>({
           mode: orderOption,
-          data: webhookList,
+          data: project?.webhookList ?? webhookList,
           fieldName: "name",
-        }).map(data => (
-          <tr key={data.name} className={css.row}>
+        }).map(webhook => (
+          <tr key={webhook.name} className={css.row}>
             <td className={css.checkboxField}>
               <Checkbox
                 value={JSON.stringify({
-                  name: data.name,
-                  url: data.url,
-                  event: data.events,
+                  name: webhook.name,
+                  url: webhook.url,
+                  event: webhook.events,
                 })}
                 valuesCount={webhookList.length}
               />
             </td>
             <td className={css.cell}>
-              <div>{data.name}</div>
+              <div>{webhook.name}</div>
             </td>
             <td className={css.cell}>
-              <div>{data.url}</div>
+              <div>{webhook.url}</div>
             </td>
             <td className={css.cell}>
-              {[...data.events].map(event => (
-                <ul key={event}>
-                  <li>{WEBHOOK_EVENTS_RECORD[event as WebhookEvent]}</li>
-                </ul>
-              ))}
+              {webhook.events &&
+                webhook.events.map(event => (
+                  <ul key={event}>
+                    <li>{WEBHOOK_EVENTS_RECORD[event as WebhookEvent]}</li>
+                  </ul>
+                ))}
             </td>
             <td className={css.optionCell}>
               <div className={css.optionBox}>
                 <BsFillPencilFill
                   className={css.optionIcon}
-                  onClick={handleEditClick}
+                  onClick={() => handleEditClick(webhook)}
                 />
                 <BsFillTrashFill
                   className={css.optionIcon}
                   onClick={() =>
                     handleDeleteClick({
-                      name: data.name,
-                      url: data.url,
-                      events: data.events,
+                      name: webhook.name,
+                      url: webhook.url,
+                      events: webhook.events,
                     })
                   }
                 />
