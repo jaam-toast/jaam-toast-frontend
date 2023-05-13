@@ -1,11 +1,11 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 import { TextField, TypeIcon } from "../@shared";
 import { TitleField } from "./TitleField";
 import { PropertyEditor } from "./PropertyEditor";
 import { PropertyList } from "./PropertyList";
 import {
-  useModal,
   useCurrentEditProperty,
   useSchemaState,
   useSetSchemaState,
@@ -13,20 +13,13 @@ import {
   useSetConfirmModal,
 } from "../@hooks";
 import { useCreateSchemaMutation } from "../@hooks/useSchemaMutation";
+import { NotFoundError } from "../@utils/createError";
 import * as css from "./ModalNewSchema.css";
 
-import { ValidationError } from "../@utils/createError";
-import { toast } from "react-toastify";
-
-type Options = {
-  projectName: string;
-};
-
-export function ModalNewSchema({ projectName }: Options) {
+export function ModalNewSchema({ projectName }: { projectName: string }) {
   const [isFieldEditMode, setIsFieldEditMode] = useState<boolean>(false);
   const [isClickTypeIcon, setIsClickTypeIcon] = useState<boolean>(false);
   const [currentMenu, setCurrentMenu] = useState<string>("schema");
-
   const {
     setTitle,
     setDescription,
@@ -38,25 +31,14 @@ export function ModalNewSchema({ projectName }: Options) {
   } = useSetSchemaState();
   const schema = useSchemaState();
   const currentEditProperty = useCurrentEditProperty();
-  const { closeModal } = useModal();
   const { openConfirm } = useSetConfirmModal();
 
   const { data: schemaList } = useProjectSchemaQuery(projectName);
 
   if (!schemaList) {
-    throw new ValidationError("schemaList not found");
+    throw new NotFoundError("schemaList not found");
   }
 
-  // const createSchema = useCreateSchemaMutation({
-  //   onSuccess: () => {
-  //     reset();
-  //     alert("Success schema creation");
-  //     closeModal();
-  //   },
-  //   onError: () => {
-  //     alert("Failed to create schema. Please try again.");
-  //   },
-  // });
   const createSchema = useCreateSchemaMutation();
 
   const handleChangePropertyName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,7 +53,7 @@ export function ModalNewSchema({ projectName }: Options) {
 
   const handleClickAdd = () => {
     if (!currentEditProperty.name) {
-      return alert("The name field must not be empty.");
+      return toast.error("The name field must not be empty.");
     }
 
     addProperty();
@@ -87,7 +69,7 @@ export function ModalNewSchema({ projectName }: Options) {
 
   const handleClickEdit = () => {
     if (!currentEditProperty.name) {
-      return alert("The name field must not be empty.");
+      return toast.error("The name field must not be empty.");
     }
 
     editProperty();
@@ -96,18 +78,7 @@ export function ModalNewSchema({ projectName }: Options) {
   };
 
   const handleClickSave = async () => {
-    const { title, type, properties } = schema;
-
-    if (!title || !type || !Object.keys(properties).length) {
-      return;
-    }
-
-    try {
-      await createSchema.mutateAsync({ projectName });
-    } catch (error) {
-      throw error;
-      return toast.error("error");
-    }
+    createSchema.mutate({ projectName });
   };
 
   const handleClickDelete = ({ propertyName }: { propertyName: string }) => {

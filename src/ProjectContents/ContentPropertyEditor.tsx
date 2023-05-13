@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { TextField } from "../@shared";
 import { useContentsState, useSetContentsState } from "../@hooks";
 import * as css from "./ContentPropertyEditor.css";
@@ -6,7 +8,6 @@ import type {
   JaamSchemaPropertyType,
   JaamSchemaContentProperty,
 } from "@jaam-schema/src";
-import { useState } from "react";
 
 type ContentPropertyEditorProps = {
   type: JaamSchemaPropertyType;

@@ -1,42 +1,28 @@
-import { Suspense } from "react";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { jsonSchemaValidator } from "@jaam-schema/src";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 dayjs.extend(utc);
+import { toast } from "react-toastify";
 
 import {
   ContentPropertyList,
   ContentPropertyListSkeleton,
 } from "./ContentPropertyList";
-import {
-  useUpdateContentMutation,
-  useContentsState,
-  useSetContentsState,
-} from "../@hooks";
+import { useUpdateContentMutation, useContentsState } from "../@hooks";
+import { AsyncBoundary } from "../Error/AsyncBoundary";
+import { NotFoundError } from "../@utils/createError";
 import * as css from "./index.css";
 
 export function ContentInfo() {
   const navigate = useNavigate();
   const { projectName, schemaName, contentId } = useParams();
   const { content: contentState, schema, token } = useContentsState();
-  const { reset } = useSetContentsState();
+  const updateContent = useUpdateContentMutation();
 
   if (!projectName || !contentId || !schemaName) {
-    return <Navigate to="/error" />;
+    throw new NotFoundError("projectName, contentId not found");
   }
-
-  // TODO async로 변경
-  const updateContent = useUpdateContentMutation({
-    onSuccess: () => {
-      alert("Success content update");
-      reset();
-      navigate(-1);
-    },
-    onError: () => {
-      alert("Failed to update content. Please try again.");
-    },
-  });
 
   const handlePrevBtnClick = () => {
     navigate(-1);
@@ -49,7 +35,7 @@ export function ContentInfo() {
     });
 
     if (!result) {
-      return alert(message);
+      return toast.error(message);
     }
 
     updateContent.mutate({ token, schemaName, contentId });
@@ -99,13 +85,13 @@ export function ContentInfo() {
             </div>
           )}
         </header>
-        <Suspense fallback={<ContentPropertyListSkeleton />}>
+        <AsyncBoundary suspenseFallback={<ContentPropertyListSkeleton />}>
           <ContentPropertyList
             schemaName={schemaName}
             projectName={projectName}
             contentId={contentId}
           />
-        </Suspense>
+        </AsyncBoundary>
       </section>
     </div>
   );

@@ -1,8 +1,14 @@
 import { useState } from "react";
 
 import { TextField } from "../@shared";
-import { useProjectQuery, useUpdateBuildOptionMutation } from "../@hooks";
-import { ValidationError } from "../@utils/createError";
+import {
+  useBuildOptions,
+  useProjectQuery,
+  useSetBuildOptions,
+  useUpdateBuildOptionMutation,
+} from "../@hooks";
+import { ERROR } from "../@config/message";
+import { NotFoundError } from "../@utils/createError";
 import * as css from "./index.css";
 
 import type {
@@ -11,63 +17,107 @@ import type {
 } from "../@types/api";
 
 export function CommandSectionList({ projectName }: { projectName: string }) {
-  const [buildCommand, setBuildCommand] = useState<string>("");
-  const [installCommand, setInstallCommand] = useState<string>("");
+  const [warningMessage, setWarningMessage] = useState({
+    buildCommand: "",
+    installCommand: "",
+  });
+  const setBuildOptions = useSetBuildOptions();
+  const { buildCommand, installCommand } = useBuildOptions();
   const { data: project } = useProjectQuery(projectName);
+  const updateCommand = useUpdateBuildOptionMutation();
 
   if (!project) {
-    throw new ValidationError("projectName not found");
+    throw new NotFoundError(ERROR.NOT_FOUND.PARAMETER);
   }
 
-  const handleSaveClick = <
-    T extends keyof Omit<UpdateProjectBuildOptions, "envList">,
+  const handleSaveClick = async <
+    CommandOption extends keyof Omit<UpdateProjectBuildOptions, "envList">,
   >(
-    option: UpdateProjectBuildOption<T>,
+    option: UpdateProjectBuildOption<CommandOption>,
   ) => {
     if (!option) {
-      alert("Command data not found.");
       return;
     }
-    // TODO error handle
-    try {
-      useUpdateBuildOptionMutation<T>().mutateAsync({
-        projectName,
-        option,
-      });
-    } catch (error) {}
+
+    if (
+      "installCommand" in option &&
+      installCommand !== "npm install" &&
+      installCommand != "yarn"
+    ) {
+      setWarningMessage(prev => ({
+        ...prev,
+        installCommand: "It should be either `npm install` or `yarn`.",
+      }));
+
+      return;
+    }
+
+    setWarningMessage({
+      buildCommand: "",
+      installCommand: "",
+    });
+
+    updateCommand.mutate({
+      projectName,
+      option: option,
+    });
   };
 
   return (
     <>
-      <section className={css.settingOptionSection}>
+      <section className={css.commandOptionSection}>
         <div className={css.sectionHead}>
           <span className={css.sectionTitle}>Build Command</span>
           <button
-            onClick={() => handleSaveClick<"buildCommand">({ buildCommand })}
-            className={css.saveButton}
-          >
-            save
-          </button>
-        </div>
-        <TextField
-          onTextFieldChange={setBuildCommand}
-          placeholder={project.buildCommand}
-        />
-      </section>
-      <section className={css.settingOptionSection}>
-        <div className={css.sectionHead}>
-          <span className={css.sectionTitle}>Install Command</span>
-          <button
+            disabled={!buildCommand}
             onClick={() =>
-              handleSaveClick<"installCommand">({ installCommand })
+              handleSaveClick<"buildCommand">({
+                buildCommand: buildCommand ?? "",
+              })
             }
             className={css.saveButton}
           >
             save
           </button>
         </div>
+        <p
+          className={
+            warningMessage.buildCommand ? css.warningMessage : css.baseMessage
+          }
+        >
+          {warningMessage.buildCommand}
+        </p>
         <TextField
-          onTextFieldChange={setInstallCommand}
+          delay={300}
+          onTextFieldChange={setBuildOptions("buildCommand")}
+          placeholder={project.buildCommand}
+        />
+      </section>
+      <section className={css.commandOptionSection}>
+        <div className={css.sectionHead}>
+          <span className={css.sectionTitle}>Install Command</span>
+          <button
+            disabled={!installCommand}
+            onClick={() =>
+              handleSaveClick<"installCommand">({
+                installCommand: installCommand ?? "",
+              })
+            }
+            className={css.saveButton}
+          >
+            save
+          </button>
+        </div>
+        <p
+          className={
+            warningMessage.installCommand ? css.warningMessage : css.baseMessage
+          }
+        >
+          {warningMessage.installCommand}
+        </p>
+        <TextField
+          delay={300}
+          onTextFieldChange={setBuildOptions("installCommand")}
           placeholder={project.installCommand}
         />
       </section>

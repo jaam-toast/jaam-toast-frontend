@@ -1,4 +1,5 @@
 import { useState } from "react";
+import isURL from "validator/lib/isURL";
 
 import { TextField } from "../@shared";
 import {
@@ -6,42 +7,38 @@ import {
   useUpdateProjectMutaion,
   useDeleteProjectOptionMutation,
 } from "../@hooks";
-import { ValidationError } from "../@utils/createError";
+import { ERROR } from "../@config/message";
+import { NotFoundError } from "../@utils/createError";
 import * as css from "./index.css";
 
 import type { UpdateProjectOption } from "../@types/api";
 
 export function DomainSection({ projectName }: { projectName: string }) {
   const [domain, setDomain] = useState<string>("");
+  const [warningMessage, setWarningMessage] = useState("");
   const { data: project } = useProjectQuery(projectName);
 
   if (!project) {
-    throw new ValidationError("project not found");
+    throw new NotFoundError(ERROR.NOT_FOUND.PARAMETER);
   }
+
   const { buildDomain, originalBuildDomain } = project;
   const updateDomain = useUpdateProjectMutaion<"buildDomain">();
   const deleteDomain = useDeleteProjectOptionMutation<"buildDomain">();
 
-  // TODO error handle
-  const handleDeleteClick = async (domain: string) => {
-    try {
-      await deleteDomain.mutateAsync({
-        projectName,
-        option: { buildDomain: domain },
-      });
-    } catch (error) {}
+  const handleDeleteClick = (domain: string) => {
+    deleteDomain.mutate({
+      projectName,
+      option: { buildDomain: domain },
+    });
   };
 
   const handleAddClick = (data: UpdateProjectOption<"buildDomain">) => {
     if (!data) {
-      // TODO toast
-      alert("Domain data not found");
+      return setWarningMessage("Domain data not found");
     }
 
-    // TODO error handle
-    try {
-      updateDomain.mutateAsync({ projectName, option: data });
-    } catch (error) {}
+    updateDomain.mutate({ projectName, option: data });
   };
 
   return (
@@ -50,22 +47,33 @@ export function DomainSection({ projectName }: { projectName: string }) {
         <span className={css.sectionTitle}>Domains</span>
       </div>
       <p className={css.sectionDescription}>
-        You can register a domain using a{" "}
-        <span className={css.sectionDescriptionHighlight}>CNAME</span> record.{" "}
+        You can register a domain using a
+        <span className={css.sectionDescriptionHighlight}>CNAME</span> record.
         <br />
-        The value of the custom CNAME record must point to{" "}
+        The value of the custom CNAME record must point to
         <span className={css.sectionDescriptionHighlight}>
           {originalBuildDomain}
         </span>
         .
       </p>
+      <p className={warningMessage ? css.warningMessage : css.baseMessage}>
+        {warningMessage}
+      </p>
       <div className={css.sectionOptionWrapper}>
         <TextField
-          onTextFieldChange={setDomain}
+          onTextFieldChange={text => {
+            setDomain(text);
+            if (!isURL(text)) {
+              return setWarningMessage("The URL is not formatted correctly");
+            }
+
+            setWarningMessage("");
+          }}
           placeholder="your-website.com"
           delay={500}
         />
         <button
+          disabled={!domain}
           onClick={() => handleAddClick({ buildDomain: domain })}
           className={css.addButton}
         >

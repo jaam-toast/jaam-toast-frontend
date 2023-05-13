@@ -20,6 +20,10 @@ export function Pagination({
   const totalPageCount = Math.ceil(contentsCount / contentsLimit);
   const offset = (Math.ceil(page / pageLimit) - 1) * pageLimit;
 
+  if (!totalPageCount) {
+    return null;
+  }
+
   const handleNextPageClick = () => {
     page + pageLimit > totalPageCount
       ? onClickPage(totalPageCount)

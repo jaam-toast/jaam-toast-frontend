@@ -7,21 +7,37 @@ import {
 import { BsStack } from "react-icons/bs";
 
 import { ColorBox, EmptyCard } from "../@shared";
-import { useModal, useProjectQuery } from "../@hooks";
-import { ModalContentsKey } from "./ModalContentsKey";
+import { useContentsCountQuery, useModal, useProjectQuery } from "../@hooks";
 import { COLORS, ColorKeys } from "../@config/colors";
+import { NotFoundError } from "../@utils/createError";
+import { ModalContentsKey } from "./ModalContentsKey";
+import { ERROR } from "../@config/message";
 import * as css from "./CmsInfo.css";
 
-type Options = {
+type CmsInfoProps = {
   userName: string;
   projectName: string;
 };
 
-export function CmsInfo({ userName, projectName }: Options) {
+export function CmsInfo({ userName, projectName }: CmsInfoProps) {
   const { openModal } = useModal();
 
   const { data: project } = useProjectQuery(projectName);
+
+  if (!project) {
+    throw new NotFoundError(ERROR.NOT_FOUND.PROJECT_DATA);
+  }
+
   const schemaListCount = project?.schemaList?.length || 0;
+
+  // const contentCountList = useContentsCountQuery({
+  //   schemaList: project?.schemaList,
+  //   token: project?.storageKey,
+  // });
+
+  // if (!contentCountList) {
+  //   throw new NotFoundError(ERROR.NOT_FOUND.CONTENT_DATA);
+  // }
 
   const handleClickKey = () => {
     openModal({
@@ -57,7 +73,7 @@ export function CmsInfo({ userName, projectName }: Options) {
                 <p className={css.infoText}>0</p>
               </li>
             </Link>
-            <Link to={`/${userName}/${projectName}/contents`}>
+            {/* <Link to={`/${userName}/${projectName}/contents`}>
               <li className={css.cmsInfo}>
                 <div className={css.cmsInfoLeft}>
                   <ColorBox>
@@ -65,9 +81,15 @@ export function CmsInfo({ userName, projectName }: Options) {
                   </ColorBox>
                   <span className={css.infoFieldTitle}>Contents</span>
                 </div>
-                <p className={css.infoText}>5</p>
+                <p className={css.infoText}>
+                  {contentCountList.reduce(
+                    (count, cur) =>
+                      typeof cur.data === "number" ? count + cur.data : 0,
+                    0,
+                  )}
+                </p>
               </li>
-            </Link>
+            </Link> */}
             <li className={css.contentsKey} onClick={handleClickKey}>
               <div className={css.cmsInfoLeft}>
                 <ColorBox color={COLORS.STRAWBERRY_LIGHT as ColorKeys}>

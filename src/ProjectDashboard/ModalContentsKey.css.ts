@@ -21,17 +21,20 @@ export const header = style([
   {
     position: "sticky",
     top: 0,
-    paddingBottom: "1rem",
     backgroundColor: "inherit",
     fontWeight: 400,
   },
 ]);
 
-export const headerFirstLine = style([s.flex, s.flexSpaceBetween]);
+export const headerFirstLine = style([
+  s.flex,
+  s.flexSpaceBetween,
+  { padding: "1.5rem 0" },
+]);
 
 export const fieldSubText = style([
   {
-    margin: "0.5rem 0.5rem 2rem 0.5rem",
+    margin: "0.5rem 0.5rem",
     lineHeight: "1.5rem",
     minHeight: "1.5rem",
     maxHeight: "2rem",
@@ -45,7 +48,12 @@ export const fieldWrapper = style([s.flexColumn, { gap: "1rem" }]);
 export const settingOptionSection = style([
   s.border,
   s.flexColumn,
-  { gap: "1.5rem", padding: "1.5rem 2rem", backgroundColor: COLORS.LAVENDER },
+  {
+    gap: "1.5rem",
+    padding: "1.5rem 2rem",
+    marginBottom: "2rem",
+    backgroundColor: COLORS.LAVENDER,
+  },
 ]);
 
 export const sectionHead = style([s.flex, s.flexSpaceBetween]);
@@ -64,7 +72,24 @@ export const contentsKey = style([
   s.border,
   s.pointer,
   {
-    backgroundColor: "#fff",
+    backgroundColor: COLORS.WHITE,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    padding: "0.7rem 1.4rem",
+    userSelect: "none",
+    color: COLORS.GREY,
+
+    ":hover": {
+      backgroundColor: COLORS.LEMON,
+    },
+  },
+]);
+
+export const contentsApiExample = style([
+  s.border,
+  {
+    backgroundColor: COLORS.WHITE,
     overflow: "hidden",
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",

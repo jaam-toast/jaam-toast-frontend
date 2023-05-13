@@ -1,28 +1,33 @@
 import {
   useBuildOptions,
   useProjectQuery,
+  useSetBuildOptions,
   useUpdateBuildOptionMutation,
 } from "../@hooks";
 import { EnvField } from "../@shared";
-import { ValidationError } from "../@utils/createError";
+import { ERROR } from "../@config/message";
+import { NotFoundError } from "../@utils/createError";
 import * as css from "./index.css";
 
 import type { UpdateProjectBuildOption } from "../@types/api";
+import { useEffect } from "react";
 
 export function EnvSection({ projectName }: { projectName: string }) {
   const { data: project } = useProjectQuery(projectName);
   const { envList } = useBuildOptions();
-  const updateEnv = useUpdateBuildOptionMutation<"envList">();
+  const setEnv = useSetBuildOptions()("envList");
+  const updateEnv = useUpdateBuildOptionMutation();
 
   if (!project) {
-    throw new ValidationError("schema, project not found");
+    throw new NotFoundError(ERROR.NOT_FOUND.PARAMETER);
   }
 
-  // TODO error toast
+  useEffect(() => {
+    setEnv(project?.envList);
+  }, []);
+
   const handleSaveClick = async (data: UpdateProjectBuildOption<"envList">) => {
-    try {
-      await updateEnv.mutateAsync({ projectName, option: data });
-    } catch (error) {}
+    updateEnv.mutate({ projectName, option: data });
   };
 
   return (
@@ -30,6 +35,10 @@ export function EnvSection({ projectName }: { projectName: string }) {
       <div className={css.sectionHead}>
         <span className={css.sectionTitle}>Environtment Variables</span>
         <button
+          disabled={
+            !envList.length ||
+            JSON.stringify(envList) == JSON.stringify(project.envList)
+          }
           onClick={() => handleSaveClick({ envList })}
           className={css.saveButton}
         >
