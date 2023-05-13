@@ -1,9 +1,10 @@
 import { Navigate } from "react-router-dom";
 import { useErrorBoundary } from "react-error-boundary";
 
-import type { AxiosError } from "axios";
-
 import { Error } from ".";
+import { HttpError } from "../@utils/createError";
+
+import type { AxiosError } from "axios";
 
 export function HttpErrorFallback({ error }: { error: AxiosError }) {
   const { resetBoundary } = useErrorBoundary();
@@ -29,5 +30,11 @@ export function HttpErrorFallback({ error }: { error: AxiosError }) {
     return <Navigate to="/error" />;
   }
 
-  return <Error code={error.response.status} onResetError={resetBoundary} />;
+  return (
+    <Error
+      code={error.response.status}
+      onResetError={resetBoundary}
+      message={new HttpError(error).message}
+    />
+  );
 }
