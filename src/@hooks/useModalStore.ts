@@ -34,7 +34,6 @@ type ModalStore = {
       message: string;
       onConfirm: () => void;
     }) => void;
-    openAlert: (message: string) => void;
     closeConfirm: () => void;
     closeModal: () => void;
   };
@@ -64,10 +63,8 @@ export const useModalStore = create<ModalStore>((set, get) => ({
       });
     },
     openConfirm: ({ message, onConfirm }) => {
-      console.log("클릭");
       set({ isOpenConfirmModal: true, confirmMessage: message, onConfirm });
     },
-    openAlert: message => {},
     closeConfirm: () => {
       set({ isOpenConfirmModal: false, confirmMessage: "" });
     },

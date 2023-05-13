@@ -5,7 +5,8 @@ import { usePresetBuildOptions } from "./usePresetBuildOptionStore";
 import { useAuth } from "./useAuth";
 import APIClient from "../@utils/api";
 
-import type { Framework, Env, NodeVersion } from "../@types/build";
+import { Env } from "../@types/project";
+import type { Framework, NodeVersion } from "../@types/build";
 
 type BuildOptionsStore = {
   projectName: string | null;

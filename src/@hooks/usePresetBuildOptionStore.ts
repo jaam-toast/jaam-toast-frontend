@@ -7,7 +7,7 @@ import { useAuth } from "./useAuth";
 import APIClient from "../@utils/api";
 
 import type { Framework, NodeVersion } from "../@types/build";
-import type { Space } from "../@types/api";
+import type { Space } from "../@types/user";
 
 export type PresetBuildOptionStore = {
   space: Space | null;

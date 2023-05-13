@@ -2,7 +2,8 @@ import axios, { AxiosInstance } from "axios";
 
 import Config from "../@config";
 
-import type { Content, ContentsData, Response } from "../@types/api";
+import type { Response } from "../@types/api";
+import type { Content, ContentsData } from "../@types/cms";
 import type { JaamSchemaContent } from "@jaam-schema/src";
 
 export class ContentsAPIClient {
@@ -28,16 +29,16 @@ export class ContentsAPIClient {
 
   async getContentsList({
     schemaName,
-    page,
-    pageLength,
-    sort,
-    order,
+    page = 1,
+    pageLength = 20,
+    sort = "createAt",
+    order = "ascending",
   }: {
     schemaName: string;
-    page: number;
-    pageLength: number;
-    sort: string;
-    order: string;
+    page?: number;
+    pageLength?: number;
+    sort?: string;
+    order?: string;
   }): Promise<ContentsData> {
     try {
       const { data } = await this.client().get<Response<ContentsData>>(
@@ -131,6 +132,25 @@ export class ContentsAPIClient {
             contentsId: contentIds,
           },
         },
+      );
+
+      return data.message;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async createAsset({
+    schemaName,
+    assets,
+  }: {
+    schemaName: string;
+    assets: string;
+  }): Promise<string> {
+    try {
+      const { data } = await this.client().post<Response<string>>(
+        `/storage/${schemaName}/assets`,
+        assets,
       );
 
       return data.message;

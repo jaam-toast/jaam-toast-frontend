@@ -1,21 +1,19 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import axios, { AxiosInstance } from "axios";
 
 import Config from "../@config";
-import {
+
+import type { Repo, Space, User } from "../@types/user";
+import type {
   CreateProjectOptions,
-  Project,
-  ProjectId,
-  Repo,
   Response,
-  Space,
-  User,
-  SchemaData,
   UpdateProjectOption,
   UpdateProjectOptions,
-  UpdateProjectBuildOption,
   UpdateProjectBuildOptions,
   DeleteProjectOption,
+  DeleteProjectOptions,
 } from "../@types/api";
+import type { Project, ProjectId } from "src/@types/project";
+import type { SchemaData } from "../@types/cms";
 
 class APIClient {
   private accessToken: string = "";
@@ -143,7 +141,7 @@ class APIClient {
   }): Promise<string> {
     try {
       const { data } = await this.client().patch<Response<string>>(
-        `/projects/${projectName}`,
+        `/projects/${projectName}/options`,
         updateOption,
       );
 
@@ -153,12 +151,12 @@ class APIClient {
     }
   }
 
-  async updateProjectBuildOption<T extends keyof UpdateProjectBuildOptions>({
+  async updateProjectBuildOption({
     projectName,
     updateBuildOption,
   }: {
     projectName: string;
-    updateBuildOption: UpdateProjectBuildOption<T>;
+    updateBuildOption: Partial<UpdateProjectBuildOptions>;
   }): Promise<string> {
     try {
       const { data } = await this.client().post<Response<string>>(
@@ -184,7 +182,7 @@ class APIClient {
     }
   }
 
-  async deleteProjectOption<T extends keyof UpdateProjectOptions>({
+  async deleteProjectOption<T extends keyof DeleteProjectOptions>({
     projectName,
     deleteOption,
   }: {
@@ -193,7 +191,7 @@ class APIClient {
   }): Promise<string> {
     try {
       const { data } = await this.client().delete<Response<string>>(
-        `/projects/${projectName}`,
+        `/projects/${projectName}/options`,
         {
           data: deleteOption,
         },
