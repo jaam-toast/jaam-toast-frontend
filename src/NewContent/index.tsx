@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { jsonSchemaToJaamSchema, jsonSchemaValidator } from "@jaam-schema/src";
+import { toast } from "react-toastify";
 
 import { SelectBox } from "../@shared";
 import { TitleField } from "../ProjectSchema/TitleField";
 import { ContentPropertyEditor } from "../ProjectContents/ContentPropertyEditor";
 import {
-  useModal,
   useProjectQuery,
   useContentsState,
   useSetContentsState,
@@ -14,11 +14,8 @@ import {
 } from "../@hooks";
 import * as css from "./index.css";
 
-import { DEFAULT_VALUE_FOR_TYPE } from "../@types/cms";
-import { ValidationError } from "../@utils/createError";
-
-// TODO preset
-// TODO 콘텐츠 작성중인 경우 페이지 벗어나거나 스키마 선택시 warning 메시지
+import { SCHEMA_DEFAULT_VALUE_FOR_TYPE } from "../@types/cms";
+import { NotFoundError } from "../@utils/createError";
 
 export function NewContent() {
   const navigate = useNavigate();
@@ -26,22 +23,22 @@ export function NewContent() {
   const [currentSchemaIndex, setCurrentSchemaIndex] = useState<number>(0);
   const { content, contentsErrorMessage } = useContentsState();
   const { setContentProperty, reset } = useSetContentsState();
-  const { closeModal } = useModal();
+  const createContent = useCreateContentMutation();
 
   if (!projectName) {
-    throw new ValidationError("projectName not found");
+    throw new NotFoundError("projectName not found");
   }
 
-  const { data: project, refetch } = useProjectQuery(projectName);
+  const { data: project } = useProjectQuery(projectName);
 
   if (!project) {
-    throw new ValidationError("project data not found");
+    throw new NotFoundError("project data not found");
   }
 
   const { schemaList, storageKey: token } = project;
 
   if (!schemaList || !schemaList.length) {
-    throw new ValidationError("schema data not found");
+    throw new NotFoundError("schema data not found");
   }
 
   const { schema } = useMemo(
@@ -54,19 +51,12 @@ export function NewContent() {
 
   useEffect(() => {
     jaamSchemaPropertyList.forEach(([name, data]) => {
-      setContentProperty({ name, content: DEFAULT_VALUE_FOR_TYPE[data.type] });
+      setContentProperty({
+        name,
+        content: SCHEMA_DEFAULT_VALUE_FOR_TYPE[data.type],
+      });
     });
   }, [currentSchemaIndex, schema]);
-
-  const createContent = useCreateContentMutation();
-  //   onSuccess: () => {
-  //     alert("Success content creation");
-  //     closeModal();
-  //   },
-  //   onError: () => {
-  //     alert("Failed to create content. Please try again.");
-  //   },
-  // });
 
   const handlePrevClick = () => {
     navigate(-1);
@@ -79,11 +69,12 @@ export function NewContent() {
     });
 
     if (!result) {
-      return alert(message);
+      return toast.error(message);
     }
 
-    // TODO error handle
     await createContent.mutateAsync({ token, schemaName: schema.title });
+
+    navigate(-1);
   };
 
   return (

@@ -9,6 +9,8 @@ dayjs.extend(relativeTime);
 import { Favicon } from "./Favicon";
 import { Avatar } from "../@shared";
 import { useProjectQuery, useUserQuery } from "../@hooks";
+import { NotFoundError } from "../@utils/createError";
+import { ERROR } from "../@config/message";
 import * as css from "./ProjectCard.css";
 
 import { FRAMEWORK_DOMAIN } from "../@types/build";
@@ -18,9 +20,8 @@ export function ProjectCard({ projectId }: { projectId: string }) {
   const { data: userData } = useUserQuery();
   const navigate = useNavigate();
 
-  // TODO error
   if (!project || !userData) {
-    return null;
+    throw new NotFoundError(ERROR.NOT_FOUND.ALL);
   }
 
   return (

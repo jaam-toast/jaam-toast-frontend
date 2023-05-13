@@ -1,30 +1,28 @@
+import { toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import omit from "lodash/omit";
 
 import { ContentsAPIClient } from "../@utils/contentsAPI";
 import { useContentsState } from "./useContentsStore";
+import { ValidationError } from "../@utils/createError";
+import { ERROR, SUCCESS } from "../@config/message";
 
-type Options = {
-  onSuccess?: (data?: string) => Promise<unknown> | unknown;
-  onError?: (error?: unknown) => Promise<unknown> | unknown;
-};
-
-export function useCreateContentMutation({ onSuccess, onError }: Options) {
+export function useCreateContentMutation() {
   const { content } = useContentsState();
 
   return useMutation(
     ["content-create"],
     async ({ token, schemaName }: { token: string; schemaName: string }) => {
       if (!content) {
-        throw Error("Cannot find content data.");
+        throw new ValidationError(ERROR.NOT_FOUND.CONTENT_DATA);
       }
 
       if (!token) {
-        throw Error("Cannot find api key.");
+        throw new ValidationError("Cannot find api key.");
       }
 
       if (!schemaName) {
-        throw Error("Cannot find schema name.");
+        throw new ValidationError(ERROR.NOT_FOUND.SCHEMA_NAME);
       }
 
       const contentsAPI = new ContentsAPIClient().setToken(token);
@@ -32,13 +30,12 @@ export function useCreateContentMutation({ onSuccess, onError }: Options) {
       return contentsAPI.createContent({ schemaName, content });
     },
     {
-      onSuccess,
-      onError,
+      onSuccess: () => toast.success(SUCCESS.CREATE),
     },
   );
 }
 
-export function useUpdateContentMutation({ onSuccess, onError }: Options) {
+export function useUpdateContentMutation() {
   const { content } = useContentsState();
 
   return useMutation(
@@ -53,15 +50,15 @@ export function useUpdateContentMutation({ onSuccess, onError }: Options) {
       contentId: string;
     }) => {
       if (!content) {
-        throw Error("Cannot find content data.");
+        throw new ValidationError(ERROR.NOT_FOUND.CONTENT_DATA);
       }
 
       if (!token) {
-        throw Error("Cannot find api key.");
+        throw new ValidationError("Cannot find api key.");
       }
 
       if (!schemaName) {
-        throw Error("Cannot find schema name.");
+        throw new ValidationError(ERROR.NOT_FOUND.SCHEMA_NAME);
       }
 
       const contentsAPI = new ContentsAPIClient().setToken(token);
@@ -73,13 +70,12 @@ export function useUpdateContentMutation({ onSuccess, onError }: Options) {
       });
     },
     {
-      onSuccess,
-      onError,
+      onSuccess: () => toast.success(SUCCESS.UPDATE),
     },
   );
 }
 
-export function useDeleteContentsMutation({ onSuccess, onError }: Options) {
+export function useDeleteContentsMutation() {
   return useMutation(
     ["content-create"],
     async ({
@@ -92,11 +88,11 @@ export function useDeleteContentsMutation({ onSuccess, onError }: Options) {
       contentIds: string[];
     }) => {
       if (!token) {
-        throw Error("Cannot find api key.");
+        throw new ValidationError("Api key not found. Please check");
       }
 
       if (!schemaName) {
-        throw Error("Cannot find schema name.");
+        throw new ValidationError(ERROR.NOT_FOUND.SCHEMA_NAME);
       }
 
       const contentsAPI = new ContentsAPIClient().setToken(token);
@@ -104,8 +100,7 @@ export function useDeleteContentsMutation({ onSuccess, onError }: Options) {
       return contentsAPI.deleteContents({ schemaName, contentIds });
     },
     {
-      onSuccess,
-      onError,
+      onSuccess: () => toast.success(SUCCESS.DELETE),
     },
   );
 }

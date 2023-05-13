@@ -5,23 +5,18 @@ import { useBuildOptions } from "./useBuildOptionsStore";
 import { usePresetBuildOptionStore } from "./usePresetBuildOptionStore";
 import { useAuth } from "./useAuth";
 import APIClient from "../@utils/api";
+import { ERROR, SUCCESS } from "../@config/message";
 
 import type {
-  UpdateProjectBuildOption,
+  DeleteProjectOption,
   UpdateProjectBuildOptions,
   UpdateProjectOption,
   UpdateProjectOptions,
 } from "../@types/api";
+import { ValidationError } from "../@utils/createError";
+import { toast } from "react-toastify";
 
-type UseProjectMutationOptions = {
-  onSuccess?: (data?: string) => Promise<unknown> | unknown;
-  onError?: (error?: unknown) => Promise<unknown> | unknown;
-};
-
-export function useCreateProjectMutation({
-  onSuccess,
-  onError,
-}: UseProjectMutationOptions) {
+export function useCreateProjectMutation() {
   const {
     projectName,
     isProjectNameAvailable,
@@ -54,7 +49,7 @@ export function useCreateProjectMutation({
         !installCommand ||
         !envList
       ) {
-        return;
+        throw new ValidationError(ERROR.NOT_FOUND.PROJECT_DATA);
       }
 
       const createProjectOptions = {
@@ -74,10 +69,7 @@ export function useCreateProjectMutation({
 
       return api.createProject(createProjectOptions);
     },
-    {
-      onSuccess,
-      onError,
-    },
+    { onSuccess: () => toast.success(SUCCESS.CREATE) },
   );
 }
 
@@ -101,11 +93,46 @@ export function useUpdateProjectMutaion<
       option: UpdateProjectOption<T>;
     }) => {
       if (isEmpty(option)) {
-        return;
+        throw new ValidationError(ERROR.NOT_FOUND.ALL);
       }
 
       return api.updateProject<T>({ projectName, updateOption: option });
     },
+    { onSuccess: () => toast.success(SUCCESS.UPDATE) },
+  );
+}
+
+export function useUpdateBuildOptionMutation() {
+  const { user } = useAuth();
+
+  const api = new APIClient()
+    .setUserId(user?.id)
+    .setAccessToken(user?.accessToken)
+    .setGithubAccessToken(user?.githubAccessToken);
+
+  return useMutation(
+    ["project-put"],
+    async ({
+      projectName,
+      option,
+    }: {
+      projectName: string;
+      option: Partial<UpdateProjectBuildOptions>;
+    }) => {
+      if (!projectName) {
+        throw new ValidationError(ERROR.NOT_FOUND.PROJECT_NAME);
+      }
+
+      if (!option) {
+        throw new ValidationError(ERROR.NOT_FOUND.ALL);
+      }
+
+      return api.updateProjectBuildOption({
+        projectName,
+        updateBuildOption: option,
+      });
+    },
+    { onSuccess: () => toast.success(SUCCESS.DELETE) },
   );
 }
 
@@ -126,41 +153,14 @@ export function useDeleteProjectOptionMutation<
       option,
     }: {
       projectName: string;
-      option: UpdateProjectOption<T>;
+      option: DeleteProjectOption<T>;
     }) => {
       return api.deleteProjectOption<T>({
         projectName,
         deleteOption: option,
       });
     },
-  );
-}
-
-export function useUpdateBuildOptionMutation<
-  T extends keyof UpdateProjectBuildOptions,
->() {
-  const { user } = useAuth();
-
-  const api = new APIClient()
-    .setUserId(user?.id)
-    .setAccessToken(user?.accessToken)
-    .setGithubAccessToken(user?.githubAccessToken);
-
-  // TODO domain delete
-  return useMutation(
-    ["project-put"],
-    async ({
-      projectName,
-      option,
-    }: {
-      projectName: string;
-      option: UpdateProjectBuildOption<T>;
-    }) => {
-      return api.updateProjectBuildOption<T>({
-        projectName,
-        updateBuildOption: option,
-      });
-    },
+    { onSuccess: () => toast.success(SUCCESS.DELETE) },
   );
 }
 
@@ -172,11 +172,15 @@ export function useDeleteProjectMutaion() {
     .setAccessToken(user?.accessToken)
     .setGithubAccessToken(user?.githubAccessToken);
 
-  return useMutation(["project-delete"], async (projectName: string) => {
-    if (!projectName) {
-      return;
-    }
+  return useMutation(
+    ["project-delete"],
+    async (projectName: string) => {
+      if (!projectName) {
+        return;
+      }
 
-    return api.deleteProject(projectName);
-  });
+      return api.deleteProject(projectName);
+    },
+    { onSuccess: () => toast.success(SUCCESS.DELETE) },
+  );
 }

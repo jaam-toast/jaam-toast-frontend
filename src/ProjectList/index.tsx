@@ -1,9 +1,10 @@
-import { Suspense, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { ProjectCardList, ProjectCardListSkeleton } from "./ProjectCardList";
 import { TextField } from "../@shared";
 import { useAuth } from "../@hooks";
+import { AsyncBoundary } from "../Error/AsyncBoundary";
 import * as css from "./index.css";
 
 export function ProjectList() {
@@ -23,9 +24,9 @@ export function ProjectList() {
           New Project
         </Link>
       </section>
-      <Suspense fallback={<ProjectCardListSkeleton />}>
+      <AsyncBoundary suspenseFallback={<ProjectCardListSkeleton />}>
         <ProjectCardList searchword={searchword} />
-      </Suspense>
+      </AsyncBoundary>
     </div>
   );
 }

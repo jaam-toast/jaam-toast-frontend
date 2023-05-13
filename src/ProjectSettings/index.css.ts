@@ -23,10 +23,17 @@ export const settingOptionSection = style([
   s.border,
   s.flexColumn,
   {
-    gap: "1.5rem",
+    gap: "0.8rem",
     padding: "1.5rem 2rem",
     minHeight: "9rem",
     backgroundColor: COLORS.LAVENDER,
+  },
+]);
+
+export const commandOptionSection = style([
+  settingOptionSection,
+  {
+    gap: "0.5rem",
   },
 ]);
 
@@ -40,16 +47,25 @@ export const sectionTitle = style({
 /**
  * button
  */
+
+const disabledButton = style({
+  ":disabled": {
+    cursor: "not-allowed",
+  },
+});
+
 export const addButton = style([
   s.button,
   s.buttonSize.medium,
   s.buttonColor.dark,
+  disabledButton,
 ]);
 
 export const saveButton = style([
   s.button,
   s.buttonSize.small,
   s.buttonColor.dark,
+  disabledButton,
 ]);
 
 export const deleteButton = style([
@@ -65,6 +81,15 @@ export const deleteButton = style([
       fontWeight: 700,
       borderColor: COLORS.RED,
     },
+  },
+]);
+
+export const baseMessage = style({ fontSize: "0.8rem", minHeight: "1rem" });
+
+export const warningMessage = style([
+  baseMessage,
+  {
+    color: COLORS.RED,
   },
 ]);
 

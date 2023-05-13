@@ -1,22 +1,23 @@
-import { Suspense, useMemo } from "react";
-import { Navigate } from "react-router-dom";
+import { useMemo } from "react";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 
 import { ColorBox, Checkbox } from "../@shared";
 import { useModal, useProjectQuery } from "../@hooks";
 import { ModalSchemaInfo, ModalSchemaInfoSkeleton } from "./ModalSchemaInfo";
 import { sortByMode as sortBy } from "../@utils/sortByMode";
+import { NotFoundError } from "../@utils/createError";
+import { AsyncBoundary } from "../Error/AsyncBoundary";
 import * as css from "./SchemaList.css";
 
 import type { JsonSchema } from "@jaam-schema/src";
-import type { SchemaData } from "../@types/api";
+import type { SchemaData } from "../@types/cms";
 import type { OrderMode } from "../@types/cms";
 
 type SchemaListProps = {
   projectName: string;
   orderOption: OrderMode;
   searchword?: string;
-  onDelete: ({ schemaNames }: { schemaNames: string[] }) => void;
+  onDelete: (schemaNames: string[]) => void;
 };
 
 export function SchemaList({
@@ -26,11 +27,10 @@ export function SchemaList({
   onDelete,
 }: SchemaListProps) {
   const { openModal } = useModal();
-
   const { data } = useProjectQuery(projectName);
 
   if (!data) {
-    return <Navigate to="/error" />;
+    throw new NotFoundError("project data not found");
   }
 
   const { schemaList: schemaListData, storageKey } = data;
@@ -49,13 +49,13 @@ export function SchemaList({
   const handleSchemaClick = ({ schema }: { schema: JsonSchema }) => {
     openModal({
       component: (
-        <Suspense fallback={<ModalSchemaInfoSkeleton />}>
+        <AsyncBoundary suspenseFallback={<ModalSchemaInfoSkeleton />}>
           <ModalSchemaInfo
             currentSchema={schema}
             projectName={projectName}
             token={storageKey}
           />
-        </Suspense>
+        </AsyncBoundary>
       ),
     });
   };
@@ -64,7 +64,7 @@ export function SchemaList({
     <table className={css.table}>
       <thead>
         <tr>
-          <th className={`${css.thCheckbox}`}>
+          <th className={css.th}>
             <Checkbox
               isParent={true}
               valuesList={schemaList.map(data => data.schema.title)}
@@ -80,13 +80,11 @@ export function SchemaList({
       <tbody>
         {schemaList.map((data: SchemaData) => (
           <tr className={css.row} key={data.schema.title}>
-            <td className={css.cell}>
-              <div className={css.checkboxField}>
-                <Checkbox
-                  value={data.schema.title}
-                  valuesCount={schemaList.length}
-                />
-              </div>
+            <td className={css.checkboxField}>
+              <Checkbox
+                value={data.schema.title}
+                valuesCount={schemaList.length}
+              />
             </td>
             <td className={css.cell}>
               <div
@@ -108,15 +106,15 @@ export function SchemaList({
                 ))}
               </div>
             </td>
-            <td className={css.cell}>
+            <td className={css.optionCell}>
               <div className={css.optionField}>
                 <BsFillPencilFill
-                  onClick={() => handleSchemaClick({ schema: data.schema })}
                   className={css.optionIcon}
+                  onClick={() => handleSchemaClick({ schema: data.schema })}
                 />
                 <BsFillTrashFill
-                  onClick={() => onDelete({ schemaNames: [data.schema.title] })}
                   className={css.optionIcon}
+                  onClick={() => onDelete([data.schema.title])}
                 />
               </div>
             </td>
@@ -133,12 +131,25 @@ export function SchemaListSkeleton() {
       <thead>
         <tr>
           <th className={css.th}></th>
+          <th className={css.th}></th>
         </tr>
       </thead>
       <tbody className={css.tbody}>
         {[...new Array(10)].map((_, index) => (
           <tr className={css.row} key={index}>
-            <td className={css.cell}></td>
+            <td className={css.cellSkeleton}>
+              <div className={css.nameField}>
+                <ColorBox color="GREY_CLEAR">
+                  <div />
+                </ColorBox>
+                <div className={css.textSkeleton} />
+              </div>
+            </td>
+            <td className={css.cell}>
+              <div className={css.nameField}>
+                <div className={css.textSkeleton} />
+              </div>
+            </td>
           </tr>
         ))}
       </tbody>

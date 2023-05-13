@@ -3,7 +3,6 @@ import { useModal, useProjectQuery } from "../@hooks";
 import * as css from "./ModalContentsKey.css";
 
 export function ModalContentsKey({ projectName }: { projectName: string }) {
-  // TODO useContentsKeyQuery
   const { closeModal } = useModal();
   const { data: project } = useProjectQuery(projectName);
   const [isApiCopied, setIsApiCopied] = useState<boolean>(false);
@@ -86,7 +85,7 @@ export function ModalContentsKey({ projectName }: { projectName: string }) {
             )}
           </div>
           <div
-            className={css.contentsKey}
+            className={css.contentsApiExample}
             onClick={() =>
               handleApiCopy("https://api.jaamtoast.click/api/[yourSchemaName]")
             }

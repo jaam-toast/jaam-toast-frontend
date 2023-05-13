@@ -4,24 +4,26 @@ import { ProjectDeleteSection } from "./ProjectDeleteSection";
 import { CommandSectionList } from "./CommandSectionList";
 import { EnvSection } from "./EnvSection";
 import { DomainSection } from "./DomainSection";
-import { Suspense } from "react";
-import { ValidationError } from "../@utils/createError";
+import { AsyncBoundary } from "../Error/AsyncBoundary";
+import { NotFoundError } from "../@utils/createError";
 import * as css from "./index.css";
 
 export function ProjectSettings() {
   const { projectName } = useParams();
 
   if (!projectName) {
-    throw new ValidationError("project not found");
+    throw new NotFoundError("project not found");
   }
 
   return (
-    <Suspense fallback={<ProjectSettingsSkeleton />}>
-      <CommandSectionList projectName={projectName} />
-      <EnvSection projectName={projectName} />
-      <DomainSection projectName={projectName} />
-      <ProjectDeleteSection projectName={projectName} />
-    </Suspense>
+    <AsyncBoundary suspenseFallback={<ProjectSettingsSkeleton />}>
+      <>
+        <CommandSectionList projectName={projectName} />
+        <EnvSection projectName={projectName} />
+        <DomainSection projectName={projectName} />
+        <ProjectDeleteSection projectName={projectName} />
+      </>
+    </AsyncBoundary>
   );
 }
 

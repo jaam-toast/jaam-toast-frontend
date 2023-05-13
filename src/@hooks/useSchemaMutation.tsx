@@ -1,16 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
 import { jaamSchemaToJsonSchema } from "@jaam-schema/src";
+import { toast } from "react-toastify";
 
 import { useAuth } from "./useAuth";
 import { useSchemaState } from "./useSchemaStore";
 import APIClient from "../@utils/api";
+import { ValidationError } from "../@utils/createError";
+import { ERROR, SUCCESS } from "../@config/message";
 
-type Options = {
-  onSuccess?: (data?: string) => Promise<unknown> | unknown;
-  onError?: (error?: unknown) => Promise<unknown> | unknown;
-};
-
-export function useCreateSchemaMutation({ onSuccess, onError }: Options) {
+export function useCreateSchemaMutation() {
   const schema = useSchemaState();
   const { title, type, properties } = schema;
   const { user } = useAuth();
@@ -24,11 +22,11 @@ export function useCreateSchemaMutation({ onSuccess, onError }: Options) {
     ["schema-create"],
     async ({ projectName }: { projectName: string }) => {
       if (!projectName) {
-        throw Error("Cannot find project name");
+        throw new ValidationError("Cannot find project name");
       }
 
       if (!title || !type || !Object.keys(properties).length) {
-        throw Error("Cannot find schema data");
+        throw new ValidationError("Cannot find schema data");
       }
 
       const options = {
@@ -39,13 +37,12 @@ export function useCreateSchemaMutation({ onSuccess, onError }: Options) {
       return api.createSchema({ projectName, options });
     },
     {
-      onSuccess,
-      onError,
+      onSuccess: () => toast.success(SUCCESS.CREATE),
     },
   );
 }
 
-export function useUpdateSchemaMutation({ onSuccess, onError }: Options) {
+export function useUpdateSchemaMutation() {
   const schema = useSchemaState();
   const { type, properties } = schema;
   const { user } = useAuth();
@@ -65,15 +62,15 @@ export function useUpdateSchemaMutation({ onSuccess, onError }: Options) {
       schemaName: string;
     }) => {
       if (!projectName) {
-        throw Error("Cannot find project name");
+        throw new ValidationError("Cannot find project name");
       }
 
       if (!schemaName) {
-        throw Error("Cannot find schema name");
+        throw new ValidationError("Cannot find schema name");
       }
 
       if (!type || !Object.keys(properties).length) {
-        throw Error("Cannot find schema data");
+        throw new ValidationError("Cannot find schema data");
       }
 
       const options = {
@@ -84,13 +81,12 @@ export function useUpdateSchemaMutation({ onSuccess, onError }: Options) {
       return api.updateSchema({ projectName, schemaName, options });
     },
     {
-      onSuccess,
-      onError,
+      onSuccess: () => toast.success(SUCCESS.UPDATE),
     },
   );
 }
 
-export function useDeleteSchemaMutation({ onSuccess, onError }: Options) {
+export function useDeleteSchemaMutation() {
   const { user } = useAuth();
 
   const api = new APIClient()
@@ -108,22 +104,21 @@ export function useDeleteSchemaMutation({ onSuccess, onError }: Options) {
       schemaNames: string[];
     }) => {
       if (!projectName) {
-        throw Error("Cannot find project name");
+        throw new ValidationError(ERROR.NOT_FOUND.PROJECT_NAME);
       }
 
       if (!schemaNames) {
-        throw Error("Cannot find schema name");
+        throw new ValidationError(ERROR.NOT_FOUND.SCHEMA_NAME);
       }
 
       if (!!Array.isArray(schemaNames)) {
-        throw Error("schema names must be array");
+        throw new ValidationError("Schema names must be array.");
       }
 
       return api.deleteSchema({ projectName, schemaNames });
     },
     {
-      onSuccess,
-      onError,
+      onSuccess: () => toast.success(SUCCESS.DELETE),
     },
   );
 }

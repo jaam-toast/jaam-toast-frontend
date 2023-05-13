@@ -8,12 +8,13 @@ import {
   useProjectQuery,
   useSetConfirmModal,
 } from "../@hooks";
+import { NotFoundError } from "../@utils/createError";
+import { ERROR } from "../@config/message";
+import { AsyncBoundary } from "../Error/AsyncBoundary";
 import { ContentsList, ContentsListSkeleton } from "./ContentsList";
 import * as css from "./index.css";
 
 import type { SortMode, OrderMode } from "../@types/cms";
-import { ValidationError } from "../@utils/createError";
-import { AsyncBoundary } from "../Error/AsyncBoundary";
 
 export function ProjectContents() {
   const { projectName } = useParams();
@@ -23,16 +24,16 @@ export function ProjectContents() {
   const { values: checkboxValues } = useCheckboxState();
   const [currentSchemaName, setCurrentSchemaName] = useState<string>("");
   const { openConfirm } = useSetConfirmModal();
+  const deleteContents = useDeleteContentsMutation();
 
   if (!projectName) {
-    throw new ValidationError("projectName not found");
+    throw new NotFoundError(ERROR.NOT_FOUND.PROJECT_NAME);
   }
 
   const { data: project } = useProjectQuery(projectName);
 
-  // TODO error handling
   if (!project) {
-    throw new ValidationError("project data not found");
+    throw new NotFoundError(ERROR.NOT_FOUND.PROJECT_DATA);
   }
 
   const token = project.storageKey;
@@ -41,16 +42,6 @@ export function ProjectContents() {
   useEffect(() => {
     setCurrentSchemaName(schemaList[0].schemaName);
   }, []);
-
-  // TODO 삭제시 체크 해제 스토어에 반영
-  const deleteContents = useDeleteContentsMutation({
-    onSuccess: () => {
-      alert("Success contents delete");
-    },
-    onError: () => {
-      alert("Failed to delete contents. Please try again.");
-    },
-  });
 
   const handleAddClick = () => {
     navigate("new");

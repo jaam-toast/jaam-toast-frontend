@@ -7,13 +7,12 @@ export function DashboardHeader() {
   const { userName, projectName } = useParams();
   const location = useLocation();
   const { pathname } = location;
+  const regExp = /\/([^/]+)\/([^/]+)\/([^/]+)$/;
+  const currentPathArr = pathname.match(regExp)!;
 
   if (!projectName || !userName) {
     throw new ValidationError("projectName, userName not found");
   }
-
-  const regExp = /\/([^/]+)\/([^/]+)\/([^/]+)$/;
-  const currentPathArr = pathname.match(regExp)!;
 
   return (
     <div className={css.container}>

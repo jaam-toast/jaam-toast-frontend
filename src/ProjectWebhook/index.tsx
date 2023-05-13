@@ -7,14 +7,14 @@ import {
   useDeleteProjectOptionMutation,
   useSetConfirmModal,
 } from "../@hooks";
-import { ValidationError } from "../@utils/createError";
+import { NotFoundError } from "../@utils/createError";
 import { WebhookList } from "./WebhookList";
 import { AsyncBoundary } from "../Error/AsyncBoundary";
 import { ContentsListSkeleton } from "../ProjectContents/ContentsList";
 import * as css from "./index.css";
 
-import type { OrderMode, WebhookEvent, WebhookForEditing } from "../@types/cms";
-import { Webhook } from "../@types/api";
+import type { OrderMode } from "../@types/cms";
+import { Webhook } from "../@types/cms";
 
 export function ProjectWebhook() {
   const navigate = useNavigate();
@@ -22,83 +22,26 @@ export function ProjectWebhook() {
   const [orderMode, setOrderMode] = useState<OrderMode>("ascending");
   const { values: checkboxValues } = useCheckboxState();
   const { openConfirm } = useSetConfirmModal();
+  const deleteWebhooks = useDeleteProjectOptionMutation<"webhook">();
 
   if (!userName || !projectName) {
-    throw new ValidationError("projectName, userName not found");
+    throw new NotFoundError("projectName, userName not found");
   }
-
-  // mock data
-  const webhookListData: Webhook = {
-    DEPLOYMENT_UPDATED: [
-      {
-        name: "my_blog",
-        url: "https://my_blog_url",
-      },
-      {
-        name: "my_blog2",
-        url: "https://my_blog_url",
-      },
-    ],
-    CONTENT_CREATED: [
-      {
-        name: "my_web",
-        url: "https://my_blog_url",
-      },
-      {
-        name: "my_blog",
-        url: "https://my_blog_url",
-      },
-    ],
-    CONTENT_UPDATED: [
-      {
-        name: "my_blog",
-        url: "https://my_blog_url",
-      },
-      {
-        name: "my_blog",
-        url: "https://my_blog_url",
-      },
-    ],
-    CONTENT_DELETED: [
-      {
-        name: "my_blog",
-        url: "https://my_blog_url",
-      },
-      {
-        name: "my_blog",
-        url: "https://my_blog_url",
-      },
-    ],
-  };
-
-  const deleteWebhooks = useDeleteProjectOptionMutation<"webhook">();
 
   const handleNewClick = () => {
     navigate("new");
   };
 
-  // TODO error
-  // TODO webhooks 삭제 데이터 필터링 타입 개선
-  const handleDeleteClick = (webhook: string[]) => {
-    const copyWebhookList = { ...webhookListData };
+  const handleDeleteClick = (webhookList: string[]) => {
+    const webhooks = webhookList.map(value => JSON.parse(value) as Webhook);
 
-    webhook.forEach(data => {
-      const objData: WebhookForEditing = JSON.parse(data);
-      const arr = [...objData.events] as WebhookEvent[];
-      arr.forEach((event: WebhookEvent) => {
-        copyWebhookList[event] = copyWebhookList[event].filter(
-          originalData => originalData.name !== objData.name,
-        );
-      });
-    });
-    // TODO JSON parse
     openConfirm({
-      message: `Do you want to delete ${webhook.join(", ")} webhooks?`,
-      onConfirm: async () => {
-        await deleteWebhooks.mutateAsync({
+      message: `Do you want to delete webhooks?`,
+      onConfirm: () => {
+        deleteWebhooks.mutate({
           projectName,
           option: {
-            webhook: copyWebhookList,
+            webhook: webhooks,
           },
         });
       },

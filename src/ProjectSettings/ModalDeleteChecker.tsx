@@ -19,10 +19,7 @@ export function ModalDeleteChecker({ projectName }: { projectName: string }) {
       return;
     }
 
-    //TODO error handle
-    try {
-      await deleteProject.mutateAsync(projectName);
-    } catch (error) {}
+    deleteProject.mutate(projectName);
   };
 
   return (

@@ -9,7 +9,7 @@ export const header = style([
   s.fullWidth,
   {
     justifyContent: "flex-end",
-    paddingBottom: "1.5rem",
+    padding: "0.85rem 0 1.5rem 0",
   },
 ]);
 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
+import { toast } from "react-toastify";
 
 import { TypeIcon } from "../@shared";
 import { PropertyList } from "./PropertyList";
@@ -18,15 +19,17 @@ import * as css from "./ModalSchemaInfo.css";
 
 import type { JsonSchema } from "@jaam-schema/src";
 
+type ModalSchemaInfoProps = {
+  currentSchema: JsonSchema;
+  projectName: string;
+  token: string;
+};
+
 export function ModalSchemaInfo({
   currentSchema,
   projectName,
   token,
-}: {
-  currentSchema: JsonSchema;
-  projectName: string;
-  token: string;
-}) {
+}: ModalSchemaInfoProps) {
   const [isFieldEditMode, setIsFieldEditMode] = useState<boolean>(false);
   const [isClickTypeIcon, setIsClickTypeIcon] = useState<boolean>(false);
 
@@ -54,14 +57,7 @@ export function ModalSchemaInfo({
     setHandlerTriggeredModalClose(reset);
   }, []);
 
-  const updateSchema = useUpdateSchemaMutation({
-    onSuccess: () => {
-      alert("Success schema update");
-    },
-    onError: () => {
-      alert("Failed to create schema. Please try again.");
-    },
-  });
+  const updateSchema = useUpdateSchemaMutation();
 
   const handleChangePropertyName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentEditProperty({
@@ -72,7 +68,7 @@ export function ModalSchemaInfo({
 
   const handleClickAdd = () => {
     if (!currentEditProperty.name) {
-      alert("The name field must not be empty.");
+      toast.error("The name field must not be empty.");
     }
 
     addProperty();
@@ -88,7 +84,7 @@ export function ModalSchemaInfo({
 
   const handleClickEdit = () => {
     if (!currentEditProperty.name) {
-      alert("The name field must not be empty.");
+      toast.error("The name field must not be empty.");
     }
 
     editProperty();
@@ -97,13 +93,7 @@ export function ModalSchemaInfo({
   };
 
   const handleClickUpdate = () => {
-    const { title, type, properties } = schema;
-
-    if (!title || !type || !Object.keys(properties).length) {
-      return;
-    }
-
-    updateSchema.mutate({ projectName, schemaName: title });
+    updateSchema.mutate({ projectName, schemaName: schema.title });
   };
 
   return (

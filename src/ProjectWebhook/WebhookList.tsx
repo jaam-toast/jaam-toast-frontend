@@ -43,13 +43,17 @@ export function WebhookList({
   };
 
   const handleDeleteClick = (webhook: Webhook) => {
+    if (!webhook) {
+      return;
+    }
+
     openConfirm({
-      message: `Do you want to delete ${name} webhook?`,
+      message: `Do you want to delete ${webhook.name} webhook?`,
       onConfirm: () => {
         deleteWebhook.mutate({
           projectName,
           option: {
-            webhook,
+            webhook: [webhook],
           },
         });
       },
