@@ -1,7 +1,9 @@
-export type Env = {
-  key: string;
-  value: string;
-};
+// export type Env = {
+//   key: string;
+//   value: string;
+// };
+
+import { Env } from "./project";
 
 export const NODE_VERSION = [
   "17.9.1",

@@ -1,6 +1,18 @@
 import dayjs from "dayjs";
 
-import type { JaamSchemaPropertyType } from "@jaam-schema/src";
+import type { JaamSchemaPropertyType, JsonSchema } from "@jaam-schema/src";
+
+export type SortMode = "createdAt" | "updatedAt";
+
+export type OrderMode = "ascending" | "descending";
+
+/**
+ * Schema
+ */
+export type SchemaData = {
+  schemaName: string;
+  schema: JsonSchema;
+};
 
 export const ASSET_SCHEMA = {
   title: "assets",
@@ -17,9 +29,9 @@ export const ASSET_SCHEMA = {
       type: "number",
     },
   },
-};
+} as const;
 
-export const DEFAULT_VALUE_FOR_TYPE: Record<
+export const SCHEMA_DEFAULT_VALUE_FOR_TYPE: Record<
   JaamSchemaPropertyType,
   string | number | boolean
 > = {
@@ -32,27 +44,48 @@ export const DEFAULT_VALUE_FOR_TYPE: Record<
   boolean: false,
 };
 
-export type SortMode = "createdAt" | "updatedAt";
+/**
+ * Content
+ */
+export type ContentsData = {
+  contents: Content[];
+  totalCounts: number;
+};
 
-export type OrderMode = "ascending" | "descending";
+export type ContentType = string | number | boolean;
 
+export type Content = {
+  _id: string;
+  [key: string]: ContentType;
+  _createdAt: string;
+  _updatedAt: string;
+};
+
+/**
+ * Asset
+ */
 export type AssetInfoForEditing = {
   url?: string;
   name?: string;
   size?: number;
 };
 
-export type WebhookEvent =
-  | "DEPLOYMENT_UPDATED"
-  | "CONTENT_CREATED"
-  | "CONTENT_UPDATED"
-  | "CONTENT_DELETED";
-
-export const WEBHOOK_EVENTS_RECORD: Record<WebhookEvent, string> = {
+export const WEBHOOK_EVENTS_RECORD = {
   DEPLOYMENT_UPDATED: "Deployment Updated",
   CONTENT_CREATED: "Content Created",
   CONTENT_UPDATED: "Content Updated",
   CONTENT_DELETED: "Content Deleted",
+} as const;
+
+export type WebhookEvent = keyof typeof WEBHOOK_EVENTS_RECORD;
+
+/**
+ * Webhook
+ */
+export type Webhook = {
+  name: string;
+  url: string;
+  events: WebhookEvent[];
 };
 
 export type WebhookForEditing = {
