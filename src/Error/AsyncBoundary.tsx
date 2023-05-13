@@ -1,11 +1,11 @@
 import { ReactElement, Suspense } from "react";
+import { Navigate } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
 import axios from "axios";
 
-import { ValidationError } from "../@utils/createError";
+import { NotFoundError } from "../@utils/createError";
 import { HttpErrorFallback } from "./HttpErrorFallback";
 import { UnknownErrorFallback } from "./UnknownErrorFallback";
-import { ValidationErrorFallback } from "./ValidationErrorFallback";
 import { Error } from ".";
 
 import type { AxiosError } from "axios";
@@ -25,8 +25,10 @@ function ErrorFallback({ error }: ErrorFallbackProps) {
     return <HttpErrorFallback error={error} />;
   }
 
-  if (error instanceof ValidationError) {
-    return <ValidationErrorFallback error={error} />;
+  if (error instanceof NotFoundError) {
+    return (
+      <Navigate to="/error" state={{ code: 404, message: error.message }} />
+    );
   }
 
   if (error instanceof ReferenceError) {
@@ -41,7 +43,6 @@ export function AsyncBoundary({
   errorFallback,
   children,
 }: AsyncBoundaryProps) {
-  console.log("에러");
   return (
     <>
       {errorFallback ? (
