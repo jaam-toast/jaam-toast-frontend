@@ -12,9 +12,11 @@ type CheckboxStore = {
     setCheckboxValue: ({
       value,
       checkboxCount,
+      isInitialize,
     }: {
       value: string;
       checkboxCount: number;
+      isInitialize?: boolean;
     }) => void;
   };
 };
@@ -51,8 +53,8 @@ const useCheckboxStore = create<CheckboxStore>((set, get) => ({
         values: state.isAllChecked ? new Set() : new Set(allValues),
         isAllChecked: !state.isAllChecked,
       })),
-    setCheckboxValue: ({ value, checkboxCount }) => {
-      if (get().values.has(value)) {
+    setCheckboxValue: ({ value, checkboxCount, isInitialize }) => {
+      if (!isInitialize && get().values.has(value)) {
         const newValues = new Set(get().values);
         newValues.delete(value);
 

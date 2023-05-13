@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import dayjs from "dayjs";
+import last from "lodash/last";
 
 import { useProjectQuery } from "../@hooks";
 import { Preview, PreviewSkeleton } from "../ProjectDeploy/Preview";
@@ -25,20 +26,20 @@ export function ProjectInfo({ projectName }: { projectName: string }) {
             <span className={css.projectInfoFieldTitle}>url</span>
             <a
               className={css.projectInfoText}
-              href={`https://${project?.buildDomain}`}
+              href={`https://${last(project?.buildDomain)}`}
               target="_blank"
             >
-              {`https://${project?.buildDomain}`}
+              {`https://${last(project?.buildDomain)}`}
             </a>
           </li>
           <li className={css.projectInfo}>
             <span className={css.projectInfoFieldTitle}>status</span>
-            <p className={css.projectInfoText}>READY</p>
+            <p className={css.projectInfoText}>{project?.status}</p>
           </li>
           <li className={css.projectInfo}>
-            <span className={css.projectInfoFieldTitle}>created at</span>
+            <span className={css.projectInfoFieldTitle}>updated at</span>
             <p className={css.projectInfoText}>
-              {dayjs(project?.projectUpdatedAt).format("YYYY MM DD dddd")}
+              {dayjs(project?.projectUpdatedAt).format("YYYY-MM-DD hh:mm")}
             </p>
           </li>
         </ul>

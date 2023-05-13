@@ -1,23 +1,21 @@
 import { create } from "zustand";
-import toPairs from "lodash/toPairs";
 import isURL from "validator/lib/isURL";
 
-import type { WebhookForEditing } from "../@types/cms";
-import type { Webhook } from "../@types/api";
+import type { Webhook } from "../@types/cms";
 
 type WebhookStore = {
-  webhookList: WebhookForEditing[];
-  webhook: WebhookForEditing;
+  webhookList: Webhook[];
+  webhook: Webhook;
   webhookErrorMessage: {
     name: string;
     url: string;
-    events?: Set<string>;
   };
 
   actions: {
     setWebhookName: (name: string) => void;
     setWebhookUrl: (url: string) => void;
-    setWebhookList: (webhook: Webhook) => void;
+    setWebhook: (webhook: Webhook) => void;
+    setWebhookList: (webhookList: Webhook[]) => void;
     reset: () => void;
   };
 };
@@ -27,7 +25,7 @@ const initialState: Omit<WebhookStore, "actions"> = {
   webhook: {
     name: "",
     url: "",
-    events: new Set<string>(),
+    events: [],
   },
   webhookErrorMessage: {
     name: "",
@@ -89,30 +87,11 @@ export const useWebhookStore = create<WebhookStore>((set, get) => ({
         },
       }));
     },
-    setWebhookList: webhook => {
-      const webhookData = toPairs(webhook).reduce(
-        (webhookData: WebhookForEditing[], [event, userDataArr]) => {
-          const newWebhookData = [...webhookData];
-
-          if (userDataArr.length) {
-            userDataArr.forEach(
-              userData =>
-                newWebhookData
-                  .find(data => data.name === userData.name)
-                  ?.events.add(event) ||
-                newWebhookData.push({
-                  ...userData,
-                  events: new Set<string>().add(event),
-                }),
-            );
-          }
-
-          return newWebhookData;
-        },
-        [],
-      );
-
-      set({ webhookList: webhookData });
+    setWebhook: webhook => {
+      set({ webhook });
+    },
+    setWebhookList: webhookList => {
+      set({ webhookList });
     },
     reset: () => set(initialState),
   },
@@ -130,6 +109,7 @@ export const useSetWebhook = () =>
   useWebhookStore(state => ({
     setWebhookName: state.actions.setWebhookName,
     setWebhookUrl: state.actions.setWebhookUrl,
+    setWebhook: state.actions.setWebhook,
   }));
 
 export const useSetWebhookList = () =>

@@ -13,14 +13,12 @@ type ContentsErrorMessage = {
   [propertyName in string]: string;
 };
 
-type ContentState = {
+type ContentsStore = {
   token: string;
   currentSchema: JsonSchema;
   content: JaamSchemaContent;
   contentsErrorMessage: ContentsErrorMessage;
-};
 
-type ContentsStore = ContentState & {
   actions: {
     setToken: (token: string) => void;
     setSchema: (schema: JsonSchema) => void;
@@ -36,7 +34,7 @@ type ContentsStore = ContentState & {
   };
 };
 
-const initialState: ContentState = {
+const initialState: Omit<ContentsStore, "actions"> = {
   token: "",
   currentSchema: {
     title: "",
