@@ -30,7 +30,21 @@ export const assetPreviewWrapper = style([
   },
 ]);
 
-export const assetPreviewName = style([s.inlineFlex, s.flexColumn]);
+export const assetPreviewName = style([
+  s.scroll,
+  {
+    width: "10rem",
+    maxHeight: "5rem",
+    padding: "0 1rem",
+    textAlign: "left",
+    whiteSpace: "normal",
+    wordWrap: "break-word",
+    display: "-webkit-box",
+    textOverflow: "ellipsis",
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: "vertical",
+  },
+]);
 
 const assetPreviewInfoBase = style([
   assetPreviewBase,
@@ -52,7 +66,6 @@ export const assetPreviewInfo = style([
     textOverflow: "ellipsis",
     textAlign: "left",
     fontSize: "0.8rem",
-    padding: "0.5rem",
   },
 ]);
 

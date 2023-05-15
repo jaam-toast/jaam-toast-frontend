@@ -21,6 +21,7 @@ export const header = style([
   s.justifyContentCenter,
   {
     gap: "1rem",
+    padding: "1rem",
     width: "40rem",
     height: "5rem",
     position: "fixed",
@@ -32,9 +33,17 @@ export const assetInfo = style([
   s.flexColumn,
   s.justifyContentCenter,
   {
+    flexWrap: "wrap",
     zIndex: 9,
+    width: "40rem",
   },
 ]);
+
+export const assetName = style({
+  width: "40rem",
+  whiteSpace: "break-spaces",
+  wordWrap: "break-word",
+});
 
 export const assetInfoDeleteIcon = style([s.pointer, { zIndex: 9 }]);
 
@@ -43,8 +52,10 @@ export const assetInfoBg = style([
   s.fullWidth,
   {
     borderRadius: "1.5rem 1.5rem 0 0",
+    border: "1px solid red",
     width: "40rem",
-    height: "5rem",
+    minHeight: "5rem",
+    maxHeight: "10rem",
     position: "fixed",
     backgroundColor: COLORS.BLACK,
     opacity: "50%",
