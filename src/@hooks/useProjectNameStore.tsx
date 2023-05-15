@@ -7,7 +7,7 @@ import APIClient from "../@utils/api";
 type ProjectNameStore = {
   defaultProjectName: string | null;
   projectName: string | null;
-  isProjectNameAvailable: boolean;
+  isAvailableProjectName: boolean;
 
   actions: {
     setDefaultProjectName: (projectName: string) => void;
@@ -18,7 +18,7 @@ type ProjectNameStore = {
 const useProjectNameStore = create<ProjectNameStore>()((set, get) => ({
   defaultProjectName: null,
   projectName: null,
-  isProjectNameAvailable: true,
+  isAvailableProjectName: true,
 
   actions: {
     setDefaultProjectName: async (projectName: string) => {
@@ -42,7 +42,7 @@ const useProjectNameStore = create<ProjectNameStore>()((set, get) => ({
         set({
           projectName: newProjectName,
           defaultProjectName: newProjectName,
-          isProjectNameAvailable: true,
+          isAvailableProjectName: true,
         });
       } catch (error) {
         const newProjectName = `${projectName}-${nanoid()}`;
@@ -50,7 +50,7 @@ const useProjectNameStore = create<ProjectNameStore>()((set, get) => ({
         set({
           projectName: newProjectName,
           defaultProjectName: newProjectName,
-          isProjectNameAvailable: true,
+          isAvailableProjectName: true,
         });
       }
     },
@@ -71,7 +71,7 @@ const useProjectNameStore = create<ProjectNameStore>()((set, get) => ({
       }
 
       if (projectName === "") {
-        set({ projectName, isProjectNameAvailable: true });
+        set({ projectName, isAvailableProjectName: true });
         return;
       }
 
@@ -79,9 +79,9 @@ const useProjectNameStore = create<ProjectNameStore>()((set, get) => ({
 
       try {
         const project = await api.getProject(projectName);
-        set({ isProjectNameAvailable: !project });
+        set({ isAvailableProjectName: !project });
       } catch (error) {
-        set({ isProjectNameAvailable: false });
+        set({ isAvailableProjectName: false });
       }
     },
   },
@@ -93,9 +93,9 @@ export const useDefaultProjectName = () =>
 export const useProjectName = () =>
   useProjectNameStore((state: ProjectNameStore) => state.projectName);
 
-export const useIsProjectNameAvailable = () =>
+export const useisAvailableProjectName = () =>
   useProjectNameStore(
-    (state: ProjectNameStore) => state.isProjectNameAvailable,
+    (state: ProjectNameStore) => state.isAvailableProjectName,
   );
 
 export const useProjectNameActions = () =>
