@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import { useModal } from "../@hooks";
-import { AssetAPIClient } from "../@utils/assetsAPI";
+import { useContentsListQuery, useModal } from "../@hooks";
+import { NotFoundError } from "../@utils/createError";
+import { ERROR } from "../@config/message";
 import { ModalAssetInfo } from "./ModalAssetInfo";
 import * as css from "./AssetsList.css";
 
-import type { AssetInfoForEditing } from "../@types/cms";
+import type { Asset } from "../@types/cms";
 
 export function AssetsList({
   projectName,
@@ -14,31 +15,36 @@ export function AssetsList({
   projectName: string;
   token: string;
 }) {
-  const [assetsInfoList, setAssetsInfoList] = useState<AssetInfoForEditing[]>(
-    [],
-  );
   const [onMouseImgIndex, setOnMouseImgIndex] = useState<number | null>(null);
   const { openModal } = useModal();
+  const { data: assets } = useContentsListQuery({
+    schemaName: "assets",
+    token,
+  });
 
-  // TODO db query로 변경
-  useEffect(() => {
-    const assetAPI = new AssetAPIClient();
-    assetAPI.connect();
+  if (!assets) {
+    throw new NotFoundError(ERROR.NOT_FOUND.ALL);
+  }
 
-    (async () => {
-      const assetList = await assetAPI.getAssetInfoList(projectName);
+  const assetsList = assets.contents as Asset[];
+  const regExp = new RegExp(`(?<=${projectName}\/).*`);
+  const getName = (path: string) => path.match(regExp)?.shift();
+  const getKbSize = (bite: number) => Math.round(bite / 1024);
 
-      setAssetsInfoList(assetList);
-    })();
-  }, []);
-
-  const handleAseetClick = (asset: AssetInfoForEditing) => {
-    openModal({ component: <ModalAssetInfo asset={asset} token={token} /> });
+  const handleAseetClick = (asset: Asset) => {
+    openModal({
+      component: (
+        <ModalAssetInfo
+          asset={{ ...asset, name: asset.path ? getName(asset.path) : "" }}
+          token={token}
+        />
+      ),
+    });
   };
 
   return (
     <section className={css.container}>
-      {assetsInfoList.map((asset, index) => (
+      {assetsList.map((asset, index) => (
         <div
           key={asset.url}
           className={css.assetPreviewWrapper}
@@ -50,9 +56,9 @@ export function AssetsList({
             <>
               <div className={css.assetPreviewInfo}>
                 <span className={css.assetPreviewName}>
-                  {asset.name} <br />
+                  {asset.path && getName(asset.path)}
                 </span>
-                <span>{asset.size && Math.round(asset.size / 1024)}kb</span>
+                <span>{asset.size && getKbSize(asset.size)}kb</span>
               </div>
               <div className={css.assetPreviewBg} />
             </>
@@ -69,8 +75,8 @@ export function AssetsList({
 export function AssetsListSkeleton() {
   return (
     <div className={css.container}>
-      {[...new Array(10)].map(() => (
-        <div className={css.assetPreviewWrapperSkeleton} />
+      {[...new Array(12)].map((_, index) => (
+        <div key={index} className={css.assetPreviewWrapperSkeleton} />
       ))}
     </div>
   );

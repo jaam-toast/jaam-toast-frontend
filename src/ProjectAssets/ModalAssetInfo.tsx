@@ -1,36 +1,31 @@
 import { BsFillTrashFill } from "react-icons/bs";
-// import { useDeleteAssetsMutation } from "../@hooks";
+import { useDeleteAssetContentMutation } from "../@hooks";
 import * as css from "./ModalAssetInfo.css";
 
-import type { AssetInfoForEditing } from "../@types/cms";
+import type { Asset } from "../@types/cms";
 
 export function ModalAssetInfo({
   asset,
   token,
 }: {
-  asset: AssetInfoForEditing;
+  asset: Asset & { name?: string };
   token: string;
 }) {
-  // TODO useContentsKeyQuery
-  // const deleteAsset = useDeleteAssetsMutation();
+  const deleteAsset = useDeleteAssetContentMutation();
 
-  const handleDeleteClick = async () => {
-    if (!asset.name) {
-      // TODO toast
-      return;
-    }
-
-    //TODO error handle
-    try {
-      // await deleteAsset.mutateAsync({ token, asset: asset.name });
-    } catch (error) {}
+  const handleDeleteClick = () => {
+    deleteAsset.mutate({
+      token,
+      path: asset.path ?? "",
+      assetId: asset._id ?? "",
+    });
   };
 
   return (
     <section className={css.container}>
       <div className={css.header}>
         <div className={css.assetInfo}>
-          <span>name: {asset.name}</span>
+          <span className={css.assetName}>name: {asset.name}</span>
           <span>size: {asset.size && Math.round(asset.size / 1024)}KB</span>
         </div>
         <BsFillTrashFill
@@ -41,7 +36,7 @@ export function ModalAssetInfo({
         <div className={css.assetInfoBg} />
       </div>
       <div className={css.assetImgWrapper}>
-        <img className={css.assetImg} src={asset.url} alt={asset.name} />
+        <img className={css.assetImg} src={asset.url} alt={asset.path} />
       </div>
     </section>
   );
