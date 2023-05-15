@@ -24,7 +24,7 @@ export function RepositorySelect() {
 
   const handleRepoClick = (repo: string) => {
     setRepoName(repo);
-    navigate(`/new/${space}/${repo}`);
+    navigate(`/new/${space?.spaceName}/${repo}`);
   };
 
   const handleSpaceClick = (selectedSpace: string) => {

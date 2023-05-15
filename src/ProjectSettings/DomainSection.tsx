@@ -4,36 +4,34 @@ import isURL from "validator/lib/isURL";
 import { TextField } from "../@shared";
 import {
   useProjectQuery,
-  useUpdateProjectMutaion,
+  useAddProjectOptionMutaion,
   useDeleteProjectOptionMutation,
 } from "../@hooks";
 import { ERROR } from "../@config/message";
 import { NotFoundError } from "../@utils/createError";
 import * as css from "./index.css";
 
-import type { UpdateProjectOption } from "../@types/api";
+import type { AddProjectOptions } from "../@types/api";
 
 export function DomainSection({ projectName }: { projectName: string }) {
   const [domain, setDomain] = useState<string>("");
   const [warningMessage, setWarningMessage] = useState("");
   const { data: project } = useProjectQuery(projectName);
+  const updateDomain = useAddProjectOptionMutaion<"customDomain">();
+  const deleteDomain = useDeleteProjectOptionMutation<"customDomain">();
 
-  if (!project) {
+  if (!project || !project.jaamToastDomain) {
     throw new NotFoundError(ERROR.NOT_FOUND.PARAMETER);
   }
-
-  const { buildDomain, originalBuildDomain } = project;
-  const updateDomain = useUpdateProjectMutaion<"buildDomain">();
-  const deleteDomain = useDeleteProjectOptionMutation<"buildDomain">();
 
   const handleDeleteClick = (domain: string) => {
     deleteDomain.mutate({
       projectName,
-      option: { buildDomain: domain },
+      option: { customDomain: domain },
     });
   };
 
-  const handleAddClick = (data: UpdateProjectOption<"buildDomain">) => {
+  const handleAddClick = (data: Pick<AddProjectOptions, "customDomain">) => {
     if (!data) {
       return setWarningMessage("Domain data not found");
     }
@@ -52,7 +50,7 @@ export function DomainSection({ projectName }: { projectName: string }) {
         <br />
         The value of the custom CNAME record must point to
         <span className={css.sectionDescriptionHighlight}>
-          {originalBuildDomain}
+          {project.jaamToastDomain}
         </span>
         .
       </p>
@@ -74,26 +72,27 @@ export function DomainSection({ projectName }: { projectName: string }) {
         />
         <button
           disabled={!domain}
-          onClick={() => handleAddClick({ buildDomain: domain })}
+          onClick={() => handleAddClick({ customDomain: domain })}
           className={css.addButton}
         >
           add
         </button>
       </div>
       <ul className={css.domainList}>
-        {project.buildDomain.map(domain => (
+        {project.customDomain.map(domain => (
           <li key={domain} className={css.domainWrapper}>
-            <div className={css.domain}>{domain}</div>
-            {buildDomain.length > 1 && (
-              <button
-                onClick={() => handleDeleteClick(domain)}
-                className={css.addButton}
-              >
-                delete
-              </button>
-            )}
+            <span className={css.domain}>{domain}</span>
+            <button
+              onClick={() => handleDeleteClick(domain)}
+              className={css.addButton}
+            >
+              delete
+            </button>
           </li>
         ))}
+        <li key={domain} className={css.domainWrapper}>
+          <span className={css.domain}>{project.jaamToastDomain}</span>
+        </li>
       </ul>
     </section>
   );

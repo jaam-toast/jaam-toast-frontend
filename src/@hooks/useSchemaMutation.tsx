@@ -111,7 +111,7 @@ export function useDeleteSchemaMutation() {
         throw new ValidationError(ERROR.NOT_FOUND.SCHEMA_NAME);
       }
 
-      if (!!Array.isArray(schemaNames)) {
+      if (!Array.isArray(schemaNames)) {
         throw new ValidationError("Schema names must be array.");
       }
 

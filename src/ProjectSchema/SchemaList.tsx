@@ -86,7 +86,7 @@ export function SchemaList({
                 valuesCount={schemaList.length}
               />
             </td>
-            <td className={css.cell}>
+            <td className={`${css.cell} ${css.nameCell}`}>
               <div
                 onClick={() => handleSchemaClick({ schema: data.schema })}
                 className={css.nameField}

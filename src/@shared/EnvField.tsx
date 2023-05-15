@@ -9,7 +9,7 @@ import { TextField } from "./";
 import * as css from "./EnvField.css";
 
 import type { KeyboardEvent } from "react";
-import { Env } from "../@types/build";
+import type { Env } from "../@types/project";
 
 type EnvFieldProps = {
   envs?: Env[];
