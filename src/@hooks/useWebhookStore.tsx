@@ -1,27 +1,29 @@
 import { create } from "zustand";
 import isURL from "validator/lib/isURL";
 
+import APIClient from "../@utils/api";
+import { useAuth } from "./useAuth";
+
 import type { Webhook } from "../@types/cms";
 
 type WebhookStore = {
-  webhookList: Webhook[];
   webhook: Webhook;
   webhookErrorMessage: {
     name: string;
     url: string;
   };
+  isWebhookChanged: boolean;
 
   actions: {
-    setWebhookName: (name: string) => void;
+    setWebhookName: (name: string, projectName: string) => void;
     setWebhookUrl: (url: string) => void;
     setWebhook: (webhook: Webhook) => void;
-    setWebhookList: (webhookList: Webhook[]) => void;
+    setIsWebhookChanged: () => void;
     reset: () => void;
   };
 };
 
 const initialState: Omit<WebhookStore, "actions"> = {
-  webhookList: [],
   webhook: {
     name: "",
     url: "",
@@ -31,16 +33,40 @@ const initialState: Omit<WebhookStore, "actions"> = {
     name: "",
     url: "",
   },
+  isWebhookChanged: false,
 };
 
 export const useWebhookStore = create<WebhookStore>((set, get) => ({
   ...initialState,
 
   actions: {
-    setWebhookName: name => {
-      // TODO name 중복 검사 추가
-      if (name) {
-        // TODO 중복시 에러메시지 설정
+    setWebhookName: async (name, projectName) => {
+      const { user } = useAuth();
+
+      if (!user) {
+        return;
+      }
+
+      const api = new APIClient()
+        .setAccessToken(user.accessToken)
+        .setGithubAccessToken(user.githubAccessToken)
+        .setUserId(user.id);
+
+      const project = await api.getProject(projectName);
+
+      const isAvailableName = !project?.webhookList.some(
+        webhookData => webhookData.name === name,
+      );
+
+      if (!isAvailableName) {
+        set(state => ({
+          webhookErrorMessage: {
+            ...state.webhookErrorMessage,
+            name: "Your webhook name is duplicated",
+          },
+        }));
+
+        return;
       }
 
       if (get().webhookErrorMessage.name) {
@@ -90,17 +116,19 @@ export const useWebhookStore = create<WebhookStore>((set, get) => ({
     setWebhook: webhook => {
       set({ webhook });
     },
-    setWebhookList: webhookList => {
-      set({ webhookList });
+    setIsWebhookChanged: () => {
+      set(state => ({ isWebhookChanged: !state.isWebhookChanged }));
     },
-    reset: () => set(initialState),
+    reset: () => {
+      set(initialState);
+    },
   },
 }));
 
 export const useWebhookState = () => useWebhookStore(state => state.webhook);
 
-export const useWebhookListState = () =>
-  useWebhookStore(state => state.webhookList);
+export const useIsWebhookChangedState = () =>
+  useWebhookStore(state => state.isWebhookChanged);
 
 export const useWebhookErrorMessageState = () =>
   useWebhookStore(state => state.webhookErrorMessage);
@@ -110,10 +138,6 @@ export const useSetWebhook = () =>
     setWebhookName: state.actions.setWebhookName,
     setWebhookUrl: state.actions.setWebhookUrl,
     setWebhook: state.actions.setWebhook,
+    reset: state.actions.reset,
+    setIsWebhookChanged: state.actions.setIsWebhookChanged,
   }));
-
-export const useSetWebhookList = () =>
-  useWebhookStore(state => state.actions.setWebhookList);
-
-export const useResetWebhook = () =>
-  useWebhookStore(state => state.actions.reset);
