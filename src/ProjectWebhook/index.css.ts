@@ -101,6 +101,12 @@ export const subDescription = style({
   color: COLORS.GREY,
 });
 
+export const optionBoxWrapper = style([
+  s.flex,
+  s.fullWidth,
+  { justifyContent: "flex-end" },
+]);
+
 export const optionBox = style([
   s.flex,
   {

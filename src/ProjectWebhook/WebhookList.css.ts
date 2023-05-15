@@ -20,3 +20,21 @@ export const optionBox = style([
 export const optionCell = style([s.tableOptionCell]);
 
 export const optionIcon = style([{ cursor: "pointer" }]);
+
+export const cellBox = style([
+  s.scroll,
+  { padding: "1rem 1rem 1rem 0", overflow: "scroll" },
+]);
+
+export const nameCell = style([s.scroll, { maxWidth: "5rem" }]);
+
+export const urlCell = style({ maxWidth: "10rem" });
+
+export const eventsCell = style({ maxWidth: "10rem" });
+
+export const eventsBox = style([
+  cellBox,
+  {
+    lineHeight: 2.5,
+  },
+]);
