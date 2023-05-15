@@ -4,22 +4,25 @@ import { toast } from "react-toastify";
 import {
   useWebhookState,
   useCheckboxState,
-  useUpdateProjectMutaion,
+  useAddProjectOptionMutaion,
+  useSetWebhook,
+  useWebhookErrorMessageState,
 } from "../@hooks";
 import { NotFoundError } from "../@utils/createError";
 import { ERROR } from "../@config/message";
 import { WebhookEditor } from "../ProjectWebhook/WebhookEditor";
 import * as css from "./index.css";
 
-import { WEBHOOK_EVENTS_RECORD } from "../@types/cms";
 import type { WebhookEvent } from "../@types/cms";
 
 export function NewWebhook() {
   const navigate = useNavigate();
-  const { projectName } = useParams();
+  const { userName, projectName } = useParams();
   const { values: checkboxValues } = useCheckboxState();
   const webhook = useWebhookState();
-  const createWebhook = useUpdateProjectMutaion<"webhook">();
+  const warningMessage = useWebhookErrorMessageState();
+  const { reset: resetWebhookState, setIsWebhookChanged } = useSetWebhook();
+  const createWebhook = useAddProjectOptionMutaion<"webhook">();
 
   if (!projectName) {
     throw new NotFoundError(ERROR.NOT_FOUND.PROJECT_NAME);
@@ -27,28 +30,31 @@ export function NewWebhook() {
 
   const handlePrevClick = () => {
     navigate(-1);
+    resetWebhookState();
   };
 
-  const handleSaveClick = () => {
-    const hasInvalidEvent = !![...checkboxValues].filter(
-      t => !WEBHOOK_EVENTS_RECORD[t as WebhookEvent],
-    ).length;
-
+  const handleSaveClick = async () => {
+    console.log({ webhook, checkboxValues, warningMessage });
     if (
       !webhook.name ||
       !webhook.url ||
       !checkboxValues.size ||
-      hasInvalidEvent
+      warningMessage.name ||
+      warningMessage.url
     ) {
-      toast.error("The request field is invalid, please check.");
+      return toast.error("The request field is invalid, please check.");
     }
 
-    createWebhook.mutate({
+    await createWebhook.mutateAsync({
       projectName,
       option: {
         webhook: { ...webhook, events: [...checkboxValues] as WebhookEvent[] },
       },
     });
+
+    navigate(`/${userName}/${projectName}/webhook`);
+    resetWebhookState();
+    setIsWebhookChanged();
   };
 
   return (
@@ -67,7 +73,7 @@ export function NewWebhook() {
           + Save
         </button>
       </header>
-      <WebhookEditor title="Create new Webhook" />
+      <WebhookEditor title="Create new Webhook" projectName={projectName} />
     </div>
   );
 }

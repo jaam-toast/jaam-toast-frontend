@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { CheckDeleteBox, SelectBox } from "../@shared";
 import {
   useCheckboxState,
   useDeleteProjectOptionMutation,
+  useSetCheckboxState,
   useSetConfirmModal,
 } from "../@hooks";
 import { NotFoundError } from "../@utils/createError";
@@ -20,13 +22,16 @@ export function ProjectWebhook() {
   const navigate = useNavigate();
   const { userName, projectName } = useParams();
   const [orderMode, setOrderMode] = useState<OrderMode>("ascending");
-  const { values: checkboxValues } = useCheckboxState();
   const { openConfirm } = useSetConfirmModal();
-  const deleteWebhooks = useDeleteProjectOptionMutation<"webhook">();
+  const { values: checkboxValues } = useCheckboxState();
+  const { reset: resetCheckbox } = useSetCheckboxState();
+  const queryClient = useQueryClient();
 
   if (!userName || !projectName) {
     throw new NotFoundError("projectName, userName not found");
   }
+
+  const deleteWebhooks = useDeleteProjectOptionMutation<"webhook">();
 
   const handleNewClick = () => {
     navigate("new");
@@ -37,13 +42,15 @@ export function ProjectWebhook() {
 
     openConfirm({
       message: `Do you want to delete webhooks?`,
-      onConfirm: () => {
-        deleteWebhooks.mutate({
+      onConfirm: async () => {
+        await deleteWebhooks.mutateAsync({
           projectName,
           option: {
             webhook: webhooks,
           },
         });
+
+        resetCheckbox();
       },
     });
   };
@@ -82,22 +89,28 @@ export function ProjectWebhook() {
           or deleted, you can use a Webhook to detect and process these changes.
         </div>
       </details>
-      <div className={css.optionBox}>
-        {checkboxValues.size ? (
-          <CheckDeleteBox onDelete={handleDeleteClick} />
-        ) : (
-          <div className={css.optionBox}>
-            <SelectBox
-              options={["ascending", "descending"]}
-              defaultSelect={"ascending"}
-              onSelectionChange={setOrderMode}
-              label={"Order"}
-            />
-          </div>
-        )}
+      <div className={css.optionBoxWrapper}>
+        <div className={css.optionBox}>
+          {checkboxValues.size ? (
+            <CheckDeleteBox onDelete={handleDeleteClick} />
+          ) : (
+            <div className={css.optionBox}>
+              <SelectBox
+                options={["ascending", "descending"]}
+                defaultSelect={"ascending"}
+                onSelectionChange={setOrderMode}
+                label={"Order"}
+              />
+            </div>
+          )}
+        </div>
       </div>
       <AsyncBoundary suspenseFallback={<ContentsListSkeleton />}>
-        <WebhookList projectName={projectName} orderOption={orderMode} />
+        <WebhookList
+          projectName={projectName}
+          orderOption={orderMode}
+          onDelete={handleDeleteClick}
+        />
       </AsyncBoundary>
     </section>
   );

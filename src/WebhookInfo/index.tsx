@@ -1,10 +1,16 @@
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import keys from "lodash/keys";
 
 import {
   useWebhookState,
   useCheckboxState,
-  useUpdateProjectMutaion,
+  useUpdateWebhookMutaion,
+  useSetWebhook,
+  useProjectQuery,
+  useSetCheckboxState,
+  useWebhookErrorMessageState,
 } from "../@hooks";
 import { ERROR } from "../@config/message";
 import { NotFoundError } from "../@utils/createError";
@@ -16,40 +22,71 @@ import type { WebhookEvent } from "../@types/cms";
 
 export function WebhookInfo() {
   const navigate = useNavigate();
-  const { projectName, webhookName } = useParams();
-  const webhook = useWebhookState();
+  const { projectName, webhookId } = useParams();
   const { values: checkboxValues } = useCheckboxState();
-  const createWebhook = useUpdateProjectMutaion<"webhook">();
+  const { setCheckboxValue } = useSetCheckboxState();
+  const webhook = useWebhookState();
+  const warningMessage = useWebhookErrorMessageState();
+  const {
+    setWebhook,
+    reset: resetWebhookState,
+    setIsWebhookChanged,
+  } = useSetWebhook();
+  const updateWebhook = useUpdateWebhookMutaion();
 
-  if (!projectName || !webhookName) {
+  if (!projectName || !webhookId) {
     throw new NotFoundError(ERROR.NOT_FOUND.PROJECT_NAME);
   }
-  // TODO webhookName으로 webhook 데이터 찾는 것 추가
+
+  const { data: project } = useProjectQuery(projectName);
+
+  useEffect(() => {
+    const currentWebhook = project?.webhookList?.find(
+      webhook => webhook.webhookId === webhookId,
+    ) ?? {
+      name: "",
+      events: [],
+      url: "",
+    };
+
+    currentWebhook.events.forEach(event => {
+      setCheckboxValue({
+        value: event,
+        checkboxCount: keys(WEBHOOK_EVENTS_RECORD).length,
+        isInitialize: true,
+      });
+    });
+    setWebhook(currentWebhook);
+  }, []);
 
   const handlePrevClick = () => {
     navigate(-1);
+    resetWebhookState();
   };
 
-  const handleSaveClick = () => {
-    const hasInvalidEvent = !![...checkboxValues].filter(
-      t => !WEBHOOK_EVENTS_RECORD[t as WebhookEvent],
-    ).length;
-
+  const handleSaveClick = async () => {
     if (
       !webhook.name ||
       !webhook.url ||
       !checkboxValues.size ||
-      hasInvalidEvent
+      !warningMessage.name ||
+      !warningMessage.url
     ) {
       toast.error("The request field is invalid, please check.");
     }
 
-    createWebhook.mutate({
+    await updateWebhook.mutateAsync({
       projectName,
       option: {
-        webhook: { ...webhook, events: [...checkboxValues] as WebhookEvent[] },
+        ...webhook,
+        webhookId,
+        events: [...checkboxValues] as WebhookEvent[],
       },
     });
+
+    navigate(-1);
+    resetWebhookState();
+    setIsWebhookChanged();
   };
 
   return (
@@ -68,7 +105,10 @@ export function WebhookInfo() {
           + Save
         </button>
       </header>
-      <WebhookEditor title={`${webhook.name} webhook info`} />
+      <WebhookEditor
+        title={`${webhook.name} webhook info`}
+        projectName={projectName}
+      />
     </div>
   );
 }

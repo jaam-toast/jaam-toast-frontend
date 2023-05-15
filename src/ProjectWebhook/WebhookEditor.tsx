@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import values from "lodash/values";
 import keys from "lodash/keys";
 
@@ -10,25 +9,21 @@ import {
   useWebhookErrorMessageState,
 } from "../@hooks";
 import { TitleField } from "../ProjectSchema/TitleField";
-import * as css from "./NewWebhook.css";
+import * as css from "./WebhookEditor.css";
 
 import { WEBHOOK_EVENTS_RECORD, WebhookEvent } from "../@types/cms";
 
-export function WebhookEditor({ title }: { title: string }) {
+export function WebhookEditor({
+  title,
+  projectName,
+}: {
+  title: string;
+  projectName: string;
+}) {
   const webhook = useWebhookState();
   const warningMessage = useWebhookErrorMessageState();
   const { setWebhookName, setWebhookUrl } = useSetWebhook();
   const { setCheckboxValue } = useSetCheckboxState();
-
-  useEffect(() => {
-    webhook.events.forEach(event => {
-      setCheckboxValue({
-        value: event,
-        checkboxCount: keys(WEBHOOK_EVENTS_RECORD).length,
-        isInitialize: true,
-      });
-    });
-  }, []);
 
   const handleEventClick = (value: WebhookEvent) => {
     setCheckboxValue({
@@ -46,8 +41,9 @@ export function WebhookEditor({ title }: { title: string }) {
         <div className={css.sectionFieldWrapper}>
           <TitleField>Webhook Name</TitleField>
           <TextField
+            key={webhook.name}
             value={webhook.name}
-            onTextFieldChange={name => setWebhookName(name)}
+            onTextFieldChange={name => setWebhookName(name, projectName)}
           />
           {!!warningMessage.name && (
             <p className={css.warningMessage}>{warningMessage.name}</p>
@@ -56,6 +52,7 @@ export function WebhookEditor({ title }: { title: string }) {
         <div className={css.sectionFieldWrapper}>
           <TitleField>URL</TitleField>
           <TextField
+            key={webhook.url}
             value={webhook.url}
             onTextFieldChange={url => setWebhookUrl(url)}
           />
