@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { createPortal } from "react-dom";
 
 import { Header, ProjectInfoLayout } from "./@shared";
 import { useAuth } from "./@hooks";
@@ -25,7 +26,6 @@ import { NotFound } from "./Error/NotFound";
 import { Error } from "./Error";
 import { AsyncBoundary } from "./Error/AsyncBoundary";
 import { Portal } from "./Portal";
-import { createPortal } from "react-dom";
 import * as css from "./app.css";
 
 export function App() {
@@ -92,7 +92,7 @@ export function App() {
               element={<NewWebhook />}
             />
             <Route
-              path="/:userName/:projectName/webhook/:webhookName"
+              path="/:userName/:projectName/webhook/:webhookId"
               element={<WebhookInfo />}
             />
             <Route
