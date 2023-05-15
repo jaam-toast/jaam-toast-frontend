@@ -1,7 +1,7 @@
 import { Amplify, Storage } from "aws-amplify";
-import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
+// import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
+// import { fromCognitoIdentityPool } from "@aws-sdk/credential-providers";
 import { nanoid } from "nanoid";
-import { fromCognitoIdentityPool } from "@aws-sdk/credential-providers";
 
 import Config from "../@config";
 
