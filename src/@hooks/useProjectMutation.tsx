@@ -10,16 +10,16 @@ import { ERROR, SUCCESS } from "../@config/message";
 import type {
   DeleteProjectOption,
   UpdateProjectBuildOptions,
-  UpdateProjectOption,
-  UpdateProjectOptions,
+  AddProjectOptions,
 } from "../@types/api";
 import { ValidationError } from "../@utils/createError";
 import { toast } from "react-toastify";
+import { Webhook } from "src/@types/cms";
 
 export function useCreateProjectMutation() {
   const {
     projectName,
-    isProjectNameAvailable,
+    isAvailableProjectName,
     nodeVersion,
     framework,
     buildCommand,
@@ -38,7 +38,7 @@ export function useCreateProjectMutation() {
     ["project-create"],
     async () => {
       if (
-        !isProjectNameAvailable ||
+        !isAvailableProjectName ||
         !projectName ||
         !space ||
         !repoName ||
@@ -54,7 +54,7 @@ export function useCreateProjectMutation() {
 
       const createProjectOptions = {
         userId: user.id,
-        space,
+        space: space.spaceName,
         repoName,
         repoCloneUrl: `https://github.com/${space}/${repoName}.git`,
         projectUpdatedAt: new Date().toISOString(),
@@ -73,8 +73,8 @@ export function useCreateProjectMutation() {
   );
 }
 
-export function useUpdateProjectMutaion<
-  T extends keyof UpdateProjectOptions,
+export function useAddProjectOptionMutaion<
+  Option extends keyof Partial<AddProjectOptions>,
 >() {
   const { user } = useAuth();
 
@@ -90,13 +90,48 @@ export function useUpdateProjectMutaion<
       option,
     }: {
       projectName: string;
-      option: UpdateProjectOption<T>;
+      option: Pick<AddProjectOptions, Option>;
+      webhookId?: string;
     }) => {
       if (isEmpty(option)) {
         throw new ValidationError(ERROR.NOT_FOUND.ALL);
       }
 
-      return api.updateProject<T>({ projectName, updateOption: option });
+      return api.addProjectOption<Pick<AddProjectOptions, Option>>({
+        projectName,
+        updateOption: option,
+      });
+    },
+    { onSuccess: () => toast.success(SUCCESS.UPDATE) },
+  );
+}
+
+export function useUpdateWebhookMutaion() {
+  const { user } = useAuth();
+
+  const api = new APIClient()
+    .setUserId(user?.id)
+    .setAccessToken(user?.accessToken)
+    .setGithubAccessToken(user?.githubAccessToken);
+
+  return useMutation(
+    ["project-patch"],
+    async ({
+      projectName,
+      option,
+    }: {
+      projectName: string;
+      option: Webhook;
+      webhookId?: string;
+    }) => {
+      if (isEmpty(option)) {
+        throw new ValidationError(ERROR.NOT_FOUND.ALL);
+      }
+
+      return api.updateProjectWebhookOption({
+        projectName,
+        updateOption: option,
+      });
     },
     { onSuccess: () => toast.success(SUCCESS.UPDATE) },
   );
@@ -137,7 +172,7 @@ export function useUpdateBuildOptionMutation() {
 }
 
 export function useDeleteProjectOptionMutation<
-  T extends keyof UpdateProjectOptions,
+  T extends keyof AddProjectOptions,
 >() {
   const { user } = useAuth();
 
