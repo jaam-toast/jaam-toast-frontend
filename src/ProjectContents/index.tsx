@@ -37,10 +37,14 @@ export function ProjectContents() {
   }
 
   const token = project.storageKey;
-  const schemaList = project.schemaList;
+  const schemaList = project.schemaList.filter(
+    schema => schema.schemaName !== "assets",
+  );
 
   useEffect(() => {
-    setCurrentSchemaName(schemaList[0].schemaName);
+    if (schemaList.length) {
+      setCurrentSchemaName(schemaList[0].schemaName);
+    }
   }, []);
 
   const handleAddClick = () => {
@@ -59,6 +63,7 @@ export function ProjectContents() {
     });
   };
 
+  // TODO preset 없애기
   return (
     <div className={css.container}>
       <header className={css.header}>
@@ -73,7 +78,9 @@ export function ProjectContents() {
               <div className={css.schemaInputBox}>
                 <SelectBox
                   options={
-                    schemaList?.map(data => data.schemaName) || ["Preset"]
+                    schemaList.length
+                      ? schemaList.map(data => data.schemaName)
+                      : ["Preset"]
                   }
                   defaultSelect={
                     schemaList && !!schemaList.length

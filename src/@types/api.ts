@@ -1,49 +1,42 @@
-import type { Space } from "./user";
 import type { BuildOptions } from "./build";
 import type { Webhook } from "./cms";
 
-export type Response<T> = {
+export type Response<Result> = {
   message: string;
-  result: T;
+  result: Result;
 };
 
 export type CreateProjectOptions = BuildOptions & {
   userId: string;
-  space: Space;
+  space: string;
   repoName: string;
   repoCloneUrl: string;
   projectUpdatedAt: string;
   githubAccessToken: string;
 };
 
-export type UpdateProjectOptions = {
-  buildDomain: string;
+export type AddProjectOptions = {
+  customDomain: string;
   webhook: Webhook;
 };
-
-export type UpdateProjectOption<T extends keyof UpdateProjectOptions> = Pick<
-  UpdateProjectOptions,
-  T
->;
 
 export type UpdateProjectBuildOptions = Omit<
   BuildOptions,
   "projectName" | "framework" | "nodeVersion"
 >;
 
+// TODO
 export type UpdateProjectBuildOption<
-  T extends keyof UpdateProjectBuildOptions,
-> = Pick<UpdateProjectBuildOptions, T>;
+  Option extends keyof UpdateProjectBuildOptions,
+> = Pick<UpdateProjectBuildOptions, Option>;
 
 export type DeleteProjectOptions = {
-  buildDomain: string;
+  customDomain: string;
   webhook: Webhook[];
 };
 
-export type DeleteProjectOption<T extends keyof DeleteProjectOptions> = Pick<
-  DeleteProjectOptions,
-  T
->;
+export type DeleteProjectOption<Option extends keyof DeleteProjectOptions> =
+  Pick<DeleteProjectOptions, Option>;
 
 export type CreateWebhookOptions = {
   name: string;

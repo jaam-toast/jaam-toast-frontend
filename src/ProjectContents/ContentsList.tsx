@@ -70,7 +70,7 @@ export function ContentsList({
             </tr>
           </thead>
           <tbody className={css.tbody}>
-            {sortBy<any>({
+            {sortBy<Content>({
               mode: orderOption,
               data: contentsList ?? [],
               fieldName: "schemaName",

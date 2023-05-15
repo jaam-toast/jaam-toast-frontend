@@ -1,34 +1,45 @@
 import { SchemaData, Webhook } from "./cms";
 
 export type Project = {
+  _id: string;
   projectName: string;
-  repoName: string;
-  space: string;
-  repoCloneUrl: string;
-  projectUpdatedAt: string;
   status: ProjectStatus;
+  projectUpdatedAt: string;
+  deploymentData: {};
 
-  framework: string;
+  space: string;
+  repoName: string;
+  repoCloneUrl: string;
+  framework: Framework;
   nodeVersion: string;
   installCommand: string;
   buildCommand: string;
   envList: Env[];
-  buildType: string;
 
-  buildDomain: string[];
-  originalBuildDomain: string;
-  cmsDomain: string;
   storageKey: string;
-
   schemaList: SchemaData[];
-  assetStorageUrl: string;
-  webhookList?: Webhook[];
-  // TODO deploymentData 추가
-
-  repoId: string;
-  webhookId: string;
-  lastCommitMessage: string;
+  webhookList: Webhook[];
+  jaamToastDomain?: string;
+  originalBuildDomain?: string;
+  customDomain: string[];
+  cmsDomain?: string;
+  assetStorageUrl?: string;
 };
+
+type Framework =
+  | "CreateReactApp"
+  | "ReactStatic"
+  | "NextJs"
+  | "NuxtJs"
+  | "Angular"
+  | "Astro"
+  | "Gatsby"
+  | "GitBook"
+  | "Jekyll"
+  | "Remix"
+  | "Svelte"
+  | "Vue"
+  | "VuePress";
 
 export type Env = {
   key: string;

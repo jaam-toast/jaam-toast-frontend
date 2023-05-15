@@ -6,14 +6,13 @@ import type { Repo, Space, User } from "../@types/user";
 import type {
   CreateProjectOptions,
   Response,
-  UpdateProjectOption,
-  UpdateProjectOptions,
+  AddProjectOptions,
   UpdateProjectBuildOptions,
   DeleteProjectOption,
   DeleteProjectOptions,
 } from "../@types/api";
 import type { Project, ProjectId } from "src/@types/project";
-import type { SchemaData } from "../@types/cms";
+import type { SchemaData, Webhook } from "../@types/cms";
 
 class APIClient {
   private accessToken: string = "";
@@ -27,7 +26,7 @@ class APIClient {
         Authorization: `Bearer ${this.accessToken}`,
       },
       params: {},
-      timeout: 2500,
+      // timeout: 2500,
     });
 
     client.interceptors.request.use(config => {
@@ -132,16 +131,38 @@ class APIClient {
     }
   }
 
-  async updateProject<T extends keyof UpdateProjectOptions>({
+  async addProjectOption<Option extends Partial<AddProjectOptions>>({
     projectName,
     updateOption,
   }: {
     projectName: string;
-    updateOption: UpdateProjectOption<T>;
+    updateOption: Option;
+    webhookId?: string;
   }): Promise<string> {
     try {
+      console.log({ projectName });
       const { data } = await this.client().patch<Response<string>>(
         `/projects/${projectName}/options`,
+        updateOption,
+      );
+
+      return data.message;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updateProjectWebhookOption({
+    projectName,
+    updateOption,
+  }: {
+    projectName: string;
+    updateOption: Webhook;
+  }): Promise<string> {
+    try {
+      console.log({ updateOption });
+      const { data } = await this.client().patch<Response<string>>(
+        `/projects/${projectName}/options/${updateOption.webhookId}`,
         updateOption,
       );
 
@@ -182,12 +203,12 @@ class APIClient {
     }
   }
 
-  async deleteProjectOption<T extends keyof DeleteProjectOptions>({
+  async deleteProjectOption<Option extends keyof DeleteProjectOptions>({
     projectName,
     deleteOption,
   }: {
     projectName: string;
-    deleteOption: DeleteProjectOption<T>;
+    deleteOption: DeleteProjectOption<Option>;
   }): Promise<string> {
     try {
       const { data } = await this.client().delete<Response<string>>(

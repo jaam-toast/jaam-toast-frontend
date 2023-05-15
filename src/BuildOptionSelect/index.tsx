@@ -33,13 +33,7 @@ export function BuildOptionSelect() {
   const { setRepoName, setSpace, setDefaultCommand } =
     usePresetBuildOptionActions();
 
-  const deploy = useCreateProjectMutation({
-    onSuccess: () => {
-      navigate(`./deploy`);
-    },
-    // TODO: 에러 처리.
-    onError: () => {},
-  });
+  const deploy = useCreateProjectMutation();
 
   const handleClickPrev = () => {
     navigate(-1);
@@ -87,12 +81,12 @@ export function BuildOptionSelect() {
         <div className={css.buildOptionList}>
           <div
             className={`${css.buildOption} ${
-              buildOptions.isProjectNameAvailable ? "" : css.unavailableOption
+              buildOptions.isAvailableProjectName ? "" : css.unavailableOption
             }`}
           >
             <p className={css.buildOptionTitle}>Project Name</p>
             {/* // TODO: apply red point color */}
-            {!buildOptions.isProjectNameAvailable && (
+            {!buildOptions.isAvailableProjectName && (
               <p>Your Project Name is duplicated.</p>
             )}
             {/* // TODO: apply red point color when projectName is duplicated */}
