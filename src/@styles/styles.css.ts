@@ -200,7 +200,10 @@ export const tableRow = style([
   },
 ]);
 
-export const tableCell = style([{ maxWidth: "30rem", padding: "1rem" }]);
+export const tableCell = style([
+  scroll,
+  { maxWidth: "10rem", padding: "1rem" },
+]);
 
 export const tableOptionCell = style({ width: "5%" });
 

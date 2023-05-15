@@ -12,6 +12,8 @@ export const row = style([s.tableRow]);
 export const cell = style([s.tableCell]);
 export const checkboxField = style([s.tdCheckbox]);
 
+export const nameCell = style([s.scroll, { maxWidth: "5rem" }]);
+
 export const nameField = style([
   s.inlineFlex,
   {

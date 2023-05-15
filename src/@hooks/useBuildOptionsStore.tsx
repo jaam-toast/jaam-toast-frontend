@@ -10,7 +10,7 @@ import type { Framework, NodeVersion } from "../@types/build";
 
 type BuildOptionsStore = {
   projectName: string | null;
-  isProjectNameAvailable: boolean;
+  isAvailableProjectName: boolean;
   nodeVersion: NodeVersion | null;
   envList: Env[];
   framework: Framework | null;
@@ -40,7 +40,7 @@ type BuildOptions = keyof Pick<
 
 const useBuildOptionsStore = create<BuildOptionsStore>()((set, get) => ({
   projectName: null,
-  isProjectNameAvailable: true,
+  isAvailableProjectName: true,
   nodeVersion: null,
   framework: null,
   buildCommand: "npm run build",
@@ -74,11 +74,11 @@ const useBuildOptionsStore = create<BuildOptionsStore>()((set, get) => ({
       const project = await api.getProject(projectName);
 
       set({
-        isProjectNameAvailable: !project,
+        isAvailableProjectName: !project,
       });
     } catch (error) {
       set({
-        isProjectNameAvailable: true,
+        isAvailableProjectName: true,
       });
     }
   },
@@ -96,7 +96,7 @@ export const useBuildOptions = () => {
   return useBuildOptionsStore(
     (state: BuildOptionsStore) => ({
       projectName: state.projectName || defaultProjectName,
-      isProjectNameAvailable: state.isProjectNameAvailable,
+      isAvailableProjectName: state.isAvailableProjectName,
       nodeVersion: state.nodeVersion || defaultNodeVersion,
       framework: state.framework || defaultFramework,
       buildCommand: state.buildCommand || defaultBuildCommand,

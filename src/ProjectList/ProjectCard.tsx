@@ -5,6 +5,7 @@ import utc from "dayjs/plugin/utc";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(utc);
 dayjs.extend(relativeTime);
+import last from "lodash/last";
 
 import { Favicon } from "./Favicon";
 import { Avatar } from "../@shared";
@@ -19,6 +20,14 @@ export function ProjectCard({ projectId }: { projectId: string }) {
   const { data: project } = useProjectQuery(projectId);
   const { data: userData } = useUserQuery();
   const navigate = useNavigate();
+
+  if (!project) {
+    throw new NotFoundError(ERROR.NOT_FOUND.PROJECT_DATA);
+  }
+
+  const domain = project.customDomain.length
+    ? last(project.customDomain)
+    : project.jaamToastDomain;
 
   if (!project || !userData) {
     throw new NotFoundError(ERROR.NOT_FOUND.ALL);
@@ -48,7 +57,7 @@ export function ProjectCard({ projectId }: { projectId: string }) {
       >
         <li className={css.projectCardhead}>
           <Avatar size="large" className={css.avatar}>
-            <Favicon domain={project.buildDomain[0]} />
+            <Favicon domain={domain ?? ""} />
           </Avatar>
           <Avatar size="large" className={css.avatar}>
             <Favicon domain={FRAMEWORK_DOMAIN[project.framework]} />
@@ -61,9 +70,7 @@ export function ProjectCard({ projectId }: { projectId: string }) {
       <div className={css.projectCardMain}>
         <b className={css.projectCardName}>{project.projectName}</b>
         <span className={css.projectCardUrl}>
-          {!!project.buildDomain.length
-            ? project.buildDomain[project.buildDomain.length - 1]
-            : "url not found..."}
+          {domain ?? "url not found..."}
         </span>
       </div>
       <div className={css.projectCardFooter}>
