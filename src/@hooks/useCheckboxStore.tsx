@@ -18,6 +18,7 @@ type CheckboxStore = {
       checkboxCount: number;
       isInitialize?: boolean;
     }) => void;
+    reset: () => void;
   };
 };
 
@@ -66,6 +67,7 @@ const useCheckboxStore = create<CheckboxStore>((set, get) => ({
         }));
       }
     },
+    reset: () => set(initialState),
   },
 }));
 
