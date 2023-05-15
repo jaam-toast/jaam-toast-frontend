@@ -14,9 +14,12 @@ export default defineConfig({
     },
   },
   resolve: {
-    alias: [{ find: "@jaam-schema", replacement: "/packages/jaam-schema" }],
-  },
-  define: {
-    global: {},
+    alias: [
+      { find: "@jaam-schema", replacement: "/packages/jaam-schema" },
+      {
+        find: "./runtimeConfig",
+        replacement: "./runtimeConfig.browser",
+      },
+    ],
   },
 });
