@@ -35,10 +35,15 @@ export function NewContent() {
     throw new NotFoundError("project data not found");
   }
 
-  const { schemaList, storageKey: token } = project;
+  const { storageKey: token } = project;
+  const schemaList = project.schemaList.filter(
+    schema => schema.schemaName !== "assets",
+  );
 
   if (!schemaList || !schemaList.length) {
-    throw new NotFoundError("schema data not found");
+    // TODO schema 생성 권하는 페이지
+    alert("스키마 없어");
+    // throw new NotFoundError("schema data not found");
   }
 
   const { schema } = useMemo(

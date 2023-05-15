@@ -47,7 +47,7 @@ export class ContentsAPIClient {
           params: {
             page,
             pageLength,
-            sort,
+            sort: sort === "createAt" ? "_createdAt" : "_updatedAt",
             order,
           },
         },
@@ -129,28 +129,9 @@ export class ContentsAPIClient {
         `/storage/${schemaName}/contents`,
         {
           params: {
-            contentsId: contentIds,
+            contentId: contentIds,
           },
         },
-      );
-
-      return data.message;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  async createAsset({
-    schemaName,
-    assets,
-  }: {
-    schemaName: string;
-    assets: string;
-  }): Promise<string> {
-    try {
-      const { data } = await this.client().post<Response<string>>(
-        `/storage/${schemaName}/assets`,
-        assets,
       );
 
       return data.message;

@@ -14,7 +14,7 @@ export type SchemaData = {
   schema: JsonSchema;
 };
 
-export const ASSET_SCHEMA = {
+export const ASSET_SCHEMA: JsonSchema = {
   title: "assets",
   type: "object",
   properties: {
@@ -22,14 +22,16 @@ export const ASSET_SCHEMA = {
       type: "string",
       format: "url",
     },
-    name: {
+    path: {
       type: "string",
+      description: "text",
     },
     size: {
       type: "number",
     },
   },
-} as const;
+  required: [],
+};
 
 export const SCHEMA_DEFAULT_VALUE_FOR_TYPE: Record<
   JaamSchemaPropertyType,
@@ -64,9 +66,10 @@ export type Content = {
 /**
  * Asset
  */
-export type AssetInfoForEditing = {
+export type Asset = {
+  _id?: string;
   url?: string;
-  name?: string;
+  path?: string;
   size?: number;
 };
 
@@ -83,6 +86,7 @@ export type WebhookEvent = keyof typeof WEBHOOK_EVENTS_RECORD;
  * Webhook
  */
 export type Webhook = {
+  webhookId?: string;
   name: string;
   url: string;
   events: WebhookEvent[];

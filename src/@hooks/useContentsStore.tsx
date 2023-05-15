@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { shallow } from "zustand/shallow";
-import omit from "lodash/omit";
 import { jsonSchemaValidator } from "@jaam-schema/src";
 
 import type {
