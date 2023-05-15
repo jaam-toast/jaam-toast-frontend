@@ -3,9 +3,10 @@ import { useMutation } from "@tanstack/react-query";
 import omit from "lodash/omit";
 
 import { ContentsAPIClient } from "../@utils/contentsAPI";
-import { useContentsState } from "./useContentsStore";
 import { ValidationError } from "../@utils/createError";
+import { AssetAPIClient } from "../@utils/assetsAPI";
 import { ERROR, SUCCESS } from "../@config/message";
+import { useContentsState } from "./useContentsStore";
 
 export function useCreateContentMutation() {
   const { content } = useContentsState();
@@ -28,6 +29,53 @@ export function useCreateContentMutation() {
       const contentsAPI = new ContentsAPIClient().setToken(token);
 
       return contentsAPI.createContent({ schemaName, content });
+    },
+    {
+      onSuccess: () => toast.success(SUCCESS.CREATE),
+    },
+  );
+}
+
+export function useCreateAssetContentMutation() {
+  return useMutation(
+    ["asset-create"],
+    async ({
+      token,
+      projectName,
+      name,
+      asset,
+    }: {
+      token: string;
+      projectName: string;
+      name: string;
+      asset: File;
+    }) => {
+      if (!name || !asset) {
+        throw new ValidationError("Cannot find asset data");
+      }
+
+      if (!token) {
+        throw new ValidationError("Cannot find api key.");
+      }
+
+      const assetAPI = new AssetAPIClient();
+      assetAPI.connect();
+      const assetData = await assetAPI.createAsset({
+        name,
+        folderName: projectName,
+        asset,
+      });
+
+      if (!assetData) {
+        throw new ValidationError("파일 업로드에 실패");
+      }
+
+      const contentsAPI = new ContentsAPIClient().setToken(token);
+
+      return contentsAPI.createContent({
+        schemaName: "assets",
+        content: assetData,
+      });
     },
     {
       onSuccess: () => toast.success(SUCCESS.CREATE),
@@ -101,6 +149,46 @@ export function useDeleteContentsMutation() {
     },
     {
       onSuccess: () => toast.success(SUCCESS.DELETE),
+    },
+  );
+}
+
+export function useDeleteAssetContentMutation() {
+  return useMutation(
+    ["asset-create"],
+    async ({
+      token,
+      path,
+      assetId,
+    }: {
+      token: string;
+      path: string;
+      assetId: string;
+    }) => {
+      if (!token) {
+        throw new ValidationError("Cannot find api key.");
+      }
+
+      if (!path || !assetId) {
+        throw new ValidationError("Cannot find asset data");
+      }
+
+      const assetAPI = new AssetAPIClient();
+      assetAPI.connect();
+      const result = await assetAPI.deleteAsset({
+        path,
+      });
+
+      if (!result) {
+        throw new ValidationError("삭제 실패");
+      }
+
+      const contentsAPI = new ContentsAPIClient().setToken(token);
+
+      return contentsAPI.deleteContents({
+        schemaName: "assets",
+        contentIds: [assetId],
+      });
     },
   );
 }
