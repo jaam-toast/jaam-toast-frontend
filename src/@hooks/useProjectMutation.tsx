@@ -53,12 +53,9 @@ export function useCreateProjectMutation() {
       }
 
       const createProjectOptions = {
-        // userId: user.id,
         space: space.spaceName,
         repoName,
-        repoCloneUrl: `https://github.com/${space}/${repoName}.git`,
-        // projectUpdatedAt: new Date().toISOString(),
-        // githubAccessToken: user.githubAccessToken,
+        repoCloneUrl: `https://github.com/${space.spaceName}/${repoName}.git`,
         projectName,
         nodeVersion,
         framework: framework,

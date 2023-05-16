@@ -71,7 +71,10 @@ export function BuildOptionSelect() {
           </button>
           {isButtonNext && (
             <button
-              onClick={() => deploy?.mutate()}
+              onClick={() => {
+                deploy?.mutate();
+                navigate("deploy");
+              }}
               className={css.completeButton}
             >
               Complete
