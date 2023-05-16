@@ -29,15 +29,15 @@ import { Portal } from "./Portal";
 import * as css from "./app.css";
 
 export function App() {
-  const { user } = useAuth();
+  const { isLogin } = useAuth();
   const { pathname, state } = useLocation();
   const portalRoot = document.getElementById("portal-root")!;
 
-  if (pathname === "/" && !!user) {
+  if (pathname === "/" && isLogin) {
     return <Navigate to="/projects" />;
   }
 
-  if (pathname !== "/" && !user) {
+  if (pathname !== "/" && !isLogin) {
     return <Navigate to="/" />;
   }
 
