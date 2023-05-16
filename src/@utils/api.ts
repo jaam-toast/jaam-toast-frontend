@@ -31,7 +31,7 @@ export function logout() {
 
 export async function getSpaces(): Promise<Space[]> {
   try {
-    const { data } = await client.get<Response<Space[]>>(`/users/spaces`);
+    const { data } = await client.get<Response<Space[]>>(`/user/spaces`);
 
     return data.result;
   } catch (error) {
@@ -42,7 +42,7 @@ export async function getSpaces(): Promise<Space[]> {
 export async function getSpaceRepos(space: Space): Promise<Repo[]> {
   try {
     const { data } = await client.get<Response<Repo[]>>(
-      `/users/spaces/${space.installId}/repos`,
+      `/user/spaces/${space.installId}/repos`,
     );
 
     return data.result;
