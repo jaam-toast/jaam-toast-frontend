@@ -2,12 +2,14 @@ import { Navigate } from "react-router-dom";
 import { useErrorBoundary } from "react-error-boundary";
 
 import { Error } from ".";
+import { useAuth } from "../@hooks";
 import { HttpError } from "../@utils/createError";
 
 import type { AxiosError } from "axios";
 
 export function HttpErrorFallback({ error }: { error: AxiosError }) {
   const { resetBoundary } = useErrorBoundary();
+  const { logout } = useAuth();
 
   if (!error.response) {
     /**
@@ -19,6 +21,7 @@ export function HttpErrorFallback({ error }: { error: AxiosError }) {
   const { status } = error.response;
 
   if (status === 401) {
+    logout();
     return <Navigate to="/" />;
   }
 
@@ -27,7 +30,7 @@ export function HttpErrorFallback({ error }: { error: AxiosError }) {
   }
 
   if (status >= 500) {
-    return <Navigate to="/error" />;
+    return <Navigate to="/error" state={{ code: 500 }} />;
   }
 
   return (
