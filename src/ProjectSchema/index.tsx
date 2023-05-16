@@ -4,13 +4,17 @@ import { BsFillTrashFill } from "react-icons/bs";
 import { toast } from "react-toastify";
 
 import { TextField, SelectBox } from "../@shared";
-import { useModal, useCheckboxState, useSetConfirmModal } from "../@hooks";
+import {
+  useModal,
+  useCheckboxState,
+  useSetConfirmModal,
+  useDeleteSchemaMutation,
+} from "../@hooks";
 import { NotFoundError } from "../@utils/createError";
 import { ModalNewSchema } from "./ModalNewSchema";
-import { SchemaList, SchemaListSkeleton } from "./SchemaList";
-import { useDeleteSchemaMutation } from "../@hooks/useSchemaMutation";
-import { AsyncBoundary } from "../Error/AsyncBoundary";
 import { ModalSchemaInfoSkeleton } from "./ModalSchemaInfo";
+import { SchemaList, SchemaListSkeleton } from "./SchemaList";
+import { AsyncBoundary } from "../Error/AsyncBoundary";
 import * as css from "./index.css";
 
 import type { OrderMode } from "../@types/cms";

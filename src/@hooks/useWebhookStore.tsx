@@ -1,8 +1,7 @@
 import { create } from "zustand";
 import isURL from "validator/lib/isURL";
 
-import APIClient from "../@utils/api";
-import { useAuth } from "./useAuth";
+import { getProject } from "../@utils/api";
 
 import type { Webhook } from "../@types/cms";
 
@@ -41,18 +40,7 @@ export const useWebhookStore = create<WebhookStore>((set, get) => ({
 
   actions: {
     setWebhookName: async (name, projectName) => {
-      const { user } = useAuth();
-
-      if (!user) {
-        return;
-      }
-
-      const api = new APIClient()
-        .setAccessToken(user.accessToken)
-        .setGithubAccessToken(user.githubAccessToken)
-        .setUserId(user.id);
-
-      const project = await api.getProject(projectName);
+      const project = await getProject(projectName);
 
       const isAvailableName = !project?.webhookList.some(
         webhookData => webhookData.name === name,

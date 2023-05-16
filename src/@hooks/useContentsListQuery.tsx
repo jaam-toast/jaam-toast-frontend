@@ -1,8 +1,9 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
 
-import { ContentsAPIClient } from "../@utils/contentsAPI";
-import type { ContentsData, SchemaData } from "../@types/cms";
+import { getContentsList } from "../@utils/contentsAPI";
 import { ValidationError } from "../@utils/createError";
+
+import type { ContentsData, SchemaData } from "../@types/cms";
 
 export function useContentsListQuery({
   token,
@@ -23,12 +24,11 @@ export function useContentsListQuery({
     throw new ValidationError("Token not found. Please check.");
   }
 
-  const contentsAPI = new ContentsAPIClient().setToken(token);
-
   return useQuery({
     queryKey: ["contentsList", schemaName, sort, order],
     queryFn: () =>
-      contentsAPI.getContentsList({
+      getContentsList({
+        token,
         schemaName,
         page,
         pageLength,
@@ -53,13 +53,13 @@ export function useContentsCountQuery({
   if (!schemaList) {
     throw new ValidationError("Schema List not found. Please check.");
   }
-  const contentsAPI = new ContentsAPIClient().setToken(token);
 
   return useQueries({
     queries: schemaList.map(data => ({
       queryKey: ["content", data.schemaName],
       queryFn: () =>
-        contentsAPI.getContentsList({
+        getContentsList({
+          token,
           schemaName: data.schemaName,
         }),
       select: (contents: ContentsData) => contents.totalCounts,

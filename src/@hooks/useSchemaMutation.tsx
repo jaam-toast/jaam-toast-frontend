@@ -2,21 +2,14 @@ import { useMutation } from "@tanstack/react-query";
 import { jaamSchemaToJsonSchema } from "@jaam-schema/src";
 import { toast } from "react-toastify";
 
-import { useAuth } from "./useAuth";
-import { useSchemaState } from "./useSchemaStore";
-import APIClient from "../@utils/api";
+import { createSchema, deleteSchema, updateSchema } from "../@utils/api";
 import { ValidationError } from "../@utils/createError";
 import { ERROR, SUCCESS } from "../@config/message";
+import { useSchemaState } from "./useSchemaStore";
 
 export function useCreateSchemaMutation() {
   const schema = useSchemaState();
   const { title, type, properties } = schema;
-  const { user } = useAuth();
-
-  const api = new APIClient()
-    .setUserId(user?.id)
-    .setAccessToken(user?.accessToken)
-    .setGithubAccessToken(user?.githubAccessToken);
 
   return useMutation(
     ["schema-create"],
@@ -34,7 +27,7 @@ export function useCreateSchemaMutation() {
         schema: jaamSchemaToJsonSchema(schema),
       };
 
-      return api.createSchema({ projectName, options });
+      return createSchema({ projectName, options });
     },
     {
       onSuccess: () => toast.success(SUCCESS.CREATE),
@@ -45,12 +38,6 @@ export function useCreateSchemaMutation() {
 export function useUpdateSchemaMutation() {
   const schema = useSchemaState();
   const { type, properties } = schema;
-  const { user } = useAuth();
-
-  const api = new APIClient()
-    .setUserId(user?.id)
-    .setAccessToken(user?.accessToken)
-    .setGithubAccessToken(user?.githubAccessToken);
 
   return useMutation(
     ["schema-update"],
@@ -78,7 +65,7 @@ export function useUpdateSchemaMutation() {
         schema: jaamSchemaToJsonSchema(schema),
       };
 
-      return api.updateSchema({ projectName, schemaName, options });
+      return updateSchema({ projectName, schemaName, options });
     },
     {
       onSuccess: () => toast.success(SUCCESS.UPDATE),
@@ -87,13 +74,6 @@ export function useUpdateSchemaMutation() {
 }
 
 export function useDeleteSchemaMutation() {
-  const { user } = useAuth();
-
-  const api = new APIClient()
-    .setUserId(user?.id)
-    .setAccessToken(user?.accessToken)
-    .setGithubAccessToken(user?.githubAccessToken);
-
   return useMutation(
     ["schema-delete"],
     async ({
@@ -115,7 +95,7 @@ export function useDeleteSchemaMutation() {
         throw new ValidationError("Schema names must be array.");
       }
 
-      return api.deleteSchema({ projectName, schemaNames });
+      return deleteSchema({ projectName, schemaNames });
     },
     {
       onSuccess: () => toast.success(SUCCESS.DELETE),

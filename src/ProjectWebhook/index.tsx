@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
 
 import { CheckDeleteBox, SelectBox } from "../@shared";
 import {
@@ -11,8 +10,8 @@ import {
 } from "../@hooks";
 import { NotFoundError } from "../@utils/createError";
 import { WebhookList } from "./WebhookList";
-import { AsyncBoundary } from "../Error/AsyncBoundary";
 import { ContentsListSkeleton } from "../ProjectContents/ContentsList";
+import { AsyncBoundary } from "../Error/AsyncBoundary";
 import * as css from "./index.css";
 
 import type { OrderMode } from "../@types/cms";
@@ -25,7 +24,6 @@ export function ProjectWebhook() {
   const { openConfirm } = useSetConfirmModal();
   const { values: checkboxValues } = useCheckboxState();
   const { reset: resetCheckbox } = useSetCheckboxState();
-  const queryClient = useQueryClient();
 
   if (!userName || !projectName) {
     throw new NotFoundError("projectName, userName not found");
