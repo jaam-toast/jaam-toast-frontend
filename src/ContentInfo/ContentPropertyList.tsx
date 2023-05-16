@@ -89,5 +89,5 @@ export function ContentPropertyList({
 }
 
 export function ContentPropertyListSkeleton() {
-  return <div className={css.schemaNameSectionSkeleton}></div>;
+  return <div className={css.schemaNameSectionSkeleton} />;
 }

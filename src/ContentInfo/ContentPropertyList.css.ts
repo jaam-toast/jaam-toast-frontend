@@ -25,5 +25,5 @@ export const fieldType = style({
 export const schemaNameSectionSkeleton = style([
   s.skeleton,
   schemaNameSection,
-  { minHeight: "5rem" },
+  { height: "20rem" },
 ]);
