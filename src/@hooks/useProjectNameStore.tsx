@@ -1,8 +1,7 @@
 import { create } from "zustand";
 import { nanoid } from "nanoid";
 
-import { useAuth } from "./useAuth";
-import APIClient from "../@utils/api";
+import { getProject } from "../@utils/api";
 
 type ProjectNameStore = {
   defaultProjectName: string | null;
@@ -22,19 +21,8 @@ const useProjectNameStore = create<ProjectNameStore>()((set, get) => ({
 
   actions: {
     setDefaultProjectName: async (projectName: string) => {
-      const { user } = useAuth();
-
-      if (!user) {
-        return;
-      }
-
-      const api = new APIClient()
-        .setAccessToken(user.accessToken)
-        .setGithubAccessToken(user.githubAccessToken)
-        .setUserId(user.id);
-
       try {
-        const project = await api.getProject(projectName);
+        const project = await getProject(projectName);
         const newProjectName = !!project
           ? `${projectName}-${nanoid()}`
           : projectName;
@@ -55,17 +43,6 @@ const useProjectNameStore = create<ProjectNameStore>()((set, get) => ({
       }
     },
     setProjectName: async (projectName: string) => {
-      const { user } = useAuth();
-
-      if (!user) {
-        return;
-      }
-
-      const api = new APIClient()
-        .setAccessToken(user.accessToken)
-        .setGithubAccessToken(user.githubAccessToken)
-        .setUserId(user.id);
-
       if (get().defaultProjectName === null || get().projectName === null) {
         return;
       }
@@ -78,7 +55,7 @@ const useProjectNameStore = create<ProjectNameStore>()((set, get) => ({
       set({ projectName });
 
       try {
-        const project = await api.getProject(projectName);
+        const project = await getProject(projectName);
         set({ isAvailableProjectName: !project });
       } catch (error) {
         set({ isAvailableProjectName: false });

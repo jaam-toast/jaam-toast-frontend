@@ -2,7 +2,11 @@ import { toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import omit from "lodash/omit";
 
-import { ContentsAPIClient } from "../@utils/contentsAPI";
+import {
+  createContent,
+  deleteContents,
+  updateContent,
+} from "../@utils/contentsAPI";
 import { ValidationError } from "../@utils/createError";
 import { AssetAPIClient } from "../@utils/assetsAPI";
 import { ERROR, SUCCESS } from "../@config/message";
@@ -26,9 +30,7 @@ export function useCreateContentMutation() {
         throw new ValidationError(ERROR.NOT_FOUND.SCHEMA_NAME);
       }
 
-      const contentsAPI = new ContentsAPIClient().setToken(token);
-
-      return contentsAPI.createContent({ schemaName, content });
+      return createContent({ token, schemaName, content });
     },
     {
       onSuccess: () => toast.success(SUCCESS.CREATE),
@@ -70,9 +72,8 @@ export function useCreateAssetContentMutation() {
         throw new ValidationError("파일 업로드에 실패");
       }
 
-      const contentsAPI = new ContentsAPIClient().setToken(token);
-
-      return contentsAPI.createContent({
+      return createContent({
+        token,
         schemaName: "assets",
         content: assetData,
       });
@@ -109,9 +110,8 @@ export function useUpdateContentMutation() {
         throw new ValidationError(ERROR.NOT_FOUND.SCHEMA_NAME);
       }
 
-      const contentsAPI = new ContentsAPIClient().setToken(token);
-
-      return contentsAPI.updateContent({
+      return updateContent({
+        token,
         schemaName,
         content: omit(content, ["_createAt", "_updatedAt", "_id"]),
         contentId,
@@ -143,9 +143,7 @@ export function useDeleteContentsMutation() {
         throw new ValidationError(ERROR.NOT_FOUND.SCHEMA_NAME);
       }
 
-      const contentsAPI = new ContentsAPIClient().setToken(token);
-
-      return contentsAPI.deleteContents({ schemaName, contentIds });
+      return deleteContents({ token, schemaName, contentIds });
     },
     {
       onSuccess: () => toast.success(SUCCESS.DELETE),
@@ -183,9 +181,8 @@ export function useDeleteAssetContentMutation() {
         throw new ValidationError("삭제 실패");
       }
 
-      const contentsAPI = new ContentsAPIClient().setToken(token);
-
-      return contentsAPI.deleteContents({
+      return deleteContents({
+        token,
         schemaName: "assets",
         contentIds: [assetId],
       });

@@ -7,31 +7,27 @@ dayjs.extend(utc);
 dayjs.extend(relativeTime);
 import last from "lodash/last";
 
-import { Favicon } from "./Favicon";
 import { Avatar } from "../@shared";
 import { useProjectQuery, useUserQuery } from "../@hooks";
 import { NotFoundError } from "../@utils/createError";
 import { ERROR } from "../@config/message";
+import { Favicon } from "./Favicon";
 import * as css from "./ProjectCard.css";
 
 import { FRAMEWORK_DOMAIN } from "../@types/build";
 
 export function ProjectCard({ projectId }: { projectId: string }) {
-  const { data: project } = useProjectQuery(projectId);
-  const { data: userData } = useUserQuery();
   const navigate = useNavigate();
+  const { data: user } = useUserQuery();
+  const { data: project } = useProjectQuery(projectId);
 
-  if (!project) {
+  if (!user || !project) {
     throw new NotFoundError(ERROR.NOT_FOUND.PROJECT_DATA);
   }
 
   const domain = project.customDomain.length
     ? last(project.customDomain)
     : project.jaamToastDomain;
-
-  if (!project || !userData) {
-    throw new NotFoundError(ERROR.NOT_FOUND.ALL);
-  }
 
   return (
     <div
@@ -63,7 +59,7 @@ export function ProjectCard({ projectId }: { projectId: string }) {
             <Favicon domain={FRAMEWORK_DOMAIN[project.framework]} />
           </Avatar>
           <Avatar size="large">
-            <img className={css.userProfile} src={userData.userImage} />
+            <img className={css.userProfile} src={user.userImage} />
           </Avatar>
         </li>
       </Suspense>

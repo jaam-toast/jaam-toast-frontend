@@ -3,8 +3,7 @@ import { shallow } from "zustand/shallow";
 import { useQuery } from "@tanstack/react-query";
 import { customAlphabet } from "nanoid";
 
-import { useAuth } from "./useAuth";
-import APIClient from "../@utils/api";
+import { getProject, getSpaceRepos } from "../@utils/api";
 
 import type { Framework, NodeVersion } from "../@types/build";
 import type { Space } from "../@types/user";
@@ -46,19 +45,9 @@ export const usePresetBuildOptionStore = create<PresetBuildOptionStore>()(
         if (!get().space) {
           return;
         }
-        const { user } = useAuth();
-
-        if (!user) {
-          return;
-        }
-
-        const api = new APIClient()
-          .setAccessToken(user.accessToken)
-          .setGithubAccessToken(user.githubAccessToken)
-          .setUserId(user.id);
 
         try {
-          const project = await api.getProject(repoName.toLowerCase());
+          const project = await getProject(repoName.toLowerCase());
           const randomName = customAlphabet(
             "0123456789abcdefghijklmnopqrstuvwxyz",
             7,
@@ -111,21 +100,15 @@ export const usePresetBuildOptionActions = () =>
 
 export const useReposQuery = () => {
   const space = usePresetBuildOptionStore(store => store.space);
-  const { user } = useAuth();
-
-  const api = new APIClient()
-    .setUserId(user?.id)
-    .setAccessToken(user?.accessToken)
-    .setGithubAccessToken(user?.githubAccessToken);
 
   return useQuery({
     queryKey: ["repos", space?.spaceName ?? ""],
     queryFn: () => {
-      if (!user || !space) {
+      if (!space) {
         return [];
       }
 
-      return api.getSpaceRepos(space);
+      return getSpaceRepos(space);
     },
   });
 };

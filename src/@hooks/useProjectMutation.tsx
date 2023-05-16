@@ -1,20 +1,26 @@
 import { useMutation } from "@tanstack/react-query";
 import isEmpty from "lodash/isEmpty";
+import { toast } from "react-toastify";
 
+import { ERROR, SUCCESS } from "../@config/message";
+import { ValidationError } from "../@utils/createError";
+import {
+  addProjectOption,
+  createProject,
+  deleteProject,
+  deleteProjectOption,
+  updateProjectBuildOption,
+  updateProjectWebhookOption,
+} from "../@utils/api";
 import { useBuildOptions } from "./useBuildOptionsStore";
 import { usePresetBuildOptionStore } from "./usePresetBuildOptionStore";
-import { useAuth } from "./useAuth";
-import APIClient from "../@utils/api";
-import { ERROR, SUCCESS } from "../@config/message";
 
 import type {
   DeleteProjectOption,
   UpdateProjectBuildOptions,
   AddProjectOptions,
 } from "../@types/api";
-import { ValidationError } from "../@utils/createError";
-import { toast } from "react-toastify";
-import { Webhook } from "src/@types/cms";
+import { Webhook } from "../@types/cms";
 
 export function useCreateProjectMutation() {
   const {
@@ -27,12 +33,6 @@ export function useCreateProjectMutation() {
     envList,
   } = useBuildOptions();
   const { space, repoName } = usePresetBuildOptionStore(state => state);
-  const { user } = useAuth();
-
-  const api = new APIClient()
-    .setUserId(user?.id)
-    .setAccessToken(user?.accessToken)
-    .setGithubAccessToken(user?.githubAccessToken);
 
   return useMutation(
     ["project-create"],
@@ -53,12 +53,12 @@ export function useCreateProjectMutation() {
       }
 
       const createProjectOptions = {
-        userId: user.id,
+        // userId: user.id,
         space: space.spaceName,
         repoName,
         repoCloneUrl: `https://github.com/${space}/${repoName}.git`,
-        projectUpdatedAt: new Date().toISOString(),
-        githubAccessToken: user.githubAccessToken,
+        // projectUpdatedAt: new Date().toISOString(),
+        // githubAccessToken: user.githubAccessToken,
         projectName,
         nodeVersion,
         framework: framework,
@@ -67,7 +67,7 @@ export function useCreateProjectMutation() {
         envList,
       };
 
-      return api.createProject(createProjectOptions);
+      return createProject(createProjectOptions);
     },
     { onSuccess: () => toast.success(SUCCESS.CREATE) },
   );
@@ -76,13 +76,6 @@ export function useCreateProjectMutation() {
 export function useAddProjectOptionMutaion<
   Option extends keyof Partial<AddProjectOptions>,
 >() {
-  const { user } = useAuth();
-
-  const api = new APIClient()
-    .setUserId(user?.id)
-    .setAccessToken(user?.accessToken)
-    .setGithubAccessToken(user?.githubAccessToken);
-
   return useMutation(
     ["project-patch"],
     async ({
@@ -97,7 +90,7 @@ export function useAddProjectOptionMutaion<
         throw new ValidationError(ERROR.NOT_FOUND.ALL);
       }
 
-      return api.addProjectOption<Pick<AddProjectOptions, Option>>({
+      return addProjectOption<Pick<AddProjectOptions, Option>>({
         projectName,
         updateOption: option,
       });
@@ -107,13 +100,6 @@ export function useAddProjectOptionMutaion<
 }
 
 export function useUpdateWebhookMutaion() {
-  const { user } = useAuth();
-
-  const api = new APIClient()
-    .setUserId(user?.id)
-    .setAccessToken(user?.accessToken)
-    .setGithubAccessToken(user?.githubAccessToken);
-
   return useMutation(
     ["project-patch"],
     async ({
@@ -128,7 +114,7 @@ export function useUpdateWebhookMutaion() {
         throw new ValidationError(ERROR.NOT_FOUND.ALL);
       }
 
-      return api.updateProjectWebhookOption({
+      return updateProjectWebhookOption({
         projectName,
         updateOption: option,
       });
@@ -138,13 +124,6 @@ export function useUpdateWebhookMutaion() {
 }
 
 export function useUpdateBuildOptionMutation() {
-  const { user } = useAuth();
-
-  const api = new APIClient()
-    .setUserId(user?.id)
-    .setAccessToken(user?.accessToken)
-    .setGithubAccessToken(user?.githubAccessToken);
-
   return useMutation(
     ["project-put"],
     async ({
@@ -162,7 +141,7 @@ export function useUpdateBuildOptionMutation() {
         throw new ValidationError(ERROR.NOT_FOUND.ALL);
       }
 
-      return api.updateProjectBuildOption({
+      return updateProjectBuildOption({
         projectName,
         updateBuildOption: option,
       });
@@ -174,13 +153,6 @@ export function useUpdateBuildOptionMutation() {
 export function useDeleteProjectOptionMutation<
   T extends keyof AddProjectOptions,
 >() {
-  const { user } = useAuth();
-
-  const api = new APIClient()
-    .setUserId(user?.id)
-    .setAccessToken(user?.accessToken)
-    .setGithubAccessToken(user?.githubAccessToken);
-
   return useMutation(
     ["project-option-delete"],
     async ({
@@ -190,7 +162,7 @@ export function useDeleteProjectOptionMutation<
       projectName: string;
       option: DeleteProjectOption<T>;
     }) => {
-      return api.deleteProjectOption<T>({
+      return deleteProjectOption<T>({
         projectName,
         deleteOption: option,
       });
@@ -200,13 +172,6 @@ export function useDeleteProjectOptionMutation<
 }
 
 export function useDeleteProjectMutaion() {
-  const { user } = useAuth();
-
-  const api = new APIClient()
-    .setUserId(user?.id)
-    .setAccessToken(user?.accessToken)
-    .setGithubAccessToken(user?.githubAccessToken);
-
   return useMutation(
     ["project-delete"],
     async (projectName: string) => {
@@ -214,7 +179,7 @@ export function useDeleteProjectMutaion() {
         return;
       }
 
-      return api.deleteProject(projectName);
+      return deleteProject(projectName);
     },
     { onSuccess: () => toast.success(SUCCESS.DELETE) },
   );

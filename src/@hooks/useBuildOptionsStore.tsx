@@ -1,9 +1,8 @@
 import { create } from "zustand";
 import { shallow } from "zustand/shallow";
 
+import { getProject } from "../@utils/api";
 import { usePresetBuildOptions } from "./usePresetBuildOptionStore";
-import { useAuth } from "./useAuth";
-import APIClient from "../@utils/api";
 
 import { Env } from "../@types/project";
 import type { Framework, NodeVersion } from "../@types/build";
@@ -59,19 +58,8 @@ const useBuildOptionsStore = create<BuildOptionsStore>()((set, get) => ({
   setProjectName: async (projectName: string) => {
     set({ projectName });
 
-    const { user } = useAuth();
-
-    if (!user) {
-      return;
-    }
-
-    const api = new APIClient()
-      .setAccessToken(user.accessToken)
-      .setGithubAccessToken(user.githubAccessToken)
-      .setUserId(user.id);
-
     try {
-      const project = await api.getProject(projectName);
+      const project = await getProject(projectName);
 
       set({
         isAvailableProjectName: !project,

@@ -3,13 +3,19 @@ import { Link } from "react-router-dom";
 
 import { ProjectCardList, ProjectCardListSkeleton } from "./ProjectCardList";
 import { TextField } from "../@shared";
-import { useAuth } from "../@hooks";
+import { useUserQuery } from "../@hooks";
 import { AsyncBoundary } from "../Error/AsyncBoundary";
+import { NotFoundError } from "../@utils/createError";
+import { ERROR } from "../@config/message";
 import * as css from "./index.css";
 
 export function ProjectList() {
-  const { user } = useAuth();
   const [searchword, setSearchword] = useState<string>("");
+  const { data: user } = useUserQuery();
+
+  if (!user) {
+    throw new NotFoundError(ERROR.NOT_FOUND.PROJECT_NAME);
+  }
 
   return (
     <div className={css.container}>
@@ -20,7 +26,7 @@ export function ProjectList() {
             placeholder="Search..."
           />
         </div>
-        <Link className={css.newProjectButton} to={`/new/${user.name}`}>
+        <Link className={css.newProjectButton} to={`/new/${user.userName}`}>
           New Project
         </Link>
       </section>

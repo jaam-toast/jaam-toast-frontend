@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { ContentsAPIClient } from "../@utils/contentsAPI";
+import { getContent } from "../@utils/contentsAPI";
 
 export function useContentQuery({
   schemaName,
@@ -11,10 +11,8 @@ export function useContentQuery({
   token: string;
   contentId?: string;
 }) {
-  const contentsAPI = new ContentsAPIClient().setToken(token);
-
   return useQuery({
     queryKey: ["content", schemaName, contentId],
-    queryFn: () => contentsAPI.getContent({ schemaName, contentId }),
+    queryFn: () => getContent({ token, schemaName, contentId }),
   });
 }
