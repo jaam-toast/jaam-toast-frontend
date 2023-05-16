@@ -7,12 +7,9 @@ export type Response<Result> = {
 };
 
 export type CreateProjectOptions = BuildOptions & {
-  userId: string;
   space: string;
   repoName: string;
   repoCloneUrl: string;
-  projectUpdatedAt: string;
-  githubAccessToken: string;
 };
 
 export type AddProjectOptions = {
