@@ -6,6 +6,7 @@ import {
   createContent,
   deleteContents,
   updateContent,
+  addAssets,
 } from "../@utils/contentsAPI";
 import { ValidationError } from "../@utils/createError";
 import { AssetAPIClient } from "../@utils/assetsAPI";
@@ -41,41 +42,18 @@ export function useCreateContentMutation() {
 export function useCreateAssetContentMutation() {
   return useMutation(
     ["asset-create"],
-    async ({
-      token,
-      projectName,
-      name,
-      asset,
-    }: {
-      token: string;
-      projectName: string;
-      name: string;
-      asset: File;
-    }) => {
-      if (!name || !asset) {
-        throw new ValidationError("Cannot find asset data");
+    async ({ token, assets }: { token: string; assets: FormData }) => {
+      if (!assets) {
+        throw new ValidationError("Cannot find assets data");
       }
 
       if (!token) {
         throw new ValidationError("Cannot find api key.");
       }
 
-      const assetAPI = new AssetAPIClient();
-      assetAPI.connect();
-      const assetData = await assetAPI.createAsset({
-        name,
-        folderName: projectName,
-        asset,
-      });
-
-      if (!assetData) {
-        throw new ValidationError("파일 업로드에 실패");
-      }
-
-      return createContent({
+      return addAssets({
         token,
-        schemaName: "assets",
-        content: assetData,
+        assets,
       });
     },
     {

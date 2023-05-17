@@ -1,19 +1,19 @@
 import { useRef } from "react";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import { useCreateAssetContentMutation, useProjectQuery } from "../@hooks";
 import { ValidationError } from "../@utils/createError";
 import { AssetsList, AssetsListSkeleton } from "./AssetsList";
 import { AsyncBoundary } from "../Error/AsyncBoundary";
 import * as css from "./index.css";
-import { toast } from "react-toastify";
 
 const MB = 1024 * 1024;
 
 export function ProjectAssets() {
   const { projectName } = useParams();
-  const ref = useRef<HTMLInputElement>(null);
-  const createAssets = useCreateAssetContentMutation();
+  const assetInput = useRef<HTMLInputElement>(null);
+  const uploadAssets = useCreateAssetContentMutation();
 
   if (!projectName) {
     throw new ValidationError("project not found");
@@ -25,22 +25,29 @@ export function ProjectAssets() {
     throw new ValidationError("project data not found");
   }
 
-  const handleFileUpLoad = () => {
-    if (!ref.current || !ref.current.files) {
+  // asset 진행 중
+  const handleFilesUpLoad = () => {
+    if (!assetInput.current || !assetInput.current.files) {
       return toast.error("File not found.");
     }
 
-    const { name, size } = ref.current.files[0];
+    const assetsData = Array.from(assetInput.current.files).reduce(
+      (data, file: File) => {
+        data.formData.append("assets", file);
+        data.size += file.size;
 
-    if (size > MB * 100) {
+        return data;
+      },
+      { size: 0, formData: new FormData() },
+    );
+
+    if (assetsData.size > MB * 100) {
       return toast.error("File uploads are limited to 100MB or less.");
     }
 
-    createAssets.mutate({
+    uploadAssets.mutate({
       token: project?.storageKey,
-      name,
-      projectName,
-      asset: ref.current.files[0],
+      assets: assetsData.formData,
     });
   };
 
@@ -54,12 +61,13 @@ export function ProjectAssets() {
         </div>
         <input
           hidden
-          id="new-asset"
-          ref={ref}
+          id="assetInput"
+          multiple
           type="file"
-          onChange={handleFileUpLoad}
+          ref={assetInput}
+          onChange={handleFilesUpLoad}
         />
-        <label htmlFor="new-asset" className={css.newButton}>
+        <label htmlFor="assetInput" className={css.newButton}>
           + New Asset
         </label>
       </header>
