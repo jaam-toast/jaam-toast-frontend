@@ -8,7 +8,7 @@ import type { JaamSchemaContent } from "@jaam-schema/src";
 
 const getClient = (token: string): AxiosInstance =>
   axios.create({
-    baseURL: Config.SERVER_URL_API,
+    baseURL: `${Config.SERVER_URL_API}/storage`,
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -33,7 +33,7 @@ export async function getContentsList({
 }): Promise<ContentsData> {
   try {
     const { data } = await getClient(token).get<Response<ContentsData>>(
-      `/storage/${schemaName}/contents`,
+      `/${schemaName}/contents`,
       {
         params: {
           page,
@@ -61,7 +61,7 @@ export async function getContent({
 }): Promise<Content> {
   try {
     const { data } = await getClient(token).get<Response<Content>>(
-      `/storage/${schemaName}/contents/${contentId}`,
+      `/${schemaName}/contents/${contentId}`,
     );
 
     return data.result;
@@ -81,7 +81,7 @@ export async function createContent({
 }): Promise<string> {
   try {
     const { data } = await getClient(token).post<Response<string>>(
-      `/storage/${schemaName}/contents`,
+      `/${schemaName}/contents`,
       content,
     );
 
@@ -104,7 +104,7 @@ export async function updateContent({
 }): Promise<string> {
   try {
     const { data } = await getClient(token).put<Response<string>>(
-      `/storage/${schemaName}/contents/${contentId}`,
+      `/${schemaName}/contents/${contentId}`,
       content,
     );
 
@@ -125,7 +125,7 @@ export async function deleteContents({
 }): Promise<string> {
   try {
     const { data } = await getClient(token).delete<Response<string>>(
-      `/storage/${schemaName}/contents`,
+      `/${schemaName}/contents`,
       {
         params: {
           contentId: contentIds,
@@ -138,3 +138,29 @@ export async function deleteContents({
     throw error;
   }
 }
+
+export async function addAssets({
+  token,
+  assets,
+}: {
+  token: string;
+  assets: FormData;
+}): Promise<string> {
+  try {
+    const { data } = await getClient(token).post<Response<string>>(
+      `/assets/contents`,
+      assets,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
+    );
+
+    return data.message;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// TODO DELETE ASSET
