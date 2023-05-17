@@ -4,10 +4,9 @@ import {
   BsFileEarmarkImage,
   BsFillKeyFill,
 } from "react-icons/bs";
-import { BsStack } from "react-icons/bs";
 
 import { ColorBox, EmptyCard } from "../@shared";
-import { useContentsCountQuery, useModal, useProjectQuery } from "../@hooks";
+import { useModal, useProjectQuery } from "../@hooks";
 import { COLORS, ColorKeys } from "../@config/colors";
 import { NotFoundError } from "../@utils/createError";
 import { ModalContentsKey } from "./ModalContentsKey";
@@ -29,15 +28,6 @@ export function CmsInfo({ userName, projectName }: CmsInfoProps) {
   }
 
   const schemaListCount = project?.schemaList?.length || 0;
-
-  // const contentCountList = useContentsCountQuery({
-  //   schemaList: project?.schemaList,
-  //   token: project?.storageKey,
-  // });
-
-  // if (!contentCountList) {
-  //   throw new NotFoundError(ERROR.NOT_FOUND.CONTENT_DATA);
-  // }
 
   const handleClickKey = () => {
     openModal({
@@ -73,23 +63,6 @@ export function CmsInfo({ userName, projectName }: CmsInfoProps) {
                 <p className={css.infoText}>0</p>
               </li>
             </Link>
-            {/* <Link to={`/${userName}/${projectName}/contents`}>
-              <li className={css.cmsInfo}>
-                <div className={css.cmsInfoLeft}>
-                  <ColorBox>
-                    <BsStack color={COLORS.LAVENDAR_DARK} />
-                  </ColorBox>
-                  <span className={css.infoFieldTitle}>Contents</span>
-                </div>
-                <p className={css.infoText}>
-                  {contentCountList.reduce(
-                    (count, cur) =>
-                      typeof cur.data === "number" ? count + cur.data : 0,
-                    0,
-                  )}
-                </p>
-              </li>
-            </Link> */}
             <li className={css.contentsKey} onClick={handleClickKey}>
               <div className={css.cmsInfoLeft}>
                 <ColorBox color={COLORS.STRAWBERRY_LIGHT as ColorKeys}>
