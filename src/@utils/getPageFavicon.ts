@@ -19,6 +19,6 @@ export async function getPageFavicon(domain: string): Promise<string | null> {
 
     return data.message === "ok" ? data.result! : null;
   } catch (error) {
-    throw error;
+    return "/images/jaamtoast-favicon-image.png";
   }
 }

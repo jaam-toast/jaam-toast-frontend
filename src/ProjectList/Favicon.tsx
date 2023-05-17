@@ -8,8 +8,6 @@ export function Favicon({ domain }: { domain: string }) {
   const { data: faviconUrl } = useQuery({
     queryKey: ["favicon", domain],
     queryFn: () => getPageFavicon(domain),
-    // TODO: error handling
-    onError: (error: unknown) => console.log,
   });
 
   return (
