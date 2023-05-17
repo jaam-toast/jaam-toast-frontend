@@ -9,7 +9,6 @@ import {
   addAssets,
 } from "../@utils/contentsAPI";
 import { ValidationError } from "../@utils/createError";
-import { AssetAPIClient } from "../@utils/assetsAPI";
 import { ERROR, SUCCESS } from "../@config/message";
 import { useContentsState } from "./useContentsStore";
 
@@ -129,6 +128,7 @@ export function useDeleteContentsMutation() {
   );
 }
 
+// TODO delete asset
 export function useDeleteAssetContentMutation() {
   return useMutation(
     ["asset-create"],
@@ -141,23 +141,23 @@ export function useDeleteAssetContentMutation() {
       path: string;
       assetId: string;
     }) => {
-      if (!token) {
-        throw new ValidationError("Cannot find api key.");
-      }
+      // if (!token) {
+      //   throw new ValidationError("Cannot find api key.");
+      // }
 
-      if (!path || !assetId) {
-        throw new ValidationError("Cannot find asset data");
-      }
+      // if (!path || !assetId) {
+      //   throw new ValidationError("Cannot find asset data");
+      // }
 
-      const assetAPI = new AssetAPIClient();
-      assetAPI.connect();
-      const result = await assetAPI.deleteAsset({
-        path,
-      });
+      // const assetAPI = new AssetAPIClient();
+      // assetAPI.connect();
+      // const result = await assetAPI.deleteAsset({
+      //   path,
+      // });
 
-      if (!result) {
-        throw new ValidationError("삭제 실패");
-      }
+      // if (!result) {
+      //   throw new ValidationError("삭제 실패");
+      // }
 
       return deleteContents({
         token,

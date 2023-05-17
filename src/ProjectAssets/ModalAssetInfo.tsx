@@ -14,11 +14,11 @@ export function ModalAssetInfo({
   const deleteAsset = useDeleteAssetContentMutation();
 
   const handleDeleteClick = () => {
-    deleteAsset.mutate({
-      token,
-      path: asset.path ?? "",
-      assetId: asset._id ?? "",
-    });
+    // deleteAsset.mutate({
+    //   token,
+    //   path: asset.path ?? "",
+    //   assetId: asset._id ?? "",
+    // });
   };
 
   return (
