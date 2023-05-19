@@ -11,10 +11,7 @@ import { ERROR } from "../@config/message";
 import { NotFoundError } from "../@utils/createError";
 import * as css from "./index.css";
 
-import type {
-  UpdateProjectBuildOption,
-  UpdateProjectBuildOptions,
-} from "../@types/api";
+import type { BuildOptions } from "../@types/build";
 
 export function CommandSectionList({ projectName }: { projectName: string }) {
   const [warningMessage, setWarningMessage] = useState({
@@ -31,9 +28,12 @@ export function CommandSectionList({ projectName }: { projectName: string }) {
   }
 
   const handleSaveClick = async <
-    CommandOption extends keyof Omit<UpdateProjectBuildOptions, "envList">,
+    CommandOption extends keyof Pick<
+      BuildOptions,
+      "installCommand" | "buildCommand"
+    >,
   >(
-    option: UpdateProjectBuildOption<CommandOption>,
+    option: Pick<BuildOptions, CommandOption>,
   ) => {
     if (!option) {
       return;

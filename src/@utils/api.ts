@@ -4,16 +4,35 @@ import Cookies from "js-cookie";
 import Config from "../@config";
 
 import type { Repo, Space, User } from "../@types/user";
-import type {
-  CreateProjectOptions,
-  Response,
-  AddProjectOptions,
-  UpdateProjectBuildOptions,
-  DeleteProjectOption,
-  DeleteProjectOptions,
-} from "../@types/api";
+import type { BuildOptions } from "../@types/build";
 import type { Project, ProjectId } from "../@types/project";
 import type { SchemaData, Webhook } from "../@types/cms";
+
+type Response<Result> = {
+  message: string;
+  result: Result;
+};
+
+export type CreateProjectOptions = BuildOptions & {
+  space: string;
+  repoName: string;
+  repoCloneUrl: string;
+};
+
+export type AddProjectOptions = {
+  customDomain: string;
+  webhook: Webhook;
+};
+
+export type UpdateProjectBuildOptions = Omit<
+  BuildOptions,
+  "projectName" | "framework" | "nodeVersion"
+>;
+
+export type DeleteProjectOptions = {
+  customDomain: string;
+  webhook: Webhook[];
+};
 
 const client = axios.create({
   withCredentials: true,
@@ -53,7 +72,7 @@ export async function getSpaceRepos(space: Space): Promise<Repo[]> {
 
 export async function getUserData(): Promise<User> {
   try {
-    const { data } = await client.get(`/user`);
+    const { data } = await client.get<Response<User>>(`/user`);
 
     return data.result;
   } catch (error) {
@@ -173,14 +192,12 @@ export async function deleteProject(projectName: string): Promise<string> {
   }
 }
 
-export async function deleteProjectOption<
-  Option extends keyof DeleteProjectOptions,
->({
+export async function deleteProjectOption({
   projectName,
   deleteOption,
 }: {
   projectName: string;
-  deleteOption: DeleteProjectOption<Option>;
+  deleteOption: Partial<DeleteProjectOptions>;
 }): Promise<string> {
   try {
     const { data } = await client.delete<Response<string>>(
