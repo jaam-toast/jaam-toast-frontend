@@ -6,9 +6,7 @@ import { ValidationError } from "../@utils/createError";
 export function DashboardHeader() {
   const { userName, projectName } = useParams();
   const location = useLocation();
-  const { pathname } = location;
-  const regExp = /\/([^/]+)\/([^/]+)\/([^/]+)$/;
-  const currentPathArr = pathname.match(regExp)!;
+  const [, , , pageName, newPage] = location.pathname.split("/");
 
   if (!projectName || !userName) {
     throw new ValidationError("projectName, userName not found");
@@ -21,7 +19,7 @@ export function DashboardHeader() {
         <Link to={`/${userName}/${projectName}/dashboard`}>
           <li
             className={
-              currentPathArr[3] === "dashboard" ? css.navLinkPoint : css.navLink
+              pageName === "dashboard" ? css.navLinkPoint : css.navLink
             }
           >
             Project
@@ -29,9 +27,7 @@ export function DashboardHeader() {
         </Link>
         <Link to={`/${userName}/${projectName}/schema`}>
           <li
-            className={
-              currentPathArr[3] === "schema" ? css.navLinkPoint : css.navLink
-            }
+            className={pageName === "schema" ? css.navLinkPoint : css.navLink}
           >
             Schema
           </li>
@@ -39,8 +35,7 @@ export function DashboardHeader() {
         <Link to={`/${userName}/${projectName}/contents`}>
           <li
             className={
-              currentPathArr[3] === "contents" ||
-              (currentPathArr[2] === "contents" && currentPathArr[3] === "new")
+              pageName === "contents" || (pageName === "contents" && newPage)
                 ? css.navLinkPoint
                 : css.navLink
             }
@@ -50,9 +45,7 @@ export function DashboardHeader() {
         </Link>
         <Link to={`/${userName}/${projectName}/assets`}>
           <li
-            className={
-              currentPathArr[3] === "assets" ? css.navLinkPoint : css.navLink
-            }
+            className={pageName === "assets" ? css.navLinkPoint : css.navLink}
           >
             Assets
           </li>
@@ -60,8 +53,7 @@ export function DashboardHeader() {
         <Link to={`/${userName}/${projectName}/webhook`}>
           <li
             className={
-              currentPathArr[3] === "webhook" ||
-              (currentPathArr[2] === "webhook" && currentPathArr[3] === "new")
+              pageName === "webhook" || (pageName === "webhook" && newPage)
                 ? css.navLinkPoint
                 : css.navLink
             }
@@ -71,9 +63,7 @@ export function DashboardHeader() {
         </Link>
         <Link to={`/${userName}/${projectName}/settings`}>
           <li
-            className={
-              currentPathArr[3] === "settings" ? css.navLinkPoint : css.navLink
-            }
+            className={pageName === "settings" ? css.navLinkPoint : css.navLink}
           >
             Settings
           </li>
