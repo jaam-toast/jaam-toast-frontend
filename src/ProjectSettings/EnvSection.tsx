@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import {
   useBuildOptions,
   useProjectQuery,
@@ -9,8 +11,7 @@ import { ERROR } from "../@config/message";
 import { NotFoundError } from "../@utils/createError";
 import * as css from "./index.css";
 
-import type { UpdateProjectBuildOption } from "../@types/api";
-import { useEffect } from "react";
+import type { BuildOptions } from "../@types/build";
 
 export function EnvSection({ projectName }: { projectName: string }) {
   const { data: project } = useProjectQuery(projectName);
@@ -26,7 +27,7 @@ export function EnvSection({ projectName }: { projectName: string }) {
     setEnv(project?.envList);
   }, []);
 
-  const handleSaveClick = async (data: UpdateProjectBuildOption<"envList">) => {
+  const handleSaveClick = async (data: Pick<BuildOptions, "envList">) => {
     updateEnv.mutate({ projectName, option: data });
   };
 

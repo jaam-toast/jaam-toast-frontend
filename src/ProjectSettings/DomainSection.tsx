@@ -11,14 +11,12 @@ import { ERROR } from "../@config/message";
 import { NotFoundError } from "../@utils/createError";
 import * as css from "./index.css";
 
-import type { AddProjectOptions } from "../@types/api";
-
 export function DomainSection({ projectName }: { projectName: string }) {
   const [domain, setDomain] = useState<string>("");
   const [warningMessage, setWarningMessage] = useState("");
   const { data: project } = useProjectQuery(projectName);
-  const updateDomain = useAddProjectOptionMutaion<"customDomain">();
-  const deleteDomain = useDeleteProjectOptionMutation<"customDomain">();
+  const updateDomain = useAddProjectOptionMutaion();
+  const deleteDomain = useDeleteProjectOptionMutation();
 
   if (!project || !project.jaamToastDomain) {
     throw new NotFoundError(ERROR.NOT_FOUND.PARAMETER);
@@ -31,7 +29,7 @@ export function DomainSection({ projectName }: { projectName: string }) {
     });
   };
 
-  const handleAddClick = (data: Pick<AddProjectOptions, "customDomain">) => {
+  const handleAddClick = (data: { customDomain: string }) => {
     if (!data) {
       return setWarningMessage("Domain data not found");
     }

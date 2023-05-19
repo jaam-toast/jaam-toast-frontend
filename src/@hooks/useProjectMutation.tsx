@@ -15,12 +15,8 @@ import {
 import { useBuildOptions } from "./useBuildOptionsStore";
 import { usePresetBuildOptionStore } from "./usePresetBuildOptionStore";
 
-import type {
-  DeleteProjectOption,
-  UpdateProjectBuildOptions,
-  AddProjectOptions,
-} from "../@types/api";
 import { Webhook } from "../@types/cms";
+import { BuildOptions } from "src/@types/build";
 
 export function useCreateProjectMutation() {
   const {
@@ -70,9 +66,7 @@ export function useCreateProjectMutation() {
   );
 }
 
-export function useAddProjectOptionMutaion<
-  Option extends keyof Partial<AddProjectOptions>,
->() {
+export function useAddProjectOptionMutaion() {
   return useMutation(
     ["project-patch"],
     async ({
@@ -80,14 +74,17 @@ export function useAddProjectOptionMutaion<
       option,
     }: {
       projectName: string;
-      option: Pick<AddProjectOptions, Option>;
+      option: Partial<{
+        customDomain: string;
+        webhook: Webhook;
+      }>;
       webhookId?: string;
     }) => {
       if (isEmpty(option)) {
         throw new ValidationError(ERROR.NOT_FOUND.ALL);
       }
 
-      return addProjectOption<Pick<AddProjectOptions, Option>>({
+      return addProjectOption({
         projectName,
         updateOption: option,
       });
@@ -128,13 +125,11 @@ export function useUpdateBuildOptionMutation() {
       option,
     }: {
       projectName: string;
-      option: Partial<UpdateProjectBuildOptions>;
+      option: Partial<
+        Pick<BuildOptions, "installCommand" | "buildCommand" | "envList">
+      >;
     }) => {
-      if (!projectName) {
-        throw new ValidationError(ERROR.NOT_FOUND.PROJECT_NAME);
-      }
-
-      if (!option) {
+      if (isEmpty(option)) {
         throw new ValidationError(ERROR.NOT_FOUND.ALL);
       }
 
@@ -147,9 +142,7 @@ export function useUpdateBuildOptionMutation() {
   );
 }
 
-export function useDeleteProjectOptionMutation<
-  T extends keyof AddProjectOptions,
->() {
+export function useDeleteProjectOptionMutation() {
   return useMutation(
     ["project-option-delete"],
     async ({
@@ -157,9 +150,16 @@ export function useDeleteProjectOptionMutation<
       option,
     }: {
       projectName: string;
-      option: DeleteProjectOption<T>;
+      option: Partial<{
+        customDomain: string;
+        webhook: Webhook[];
+      }>;
     }) => {
-      return deleteProjectOption<T>({
+      if (isEmpty(option)) {
+        throw new ValidationError(ERROR.NOT_FOUND.ALL);
+      }
+
+      return deleteProjectOption({
         projectName,
         deleteOption: option,
       });
@@ -171,13 +171,7 @@ export function useDeleteProjectOptionMutation<
 export function useDeleteProjectMutaion() {
   return useMutation(
     ["project-delete"],
-    async (projectName: string) => {
-      if (!projectName) {
-        return;
-      }
-
-      return deleteProject(projectName);
-    },
+    async (projectName: string) => deleteProject(projectName),
     { onSuccess: () => toast.success(SUCCESS.DELETE) },
   );
 }

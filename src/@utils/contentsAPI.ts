@@ -2,9 +2,13 @@ import axios, { AxiosInstance } from "axios";
 
 import Config from "../@config";
 
-import type { Response } from "../@types/api";
 import type { Content, ContentsData } from "../@types/cms";
 import type { JaamSchemaContent } from "@jaam-schema/src";
+
+type Response<Result> = {
+  message: string;
+  result: Result;
+};
 
 const getClient = (token: string): AxiosInstance =>
   axios.create({
