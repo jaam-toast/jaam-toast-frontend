@@ -14,10 +14,6 @@ export function useCreateSchemaMutation() {
   return useMutation(
     ["schema-create"],
     async ({ projectName }: { projectName: string }) => {
-      if (!projectName) {
-        throw new ValidationError("Cannot find project name");
-      }
-
       if (!title || !type || !Object.keys(properties).length) {
         throw new ValidationError("Cannot find schema data");
       }
@@ -48,14 +44,6 @@ export function useUpdateSchemaMutation() {
       projectName: string;
       schemaName: string;
     }) => {
-      if (!projectName) {
-        throw new ValidationError("Cannot find project name");
-      }
-
-      if (!schemaName) {
-        throw new ValidationError("Cannot find schema name");
-      }
-
       if (!type || !Object.keys(properties).length) {
         throw new ValidationError("Cannot find schema data");
       }
@@ -83,16 +71,8 @@ export function useDeleteSchemaMutation() {
       projectName: string;
       schemaNames: string[];
     }) => {
-      if (!projectName) {
-        throw new ValidationError(ERROR.NOT_FOUND.PROJECT_NAME);
-      }
-
-      if (!schemaNames) {
+      if (!schemaNames.length) {
         throw new ValidationError(ERROR.NOT_FOUND.SCHEMA_NAME);
-      }
-
-      if (!Array.isArray(schemaNames)) {
-        throw new ValidationError("Schema names must be array.");
       }
 
       return deleteSchema({ projectName, schemaNames });
