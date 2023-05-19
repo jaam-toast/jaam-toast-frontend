@@ -15,7 +15,7 @@ import { AsyncBoundary } from "../Error/AsyncBoundary";
 import * as css from "./index.css";
 
 import type { OrderMode } from "../@types/cms";
-import { Webhook } from "../@types/cms";
+import type { Webhook } from "../@types/cms";
 
 export function ProjectWebhook() {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ export function ProjectWebhook() {
     throw new NotFoundError("projectName, userName not found");
   }
 
-  const deleteWebhooks = useDeleteProjectOptionMutation<"webhook">();
+  const deleteWebhooks = useDeleteProjectOptionMutation();
 
   const handleNewClick = () => {
     navigate("new");

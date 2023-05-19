@@ -22,7 +22,7 @@ export function NewWebhook() {
   const webhook = useWebhookState();
   const warningMessage = useWebhookErrorMessageState();
   const { reset: resetWebhookState, setIsWebhookChanged } = useSetWebhook();
-  const createWebhook = useAddProjectOptionMutaion<"webhook">();
+  const createWebhook = useAddProjectOptionMutaion();
 
   if (!projectName) {
     throw new NotFoundError(ERROR.NOT_FOUND.PROJECT_NAME);
