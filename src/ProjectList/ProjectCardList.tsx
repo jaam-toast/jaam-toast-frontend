@@ -16,7 +16,7 @@ export function ProjectCardList({ searchword }: { searchword: string }) {
 
   return (
     <section className={css.container}>
-      {user.projects && user.projects.length ? (
+      {user.projects.length ? (
         user.projects
           ?.filter(project =>
             searchword ? project.includes(searchword) : true,

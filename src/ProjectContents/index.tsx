@@ -22,7 +22,6 @@ export function ProjectContents() {
   const [sortOption, setSortOption] = useState<SortMode>("createdAt");
   const [orderOption, setOrderOption] = useState<OrderMode>("ascending");
   const { values: checkboxValues } = useCheckboxState();
-  const [currentSchemaName, setCurrentSchemaName] = useState<string>("");
   const { openConfirm } = useSetConfirmModal();
   const deleteContents = useDeleteContentsMutation();
 
@@ -41,11 +40,9 @@ export function ProjectContents() {
     schema => schema.schemaName !== "assets",
   );
 
-  useEffect(() => {
-    if (schemaList.length) {
-      setCurrentSchemaName(schemaList[0].schemaName);
-    }
-  }, []);
+  const [currentSchemaName, setCurrentSchemaName] = useState<string>(
+    schemaList[0].schemaName,
+  );
 
   const handleAddClick = () => {
     navigate("new");
