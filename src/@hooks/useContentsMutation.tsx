@@ -22,14 +22,6 @@ export function useCreateContentMutation() {
         throw new ValidationError(ERROR.NOT_FOUND.CONTENT_DATA);
       }
 
-      if (!token) {
-        throw new ValidationError("Cannot find api key.");
-      }
-
-      if (!schemaName) {
-        throw new ValidationError(ERROR.NOT_FOUND.SCHEMA_NAME);
-      }
-
       return createContent({ token, schemaName, content });
     },
     {
@@ -44,10 +36,6 @@ export function useCreateAssetContentMutation() {
     async ({ token, assets }: { token: string; assets: FormData }) => {
       if (!assets) {
         throw new ValidationError("Cannot find assets data");
-      }
-
-      if (!token) {
-        throw new ValidationError("Cannot find api key.");
       }
 
       return addAssets({
@@ -79,14 +67,6 @@ export function useUpdateContentMutation() {
         throw new ValidationError(ERROR.NOT_FOUND.CONTENT_DATA);
       }
 
-      if (!token) {
-        throw new ValidationError("Cannot find api key.");
-      }
-
-      if (!schemaName) {
-        throw new ValidationError(ERROR.NOT_FOUND.SCHEMA_NAME);
-      }
-
       return updateContent({
         token,
         schemaName,
@@ -112,12 +92,8 @@ export function useDeleteContentsMutation() {
       schemaName: string;
       contentIds: string[];
     }) => {
-      if (!token) {
-        throw new ValidationError("Api key not found. Please check");
-      }
-
-      if (!schemaName) {
-        throw new ValidationError(ERROR.NOT_FOUND.SCHEMA_NAME);
+      if (!contentIds.length) {
+        throw new ValidationError("Content id data not found. Please check.");
       }
 
       return deleteContents({ token, schemaName, contentIds });
