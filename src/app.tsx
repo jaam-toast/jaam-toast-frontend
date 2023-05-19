@@ -1,3 +1,4 @@
+import { lazy } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { createPortal } from "react-dom";
 
@@ -7,20 +8,72 @@ import { useAuth } from "./@hooks";
 import { Landing } from "./Landing";
 import { ProjectList } from "./ProjectList";
 
-import { RepositorySelect } from "./RepositorySelect";
-import { BuildOptionSelect } from "./BuildOptionSelect";
-import { ProjectDeploy } from "./ProjectDeploy";
-
-import { ProjectDashboard } from "./ProjectDashboard";
-import { ProjectSchema } from "./ProjectSchema";
-import { ProjectContents } from "./ProjectContents";
-import { NewContent } from "./NewContent";
-import { ContentInfo } from "./ContentInfo";
-import { ProjectAssets } from "./ProjectAssets";
-import { ProjectWebhook } from "./ProjectWebhook";
-import { NewWebhook } from "./NewWebhook";
-import { WebhookInfo } from "./WebhookInfo";
-import { ProjectSettings } from "./ProjectSettings";
+const RepositorySelect = lazy(() =>
+  import("./RepositorySelect").then(({ RepositorySelect }) => ({
+    default: RepositorySelect,
+  })),
+);
+const BuildOptionSelect = lazy(() =>
+  import("./BuildOptionSelect").then(({ BuildOptionSelect }) => ({
+    default: BuildOptionSelect,
+  })),
+);
+const ProjectDeploy = lazy(() =>
+  import("./ProjectDeploy").then(({ ProjectDeploy }) => ({
+    default: ProjectDeploy,
+  })),
+);
+//
+const ProjectDashboard = lazy(() =>
+  import("./ProjectDashboard").then(({ ProjectDashboard }) => ({
+    default: ProjectDashboard,
+  })),
+);
+const ProjectSchema = lazy(() =>
+  import("./ProjectSchema").then(({ ProjectSchema }) => ({
+    default: ProjectSchema,
+  })),
+);
+const ProjectContents = lazy(() =>
+  import("./ProjectContents").then(({ ProjectContents }) => ({
+    default: ProjectContents,
+  })),
+);
+const NewContent = lazy(() =>
+  import("./NewContent").then(({ NewContent }) => ({
+    default: NewContent,
+  })),
+);
+const ContentInfo = lazy(() =>
+  import("./ContentInfo").then(({ ContentInfo }) => ({
+    default: ContentInfo,
+  })),
+);
+const ProjectAssets = lazy(() =>
+  import("./ProjectAssets").then(({ ProjectAssets }) => ({
+    default: ProjectAssets,
+  })),
+);
+const ProjectWebhook = lazy(() =>
+  import("./ProjectWebhook").then(({ ProjectWebhook }) => ({
+    default: ProjectWebhook,
+  })),
+);
+const NewWebhook = lazy(() =>
+  import("./NewWebhook").then(({ NewWebhook }) => ({
+    default: NewWebhook,
+  })),
+);
+const WebhookInfo = lazy(() =>
+  import("./WebhookInfo").then(({ WebhookInfo }) => ({
+    default: WebhookInfo,
+  })),
+);
+const ProjectSettings = lazy(() =>
+  import("./ProjectSettings").then(({ ProjectSettings }) => ({
+    default: ProjectSettings,
+  })),
+);
 
 import { NotFound } from "./Error/NotFound";
 import { Error } from "./Error";
