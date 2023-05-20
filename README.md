@@ -1,478 +1,868 @@
-## **Jaam Toast 프로젝트 소개( Introduction )**
+# **Jaam Toast**
 
-<img src="https://user-images.githubusercontent.com/59520911/205429514-5171a3f9-e0cd-47e9-985a-5a190060d619.svg" width="250" />
+<p align="center">
+  <img width=300 src="./public/images/jaamtoast-logo-image-temp.png" width="250" />
+</p>
 
-###
+Jaam Toast는 웹 사이트를 쉽게 배포할 수 있는 서비스입니다. 프로젝트를 생성하고 Github Repository와 연결해 웹 사이트를 손쉽게 배포할 수 있습니다.
 
-<aside>
+그리고 Headless CMS 기능을 제공해, 사용자는 콘텐츠를 생성하고 이미지 파일 등을 저장할 수도 있습니다.
 
-**[☑️ 프론트엔드 배포는 이제 Jaam Toast 에서! ( Click Me )](https://www.jaamtoast.app/index)**
+Jaam Toast는 릴레이 프로젝트입니다. 기존에 있던 프로젝트를 이어받아 진행하게 되었습니다.
 
-</aside>
+프로젝트를 유지 보수함과 동시에 실서비스로 런칭할 수 있도록 방향성을 수정하고 확장성 있는 프로젝트가 될 수 있도록 개선하는 역할을 맡았습니다.
 
-> GitHub 연동과 레포지토리 연결만으로 간편하게 프론트엔드 앱 배포를 완료해보세요.
-> <br>프로젝트별 세부 옵션만 더해주면, Deploy 버튼 클릭과 함께 Building Log 가 생성됩니다.</br>
+- [이전 프로젝트(Frontend) 링크](https://github.com/jaam-toast/jaam-toast-frontend/tree/release-01)
+- [이전 프로젝트(Backend) 링크](https://github.com/jaam-toast/jaam-toast-backend/tree/release-01)
 
-![Jaam Toast 시연 영상](https://user-images.githubusercontent.com/93423531/205428305-8a82e734-4157-45df-840a-167b6b406f99.gif)
+현직 Frontend 및 Backend 개발자분들과 코드 리뷰 및 멘토링을 받으며 진행하였습니다.
 
-<br/>
+- [당근마켓 Frontend Lead 원지혁님 멘토링 기록](https://vanillacoding.notion.site/23-04-01-d88dce3e966e4b0c82a9fde0ffc4a3cb)
+- [카카오모빌리티 Backend 이영교님 멘토링 기록](https://vanillacoding.notion.site/23-04-08-81fdc846ebc84416823b0ca713ad62af)
+- [와이어드컴퍼니 Frontend 장명재님 멘토링 기록](https://vanillacoding.notion.site/23-04-15-cb8c375b2c8e44b89719f3968ddba554)
 
-## **프로젝트 동기( Motivation )**
+# 목차
 
-###
+- [Jaam Toast](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#jaam-toast)
+- [서비스 화면](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EC%84%9C%EB%B9%84%EC%8A%A4-%ED%99%94%EB%A9%B4)
+- [고민한 부분](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EA%B3%A0%EB%AF%BC%ED%95%9C-%EB%B6%80%EB%B6%84)
+  - [배포 기능 개선하기](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EB%B0%B0%ED%8F%AC-%EA%B8%B0%EB%8A%A5-%EA%B0%9C%EC%84%A0%ED%95%98%EA%B8%B0)
+    - [SSH 프로토콜로 접속해서 배포 시간을 단축해보기](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#ssh-%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C%EB%A1%9C-%EC%A0%91%EC%86%8D%ED%95%B4%EC%84%9C-%EB%B0%B0%ED%8F%AC-%EC%8B%9C%EA%B0%84%EC%9D%84-%EB%8B%A8%EC%B6%95%ED%95%B4%EB%B3%B4%EA%B8%B0)
+    - [정적 웹 호스팅에 집중하기](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EC%A0%95%EC%A0%81-%EC%9B%B9-%ED%98%B8%EC%8A%A4%ED%8C%85%EC%97%90-%EC%A7%91%EC%A4%91%ED%95%98%EA%B8%B0)
+    - [정적 웹 호스팅으로 전환하면서 얻게 된 문제](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EC%A0%95%EC%A0%81-%EC%9B%B9-%ED%98%B8%EC%8A%A4%ED%8C%85%EC%9C%BC%EB%A1%9C-%EC%A0%84%ED%99%98%ED%95%98%EB%A9%B4%EC%84%9C-%EC%96%BB%EA%B2%8C-%EB%90%9C-%EB%AC%B8%EC%A0%9C)
+  - [효율적인 스타일링 구조 제작](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%ED%9A%A8%EC%9C%A8%EC%A0%81%EC%9D%B8-%EC%8A%A4%ED%83%80%EC%9D%BC%EB%A7%81-%EA%B5%AC%EC%A1%B0-%EC%A0%9C%EC%9E%91)
+  - [이벤트 기반 구조 도입](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EA%B8%B0%EB%B0%98-%EA%B5%AC%EC%A1%B0-%EB%8F%84%EC%9E%85)
+  - [Next.js에서 React로 Migration](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#nextjs%EC%97%90%EC%84%9C-react%EB%A1%9C-migration)
+  - [사용자 경험 개선](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EC%82%AC%EC%9A%A9%EC%9E%90-%EA%B2%BD%ED%97%98-%EA%B0%9C%EC%84%A0)
+    - [Suspense, Lazy import 적용하기](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#suspense-lazy-import-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0)
+    - [에러를 효율적으로 관리할 수 있는 커스텀 컴포넌트 만들기](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EC%97%90%EB%9F%AC%EB%A5%BC-%ED%9A%A8%EC%9C%A8%EC%A0%81%EC%9C%BC%EB%A1%9C-%EA%B4%80%EB%A6%AC%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8A%94-%EC%BB%A4%EC%8A%A4%ED%85%80-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0)
+    - [React Query로 렌더링 이후의 에러 대응하기](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#react-query%EB%A1%9C-%EB%A0%8C%EB%8D%94%EB%A7%81-%EC%9D%B4%ED%9B%84%EC%9D%98-%EC%97%90%EB%9F%AC-%EB%8C%80%EC%9D%91%ED%95%98%EA%B8%B0)
+  - [Headless CMS 제작](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#headless-cms-%EC%A0%9C%EC%9E%91)
+    - [JSON Schema를 이용해 Jaam Schema 만들기](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#json-schema%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%B4-jaam-schema-%EB%A7%8C%EB%93%A4%EA%B8%B0)
+    - [CMS에 접근할 수 있는 API 제공하기](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#cms%EC%97%90-%EC%A0%91%EA%B7%BC%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8A%94-api-%EC%A0%9C%EA%B3%B5%ED%95%98%EA%B8%B0)
+    - [페이지네이션 적용하기](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%ED%8E%98%EC%9D%B4%EC%A7%80%EB%84%A4%EC%9D%B4%EC%85%98-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0)
+  - [보안, 유저 권한 최소화](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EB%B3%B4%EC%95%88-%EC%9C%A0%EC%A0%80-%EA%B6%8C%ED%95%9C-%EC%B5%9C%EC%86%8C%ED%99%94)
+    - [Github 유저 권한](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#github-%EC%9C%A0%EC%A0%80-%EA%B6%8C%ED%95%9C)
+    - [S3 Public Access 차단](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#s3-public-access-%EC%B0%A8%EB%8B%A8)
+    - [Route 별 CORS 설정](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#route-%EB%B3%84-cors-%EC%84%A4%EC%A0%95)
+  - [타입스크립트로 개발자(DX) 경험 향상시키기](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%ED%83%80%EC%9E%85%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%EB%A1%9C-%EA%B0%9C%EB%B0%9C%EC%9E%90dx-%EA%B2%BD%ED%97%98-%ED%96%A5%EC%83%81%EC%8B%9C%ED%82%A4%EA%B8%B0)
+- [기술 스택](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D)
+- [작업 기록](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EC%9E%91%EC%97%85-%EA%B8%B0%EB%A1%9D)
+- [팀원](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%ED%8C%80%EC%9B%90)
 
-> In-House 서비스 개발을 목표로, 웹 프론트엔드 배포 서비스를 기획 및 개발하였습니다.
-> <br>Netlify, Vercel 등 기존의 다양한 배포 서비스를 이용하면서 그 편의성과 유용함을 알게 되었고,</br>`프론트엔드 개발자에게 편리한 배포 서비스 개발`을 이번 프로젝트 주제로 선정하게 되었습니다.
+# **서비스 화면**
 
-<br/>
+# **고민한 부분**
 
-## **실행 방법( How to run )**
+## **배포 기능 개선하기**
 
-- git clone
+프로젝트 진행 중 제일 먼저 고민했던 부분은 배포 기능을 어떻게 개선할지였습니다.
 
-  ```
-  $ git clone https://github.com/jaam-toast/jaam-toast-frontend.git
-  ```
+기존의 서비스는 배포 하나당 가상 컴퓨팅 환경인 EC2 인스턴스를 생성한 후 EC2 인스턴스에서 사용자의 project를 실행시켜 배포하는 방식입니다. 기존의 방식으로는 CSR, SSR 등 모든 유형의 배포를 적용할 수 있다는 장점이 있었지만 배포 속도, 비용 발생이라는 문제점이 발생하게 되었습니다.
 
-- yarn install / yarn start
+<p align="center">
+  <img width="642" alt="deploy-speed-improvements" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/a5af39fa-fb4b-4a96-9e39-4fe308b49566" />
+</p>
 
-  ```
-  $ yarn install
-  $ yarn build
-  $ yarn start
-  ```
+크게 이 두 가지 문제점을 해결하는 것을 배포 기능 개선의 주요 목표로 설정하게 되었고 그 결과로는 30% 이상의 배포 속도 개선, 89.7%의 비용 절약이라는 결과를 얻었습니다.
 
-<br/>
+<br />
 
-## **프로젝트 일정( Schedule )**
+### **SSH 프로토콜로 접속해서 배포 시간을 단축해보기**
 
-###
+<p align='center'>
+  <img width="642" alt="jaamtoast-01-method" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/4875cce0-9c08-4a83-85c3-e4fd667c9a55" />
+</p>
+저희 서비스는 배포 시간이 3분 이상 걸린다는 문제점이 있었습니다(기본 CRA 어플리케이션 기준). 배포 시간이 느린 이유는 크게 2가지가 있습니다.
 
-**📆 전체 기간** ( `2022년 10월 10일 ~ 2022년 11월 27일` )
+1. 빌드 로그를 받는 데 대기하는 시간이 깁니다. AWS CloudWatch에서 로그를 생성하는데 시간이 소요되었습니다(1분 가량).
+2. 명령어를 입력하기 위한 대기시간이 깁니다. EC2 인스턴스에 command를 보낼 수 있는 SSM Client 설치 완료를 기다리는데 시간이 소요되었습니다.(2분 가량)
 
-**Week 1 - 기획 및 설계**
+위의 두 가지 문제는 언뜻 별개의 문제로 보이기 쉽지만, 사실 같은 문제점을 공유하고 있습니다. script를 실행할 수 없는 문제와 script에 대한 log를 받을 수 있는 문제이기 때문입니다.
 
-`2022년 10월 10일 ~ 2022년 10월 16일`
+두 문제를 해결하기위해 Client를 이용해 간접적으로 Script를 보내고 그 로그를 받지 않고 직접 할 수 있도록 해결책을 세우게 되었습니다. 그래서 SSH 프로토콜로 접속해 직접 명령어를 입력해주는 방안을 도입하게 되었습니다. 서버에서 Child Process를 통해 직접 EC2에 접속하고 스트림으로 실시간 로그를 받아오게 되면 두 가지의 문제점을 모두 해결할 수 있을 것이라 기대하였습니다.
 
-- 아이디어 구상 및 선정
-- 배포 기능 작업 프로세스 구상
-- 칸반(KANBAN) 작성
-- GitHub 레포 설정(+ Git 및 코드 컨벤션)
+하지만 SSH 접속 도입은 결과적으로 실패하게 되었습니다. 실패하게 된 이유는
 
-<br/>
+1. 배포할 때 EC2에 설치되어야하는 초기 script의 설치 완료시간이 일정하지 않아, 일정시간을 대기해야했습니다.
+2. SSH 터널링이 끊기는 증상이 자주 나타났습니다.
+3. 특정 시간대(저녁 10시 이후)에 접속이 잘 되지 않는 문제가 있었습니다.
 
-**Week 2 ~ 6 - 기능 개발**
+초기 Script가 설치되기 전에 SSH 접속을 하게 되면, 사용해야 할 프로세스가 아직 설치되지 않아 터널링이 뻗게 됩니다. 설치 완료를 정확하게 알 수 있는 방법이 없어 결론적으로는 이전과 같이 강제적으로 시간을 설정해 기다릴 수밖에 없게 되었습니다. SSH 접속은 연결되는 EC2 인스턴스의 상태를 가장 고려해야 합니다. 저희가 접속하려는 EC2 인스턴스는 생성한 지 얼마 되지 않은 상태의 인스턴스라는 점, 가장 저렴한 유형인 t2.micro 타입이라는 점 때문에 안정적으로 접속할 수 없게 되었습니다. EC2 인스턴스 내부의 문제점을 해결하는 것은 저희가 해결하기 힘든 영역이라 판단하게 되었습니다.
 
-`2022년 10월 17일 ~ 2022년 10월 30일`
+<br />
 
-- pages > (dashboard/index/login.tsx) 페이지 구상
+### **정적 웹 호스팅에 집중하기**
 
-- Dashboard 페이지 구현
-  - Repo(Card/CardList) 컴포넌트 구현
-  - TemplateInitial 컴포넌트 구현
-- Modal(Create/Build/Deploy/Global) 컴포넌트 구현
-- GitHub Oauth 기반의 로그인/로그아웃 기능 구현
-- 유저 GitHub 데이터 관련 엔드포인트 세팅
+<p align='center'>
+  <img width="642" alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/9b119c68-b6fd-4f8e-8e20-e57a0495e276" />
+</p>
+기존의 배포 방식은 배포 하나당 EC2 인스턴스 하나를 생성합니다. 사이즈가 작은 사이트라도 EC2 인스턴스 하나를 생성하게 됩니다. 그래서 많은 배포를 처리할수록 비용이 크게 늘어나게 된다는 단점이 있었습니다.
 
-  - 유저 저장소 접근 => 특정 'Organization - Repository' 선택(배포) 가능
+리소스를 최대한 재사용하기 위해 하나의 인스턴스 내에서 도커를 이용해 여러 빌드를 생성하는 등, 인스턴스 자체를 개선하려는 목표를 세웠습니다. 하지만 위에서 언급한 SSH 적용이 실패하게 되면서 EC2 내부에 직접 접근하는 방식은 안정적으로 제어할 수 없다는 문제점이 있었습니다.
 
-- 유저가 입력한 프로젝트 빌드 정보를 토대로, 이를 어떻게 빌드하고 배포시킬 것인지에 대한 구상 및 학습 진행
-  - 앱의 유형에 따라 로직 분리(CRA-`CSR` vs Next.js-`SSR`)
-  - AWS 주요 서비스 학습(EC2, Route53, S3, CloudFront, CloudWatch Logs 등)
+결국 문제가 발생하는 근본적인 원인으로 돌아가서 상황을 분석하게 되었습니다.
 
-`2022년 10월 31일 ~ 2022년 11월 20일`
+- EC2에서 배포 시간을 줄이기 위해서는 인스턴스 환경의 개선이 필요합니다.
+- EC2 인스턴스 환경 개선은 곧 비용의 증가로 이어집니다.
 
-- Modal(RepoDetails/Preview) 컴포넌트 구현
-  - 배포 완료 후, 생성된 RepoCard 클릭 시 ModalRepoDetails(상세페이지) 확인 가능
-- AccordionBuildingLog 컴포넌트 구현
-- MobileDefense 컴포넌트 구현 => 모바일📱 환경 대응(UI/UX 개선)
-- ModalDeploy 컴포넌트 내 Deploy 버튼 클릭에 따른 빌드 및 배포 기능 구현
-  - 배포 완료 시, `https://${repoName}.jaamtoast.click` 형태의 Site URL(deployedUrl) 부여
-  - Socket.IO-client 활용 => BuildingLog 데이터 표시 및 관련 기능 구현
-  - PR 머지 시, GitHub webhook 요청 받아서 배포 자동 업데이트 기능 구현
+시간을 줄이기 위해 환경을 개선하게 되면 비용이 늘어나는 등 환경적인 요인이 크게 작용하게 됩니다. 위의 ssh 접속 문제와 EC2 인스턴스의 리소스 개선의 한계를 느끼게 되어, 배포 방식을 변경하게 되었습니다.
 
-<br/>
+CSR(Client SIde Rendering) 방식은 보통 HTML, CSS, JS로 이루어진 정적 파일들을 단순 호스팅하는 방식으로 이루어집니다. 여기에 Cache-Control 등 몇 가지 설정들을 해주어야 하지만 비교적 더 간편한 방식으로 고려됩니다.
 
-**Week 7 - 앱 배포 및 README 작성**
+SSR(Server Side Rendering)의 경우는 다릅니다. SSR은 Server에서 HTML을 렌더링해서 응답을 보내주는 방식입니다. 따라서 SSR 어플리케이션을 배포할 때는 요청이 올 때마다 응답을 보내줄 Server를 실행시켜주어야 합니다. 배포하는 방식에 완전한 차이가 있었고, 두 배포 방식은 구분됩니다.
 
-`2022년 11월 21일 ~ 2022년 11월 27일`
+기존의 EC2 방식은 가상 컴퓨터 환경을 사용하여 웹 서버를 띄우는 방식으로, 은 웹 서버를 띄워 두 가지의 배포 방식을 모두 지원할 수 있지만 저희는 HTML, CSS, JS의 정적 웹 호스팅만을 일단 지원하기로 했습니다. 두 가지 방식을 모두 아우를 필요가 없다고 판단했고, 우선은 기본적인 정적 웹 호스팅을 해주는 것이 먼저라고 생각했습니다.
 
-- 기능상 버그 수정 및 유저 배포 데이터 삭제 추가 기능 구현
-- README 작성
-- 최종 배포 완료
+<br />
 
-<br/>
+### **정적 웹 호스팅으로 전환하면서 얻게 된 문제**
 
-## **프로젝트 설명( How to play )**
+<p align='center'>
+  <img alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/3b174242-b147-472d-b920-ff6f95299e88" />
+</p>
+저희는 Cloudflare Pages로 배포 방식을 전환하게 되었습니다. 기존에 EC2를 이용한 배포 방식의 문제였던
 
-### **🎨 기술 스택**
+1. build log를 받을 수 없었던 문제
+2. 내부 script를 실행하는 데 제한이 있었던 문제
+3. 하나의 배포에 너무 많은 리소스가 낭비되는 문제
+4. 그로 인해 비용이 상승하는 문제
 
-#### **_FrontEnd_**
+를 모두 해결할 수 있게 되었습니다.
 
-- ES6+
-- NextJS
-- TypeScript
-- Recoil
-- Socket.IO-client
-- MUI
-- Styled-components
-- Jest
+CloudFlare는 Wrangler라는 CLI를 제공하고, 비교적 높은 수준의 추상화 된 기능을 제공해 웹 사이트를 손쉽게 만들 수 있는 장점이 있습니다. 반면 저희 사용자 입장에서 세부적인 내용을 제어하기가 쉽지 않았습니다.
 
-#### **_BackEnd_**
+예를 들어, Jaam Toast에는 사용자가 배포된 프로젝트에 새로운 커스텀 도메인을 추가할 수 있는 기능이 있습니다. 또 Github의 Repository에 Commit이 추가되면 프로젝트를 업데이트하는 기능도 있는데요.
 
-- Node.js
-- Express
-- AWS-SDK for JavaScript v3
-  - EC2 / Route53 / CloudWatch Logs
-- AWS-CLI
-  - Systems Manager
-- Nginx
-- Let’s Encrypt—Certbot
-- Socket.IO
-- GitHub
-  - OAuth App / REST API / Webhook
-- MongoDB with Atlas and Mongoose
-- Jest
+문제는 두 가지의 기능이 함께하게 되면서부터입니다. CloudFlare는 CloudFlare와 Github 연동을 해야만 프로젝트를 업데이트 할 수 있습니다. 하지만 Github 연동까지 맡기게되면 저희의 전체 서비스가 CloudFlare에 의존하게 됩니다. 결국 프로젝트를 업데이트 하기 위해서는 새로운 프로젝트를 생성해야만 합니다.
 
-#### **_Infra_**
+새로운 프로젝트를 생성하게 되면 새로운 도메인이 생기게 됩니다. Jaam Toast에서는 Cloudflare의 도메인으로 `[jaamtoast.click](http://jaamtoast.click)` 을 생성하여 유저에게 전달해줍니다. 프로젝트가 업데이트되어 기존의 도메인이 달라진다면, 도메인의 레코드 설정을 변경하고, 새롭게 만들어진 프로젝트에 다시 도메인을 등록하면 됩니다.
 
-- [FE] Vercel
-- [BE] AWS EC2 / Route53 / Nginx
+문제는 커스텀 도메인을 연결해주는 부분입니다. 커스텀 도메인을 연결해주는 방식은 유저가 기존 도메인을 가리키는 CNAME 레코드를 직접 연결해주어야 합니다. Cloudflare 배포 프로세스를 계속 유지하기 위해서는 기존 도메인이 변경될 때 마다 유저에게 CNAME 값을 변경하도록 할 수 밖에 없습니다.
 
-<br/>
+CloudFlare 자체의 낮은 자유도로 인해서 예상치 못했던 문제를 만나게 되었고, 결국 한 번 더 배포 프로세스를 변경하게 되었습니다. 현재의 문제를 어떻게 해결한다고 하더라도 CloudFlare를 이용하는 방식으로는 조금 더 세부적인 제어를 하기 힘들 것 같다고 판단했습니다. 이 시점엔 프로젝트 마무리 기한이 얼마 남지 않아 변경을 고민했지만, 앞선 EC2를 이용해 AWS에 대해 학습 했던 경험 덕분에 생각보다 빠르게 적용할 수 있었습니다.
 
-### **📌 주요 기능**
+<p align='center'>
+  <img alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/68f6df9c-a2b8-4ccb-ba3b-5be93d411697" />
+</p>
 
-|                                                      1. Deploy 버튼 클릭에 따른 빌드 및 배포 기능                                                      |                                                   2. PR 머지 시, 배포 자동 업데이트 기능 </br>                                                   |
-| :----------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------: |
-| ![1. Deploy 버튼 클릭에 따른 빌드 및 배포 기능](https://user-images.githubusercontent.com/93423531/205428305-8a82e734-4157-45df-840a-167b6b406f99.gif) | ![2. PR 머지 시, 배포 자동 업데이트 기능](https://user-images.githubusercontent.com/93423531/205429823-eb373756-ec29-4b8a-8aef-f93e693d4824.gif) |
+바뀐 방식은 S3에 직접 파일을 올리고, CloudFront와 연결되는 방식인데요.
 
-#### **원클릭 배포 기능**
+1. 배포 요청시 프로젝트 빌드 데이터 생성합니다.
+2. S3 Bucket 생성 후 stream으로 빌드 데이터 전송합니다.
+3. CloudFront CDN을 생성하여 S3 Bucket 도메인으로 설정하고, HTTPS 인증서를 등록하고 도메인을 연결합니다.
 
----
+S3를 이용한 방법으로 HTTPS를 직접 적용할 수 없기 때문에, AWS의 CDN 서비스인 CloudFront를 활용하여 HTTPS와 CDN을 적용하였습니다. Cloudflare Pages로는 커스터마이징에 제약이 있었던 것과 달리, CloudFront를 이용하면 CDN 옵션 설정과 버킷 내 파일 확인 등을 자유롭게 조정할 수 있었습니다.
 
-GitHub 계정과 연동하여 원하는 repository를 클릭 한번에 배포할 수 있습니다.
+<p align='center'>
+  <img width="642" alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/6a4b1801-4202-4e10-aa4b-21745238e60a">
+</p>
+우여곡절 끝에 정적 웹사이트 배포 방식을 성공적으로 적용할 수 있게 되었습니다. 프로젝트의 배포 속도 및 비용 효율성을 향상시킬 수 있었습니다.
 
-1. AWS-SDK로 EC2 instance 생성하고 배포에 필요한 환경 세팅
+이전에 하루 평균 $2.22의 비용이 드는 것에서, S3를 활용한 새로운 배포 방식을 적용하면서 하루 평균 $0.23 달러로 비용을 89.7%나 절감할 수 있게 되었습니다.
 
-   > 유저가 배포를 요청할 때 보낸 빌드 옵션과 환경변수를 자동 실행시킬 명령어들과 함께 조합
+<br />
 
-   > AWS-SDK로 EC2 instance 생성
-   >
-   > - 기본환경 세팅해둔 `AMI` (Amazon Machine Image), `IAM: role`, `Security groups` 적용
+## **효율적인 스타일링 구조 제작**
 
-   > - `UserData` 파라미터로 자동 실행시킬 명령어들 전달
-   >   - 기본환경 세팅
-   >     - `yum update`, `nvm` 환경 세팅, Nginx 세팅, https 인증 위한 `letsencrypt certbot` 세팅
-   >   - 빌드파일 세팅
-   >     - `git clone`, 환경변수 파일 생성, `npm install`, `npm build`, `pm2` 세팅
-   >   - AWS 리소스 세팅
-   >     - `aws cloud-watch-agent` 세팅, `aws ssm-agent` 세팅
+기존 웹 페이지는 MUI를 기반으로 이루어져 있었습니다. MUI는 미리 작성된 Componet들을 가져다 손쉽게 사용할수 있는 컴포넌트 라이브러리인데요. 일일이 CSS를 작성할 필요 없이 원하는 페이지를 빠르게 만들 수 있는 장점이 있습니다. 반면 MUI는 기본적으로 제공하는 스타일에서 커스텀하기가 용이하지 않은 단점이 있습니다. MUI에서 component를 커스텀하려면 createTheme 함수에 Component Option을 인자로 넣어 설정해줄 수 있습니다. 문제는 점점 커스텀할 수록 createTheme가 거대해진다는 것입니다.
 
-2. AWS-SDK로 Route53 A record 생성
-
-   > 배포되는 유저의 repository 이름을 subdomain으로 EC2 instance 의 Public IP address를 가리키는 A record 생성 ( `${subdomain}.${Config.SERVER_URL}` )
-
-3. AWS-CLI로 `letsencrypt certbot`의 https 인증 요청하는 명령어 instance에 전달
-
-   > https 인증을 하려면 instance와 record가 완전히 준비되어야 하기 때문에, 인터벌로 ping을 보내서 두 요소의 상태 확인
-
-   > 두 가지 모두 준비되면 https 인증 요청 `certbot` 명령어들을 `aws-cli ssm` (Systems Manager)로 instance에 전달해서 원격 실행 (`aws-cli ssm`은 Node.js `child_process`로 실행)
-
-4. AWS-SDK로 `CloudWatch Logs`에서 필요한 로그 요청
-
-   > EC2 생성 후 `UserData` 명령어들이 실행된 log를 미리 `CloudWatch Logs` 특정 group에 쌓이도록 설정해둠
-
-   > - 필요한 log가 `CloudWatch Logs` 특정 group에 준비됐는지 인터벌로 ping을 보내서 상태 확인
-   > - 준비되면 log 불러와서 Socket을 통해 클라이언트로 전달
-
-5. 배포한 데이터와 repository 데이터 mongoDB 저장
-
-   > User model, Repo model 함께 mongoose transaction으로 저장
-
-6. 클라이언트에서 필요한 데이터를 처음 배포요청의 응답으로서 전달
-
-   > 새롭게 배포한 웹사이트의 URL 및 데이터 응답
-
-#### **Building Log 전달**
-
----
-
-- `SocketSingleton` 디자인 패턴
-
-  > Express에서 Socket instance를 한번 만들면 항상 같은 Socket instance를 사용하기 위해 Singleton 패턴으로 Socket 클래스 생성
-
-  > - 원하는 log들을 미리 만들어둔 `createDeploymentDebug()` 등의 debug 함수를 통해 특정한 로그 파일에 `fs.write()`로 기록
-  > - Socket 클래스로 만든 instance에서 특정한 로그 파일을 `fs.watch()` 하다가 파일의 변화를 감지할 때마다 클라이언트로 전달
-
-#### **PR Merge 시 배포 사이트 자동 업데이트**
-
----
-
-- 배포한 repository의 PR GitHub에서 merge 할 때, 배포한 웹사이트 자동 업데이트
-
-  > 유저가 배포 요청했을 때, `createRepoWebhook()`으로 해당 repository에 webhook 생성
-
-  > - PR 관련한 action이 있을 때, origin 서버로 POST ping이 날아오고 PR이 merge 된 경우에는 `aws-cli ssm`으로 배포된 웹사이트 업데이트하는 명령어 instance에 전달 (`aws-cli ssm`은 Node.js `child_process`로 실행)
-
-<br/>
-
-## **Folder Structure**
-
-<details><summary>배포 기능 관련 폴더 구조</summary>
-
-```bash
-.
-├── api
-│   ├── controllers
-│   │   ├── auth.ts
-│   │   ├── deployController
-│   │   │   ├── deployCertbot.ts
-│   │   │   ├── deployDomain.ts
-│   │   │   ├── deployFilterData.ts
-│   │   │   ├── deployInstance.ts
-│   │   │   ├── deployLogs.ts
-│   │   │   ├── deploySaveData.ts
-│   │   │   ├── getUserDeployList.ts
-│   │   │   └── index.ts
-│   │   ├── updateController
-│   │   │   ├── deleteDeployment.ts
-│   │   │   ├── index.ts
-│   │   │   └── updateDeployment.ts
-│   │   └── user.ts
-│   ├── github
-│   │   ├── client.ts
-│   │   └── oauth.ts
-│   ├── index.ts
-│   ├── middlewares
-│   │   ├── errorHandler.ts
-│   │   ├── morganMiddleware.ts
-│   │   ├── validateSchema.ts
-│   │   ├── verifyGithubCode.ts
-│   │   ├── verifyGithubSignature.ts
-│   │   └── verifyToken.ts
-│   └── routes
-│       ├── deploy.ts
-│       ├── login.ts
-│       ├── repos.ts
-│       └── users.ts
-├── app.ts
-├── bin
-│   └── www.ts
-├── config
-│   └── index.ts
-├── deploy
-│   ├── aws
-│   │   ├── config
-│   │   │   ├── cloudwatch-agent-config.json
-│   │   │   ├── nginx-config-default.sh
-│   │   │   └── setNginxScript.ts
-│   │   ├── cwl_deletelogstream.ts
-│   │   ├── cwl_describelogstreams.ts
-│   │   ├── cwl_filterlogeventscommand.ts
-│   │   ├── ec2_createinstances.ts
-│   │   ├── ec2_describeinstances.ts
-│   │   ├── ec2_terminateinstances.ts
-│   │   ├── libs
-│   │   │   ├── cloudWatchLogsClient.ts
-│   │   │   ├── ec2Client.ts
-│   │   │   ├── route53Client.ts
-│   │   │   └── s3Client.ts
-│   │   ├── route53_changerecord.ts
-│   │   ├── route53_describerecord.ts
-│   │   └── s3_upload_object.ts
-│   ├── build-utils
-│   │   ├── buildDeploymentCommands.ts
-│   │   ├── createDeploymentInstance.ts
-│   │   ├── getLogStreamStatus.ts
-│   │   ├── getRecordInstanceStatus.ts
-│   │   ├── runCertbot.ts
-│   │   └── runGetFilteredLogEvents.ts
-│   ├── cli
-│   │   ├── runCertbotCommands.ts
-│   │   └── runUpdateDeploymentCommands.ts
-│   └── socket
-│       ├── buildingLogSocket.ts
-│       ├── index.ts
-│       └── socketSingleton.ts
-├── loaders
-│   ├── express.ts
-│   ├── index.ts
-│   ├── logger.ts
-│   └── mongoose.ts
-├── models
-│   ├── Repo.ts
-│   └── User.ts
-├── public
-│   └── stylesheets
-│       └── style.css
-├── types
-│   ├── custom
-│   │   └── index.d.ts
-│   └── express
-│       └── index.d.ts
-└── utils
-    ├── asyncHandler.ts
-    ├── createDebug.ts
-    ├── errors.ts
-    └── temp
-        ├── readDir.ts
-        └── runBuildCommand.ts
+```js
+const theme = createTheme({
+  typography: {
+    fontFamily: "Pretendard",
+  },
+  palette: {
+    primary: {
+      main: "#00ff62",
+      light: "#00ff62",
+      dark: "#4d00ff",
+    },
+    light: {
+      main: WHITE,
+    },
+		// ...넣어줄 색상이 추가될 때마다 palette option에 인자로 넣어줍니다.
+  },
+  components: {
+    MuiAvatar: {
+      variants: [
+        {
+          props: { color: "default" },
+          style: {
+            backgroundColor: "#8c8c8c",
+          },
+        },
+        {
+          props: { color: "point" },
+          style: {
+            backgroundColor: RED_LIGHT,
+          },
+        },
+      ],
+    },
+  // ...custom할 컴포넌트가 추가될 때마다 아래에 Compenent를 추가해주어야 합니다.
+});
 ```
 
-</details>
+단순히 몇 가지의 설정만을 추가했을 뿐인데도 파일이 크고 복잡해지게 되었습니다. 이는 디버깅할 때에도 원하는 Component를 찾기 힘든 결과를 낳게 되었습니다.
 
-<br/>
+좀 더 관리하기 용이하도록 별도로 Theme를 분리하려고 하였으나, 오히려 파일 간 switching이 잦아지면서 개발 경험에 역효과를 낳게 되었습니다.
 
-## **Service Architecture**
+추후의 스타일링 구조의 확장성을 생각해보았을 때, MUI와 같은 UI Tool보다는 직접 CSS를 작성하는 것이 용이하겠다는 판단을 내렸습니다.
 
-### **전체 플로우**
+CSS Tool은 Vanillla-extract를 도입하였습니다. 도입한 이유는 두 가지가 있습니다.
 
-![jaamtoast-flow-whole-architecture](https://user-images.githubusercontent.com/59520911/205441872-5d665aeb-ed09-4207-b8e7-095b32300ee4.svg)
+하나는 앞서 문제로 느꼈던, 확장성 및 커스텀에 용이한 구조를 만들고 싶기 때문이었습니다.
 
-### **배포 기능 프로세스**
+Atomic하게 CSS를 작성하게 되면 미리 정의되어있는 스타일을 조합하는 것만으로도 새로운 컴포넌트들을 손쉽게 만들어 낼 수 있습니다.
 
-![jaamtoast-flow-deployment-feature](https://user-images.githubusercontent.com/59520911/205441891-fea2104e-31c3-46c1-a43f-7ea5e73e5096.svg)
+```js
+import { style } from "@vanilla-extract/css";
 
-<br/>
+export const flex = style({
+  display: "flex",
+});
 
-## **🚀 Our Challenge**
+export const inlineFlex = style({
+  display: "inline-flex",
+});
 
-프로젝트 기획부터 구현까지, 무엇을 어떻게 접근하면 좋을지 몰라 이번 프로젝트는 그 자체로 단계별 넘어야 할 산이자 도전이었습니다. 그 중 배포 기능과 관련한 주요 이슈를 위주로 다음과 같이 정리하였습니다. ( 저희 백엔드 서버는 “origin 서버”, 그리고 유저의 웹사이트를 배포해주는 기능은 “배포 기능” 이라 하겠습니다. )
+export const flexColumn = style({
+  display: "flex",
+  flexDirection: "column",
+});
 
-#### **배포 기능 작업 프로세스**
+export const flexCenter = style({
+  alignItems: "center",
+  justifyContent: "center",
+});
 
----
+// 공통 스타일 속성을 미리 저장해두고, 조합해서 컴포넌트 스타일링을 할 수 있습니다.
+```
 
-유저를 위한 배포 기능을 처음 구상할 때, 막연히 알고 있던 것은 GitHub 연동으로 유저가 원하는 repository 파일들을 받아와서 build 명령어를 실행시킬 수 있어야 한다는 정도였고, 목표로 하는 것은 프론트엔드 프레임워크 `Next.js—SSR` 앱과 `Create React App—SPA` 앱을 배포해 줄 수 있는 기능이었습니다.
+다른 이유는 성능입니다. MUI는 emotion이라는 css-in-js 라이브러리를 이용해서 개발되었습니다. css-in-js는 특성상 런타임에 자바스크립트를 실행시켜 스타일을 주입하는 방식입니다. 이러한 특성 때문에, rumtime에 자바스크립트를 실행해야하는 한계에 부딪힐 수 밖에 없습니다. 이는 성능에 좋지 않은 영향을 끼칠거라 생각했습니다. Vanilla-Extract를 선택한 이유는 빌드 시에 CSS 파일로 변환되기 때문에, runtime시 별도로 자바스크립트가 실행되지 않기 때문입니다. 그래서 비교적 더 나은 성능을 기대할 수 있습니다.
 
-먼저 `build` 방법으로는 GitHub 문서를 꼼꼼히 살펴본 결과, 일반 repository 파일들을 binary 형태로 받기보단 `git clone`으로 가져오는 것이 효율적이라고 판단하였습니다. 따라서 우선 저희의 origin 서버에서 `git clone`-`npm install`-`build` 명령어를 자동 실행하는 테스트를 진행하였습니다.
+스타일링 구조를 전환한 뒤, lighthouse 측정 시 Perfomance에서 많은 향상을 보이게 되었습니다. 기존에 MUI를 실행할 때는 자바스크립트 실행에 꽤 많은 시간을 할애했습니다. 하지만 스타일 구조 전환 후에는 그런 과정이 생략될 수 있었습니다. 대부분의 공통 스타일링을 미리 지정해두었기 때문에, 컴포넌트를 많이 만들게 되어도 CSS 파일의 크기가 급격하게 늘어나지도 않습니다. 개발자 경험에 있어서, 그리고 성능에 있어서 더 효율적인 스타일 구조가 되었습니다.
 
-이후 배포 기능의 방법으로 CRA 앱은 `S3`를 활용한 Web hosting으로, 그리고 Next.js 앱은 `npm start`를 했을 때 서버가 어떻게 실행되는지 소스코드를 확인해 본 후 `EC2` instance에서 `git clone`-`npm install`-`build`-`start` 명령어를 순차적으로 실행시키는 등의 방법으로 작업의 방향성을 정하였습니다. 여기서 `S3`를 활용한 Web hosting은 클라이언트 사이드 라우팅 상태와 실제 네트워크 요청 상태를 맞추는 데 필요한 `CloudFront` 작업을 어떻게 자동화 할 수 있을지 의문이었기에, 우선순위로 Next.js 앱의 배포 기능을 목표로 먼저 `EC2`를 어떻게 활용할 수 있을지에 대해 학습하였습니다.
-
-이처럼 작업의 물꼬가 조금 트이자, 직접 저희의 origin 서버를 `EC2`로 배포해보면서 후에 유저의 앱을 배포해줄 때 자동 실행시켜야 할 필요 명령어들을 수집한 끝에, `EC2` instance의 생성을 요청하는 `AWS-SDK` 명령어를 만들 때 instance 동작이 시작된 후 실행시킬 명령어들을 `UserData` 파라미터로서 할당할 수 있음을 알게 되었습니다. 더불어 CRA 앱 또한 그러한 방법을 차용하여, 본격적으로 유저의 배포 요청이 들어왔을 때 새로운 `EC2` instance를 생성하고, 배포에 필요한 환경을 만드는 명령어들이 해당 instance 안에서 동적으로 자동 실행될 수 있게끔 코드로 구현하는 작업을 시작할 수 있었습니다.
-
-#### **https 인증 요청**
-
----
-
-유저가 배포를 요청했을 때, `EC2` instance를 생성하고 `Route53` record를 만들어 원클릭으로 http를 배포해주는 것까지는 성공했지만, https를 어떻게 적용해 줄 수 있을진 막막한 상황이었습니다. 다행히 Vercel 관련 자료를 조사하던 중 찾은, 무료로 https 인증을 제공해주는 'Let’s Encrypt' 라는 기관에서 제공하는 인증의 존재를 알게 되었고, 이를 활용하는 `certbot`이라는 오픈 소스 툴을 이용해, 먼저 수동으로 https 설정을 해보면서 유저의 배포 된 웹사이트가 돌아가는 `EC2` instance에서 https 설정을 자동 실행시키기 위한 필요 명령어들을 수집하였습니다.
-
-관련 방법으로 'AWS Systems Manager' 에 `RunCommand`라는 `EC2` instance로 원격에서 명령어를 전달하는 기능이 있음을 알게 되었습니다. 하지만 배포 요청이 있을 때마다 콘솔창에서 수동으로 이를 진행할 순 없으니, `AWS-CLI`를 활용해 동적으로 `RunCommand`를 실행하는 자동 실행 요청의 코드가 필요하였습니다.
-
-이전에 다른 명령어를 실행시킬 때 써본 `execa`라는 라이브러리를 먼저 활용해 봤지만, 현재 Node.js Express 환경에서 타입스크립트와 ES Modules을 (타입스크립트 컴파일은 CommonJS로) 사용하고 있어 지속적인 에러가 발생하였습니다. 이에 execa 버전을 바꾸고, `import`하는 방식을 적용해 보기도 하였으나, 여전히 에러는 해결되지 않았고 결국 라이브러리 자체를 지운 뒤 해결 방법을 찾다 `execa` 또한 `child_process`를 쉽게 사용하도록 만들어진 라이브러리기에 보다 기본적인 것을 사용하면 되지 않을까 하는 생각에 Node.js의 `child_process`로 우회한 끝에 해결할 수 있었습니다.
-
-#### **배포 Building log 클라이언트로 전달**
-
----
-
-배포 과정을 보여줄 수 있는 Building log를 전달해주기 위해 Socket.io를 활용하였습니다. 그러나 Express 동작 기저 내에서 어떻게 필요에 따라 동일 Socket instance를 가져와 사용할 수 있을지에 대한 의문이 있었고, 그렇게 Singleton 디자인패턴을 알게 되었습니다.
-
-이제 관련 log를 어떻게 한 번에 하나씩 순차적으로 보내줄 수 있을지에 대해 고민하였고, 디버깅 작업을 위해 미리 만들어 사용하고 있던 debug 함수 활용의 아이디어가 떠올랐습니다. 작업 순서 확인을 위해 debug 함수로 곳곳의 배포 작업 log를 받아와 process.stderr.write로 log 확인 작업을 진행중이었는데, 이때 해당 log가 특정 파일에 보관되게 함으로써, 이후 log가 기록될 때마다 Socket instance에서 그러한 파일 변화를 감지해, 결과적으로 클라이언트에 log를 보내줄 수 있는 방식이었습니다. 더불어 Node.js `File system` 모듈에서 제공하는 API( `fs.open()`, `fs.write()`, `fs.watch()` ) 활용을 더해, 앞서 유추한 방식을 토대로 관련 기능 구현을 완료하였습니다.
-
-#### **배포 기능 로직을 담은 함수 리팩토링**
-
----
-
-배포 기능이 동작하는 데 주안점을 두고 작업을 진행하다 보니, 배포에 필요한 모든 로직을 담고 있는 `createDeployment()` 함수의 관리가 점점 어려워졌습니다. 또한 라우트를 통해 들어온 요청의 경우 그러한 함수를 단순 실행만 시킨 뒤, 다시 응답으로서 그대로 빠져 나가는 상황이었습니다.
-
-따라서 원활한 유지보수는 물론, 에러 핸들링과 상황에 맞춰 필요한 에러 관련 데이터의 롤백도 불가할 것으로 판단하였기에 해당 함수의 리팩토링을 추가적으로 진행하였습니다. 더불어 로직의 경우 이중 `try catch` 및 `setInterval`과 `setTimeout`도 함께 섞여 있었기에 그에 따른 로직 관리의 효용성, 그리고 배포 기능의 보다 안정적인 동작 개선을 위해 함수 리팩토링을 택하게 되었습니다.
-
-결과적으로 기존의 필요 데이터 사용을 위해 미들웨어에서 접근 가능한 `request object(req)`에 새로운 커스텀 타입을 지정하고 사용하면서 미들웨어 하나당 배포 기능 내 하나의 역할만 담당하도록 이를 분리하였습니다. 또한 미들웨어 내 await가 필요한 함수의 경우는 원하는 타이밍에 `resolve()` 할 수 있도록 `Promise`를 리턴하는 식으로 리팩토링함으로써 클라이언트가 필요로 하는 데이터를 배포 요청에 따른 응답으로서 담아 보낼 수 있었습니다.
-
-#### **Origin 서버 배포 이후 에러**
-
----
-
-Origin 서버와 프론트엔드 배포 이후, 로컬에선 보지 못한 에러들이 발생하였습니다. ( `aws` 권한 에러, `certbot` 및 `pm2` 관련 에러 등 ) 그 중 Socket cors 에러의 경우 cors 설정을 해 줬음에도 불구하고 발생 원인을 알 수 없었지만, 검색 끝에 Nginx에 socket 관련 `proxy_module` 세팅을 따로 해줘야 하는 것을 찾아 해결할 수 있었습니다. 더불어 구현된 배포 기능 특성상 배포 시 걸리는 시간이 상당하여, 클라이언트의 배포 요청에 따른 응답을 받기까지 꽤 오랜 시간이 걸리는데, 이 또한 Nginx의 `proxy_module`과 `core_module` 관련 설정 중 하나인 응답 대기 시간을 늘려줌으로써 해결하였습니다.
-
-#### **익숙하지 않은 외부 서비스 활용 ( AWS-SDK, AWS-CLI, Nginx 등 )**
-
----
-
-GitHub, Nginx, 그리고 AWS 등의 공식 문서를 꼼꼼히 살펴봄으로써 필요 정보를 찾고, 코드로서 직접 적용하는 데 많은 도움이 되었습니다. `AWS-SDK`( `EC2`, `Route53`, `CloudWatch Logs` )와 `AWS-CLI`( `Systems Manager` )가 대표적이며, [AWS SDK for JavaScript v3](https://github.com/aws/aws-sdk-js-v3) 소스코드의 인터페이스와 타입을 중심으로 살펴본 결과 특정 input을 넣었을 때 어떤 ouput이 나오는지 기대할 수 있었습니다.
-
-같은 맥락에서 처음 GitHub OAuth와 REST API 등의 사용을 위해, 관련 문서를 익힐 때만 해도 마냥 어렵게 느껴지던 부분들이 점차 익숙해짐에 따라 해당 문서가 얼마나 잘 쓰여진 것임을 알게 됨은 물론, 후반부의 GitHub webhook 관련 기능 또한 비교적 수월히 구현하는 데 도움을 주었습니다.
-
-#### **의존성으로 해결하지 못했지만 추후 개선하면 좋을 이슈**
-
----
-
-- [`EC2` instance 휴면 처리](https://taewan.notion.site/3f3d986f202242b8924c36e90bf15777)
-
-  > 배포 요청에 의해 생성된 `EC2` 수가 많아져, 예상치 못한 이슈가 발생할 것에 대비하여 `EC2` instance 생성 시 `hibernation` 옵션을 활성화시키는 방법을 고려하였습니다. 그러나 저희가 사용하는 무료 `t2-micro` `EC2` instance에서는 `hibernation` 옵션이 지원되지 않아, 결과적으로 적용하진 못하였습니다. ( 또한 `hibernation` 사용 조건으로 Amazon `EBS` root volume이 encrypt 되어 있어야 합니다. )
-
-- [`EC2` instance 가 많아질 경우를 대비한 scale 대비 instance 설정](https://taewan.notion.site/scale-instance-2b4ce2d4ce3948bfa7c190451b4de04c)
-
-  > 휴면 처리가 불가한 문제를 해결하기 위해 `EC2` instance 상태를 `stopped`와 `running` 둘 중, 필요 시에만 변경해주는 방법도 고려하였습니다. `hibernation`과 달리 `stopped`로 바꿨을 때 `EC2` 환경 관련 데이터는 삭제되지만, 명령어를 재실행시켜 줌으로써 관련 내역 전부를 재설치하면 되지 않을까 하는 생각 때문이었습니다. 그러나 해당 instance가 stopped에서 running 상태로 바뀔 경우 instance Public IP address 또한 변경되기에 해결 방안으로서 적절치 않았습니다. 더불어 고정된 IP 주소를 갖는 AWS Elastic IP address는 region별 개수 제한이 있어, 이 또한 적용하지 못 하였습니다. [five Elastic IP addresses per Region](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-limit)
-
-- [https 인증 요청을 위한 대기시간 줄이기 (Let’s Encrypt—`Certbot` 요청 전 대기)](https://taewan.notion.site/scale-instance-2b4ce2d4ce3948bfa7c190451b4de04c)
-
-  > `Certbot`으로 https 인증 요청을 하려면 `EC2` instance와 `Route53` record가 완전히 준비된 상태여야 하기에 인터벌로 ping을 보내, 두 요소 간 상태 확인을 우선하였습니다. 그러나 두 요소의 상태가 각각 `RUNNING` / `INSYNC`로 변경 완료된 것을 확인한 뒤 요청을 날렸음에도 불구하고, 계속적으로 https 인증에 실패하였습니다. 여러 방법을 시도해 본 끝에, 변경이 확인된 이후에도 강제로 일정 시간을 `setTimeout`으로 대기했을 때 성공할 수 있었습니다. 배포 자체의 시간이 길어지는 문제점은 있지만, 의존성이 높은 부분이라 해결 방안을 명확히 모색하기 어려웠습니다.
-  >
-  > - https 인증 요청 대기 문제와 위에서 언급한 scale 대비 instance 설정을 동시에 해결하기 위한 방안으로 [배포요청이 들어왔을 때 로직을 추가](https://taewan.notion.site/scale-instance-2b4ce2d4ce3948bfa7c190451b4de04c)를 더해 보았습니다. 요약은 다음과 같습니다.
-  >   - 미리 EC2 instance(stopped)와 Route53 A record들을 생성해서 mongoDB 저장
-  >   - 배포 요청이 들어오면 만들어둔 instance 중 하나를 선택해서 상태를 running으로 변경 요청
-  >   - instance 상태 변경에 따라 A record가 새로 만들어진 Public IP Address를 가리키게 설정
-  >   - 배포 요청한 repo 이름으로 record(CNAME) 하나 만들어서 미리 만들어둔 A record 가리키게 설정
-  >   - 생성한 record들 포함해서 Nginx 세팅과 certbot https 인증 요청 명령어 instance로 전달해서 자동 실행
-  >   - instance 내부의 build 파일 실행을 위해 필요한 명령어들 instance로 전달해서 자동 실행
-  > - 그러나 `EC2` instance의 상태가 변경되면 Public IP address 또한 변경되기에 미리 만들어둔 record A가 준비됐다 하더라도, 새롭게 실행되는 instance 때문에 결국 https 인증 요청을 하기 전에 강제로 일정 시간을 대기해야 될 것으로 짐작되어, 다소 아쉬운 이슈로 남게 되었습니다.
-
-<br/>
-
-## **After Project**
-
-<details><summary>임태완</summary>
-
----
-
-돌아보면 하나부터 열까지 몰랐던, 한 단계 한 단계가 넘어야 할 산처럼 느껴진 프로젝트라 그 자체로 도전이었습니다. ( 예를 들면 bash script 명령어들을 `EC2` Amazon Linux 2 instance에서 자동 실행시키기 위해서 origin 서버에서 `EC2` instance로 전달하는 기능 등 ) 프로젝트 기간 초반에는 배포를 해주는 메인 기능에 관해 어떻게 구현을 할 수 있을지 감이 오지 않을뿐더러 Node.js와 Express를 처음 TypeScript와 함께 ES modules 스타일로 초기 설정하는 부분도 쉽지 않았습니다.
-
-하지만 결과적으로 프론트엔드의 경계를 넘어 이전에 해보지 않았던 부분을 학습하고 구현해야 했던 프로젝트를 도전한 경험을 통해 새로운 것을 시도하고 적용해보는 자신감을 얻을 수 있었습니다. 그리고 처음에 어떻게 풀어가야 할지 감이 오지 않던 배포기능과 관련해서 단계별로 문제를 하나씩 해결할 때마다 성취감을 느낄 수 있었고, 어떤 문제의 해결책을 찾아서 한 번에 해결한 것이 아닌 프로젝트를 진행하면서 쌓은 지식과 찾은 정보들을 조합해서 생각한 방법으로 구현한 코드가 들어맞아 문제를 해결했을 때는 뿌듯한 개발 경험이었습니다.
-
-프로덕트가 만들어지고 배포되기까지 하나의 큰 사이클 안에서 이전에는 모르던 만큼 막연하게 여겨졌던 배포 과정을 다루어본 작업은 시야를 넓힐 수 있는 학습의 기회가 되었지만, 메인기능을 AWS 서비스들을 잘 연결해서 자동으로 실행시키는 방식으로 구현했기 때문에 의존성으로 해결하지 못한 부분도 있고 개선할 점도 정말 많은 프로젝트였습니다. 앞으로 다른 개발자들에게 도움 되는 더 나은 성능의 서비스를 만드는 것을 목표로 더 공부하고 싶습니다.
-
-</details>
-
-<details><summary>박수정</summary>
-
----
-
-개발자에게 더 편리한 개발 환경과 시스템 개발 또한 평소 관심 있던 분야라, 이번 프로젝트를 기회 삼아 웹 프론트엔드 배포 서비스를 기획 및 개발하였습니다. 결과적으로 AWS 제공의 주요 서비스를 익히고, 활용하는 데 몰입할 수 있었던 프로젝트였던 만큼 관련 PoC에 상당한 기간이 할애되었습니다. 예로서 빌드 완료 후 번들링 된 유저의 파일을 일정 폴더 규칙에 맞춰 S3에 업로드 시킨 뒤 Route53에서 `userName-repoName` 형식으로 서브도메인을 생성하고, 이를 만들어 둔 CloudFront로 연결하는 등의 일련의 과정을 콘솔창이 아닌 코드로 직접 구현해야 했기에 그러한 기술 검증이 차례로 이뤄져야 했기 때문입니다. 무엇보다 일정 성과를 얻은 PoC였음에도, 개발의 방향성에 따라 적용이 철회된 순간 또한 있었기에 더욱 빠듯해진 개발 일정과 기능 구현 간 조율이 필요하였습니다.
-
-프로젝트 전체 일정과 완성도 사이, 적정선을 도출하기 위해 많은 고민을 거듭하였으나 결국 일정의 늘어짐을 방지하지 못하였단 점이 아쉽습니다. 물론 AWS 제공의 주요 서비스를 다룸으로써 사내 인프라 개발자의 직무를 맛보았단 점에선 프로젝트 초기 기획 의도와도 부합하여 기대 이상의 큰 수확입니다. 그러나 구현에 급급한 나머지, 주어진 개발 일정과 기능의 우선순위를 고려하지 않은 등의 작업 방식은 이번 프로젝트를 교훈 삼아 앞으로 개선되어야 할 점이라고 생각합니다.
-
-</details>
-
-<br/>
-
-## 🙇‍♀️ 팀원
+<br />
 
 <table>
   <tr>
-    <td align="center">
-      <a href="https://github.com/taewanseoul">
-        <img src="https://user-images.githubusercontent.com/59520911/204722492-42092426-703f-4e7b-83ec-a393da7c4e09.png" alt="임태완 프로필" width="200px" height="200px" />
-      </a>
+    <td>개선 전</td>
+    <td>개선 후</td>
+  </tr>
+  <tr>
+    <td>
+      <img alt="jaamtoast-01-performance-01" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/b92c5140-3755-43b0-b3b8-4d4df7399b3e" />
     </td>
-    <td align="center">
-      <a href="https://github.com/krystarline">
-	      <img src="https://user-images.githubusercontent.com/93423531/204848937-f5ab49f0-f062-4138-aabb-1bb4b9fbf3cf.png" width="200px" height="200px" />
+    <td>
+      <img alt="jaamtoast-02-performance-01" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/9dbe3bb2-5396-488b-a12a-85b0eff7cf57" />
     </td>
   </tr>
   <tr>
     <td>
-    <ul>
-      <li><a href="https://github.com/taewanseoul">Taewan Lim 임태완</a></li>
-		<li>taewan.seoul@gmail.com</li>
-	</ul>
+      <img alt="jaamtoast-01-performance-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/ab702cfb-735c-4eb8-b12e-90b9195aed77" />
     </td>
     <td>
-    <ul>
-      <li><a href="https://github.com/krystarline">Sujeong Park 박수정</a></li>
-		<li>krystarline@gmail.com</li>
-	</ul>
+      <img alt="jaamtoast-02-performance-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/56256e23-5c7e-437e-9a17-3d0758591c4d" />
+    </td>
+  </tr>
+  <tr>
+    <td>개선 전 - mui logic이 runtime에 1.88s 동안 실행됩니다.</td>
+  </tr>
+  <tr>
+    <td>
+      <img alt="jaamtoast-01-performance-03" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/c4ec5027-bbc1-4fa9-8425-2154051d0413" />
+    </td>
+  </tr>
+</table>
+
+<br />
+
+## **이벤트 기반 구조 도입**
+
+<p align='center'>
+  <img width="642" alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/e7b4408d-5672-4b12-b0d5-8c0191faf59c" />
+</p>
+
+기존에 HTTP route 계층에서 있었던 문제점은 크게 두 가지가 있었습니다.
+
+1. HTTP 요청을 처리할 때, 동기 방식으로 처리될 경우 짧게는 1, 2분에서 길게는 몇 분의 시간이 걸립니다.
+2. HTTP 요청을 처리하는 역할 뿐만 아니라 비즈니스 로직에 대한 관심사가 결합되어있었습니다.
+
+프로젝트를 생성하는 동작의 경우 보통 몇 분이 걸립니다. 그렇지만 하나의 HTTP 요청에 몇 분의 시간이 소요되는 과정은, 사용자가 일반적인 상황으로 받아들이기 힘든 시간입니다.
+
+경우가 조금 다를 수는 있지만, 웹사이트의 경우 일반적으로 3초 이상의 응답시간을 가지게 되는 경우, 사용자의 이탈율이 크게 증가하게 된다고 합니다. 하지만 프로젝트의 생성을 3초 이내에 끝내는 것은 불가능합니다.
+
+따라서 저희는 프로젝트를 생성하는 과정을 비동기적으로 처리하기로 결정하였습니다. Client가 프로젝트를 생성하는 요청을 보낼 때, Data에 대한 validation을 마친 후 곧 바로 요청에 대한 응답을 보내게 됩니다.
+
+두 번째 문제는 관심사의 분리가 어렵다는 것 입니다. 프로젝트가 생성될 때 단순히 배포만 시켜주는 것은 아닙니다. DB에 프로젝트를 생성하기도 해야하며 CMS 서비스를 제공하기 위해서 저장소 또한 생성됩니다. 이러한 요구사항이 점차 추가되다보니 route 계층에서 이러한 사항을 모두 동작시켜주기에 이르렀습니다. route 계층에서는 비즈니스 로직의 구성과 변경에 따른 의존 관계가 있어서는 안됩니다. 하지만 바람대로 이루어지지 않고 있었습니다.
+
+위와 같은 문제를 해결하기 위해서 이벤트 기반 구조를 도입하게 되었습니다. 이벤트 기반 구조란, 메소드나 함수를 직접적으로 호출하는 것이 아니라, 이벤트를 발생시켜 특정 동작을 수행하게 만드는 구조를 말합니다.
+
+상위 계층에서는 특정 이벤트가 발생함을 알리고, 그 이벤트를 수신하는 하위 계층에서 동작을 수행하게 됩니다. 이벤트 기반 구조를 구성하기 위해 Pub-Sub 패턴을 활용해 함수들을 직접 제작해 적용하였습니다
+
+<p align='center'>
+  <img width="642" alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/0b0d072c-3c2f-4904-83bc-2da99d3bb3d7">
+</p>
+
+이벤트 기반 구조를 도입하면서 얻은 장점은, 우선 하나의 동작으로 여러 동작을 처리할 수 있다는 것입니다. 여러 이벤트 핸들러가 하나의 이벤트를 수신할 수 있게 때문에 하나의 이벤트 발행으로 여러 동작을 할 수 있습니다.
+
+Project를 생성하는 과정을 살펴보면, 우선 서버에서 요청을 수신하면, CREATE_PROJECT라는 이벤트를 발행하게 됩니다.
+
+```js
+// event와 함께 payload를 담아보냅니다.
+emitEvent("CREATE_PROJECT", {
+  ...req.body,
+  userId,
+  status: ProjectStatus.Pending,
+  framework: CLIENT_FRAMEWORK_INFO[framework],
+  storageKey,
+});
+```
+
+그러면 DB는 Project를 생성하고, Project를 배포해주고, CMS의 저장소를 생성하는 과정이 모두 이루어집니다.
+
+비동기적으로 이루어지기 때문에, 동기적으로 기다리지 않고 처리할 수 있습니다. 반면에 동기적으로 처리해야하는 부분은 기존에 메소드를 사용하는 방식으로 구분하였습니다.
+
+```js
+// createBuild 메서드의 호출은 CREATE_PROJECT 이벤트를 구독합니다.
+// 서버가 실행될 때 각 메서드들의 구독이 이루어집니다.
+
+subscribeEvent(
+  "CREATE_PROJECT",
+  (
+    {
+      // ...
+    },
+  ) => {
+    buildService.createBuild({
+      // ...
+    });
+  },
+);
+
+// createDocument 메서드의 호출 또한 CREATE_PROJECT 이벤트를 구독합니다.
+subscribeEvent(
+  "CREATE_PROJECT",
+  async (
+    {
+      // ...
+    },
+  ) => {
+    // ...
+    await projectRepository.createDocument({
+      document: {
+        // ...
+      },
+    });
+  },
+);
+```
+
+Jaam Toast는 프로젝트의 배포가 업데이트 될 때, 사용자의 콘텐츠가 생성, 수정, 삭제되었을 때 webhook을 적용할 수 있습니다. webhook은 애플리케이션에 어떤 동작이 일어났을 때, 사용자가 입력한 url로 HTTP 요청을 보내주는 기능입니다. webhook 기능을 적용할 때, 이벤트 기반 아키텍처를 이용해 손쉽게 적용할 수 있었습니다. 원하는 동작이 일어날 때, Event를 발생시키고 subscribe 계층에서 webhook을 발생시키기만 하면 됩니다. 별도로 webhook을 호출하는 메소드를 비즈니스 로직과 결합시키지 않아도 됩니다.
+
+반면 이벤트 기반을 도입하면서 어려웠던 부분은, 동작이 실행되는 흐름을 파악하는 것이었습니다. 직접적인 메소드 호출로 동작하는 것이 아니기 때문에 이벤트의 흐름을 직관적을 알 수 없었습니다.
+
+## **Next.js에서 React로 Migration**
+
+원래 저희 프로젝트는 Next.js로 제작되었습니다. Next.js는 React를 기반으로 Server Side Rendering(SSR)을 더 용이하게 해주는 Framework인데요.
+
+<p align='center'>
+  <img width="642" alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/833504d8-1de3-4456-8228-0628b9497066">
+</p>
+프로젝트와 Next.js를 사용하면서 힘들었던 점은 Hydration Error를 처리하는 부분이었습니다. 특히 react-query와 Suspense를 쓰는 상황에서 예기치못한 에러가 발생하는 경우가 많았는데, 에러를 디버깅 하기 쉽지 않았습니다. 아직 react-dom/server와 Suspense에 대한 지원이 불안정하다고 느꼈습니다.
+
+```js
+// 이 Trick은 Next.js가 CSR로 동작하게 해 Hydration Error가 발생할 여지가 없어집니다.
+
+function CSRCompnent() {
+  const [isRendering, setIsRendering] = useState < boolean > false;
+
+  useEffect(() => {
+    setIsRendering(true);
+  }, []);
+
+  if (!isRendering) {
+    return null;
+  }
+
+  // ..rendering logic
+}
+```
+
+한 가지 해결책은 CSR 방식으로 렌더링 되도록 Trick을 주는 방식입니다. useState와 useEffect를 통해서 컴포넌트가 CSR처럼 동작하도록 Trick을 주면 Hydration Error는 발생하지 않습니다.
+
+서버에서 렌더링되는 HTML이 없기 때문입니다. 하지만 저희는 많은 useQuery와 Suspense를 사용하고 있었고 Hydration 에러가 발생하는 부분마다 해당 Trick을 사용해야 할 지에 의문이 있었습니다. 분명 SSR을 사용하기 위해서 Next.js를 활용하는 것인데 대부분의 컴포넌트에서 CSR을 사용한다면 SSR을 쓰는 의미가 퇴색되어버리는게 아닐까 생각했습니다.
+
+<p align='center'>
+  <img width="642" alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/af5961fc-a810-4434-8195-741c36e7b3ee">
+</p>
+
+그리고 저희의 프로젝트와 맞는 방식은 어떤 것일까?를 고민해보았습니다.
+
+SSR의 장점이라고 한다면, 서버에서 static html을 만들어서 제공하므로 초기 렌더링이 빠르다는 점, 그리고 각 페이지마다 `<meta>` 태그를 삽입해 SEO를 구성하는 데에 조금 더 유리하다는 점을 들 수 있습니다.
+
+반면 CSR은 초기 렌더링 속도가 비교적 느린 반면에 이 후에는 빠른 반응속도로 매끄럽게 페이지를 이용할 수 있습니다.
+
+각각의 장단점을 생각해보았을 때에, SSR은 콘텐츠 중심의 전통적인 웹 사이트를 구축하는 데에 적합하고, CSR은 Dashboard와 같은 웹 앱을 구축하는 데 좀 더 적합하다고 판단했습니다.
+
+저희 프로젝트는 콘텐츠 중심의 사이트이거나 SEO 별도로 구성해야하기보다는, 대시보드와 같은 웹 앱과는 더 적합한 애플리케이션이라 생각하였습니다.
+
+이런 상황에서 저희는 SPA React로의 전환을 하게 되었습니다. Next.js를 걷어낸 이 후로는 디버깅하기 힘들었던 hydration 에러와 계속 씨름하지 않아도 되어서 원활하게 개발 속도를 낼 수 있었습니다. 그리고 CSR의 장점인 빠른 페이지 이동 속도의 장점도 누릴 수 있게 되었습니다.
+
+<br />
+
+## **사용자 경험 개선**
+
+### **Suspense, Lazy import 적용하기**
+
+<p align='center'>
+  <img width="642" alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/1471cf72-6845-43b0-a02c-6167ecc12371">
+</p>
+
+React의 Suspense는 자식 컴포넌트에서 감지된 Promise가 이행되기 전까지 Component의 Rendering을 지연할 수 있는 기능입니다.
+
+Suspense와 함께 fallback Component로 Skeleton UI를 적용하였습니다. 데이터가 로드되기 전 로딩 상태를 시각적으로 표시하는 것은 사용자 경험에 큰 영향을 미치는 부분이라 생각합니다. fallback 컴포넌트를 기존 컴포넌트와 유사한 형태로 디자인하여 사용자가 로딩이 완료된 후에도 비슷한 레이아웃을 유지하여 일관된 UI 경험을 제공할 수 있도록 하였습니다.
+
+그리고 Suspense와 함께 Lazy import도 적용하였습니다. Lazy import는 Suspense와 사용하였을 때 더욱 사용하기 좋습니다. 동적 import 자체는 약간의 지연이 있어, 로드 상태를 표현해줘야 하기 때문입니다.
+
+Lazy import는 동적 import 방식을 통해 모듈을 필요한 시점에 로드하는 것을 말합니다. 일반적인 정적 import 방식은 한 번에 모든 모듈을 불러와야 한다는 제약 사항이 있어 초기 번들 사이즈가 커지고 초기 렌더링 속도가 느려질 수 있습니다. 이러한 단점을 보완하기 위해 lazy import를 사용하였습니다. 번들 코드를 분할하여 초기 번들 사이즈를 줄이고 빠른 초기 렌더링 속도를 얻게되었습니다.
+
+<p align='center'>
+  <img width="642" alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/094e6a93-9808-4ec7-b1ba-cf15f51abe86">
+</p>
+
+기존의 정적 import 방식으로만 이뤄진 코드라면 번들이 하나로 생성되지만, lazy import를 적용하면 코드가 여러 청크(chunk)로 분할되고 초기 번들과 함께 사용됩니다.
+
+<p align='center'>
+  <img width="642" alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/47e52432-e77f-4351-9200-dc07dc66f6a9">
+</p>
+
+기존에는 Landing 페이지에서 모든 페이지 컴포넌트를 모두 불러오게 되었는데요. 이는 비효율적인 방식이라 생각했습니다. app.tsx에서 Route 페이지 컴포넌트와, 유저와의 상호작용이 필요한 컴포넌트에 Lazy import를 적용하게 되었습니다. 그 결과 페이지 내에서 필요한 파일들만 로드되므로 초기 페이지 로딩 시간을 줄이고, 더 개선된 초기 렌더링 속도를 얻게 되었습니다.
+
+<br />
+
+### **에러를 효율적으로 관리할 수 있는 커스텀 컴포넌트 만들기**
+
+서버와의 데이터 통신이 늘어나면서 에러 핸들링이 매우 중요해졌습니다. 많은 커스텀 훅의 에러 핸들링을 개별적으로 처리하는 것은 유지 보수에 어려움을 초래할 수 있기 때문에, 한 번에 에러를 관리할 수 있는 방법을 도입하게 되었습니다. 저희는 Suspense와 ErrorBoundary를 합친 `AsyncBoundary` 컴포넌트를 제작하였습니다. 거기에 에러 핸들링을 추가해 손쉽게 에러를 관리할 수 있도록 하였습니다.
+
+```js
+function ErrorFallback({ error }: ErrorFallbackProps) {
+  if (axios.isAxiosError(error)) {
+    return <HttpErrorFallback error={error} />;
+  }
+
+  if (error instanceof NotFoundError) {
+    return (
+      <Navigate to="/error" state={{ code: 404, message: error.message }} />
+    );
+  }
+
+  if (error instanceof ReferenceError) {
+    return <Error code="Reference error" message={error.message} />;
+  }
+
+  return <UnknownErrorFallback error={error} />;
+}
+```
+
+`AsyncBoundary` 컴포넌트는 Suspense와 유사한 방식으로 사용할 수 있으며, `ErrorFallback` 컴포넌트를 통해 에러 발생 시 적절한 에러 메시지를 보여줄 수 있도록 설계하였습니다.
+
+`ErrorFallback` 컴포넌트는 각 에러 타입에 따라 분기 처리하여 해당 상황에 맞는 메시지를 표시할 수 있도록 구성하였습니다.
+
+### **React Query로 렌더링 이후의 에러 대응하기**
+
+ErrorBoundary는 주로 컴포넌트 렌더링 과정에서 발생하는 에러를 감지하고 처리하는 역할을 수행합니다. 렌더링 이후에 직접 throw하거나 데이터 변경과 같은 과정에서 발생하는 에러는 ErrorBoundary로는 감지되지 않기 때문에 추가적인 에러 핸들링 처리가 필요했습니다.
+
+```js
+// index.tsx
+
+const queryClient = new QueryClient({
+  mutationCache: new MutationCache({
+    onError: error => {
+      if (error instanceof ValidationError) {
+        return toast.error(error.message);
+      }
+
+      if (error instanceof AxiosError && error.response) {
+        return toast.error(new HttpError(error).message);
+      }
+
+      return toast.error("An error occurred. Please try again.");
+    },
+  }),
+});
+```
+
+저희는 react query를 사용하여 서버와의 통신을 관리했기 때문에, 데이터 수정, 추가, 삭제시 발생하는 에러도 쉽게 핸들링 할 수 있었습니다. 데이터 변경 작업을 관리할 수 있는 캐시 시스템인 MutatonCache를 이용해 데이터 변경시의 에러를 전역적으로 관리하며 일관된 처리 방식을 적용할 수 있었습니다.
+
+```js
+export class ValidationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "ValidationError";
+  }
+}
+
+export class NotFoundError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "NotFoundError";
+  }
+}
+
+export class HttpError extends AxiosError {
+  constructor(error: AxiosError) {
+    super(error.message);
+    this.name = "HttpError";
+    this.status = error.response?.status ?? 500;
+
+    if (this.status === 401) {
+      this.message = "Please sign in.";
+    }
+
+    if (this.status === 400) {
+      this.message = "The processing failed. Please check again.";
+    }
+  }
+}
+```
+
+클라이언트 단에서 에러를 직접 정의하고 throw해야 할 때에는 `ValidationError`와 `NotFoundrror`와 같이 특정 상황에 맞는 에러를 정의하고 throw할 수 있도록 하였습니다. 이렇게 함으로써 에러의 타입이 명확해졌고, 각 에러 instance에 맞는 적절한 대응을 할 수 있었습니다. 또한, AxiosError가 발생했을 때는 서버에서 받은 메시지를 그대로 노출하거나 상태 코드에 따라 다른 메시지를 설정할 수 있도록 설정했습니다.
+
+에러가 발생했을 때는 toast 메시지를 사용하여 사용자 경험을 해치지 않도록 처리하였습니다.
+
+<br />
+
+## **Headless CMS 제작**
+
+이번 프로젝트에서 새로운 기능으로 Headless CMS 기능을 추가하게 되었습니다.
+
+Headless CMS는 보통 학습 곡선이 있는 경우가 많지만, 저희 프로젝트에서는 처음 접하는 사람도 직관적인 방법으로 기능을 사용할 수 있도록 고민하였습니다.
+
+<br />
+
+### **JSON Schema를 이용해 Jaam Schema 만들기**
+
+<p align='center'>
+  <img width="642" alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/0d0eec31-b3dc-4a2f-9eb2-7a6a7b1d8368">
+</p>
+
+스키마는 유저가 직접 콘텐츠 유형을 정의할 수 있도록 하는 콘텐츠 모델입니다. Headless CMS의 핵심은 콘텐츠 제공입니다. 그리고 콘텐츠 제공의 편리함은 스키마 설정에서부터 시작하게 됩니다.
+
+`text`, `textarea`, `emali`, `link`, `date`, `number`, `boolean` 이렇게 7가지의 필드 타입을 선택할 수 있고, 유형에 따라 콘텐츠 필드를 구성할 수 있습니다.
+
+어떤 유형의 스키마를 사용해야 할 지였습니다. 저희는 많은 스키마 유형을 고민하였습니다. zod나 joi와 같은 validate 라이브러리에서도 일종의 스키마를 정의할 수 있고, Typescript에서 type을 정의하는 것 또한 일종의 스키마로서 작동할 수 있습니다.
+
+스키마를 선택할 때 유의했던 점은 서버와의 네트워크 통신입니다. 스키마는 서버로 전송한 뒤 DB에 저장되어야하기 때문에, 이 부분에 있어서 강점이 있는 스키마를 찾게 되었습니다.
+
+JSON Schema라는 스키마를 알게되었고, 단순히 JSON 형식으로 이루어져있는 Schema Data임을 알게되었습니다. 서버와의 통신에 유리했고 DB에 저장하기도 좋은 데이터였기 때문에 JSON Schema를 선택하게 되었습니다.
+
+Validation은 JSON Schema를 이용해 ajv라는 라이브러리로 하였습니다.
+
+- Json Schema 형태
+
+```js
+{
+  "title": "post",
+  "type": "object",
+  "properties": {
+      "description": {
+          "type": "string",
+          "description": "text"
+      },
+      "date": {
+          "type": "string",
+          "format": "date"
+      },
+      "title": {
+          "type": "string",
+          "description": "text"
+      },
+      "post": {
+          "type": "string",
+          "description": "textarea"
+      }
+  },
+  "required": []
+}
+```
+
+- Jaam Toast에서 사용하는 Schema 형태 (Jaam Schema)
+
+```js
+{
+    "title": "post",
+    "type": "object",
+    "properties": {
+        "description": {
+            "type": "text"
+        },
+        "date": {
+            "type": "date"
+        },
+        "title": {
+            "type": "text"
+        },
+        "post": {
+            "type": "textarea"
+        }
+    }
+}
+
+// Validation 결과값
+{
+  result: boolean
+  message: "must match format ...",
+}
+```
+
+다만 JSON Schema는 렌더링 될 때에는 다루기 편하도록 가공해야하는 과정을 거쳐야 했습니다. Client에서는 JSON Schema에서 위 Jaamtoast에서 사용해야 하는 스키마 형태인 Jaam Schema로 변환되어야 했기 때문입니다.
+
+이를 위해 저희는 Jaam Schema와 JSON Schema 간의 변환 로직을 Jaam Schema 패키지로 제작하여 관리하고 있습니다. 패키지 내에는 Jaam Schema에서 JSON Schema로 변환하거나 그 반대로 변환하는 기능이 포함되어 있습니다.
+
+패키지에는 콘텐츠 유효성 검사를 위한 validator 기능도 추가하여 Jaam Schema 형식에 맞는 결과와 메시지를 편리하게 얻을 수 있도록 구현하였습니다.
+
+<br />
+
+### **CMS에 접근할 수 있는 API 제공하기**
+
+유저가 프로젝트 생성을 하게되면 아래와 같이 2개의 URL이 주어지도록 구성했습니다.
+
+- 배포 URL: `https://[projectName].jaamtoast.click`
+- API URL: `https://api.[projectName].jaamtoast.click`
+
+유저에게 CMS 기능을 제공해주기 위해서는 API 주소가 콘텐츠 서버로 직접 접근할 수 있어야 했습니다. 이를 위해 API 레코드를 Jaam Toast 서버로 향하도록 구성해야 하는데, 어떻게 저희 서버로 향하게 할 지 고민하게 되었습니다.
+
+저희 서버는 EC2 내에서 Nginx를 이용해 프록시 처리가 되고 있기 때문에, 유저 API 주소의 형태도 프록시를 이용하여 처리할 수 있을 것으로 판단하였습니다.
+
+<p align='center'>
+  <img width="642" alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/07f411fa-a6fc-4726-8ddd-96307844e932">
+</p>
+
+먼저 API 용도의 레코드를 만든 후 Jaam Toast 서버의 IP를 가리킬 수 있도록 A 레코드를 생성하였습니다. 이후 Nginx의 프록시 설정을 통해서 \*.jaamtoast.click 의 형태로 들어오는 요청을 Jaam Toast 서버로 맵핑시켜주었습니다.
+
+<br />
+
+### **페이지네이션 적용하기**
+
+사용자에게 콘텐츠를 제공해줄 때, 모든 콘텐츠를 한 번에 주지 않고 특정 갯수만큼만 줄 수 있도록 페이지네이션 기능을 적용하였습니다. Jaam Toast는 CMS 기능을 mongoDB로 구현하였습니다. 콘텐츠 쿼리 및 페이지네이션 기능도 mongoDB의 내부 기능을 활용해서 구현하였습니다.
+
+pagination을 구현하는 방법은 크게 두 가지를 들 수 있습니다. 각각 오프셋 기반 페이지네이션과 커서 기반 페이지네이션인데요. 오프셋 기반 페이네이션은 데이터 베이스에서 원하는 수만큼 skip해 콘텐츠를 가져오는 방식입니다. 오프셋 기반은 그 구현이 어렵지 않은 반면, 콘텐츠의 갯수가 많아졌을 때의 성능 문제를 야기할 수 있습니다. 보통 mongoDB의 `skip()` method를 이용해서 구현하는 것이 일반적인데요. `skip` method의 경우 각 레코드를 하나씩 스캔하는 과정을 거치기 때문에 콘텐츠의 갯수가 늘어날 수록 쿼리 시간이 길어질 수 있습니다. 반대로 커서 기반 페이지네이션은 특정 포인터를 기억해 해당 포인터의 앞 또는 뒤의 콘텐츠를 가져오는 방식입니다. 성능 문제에 있어 더 유리한 방식입니다.
+
+저희는 약간의 성능 문제가 있지만 오프셋 기반 페이지네이션으로 구현하게 되었습니다. 크게 두 가지 이유가 있는데요.
+
+첫 번째는 구현이 간결하다는 점입니다. 커서 기반 페이지네이션을 구현할 때는 단순 id 뿐만 아니라 다중 쿼리에 대한 지원, 다음 페이지 유무에 따른 분기를 고려해야 하는 데요. 이를 구현하기에는 한정된 시간 속에서 지나치게 높은 복잡도를 가진 방식이라 판단하였습니다.
+
+두 번째는 사용자 편의성입니다. 사용자가 저희의 API에 접근할 때 단순히 page number를 통해서 페이지네이션이 이뤄지는 것이 더욱 이해하기 쉬운 방식일거라 생각했습니다. 반면 커서 기반 페이지네이션은 커서 값을 nextPageToken 같은 값으로 내려주어야 할텐데요. 이전에 부트캠프 과제로 Youtube API를 이용한 적이 있었는데, Youtube API는 nextPageToken 값을 받아 페이지네이션이 이루어졌습니다. 그 때 많은 분들이 이 방식을 낯설어 하셨고, 저희는 누구나 쉽게 API를 사용했으면 좋겠다는 생각으로 더 직관적인 방식을 택하게 되었습니다.
+
+<br />
+
+## **보안, 유저 권한 최소화**
+
+### **Github 유저 권한**
+
+<table>
+  <tr>
+    <td width=400>
+      <img alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/fec3f141-db79-4508-a44a-ce3dfbbe17d9">
+    </td>
+    <td>
+      <img alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/30f670b7-7fe5-453b-83d5-0478bceec96a">
+    </td>
+  </tr>
+</table>
+
+Jaam Toast는 Github Repository와 연동되어 동작합니다. 때문에 Github에 대한 권한이 필수적인데요. 다만 지나치게 많은 권한을 요구하는 것은 신중해질 필요가 있습니다. 기존의 방식은 Github Oath를 이용해 User의 login을 처리합니다. 그리고 그 과정에서 Repository에 대한 권한 등을 요구하게 되는데요. User의 모든 Repository에 접근할 수 있게 되며 Webhook도 지나치게 많은 권한이 포함되어 있었습니다.
+
+Private Repository까지 권한을 받게 되는 것은 사용자의 Private Repo라고 할 지라도 배포 기능이 제공되어야 하기 때문입니다. 하지만 그렇다고 사용자 입장에서 Private Repo에 대한 권한을 선뜻 내줄 수는 없었습니다.
+
+Webhook에 대한 권한을 요구하는 이유는, Project의 Repository로 Commit이 push 될 때 Project가 업데이트되는 기능이 있는데 그 과정에서 Webhook을 이용하기 때문입니다.
+
+두 권한을 축소시키면서도 충분한 서비스를 제공하는 것이 저희의 목표였고, Github Oath 대신 Github Apps를 이용하게 되었습니다. Github Apps는 사용자가 원하는 Repository에만 설치할 수 있습니다. 사용자는 자신의 민감한 Repository를 제공하지 않을 선택권이 주어지게 되는 셈입니다. 그리고 Webhook과 유사하게 특정 event를 수신할 수 있어 기존의 기능을 그대로 제공해줄 수도 있었습니다.
+
+<br />
+
+### **S3 Public Access 차단**
+
+사용자의 Project 하나당 S3 Bucket이 하나씩 생성됩니다. 이 Bucket은 Web hosting을 위해 생성된 Bucket이며 그 이외에는 접근할 여지가 없습니다.
+
+혹시 모를 접근을 미연에 방지하기위해서 Bucket의 Public 접근 권한을 차단하였습니다. 그리고 Access Id(Origin Access Identity)를 생성해 Web hosting을 해주는 CloudFront에서만 접근할 수 있도록 해주었습니다.
+
+<br />
+
+### **Route 별 CORS 설정**
+
+여타 다른 API들과는 달리, CMS API는 Open API입니다. Contents의 권한이 있는 누구나 이용할 수 있는 API인데요. 이는 저희의 목적인 CMS 서비스를 제공하기 위함입니다.
+
+하지만 나머지 서비스들은 Jaam Toast Client에서만 접근할 수 있어야 합니다. 다른 API Route들은 CORS가 구성되어야 했습니다.
+
+그래서 특정 Route만 CORS가 구성되도록 하였습니다.
+
+<br />
+
+## **타입스크립트로 개발자(DX) 경험 향상시키기**
+
+타입스크립트는 단순히 정적 타입을 검사하는 깐깐한 언어가 아닌, 개발자들을 도와주는 똑똑한 도구로 사용할 수도 있게 됩니다.
+
+위에서 소개한 이벤트 기반 구조를 만들 때 타입스크립트를 적극적으로 적용하게 되었습니다.
+
+저희는 Event를 만들어줄 수 있도록 BaseEvent를 정의하였습니다. 각 Event는 고유한 name이 있고, 각 Event마다 고유한 payload를 갖게 됩니다.
+
+새로운 Event를 정의하기 위해서 Generic으로 넣어주어 Event를 정의할 수 있습니다.
+
+```js
+// BaseEvent
+type BaseEvent<Name extends string, Payload> = {
+  name: Name;
+} & Payload;
+
+// Event를 정의할 때
+// 모든 Event들인 Events에 Union으로 추가합니다.
+// Generic으로 두 개의 타입을 넣어 Event를 정의합니다.
+type Events =
+  | OtherEvent
+  // ...
+  | CreateProjectEvent;
+
+type CreateProjectEvent = BaseEvent<
+  "CREATE_PROJECT",
+  {
+    projectName: string;
+    repositoryUrl: string;
+  }
+>;
+```
+
+Event를 불러와 사용하게 되는 경우는, Event를 발행하는 경우와 구독하는 경우입니다. 이 때 Event의 이름만 알고있다면 Payload는 자동완성이 되도록 하고 싶었습니다.
+
+```js
+function emitEvent<EventName extends Event["name"]> (
+  eventName: EventName,
+  payload: Omit<
+    Extract<Events, { name: EventName }>,
+    "name"
+  >,
+) {
+  // ...
+}
+```
+
+emitEvent는 Generic을 받을 수 있도록하였습니다. 이는 사용자에게 직접 부여받는 게 아니라, 아래의 eventName 인자를 작성하면서 역으로 부여되게 하기 위함입니다.
+
+eventName이 작성되면서 Generic이 채워지게 됩니다. 이 때 payload는 위에서 등록한 Events Union 타입으로부터 특정 Event 타입을 가져올 수 있습니다.
+
+Omit util type을 이용해 공통의 name 프로퍼티를 제거하게 되면 온전히 payload만을 사용할 수 있게 됩니다.
+
+이제 Event를 사용할 때 Event의 이름을 입력하게 되면 Payload에서 자동완성을 넣어줄 수 있게 되었습니다.
+
+<p align='center'>
+  <img width="642" alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/5b4ee2f0-0b12-4bf7-bd24-3c7b4caaf95d">
+</p>
+
+<br />
+
+# **기술 스택**
+
+- Typescript
+- React
+- Vite
+- React-query
+- Zustand
+- Vanilla-Extract
+- Socket.io
+- Node.js
+- Express
+- MongoDB
+- AWS SDK(S3, Route53, CloudFront)
+- Zod
+- Puppeteer
+- Multer
+
+<br />
+
+# **작업 기록**
+
+**1주차 - 2023.03.07. ~ 2023.03.11.**
+
+- 보완, 개선할 점 목표 설정
+- 기존 코드 파악
+- AWS와 EC2 개념 학습
+
+**2, 3주차 - 2023.03.12. ~ 2023.04.01.**
+
+- 기존 프로젝트 리팩토링 작업
+- Next.js SSR 적용
+- Modal 기반에서 Page 기반으로 Frontend 구조 변경
+- React query 적용
+- 상태관리 Tool Recoil → Zustand로 변경
+- Backed service 계층 분리
+- Build 서버와 API 서버 분리 작업
+- DB watcher 적용
+
+**4주차 - 2023.04.02. ~ 2023.04.08.**
+
+- 원지혁님 멘토링
+- Next.js 걷어내기
+- 이벤트 기반 구조, CQRS, 이벤트 소싱 개념 학습 후 적용 시도
+
+**5주차 - 2023.04.09. ~ 2023.04.15.**
+
+- 이영교님 멘토링
+- 서버 구조 레이어드 아키텍처 적용
+- Vite 도입, Next.js 제거
+- Vanilla-Extract 도입
+- Puppeteer 기반 Screenshot 서버 제작
+- Cloudflare로 배포 프로세스 변경
+- CMS Domain 생성 기능 추가
+
+**6주차 - 2023.04.16. ~ 2023.04.22.**
+
+- 장명재님 멘토링
+- 의존성 주입(DI) 및 제어 역전(IoC) 적용
+- Schema 페이지 제작
+- Favicon 서버 제작
+- React Suspense 적용
+- Skeleton 적용
+
+**7주차 - 2023.04.23. ~ 2023.04.29.**
+
+- Validation Tool로 Zod 도입
+- Contents 기능 추가
+- Contents query시 pagination 적용
+- 프로젝트 발표
+
+**8주차 - 2023.04.30. ~ 2023.05.06.**
+
+- Event 기반 구조 적용
+- Github Oath → Github Apps 도입
+- JSON Schema - Jaam Schema 변환 패키지 제작
+- Custom Error 및 Custom Event 적용
+
+**9주차 - 2023.05.07. ~ 2023.05.13.**
+
+- CloudFlare → S3 + CloudFront 방식 배포 프로세스 변경
+- Webhook 기능 추가
+- 사용자 Custom Domain 기능 추가
+- Frontend Error Handling, React Error Boundary 적용
+
+**10주차 - 2023.05.14. ~ 2023.05.17.**
+
+- 프로젝트 배포
+- README 문서 작성
+
+# **팀원**
+
+<table>
+  <tr>
+    <td>
+      Jaehyeok Gong 공재혁 <br />
+      ruud091@gmail.com
+    </td>
+    <td>
+      Hyunjung Im 임현정 <br />
+      glowhyun1@gmail.com
     </td>
   </tr>
 </table>
