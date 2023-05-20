@@ -1,7 +1,7 @@
 # **Jaam Toast**
 
 <p align="center">
-  <img width=300 src="./public/images/jaamtoast-logo-image-temp.png" width="250" />
+  <img width=300 src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/6030a365-a620-41c4-ba96-3b5830d41910" />
 </p>
 
 Jaam Toast는 웹 사이트를 쉽게 배포할 수 있는 서비스입니다. 프로젝트를 생성하고 Github Repository와 연결해 웹 사이트를 손쉽게 배포할 수 있습니다.
@@ -23,7 +23,6 @@ Jaam Toast는 릴레이 프로젝트입니다. 기존에 있던 프로젝트를 
 
 # 목차
 
-- [Jaam Toast](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#jaam-toast)
 - [서비스 화면](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EC%84%9C%EB%B9%84%EC%8A%A4-%ED%99%94%EB%A9%B4)
 - [고민한 부분](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EA%B3%A0%EB%AF%BC%ED%95%9C-%EB%B6%80%EB%B6%84)
   - [배포 기능 개선하기](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EB%B0%B0%ED%8F%AC-%EA%B8%B0%EB%8A%A5-%EA%B0%9C%EC%84%A0%ED%95%98%EA%B8%B0)
@@ -58,7 +57,7 @@ Jaam Toast는 릴레이 프로젝트입니다. 기존에 있던 프로젝트를 
 
 프로젝트 진행 중 제일 먼저 고민했던 부분은 배포 기능을 어떻게 개선할지였습니다.
 
-기존의 서비스는 배포 하나당 가상 컴퓨팅 환경인 EC2 인스턴스를 생성한 후 EC2 인스턴스에서 사용자의 project를 실행시켜 배포하는 방식입니다. 기존의 방식으로는 CSR, SSR 등 모든 유형의 배포를 적용할 수 있다는 장점이 있었지만 배포 속도, 비용 발생이라는 문제점이 발생하게 되었습니다.
+기존의 서비스는 가상 컴퓨팅 환경인 EC2 인스턴스를 생성한 후 EC2 인스턴스에서 사용자의 프로젝트를 실행시켜 배포하는 방식입니다. 기존의 방식으로는 CSR, SSR 등 모든 유형의 배포를 적용할 수 있다는 장점이 있었지만 배포 속도, 비용 발생이라는 문제점이 발생하게 되었습니다.
 
 <p align="center">
   <img width="642" alt="deploy-speed-improvements" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/a5af39fa-fb4b-4a96-9e39-4fe308b49566" />
@@ -88,7 +87,9 @@ Jaam Toast는 릴레이 프로젝트입니다. 기존에 있던 프로젝트를 
 2. SSH 터널링이 끊기는 증상이 자주 나타났습니다.
 3. 특정 시간대(저녁 10시 이후)에 접속이 잘 되지 않는 문제가 있었습니다.
 
-초기 Script가 설치되기 전에 SSH 접속을 하게 되면, 사용해야 할 프로세스가 아직 설치되지 않아 터널링이 뻗게 됩니다. 설치 완료를 정확하게 알 수 있는 방법이 없어 결론적으로는 이전과 같이 강제적으로 시간을 설정해 기다릴 수밖에 없게 되었습니다. SSH 접속은 연결되는 EC2 인스턴스의 상태를 가장 고려해야 합니다. 저희가 접속하려는 EC2 인스턴스는 생성한 지 얼마 되지 않은 상태의 인스턴스라는 점, 가장 저렴한 유형인 t2.micro 타입이라는 점 때문에 안정적으로 접속할 수 없게 되었습니다. EC2 인스턴스 내부의 문제점을 해결하는 것은 저희가 해결하기 힘든 영역이라 판단하게 되었습니다.
+초기 Script가 설치되기 전에 SSH 접속을 하게 되면, 사용해야 할 프로세스가 아직 설치되지 않아 터널링이 뻗게 됩니다. 설치 완료를 정확하게 알 수 있는 방법이 없어 결론적으로는 이전과 같이 강제적으로 시간을 설정해 기다릴 수밖에 없게 되었습니다. SSH 접속은 연결되는 EC2 인스턴스의 상태를 가장 고려해야 합니다. 저희가 접속하려는 EC2 인스턴스는 생성한 지 얼마 되지 않은 상태의 인스턴스라는 점, 가장 저렴한 유형인 t2.micro 타입이라는 점 때문에 안정적으로 접속할 수 없게 되었습니다.
+
+EC2 인스턴스 내부의 문제점을 해결하는 것은 저희가 해결하기 힘든 영역이라 판단하여 다른 배포 방식을 고민하게 되었습니다.
 
 <br />
 
@@ -97,7 +98,7 @@ Jaam Toast는 릴레이 프로젝트입니다. 기존에 있던 프로젝트를 
 <p align='center'>
   <img width="642" alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/9b119c68-b6fd-4f8e-8e20-e57a0495e276" />
 </p>
-기존의 배포 방식은 배포 하나당 EC2 인스턴스 하나를 생성합니다. 사이즈가 작은 사이트라도 EC2 인스턴스 하나를 생성하게 됩니다. 그래서 많은 배포를 처리할수록 비용이 크게 늘어나게 된다는 단점이 있었습니다.
+기존의 배포 방식은 새로운 프로젝트 하나당 EC2 인스턴스 하나를 생성합니다. 사이즈가 작은 프로젝트라도 EC2 인스턴스 하나를 생성하게 됩니다. 그래서 많은 배포를 처리할수록 비용이 크게 늘어나게 된다는 단점이 있었습니다.
 
 리소스를 최대한 재사용하기 위해 하나의 인스턴스 내에서 도커를 이용해 여러 빌드를 생성하는 등, 인스턴스 자체를 개선하려는 목표를 세웠습니다. 하지만 위에서 언급한 SSH 적용이 실패하게 되면서 EC2 내부에 직접 접근하는 방식은 안정적으로 제어할 수 없다는 문제점이 있었습니다.
 
@@ -136,7 +137,7 @@ CloudFlare는 Wrangler라는 CLI를 제공하고, 비교적 높은 수준의 추
 
 문제는 두 가지의 기능이 함께하게 되면서부터입니다. CloudFlare는 CloudFlare와 Github 연동을 해야만 프로젝트를 업데이트 할 수 있습니다. 하지만 Github 연동까지 맡기게되면 저희의 전체 서비스가 CloudFlare에 의존하게 됩니다. 결국 프로젝트를 업데이트 하기 위해서는 새로운 프로젝트를 생성해야만 합니다.
 
-새로운 프로젝트를 생성하게 되면 새로운 도메인이 생기게 됩니다. Jaam Toast에서는 Cloudflare의 도메인으로 `[jaamtoast.click](http://jaamtoast.click)` 을 생성하여 유저에게 전달해줍니다. 프로젝트가 업데이트되어 기존의 도메인이 달라진다면, 도메인의 레코드 설정을 변경하고, 새롭게 만들어진 프로젝트에 다시 도메인을 등록하면 됩니다.
+새로운 프로젝트를 생성하게 되면 새로운 도메인이 생기게 됩니다. Jaam Toast에서는 Cloudflare의 도메인으로 `[projectName].jaamtoast.click` 을 생성하여 유저에게 전달해줍니다. 프로젝트가 업데이트되어 기존의 도메인이 달라진다면, 도메인의 레코드 설정을 변경하고, 새롭게 만들어진 프로젝트에 다시 도메인을 등록하면 됩니다.
 
 문제는 커스텀 도메인을 연결해주는 부분입니다. 커스텀 도메인을 연결해주는 방식은 유저가 기존 도메인을 가리키는 CNAME 레코드를 직접 연결해주어야 합니다. Cloudflare 배포 프로세스를 계속 유지하기 위해서는 기존 도메인이 변경될 때 마다 유저에게 CNAME 값을 변경하도록 할 수 밖에 없습니다.
 
@@ -154,18 +155,20 @@ CloudFlare 자체의 낮은 자유도로 인해서 예상치 못했던 문제를
 
 S3를 이용한 방법으로 HTTPS를 직접 적용할 수 없기 때문에, AWS의 CDN 서비스인 CloudFront를 활용하여 HTTPS와 CDN을 적용하였습니다. Cloudflare Pages로는 커스터마이징에 제약이 있었던 것과 달리, CloudFront를 이용하면 CDN 옵션 설정과 버킷 내 파일 확인 등을 자유롭게 조정할 수 있었습니다.
 
-<p align='center'>
-  <img width="642" alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/6a4b1801-4202-4e10-aa4b-21745238e60a">
+<p align="center">
+  <img width="642" alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/ec6246a8-73b4-430f-beee-5e6a4ff262f7">
+  <p align="center">
+    <sub>하루 평균 $2.22의 비용에서 $0.23 달러로 비용을 89.7%나 절감할 수 있게 되었습니다.</sub>
+  </p>
 </p>
-우여곡절 끝에 정적 웹사이트 배포 방식을 성공적으로 적용할 수 있게 되었습니다. 프로젝트의 배포 속도 및 비용 효율성을 향상시킬 수 있었습니다.
 
-이전에 하루 평균 $2.22의 비용이 드는 것에서, S3를 활용한 새로운 배포 방식을 적용하면서 하루 평균 $0.23 달러로 비용을 89.7%나 절감할 수 있게 되었습니다.
+우여곡절 끝에 정적 웹사이트 배포 방식을 성공적으로 적용할 수 있게 되었습니다. 프로젝트의 배포 속도 및 비용 효율성을 향상시킬 수 있었습니다.
 
 <br />
 
 ## **효율적인 스타일링 구조 제작**
 
-기존 웹 페이지는 MUI를 기반으로 이루어져 있었습니다. MUI는 미리 작성된 Componet들을 가져다 손쉽게 사용할수 있는 컴포넌트 라이브러리인데요. 일일이 CSS를 작성할 필요 없이 원하는 페이지를 빠르게 만들 수 있는 장점이 있습니다. 반면 MUI는 기본적으로 제공하는 스타일에서 커스텀하기가 용이하지 않은 단점이 있습니다. MUI에서 component를 커스텀하려면 createTheme 함수에 Component Option을 인자로 넣어 설정해줄 수 있습니다. 문제는 점점 커스텀할 수록 createTheme가 거대해진다는 것입니다.
+기존 웹 페이지는 MUI를 기반으로 이루어져 있었습니다. MUI는 미리 작성된 Component들을 가져다 손쉽게 사용할수 있는 컴포넌트 라이브러리인데요. 일일이 CSS를 작성할 필요 없이 원하는 페이지를 빠르게 만들 수 있는 장점이 있습니다. 반면 MUI는 기본적으로 제공하는 스타일에서 커스텀하기가 용이하지 않은 단점이 있습니다. MUI에서 Component를 커스텀하려면 `createTheme` 함수에 Component Option을 인자로 넣어 설정해줄 수 있습니다. 문제는 점점 커스텀할 수록 `createTheme`가 거대해진다는 것입니다.
 
 ```js
 const theme = createTheme({
@@ -210,9 +213,12 @@ const theme = createTheme({
 
 추후의 스타일링 구조의 확장성을 생각해보았을 때, MUI와 같은 UI Tool보다는 직접 CSS를 작성하는 것이 용이하겠다는 판단을 내렸습니다.
 
-CSS Tool은 Vanillla-extract를 도입하였습니다. 도입한 이유는 두 가지가 있습니다.
+이렇게 새로운 CSS Tool로 Vanillla-extract를 도입하게 되었습니다. Vanilla-extract를 선택한 이유는 크게 2가지가 있습니다.
 
-하나는 앞서 문제로 느꼈던, 확장성 및 커스텀에 용이한 구조를 만들고 싶기 때문이었습니다.
+1. 확장성 및 커스텀에 용이한 구조를 가지기 위해 도입하였습니다.
+2. 빌드 시 변환되는 방식으로 성능 개선의 효과를 누리기 위해 도입하였습니다.
+
+#### 확장성 및 커스텀에 용이한 구조
 
 Atomic하게 CSS를 작성하게 되면 미리 정의되어있는 스타일을 조합하는 것만으로도 새로운 컴포넌트들을 손쉽게 만들어 낼 수 있습니다.
 
@@ -240,6 +246,8 @@ export const flexCenter = style({
 // 공통 스타일 속성을 미리 저장해두고, 조합해서 컴포넌트 스타일링을 할 수 있습니다.
 ```
 
+#### 성능
+
 다른 이유는 성능입니다. MUI는 emotion이라는 css-in-js 라이브러리를 이용해서 개발되었습니다. css-in-js는 특성상 런타임에 자바스크립트를 실행시켜 스타일을 주입하는 방식입니다. 이러한 특성 때문에, rumtime에 자바스크립트를 실행해야하는 한계에 부딪힐 수 밖에 없습니다. 이는 성능에 좋지 않은 영향을 끼칠거라 생각했습니다. Vanilla-Extract를 선택한 이유는 빌드 시에 CSS 파일로 변환되기 때문에, runtime시 별도로 자바스크립트가 실행되지 않기 때문입니다. 그래서 비교적 더 나은 성능을 기대할 수 있습니다.
 
 스타일링 구조를 전환한 뒤, lighthouse 측정 시 Perfomance에서 많은 향상을 보이게 되었습니다. 기존에 MUI를 실행할 때는 자바스크립트 실행에 꽤 많은 시간을 할애했습니다. 하지만 스타일 구조 전환 후에는 그런 과정이 생략될 수 있었습니다. 대부분의 공통 스타일링을 미리 지정해두었기 때문에, 컴포넌트를 많이 만들게 되어도 CSS 파일의 크기가 급격하게 늘어나지도 않습니다. 개발자 경험에 있어서, 그리고 성능에 있어서 더 효율적인 스타일 구조가 되었습니다.
@@ -252,11 +260,11 @@ export const flexCenter = style({
     <td>개선 후</td>
   </tr>
   <tr>
-    <td>
-      <img alt="jaamtoast-01-performance-01" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/b92c5140-3755-43b0-b3b8-4d4df7399b3e" />
-    </td>
-    <td>
+    <td width="50%">
       <img alt="jaamtoast-02-performance-01" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/9dbe3bb2-5396-488b-a12a-85b0eff7cf57" />
+    </td>
+    <td width="50%">
+      <img alt="jaamtoast-01-performance-01" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/b92c5140-3755-43b0-b3b8-4d4df7399b3e" />
     </td>
   </tr>
   <tr>
@@ -272,7 +280,7 @@ export const flexCenter = style({
   </tr>
   <tr>
     <td>
-      <img alt="jaamtoast-01-performance-03" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/c4ec5027-bbc1-4fa9-8425-2154051d0413" />
+      <img alt="jaamtoast-01-performance-03" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/b160ca6f-0f03-423d-a09e-059bcf3c62df" />
     </td>
   </tr>
 </table>
@@ -282,7 +290,7 @@ export const flexCenter = style({
 ## **이벤트 기반 구조 도입**
 
 <p align='center'>
-  <img width="642" alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/e7b4408d-5672-4b12-b0d5-8c0191faf59c" />
+  <img width="642" alt="jaamtoast-original-structure" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/e7b4408d-5672-4b12-b0d5-8c0191faf59c" />
 </p>
 
 기존에 HTTP route 계층에서 있었던 문제점은 크게 두 가지가 있었습니다.
@@ -303,12 +311,12 @@ export const flexCenter = style({
 상위 계층에서는 특정 이벤트가 발생함을 알리고, 그 이벤트를 수신하는 하위 계층에서 동작을 수행하게 됩니다. 이벤트 기반 구조를 구성하기 위해 Pub-Sub 패턴을 활용해 함수들을 직접 제작해 적용하였습니다
 
 <p align='center'>
-  <img width="642" alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/0b0d072c-3c2f-4904-83bc-2da99d3bb3d7">
+  <img width="642" alt="event-driven-development" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/0b0d072c-3c2f-4904-83bc-2da99d3bb3d7">
 </p>
 
 이벤트 기반 구조를 도입하면서 얻은 장점은, 우선 하나의 동작으로 여러 동작을 처리할 수 있다는 것입니다. 여러 이벤트 핸들러가 하나의 이벤트를 수신할 수 있게 때문에 하나의 이벤트 발행으로 여러 동작을 할 수 있습니다.
 
-Project를 생성하는 과정을 살펴보면, 우선 서버에서 요청을 수신하면, CREATE_PROJECT라는 이벤트를 발행하게 됩니다.
+프로젝트를 생성하는 과정을 살펴보면, 우선 서버에서 요청을 수신하면, CREATE_PROJECT라는 이벤트를 발행하게 됩니다.
 
 ```js
 // event와 함께 payload를 담아보냅니다.
@@ -321,7 +329,7 @@ emitEvent("CREATE_PROJECT", {
 });
 ```
 
-그러면 DB는 Project를 생성하고, Project를 배포해주고, CMS의 저장소를 생성하는 과정이 모두 이루어집니다.
+그러면 DB는 프로젝트를 생성하고, 프로젝트를 배포해주고, CMS의 저장소를 생성하는 과정이 모두 이루어집니다.
 
 비동기적으로 이루어지기 때문에, 동기적으로 기다리지 않고 처리할 수 있습니다. 반면에 동기적으로 처리해야하는 부분은 기존에 메소드를 사용하는 방식으로 구분하였습니다.
 
@@ -360,7 +368,7 @@ subscribeEvent(
 );
 ```
 
-Jaam Toast는 프로젝트의 배포가 업데이트 될 때, 사용자의 콘텐츠가 생성, 수정, 삭제되었을 때 webhook을 적용할 수 있습니다. webhook은 애플리케이션에 어떤 동작이 일어났을 때, 사용자가 입력한 url로 HTTP 요청을 보내주는 기능입니다. webhook 기능을 적용할 때, 이벤트 기반 아키텍처를 이용해 손쉽게 적용할 수 있었습니다. 원하는 동작이 일어날 때, Event를 발생시키고 subscribe 계층에서 webhook을 발생시키기만 하면 됩니다. 별도로 webhook을 호출하는 메소드를 비즈니스 로직과 결합시키지 않아도 됩니다.
+Jaam Toast는 프로젝트의 배포가 업데이트 될 때, 사용자의 콘텐츠가 생성, 수정, 삭제되었을 때 webhook을 적용할 수 있습니다. webhook은 애플리케이션에 어떤 동작이 일어났을 때, 사용자가 입력한 URL로 HTTP 요청을 보내주는 기능입니다. webhook 기능을 적용할 때, 이벤트 기반 아키텍처를 이용해 손쉽게 적용할 수 있었습니다. 원하는 동작이 일어날 때, Event를 발생시키고 subscribe 계층에서 webhook을 발생시키기만 하면 됩니다. 별도로 webhook을 호출하는 메소드를 비즈니스 로직과 결합시키지 않아도 됩니다.
 
 반면 이벤트 기반을 도입하면서 어려웠던 부분은, 동작이 실행되는 흐름을 파악하는 것이었습니다. 직접적인 메소드 호출로 동작하는 것이 아니기 때문에 이벤트의 흐름을 직관적을 알 수 없었습니다.
 
@@ -368,10 +376,15 @@ Jaam Toast는 프로젝트의 배포가 업데이트 될 때, 사용자의 콘�
 
 원래 저희 프로젝트는 Next.js로 제작되었습니다. Next.js는 React를 기반으로 Server Side Rendering(SSR)을 더 용이하게 해주는 Framework인데요.
 
+프로젝트와 Next.js를 사용하면서 힘들었던 점은 Hydration Error를 처리하는 부분이었습니다. 특히 React-Query와 Suspense를 쓰는 상황에서 예상치못한 에러가 발생하는 경우가 많았습니다.
+
+한 가지 예는 ProjectList라는 Component를 작성할 때 인데요. React-query에서 QueryClient의 `suspense` 옵션을 `true`로 설정했음에도 Suspense가 제대로 되지 않았습니다. React-Query에서 Initial Data를 Fetching하려면 서버에서 미리 Prefetch를 해 Dehydrate를 해주는 방식으로 동작합니다. 특정 상황에서 분기에 의한 데이터는 Suspense를 이용해 Fetch하면 됩니다.
+
+하지만 작업 중에 Prefetch가 아닌 일반 Fetch로 로직을 실행했고, 이를 디버깅을 하는 데 적지 않은 시간이 소요되었습니다. 문제는 해결되었으나 까다로운 추가 설정과 계속되는 Hydration 에러, Warning을 디버깅하기가 까다롭다고 느끼게 되었습니다.
+
 <p align='center'>
-  <img width="642" alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/833504d8-1de3-4456-8228-0628b9497066">
+  <img width="642" alt="hydration-error" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/833504d8-1de3-4456-8228-0628b9497066">
 </p>
-프로젝트와 Next.js를 사용하면서 힘들었던 점은 Hydration Error를 처리하는 부분이었습니다. 특히 react-query와 Suspense를 쓰는 상황에서 예기치못한 에러가 발생하는 경우가 많았는데, 에러를 디버깅 하기 쉽지 않았습니다. 아직 react-dom/server와 Suspense에 대한 지원이 불안정하다고 느꼈습니다.
 
 ```js
 // 이 Trick은 Next.js가 CSR로 동작하게 해 Hydration Error가 발생할 여지가 없어집니다.
@@ -396,7 +409,7 @@ function CSRCompnent() {
 서버에서 렌더링되는 HTML이 없기 때문입니다. 하지만 저희는 많은 useQuery와 Suspense를 사용하고 있었고 Hydration 에러가 발생하는 부분마다 해당 Trick을 사용해야 할 지에 의문이 있었습니다. 분명 SSR을 사용하기 위해서 Next.js를 활용하는 것인데 대부분의 컴포넌트에서 CSR을 사용한다면 SSR을 쓰는 의미가 퇴색되어버리는게 아닐까 생각했습니다.
 
 <p align='center'>
-  <img width="642" alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/af5961fc-a810-4434-8195-741c36e7b3ee">
+  <img width="642" alt="csr-ssr" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/af5961fc-a810-4434-8195-741c36e7b3ee">
 </p>
 
 그리고 저희의 프로젝트와 맞는 방식은 어떤 것일까?를 고민해보았습니다.
@@ -418,7 +431,7 @@ SSR의 장점이라고 한다면, 서버에서 static html을 만들어서 제�
 ### **Suspense, Lazy import 적용하기**
 
 <p align='center'>
-  <img width="642" alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/1471cf72-6845-43b0-a02c-6167ecc12371">
+  <img width="642" alt="suspense" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/1471cf72-6845-43b0-a02c-6167ecc12371">
 </p>
 
 React의 Suspense는 자식 컴포넌트에서 감지된 Promise가 이행되기 전까지 Component의 Rendering을 지연할 수 있는 기능입니다.
@@ -430,13 +443,13 @@ Suspense와 함께 fallback Component로 Skeleton UI를 적용하였습니다. �
 Lazy import는 동적 import 방식을 통해 모듈을 필요한 시점에 로드하는 것을 말합니다. 일반적인 정적 import 방식은 한 번에 모든 모듈을 불러와야 한다는 제약 사항이 있어 초기 번들 사이즈가 커지고 초기 렌더링 속도가 느려질 수 있습니다. 이러한 단점을 보완하기 위해 lazy import를 사용하였습니다. 번들 코드를 분할하여 초기 번들 사이즈를 줄이고 빠른 초기 렌더링 속도를 얻게되었습니다.
 
 <p align='center'>
-  <img width="642" alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/094e6a93-9808-4ec7-b1ba-cf15f51abe86">
+  <img width="642" alt="lazy-import" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/094e6a93-9808-4ec7-b1ba-cf15f51abe86">
 </p>
 
 기존의 정적 import 방식으로만 이뤄진 코드라면 번들이 하나로 생성되지만, lazy import를 적용하면 코드가 여러 청크(chunk)로 분할되고 초기 번들과 함께 사용됩니다.
 
 <p align='center'>
-  <img width="642" alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/47e52432-e77f-4351-9200-dc07dc66f6a9">
+  <img width="642" alt="lazy-import-result" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/47e52432-e77f-4351-9200-dc07dc66f6a9">
 </p>
 
 기존에는 Landing 페이지에서 모든 페이지 컴포넌트를 모두 불러오게 되었는데요. 이는 비효율적인 방식이라 생각했습니다. app.tsx에서 Route 페이지 컴포넌트와, 유저와의 상호작용이 필요한 컴포넌트에 Lazy import를 적용하게 되었습니다. 그 결과 페이지 내에서 필요한 파일들만 로드되므로 초기 페이지 로딩 시간을 줄이고, 더 개선된 초기 렌더링 속도를 얻게 되었습니다.
@@ -546,7 +559,7 @@ Headless CMS는 보통 학습 곡선이 있는 경우가 많지만, 저희 프�
 ### **JSON Schema를 이용해 Jaam Schema 만들기**
 
 <p align='center'>
-  <img width="642" alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/0d0eec31-b3dc-4a2f-9eb2-7a6a7b1d8368">
+  <img width="642" alt="schema" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/0d0eec31-b3dc-4a2f-9eb2-7a6a7b1d8368">
 </p>
 
 스키마는 유저가 직접 콘텐츠 유형을 정의할 수 있도록 하는 콘텐츠 모델입니다. Headless CMS의 핵심은 콘텐츠 제공입니다. 그리고 콘텐츠 제공의 편리함은 스키마 설정에서부터 시작하게 됩니다.
@@ -561,29 +574,29 @@ JSON Schema라는 스키마를 알게되었고, 단순히 JSON 형식으로 이�
 
 Validation은 JSON Schema를 이용해 ajv라는 라이브러리로 하였습니다.
 
-- Json Schema 형태
+- JSON Schema 형태
 
-```js
+```json
 {
   "title": "post",
   "type": "object",
   "properties": {
-      "description": {
-          "type": "string",
-          "description": "text"
-      },
-      "date": {
-          "type": "string",
-          "format": "date"
-      },
-      "title": {
-          "type": "string",
-          "description": "text"
-      },
-      "post": {
-          "type": "string",
-          "description": "textarea"
-      }
+    "description": {
+      "type": "string",
+      "description": "text"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "title": {
+      "type": "string",
+      "description": "text"
+    },
+    "post": {
+      "type": "string",
+      "description": "textarea"
+    }
   },
   "required": []
 }
@@ -591,36 +604,38 @@ Validation은 JSON Schema를 이용해 ajv라는 라이브러리로 하였습니
 
 - Jaam Toast에서 사용하는 Schema 형태 (Jaam Schema)
 
-```js
+```json
 {
-    "title": "post",
-    "type": "object",
-    "properties": {
-        "description": {
-            "type": "text"
-        },
-        "date": {
-            "type": "date"
-        },
-        "title": {
-            "type": "text"
-        },
-        "post": {
-            "type": "textarea"
-        }
+  "title": "post",
+  "type": "object",
+  "properties": {
+    "description": {
+      "type": "text"
+    },
+    "date": {
+      "type": "date"
+    },
+    "title": {
+      "type": "text"
+    },
+    "post": {
+      "type": "textarea"
     }
+  }
 }
+```
 
+다만 JSON Schema는 렌더링 될 때에는 다루기 편하도록 가공해야하는 과정을 거쳐야 했습니다. Client에서는 JSON Schema에서 위 Jaam Toast에서 사용해야 하는 스키마 형태인 Jaam Schema로 변환되어야 했기 때문입니다.
+
+이를 위해 저희는 Jaam Schema와 JSON Schema 간의 변환 로직을 [Jaam Schema 패키지](https://github.com/jaam-toast/jaam-toast-frontend/tree/main/packages/jaam-schema)로 제작하여 관리하고 있습니다. 패키지 내에는 Jaam Schema에서 JSON Schema로 변환하거나 그 반대로 변환하는 기능이 포함되어 있습니다.
+
+```js
 // Validation 결과값
 {
   result: boolean
   message: "must match format ...",
 }
 ```
-
-다만 JSON Schema는 렌더링 될 때에는 다루기 편하도록 가공해야하는 과정을 거쳐야 했습니다. Client에서는 JSON Schema에서 위 Jaamtoast에서 사용해야 하는 스키마 형태인 Jaam Schema로 변환되어야 했기 때문입니다.
-
-이를 위해 저희는 Jaam Schema와 JSON Schema 간의 변환 로직을 Jaam Schema 패키지로 제작하여 관리하고 있습니다. 패키지 내에는 Jaam Schema에서 JSON Schema로 변환하거나 그 반대로 변환하는 기능이 포함되어 있습니다.
 
 패키지에는 콘텐츠 유효성 검사를 위한 validator 기능도 추가하여 Jaam Schema 형식에 맞는 결과와 메시지를 편리하게 얻을 수 있도록 구현하였습니다.
 
@@ -635,13 +650,13 @@ Validation은 JSON Schema를 이용해 ajv라는 라이브러리로 하였습니
 
 유저에게 CMS 기능을 제공해주기 위해서는 API 주소가 콘텐츠 서버로 직접 접근할 수 있어야 했습니다. 이를 위해 API 레코드를 Jaam Toast 서버로 향하도록 구성해야 하는데, 어떻게 저희 서버로 향하게 할 지 고민하게 되었습니다.
 
-저희 서버는 EC2 내에서 Nginx를 이용해 프록시 처리가 되고 있기 때문에, 유저 API 주소의 형태도 프록시를 이용하여 처리할 수 있을 것으로 판단하였습니다.
+저희 서버는 EC2 내에서 nginx를 이용해 프록시 처리가 되고 있기 때문에, 유저 API 주소의 형태도 프록시를 이용하여 처리할 수 있을 것으로 판단하였습니다.
 
 <p align='center'>
-  <img width="642" alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/07f411fa-a6fc-4726-8ddd-96307844e932">
+  <img width="642" alt="deployment-domain" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/07f411fa-a6fc-4726-8ddd-96307844e932">
 </p>
 
-먼저 API 용도의 레코드를 만든 후 Jaam Toast 서버의 IP를 가리킬 수 있도록 A 레코드를 생성하였습니다. 이후 Nginx의 프록시 설정을 통해서 \*.jaamtoast.click 의 형태로 들어오는 요청을 Jaam Toast 서버로 맵핑시켜주었습니다.
+먼저 API 용도의 레코드를 만든 후 Jaam Toast 서버의 IP를 가리킬 수 있도록 A 레코드를 생성하였습니다. 이후 nginx의 프록시 설정을 통해서 \*.jaamtoast.click 의 형태로 들어오는 요청을 Jaam Toast 서버로 맵핑시켜주었습니다.
 
 <br />
 
@@ -666,10 +681,10 @@ pagination을 구현하는 방법은 크게 두 가지를 들 수 있습니다. 
 <table>
   <tr>
     <td width=400>
-      <img alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/fec3f141-db79-4508-a44a-ce3dfbbe17d9">
+      <img alt="github-login-access-list" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/fec3f141-db79-4508-a44a-ce3dfbbe17d9">
     </td>
     <td>
-      <img alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/30f670b7-7fe5-453b-83d5-0478bceec96a">
+      <img alt="github-login-access-list02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/30f670b7-7fe5-453b-83d5-0478bceec96a">
     </td>
   </tr>
 </table>
@@ -678,7 +693,7 @@ Jaam Toast는 Github Repository와 연동되어 동작합니다. 때문에 Githu
 
 Private Repository까지 권한을 받게 되는 것은 사용자의 Private Repo라고 할 지라도 배포 기능이 제공되어야 하기 때문입니다. 하지만 그렇다고 사용자 입장에서 Private Repo에 대한 권한을 선뜻 내줄 수는 없었습니다.
 
-Webhook에 대한 권한을 요구하는 이유는, Project의 Repository로 Commit이 push 될 때 Project가 업데이트되는 기능이 있는데 그 과정에서 Webhook을 이용하기 때문입니다.
+Webhook에 대한 권한을 요구하는 이유는, 프로젝트의 Repository로 Commit이 push 될 때 프로젝트가 업데이트되는 기능이 있는데 그 과정에서 Webhook을 이용하기 때문입니다.
 
 두 권한을 축소시키면서도 충분한 서비스를 제공하는 것이 저희의 목표였고, Github Oath 대신 Github Apps를 이용하게 되었습니다. Github Apps는 사용자가 원하는 Repository에만 설치할 수 있습니다. 사용자는 자신의 민감한 Repository를 제공하지 않을 선택권이 주어지게 되는 셈입니다. 그리고 Webhook과 유사하게 특정 event를 수신할 수 있어 기존의 기능을 그대로 제공해줄 수도 있었습니다.
 
@@ -686,7 +701,7 @@ Webhook에 대한 권한을 요구하는 이유는, Project의 Repository로 Com
 
 ### **S3 Public Access 차단**
 
-사용자의 Project 하나당 S3 Bucket이 하나씩 생성됩니다. 이 Bucket은 Web hosting을 위해 생성된 Bucket이며 그 이외에는 접근할 여지가 없습니다.
+사용자의 프로젝트 하나당 S3 Bucket이 하나씩 생성됩니다. 이 Bucket은 Web hosting을 위해 생성된 Bucket이며 그 이외에는 접근할 여지가 없습니다.
 
 혹시 모를 접근을 미연에 방지하기위해서 Bucket의 Public 접근 권한을 차단하였습니다. 그리고 Access Id(Origin Access Identity)를 생성해 Web hosting을 해주는 CloudFront에서만 접근할 수 있도록 해주었습니다.
 
@@ -758,7 +773,7 @@ Omit util type을 이용해 공통의 name 프로퍼티를 제거하게 되면 �
 이제 Event를 사용할 때 Event의 이름을 입력하게 되면 Payload에서 자동완성을 넣어줄 수 있게 되었습니다.
 
 <p align='center'>
-  <img width="642" alt="jaamtoast-01-method-02" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/5b4ee2f0-0b12-4bf7-bd24-3c7b4caaf95d">
+  <img width="642" alt="event-auto-complete" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/5b4ee2f0-0b12-4bf7-bd24-3c7b4caaf95d">
 </p>
 
 <br />
@@ -856,13 +871,28 @@ Omit util type을 이용해 공통의 name 프로퍼티를 제거하게 되면 �
 
 <table>
   <tr>
+    <td align="center">
+      <a href="https://github.com/ponjaehyeok">
+        <img src="https://avatars.githubusercontent.com/u/79369983?v=4" alt="공재혁 프로필" width="200px" height="200px" />
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/h-alex">
+	      <img src="https://avatars.githubusercontent.com/u/84281505?v=4" alt="임현정 프로필" width="200px" height="200px" />
+    </td>
+  </tr>
+  <tr>
     <td>
-      Jaehyeok Gong 공재혁 <br />
-      ruud091@gmail.com
+    <ul>
+      <li><a href="https://github.com/ponjaehyeok">Jaehyeok Gong 공재혁</a></li>
+		<li>ruud091@gmail.com</li>
+	</ul>
     </td>
     <td>
-      Hyunjung Im 임현정 <br />
-      glowhyun1@gmail.com
+    <ul>
+      <li><a href="https://github.com/h-alex">Hyunjung Im 임현정</a></li>
+		<li>glowhyun1@gmail.com</li>
+	</ul>
     </td>
   </tr>
 </table>
