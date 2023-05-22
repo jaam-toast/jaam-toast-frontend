@@ -30,19 +30,29 @@ export const header = style([
 ]);
 
 export const assetInfo = style([
-  s.flexColumn,
-  s.justifyContentCenter,
+  s.flex,
+  s.flexSpaceBetween,
   {
+    padding: "1rem",
     flexWrap: "wrap",
     zIndex: 9,
     width: "40rem",
   },
 ]);
 
+export const assetInfoWrapper = style([
+  s.flexColumn,
+  s.scroll,
+  {
+    width: "80%",
+  },
+]);
+
 export const assetName = style({
-  width: "40rem",
-  whiteSpace: "break-spaces",
-  wordWrap: "break-word",
+  maxWidth: "40rem",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
 });
 
 export const assetInfoDeleteIcon = style([s.pointer, { zIndex: 9 }]);
@@ -52,7 +62,6 @@ export const assetInfoBg = style([
   s.fullWidth,
   {
     borderRadius: "1.5rem 1.5rem 0 0",
-    border: "1px solid red",
     width: "40rem",
     minHeight: "5rem",
     maxHeight: "10rem",

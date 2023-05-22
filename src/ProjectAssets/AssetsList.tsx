@@ -27,17 +27,11 @@ export function AssetsList({
   }
 
   const assetsList = assets.contents as Asset[];
-  const regExp = new RegExp(`(?<=${projectName}\/).*`);
-  const getName = (path: string) => path.match(regExp)?.shift();
-  const getKbSize = (bite: number) => Math.round(bite / 1024);
 
   const handleAseetClick = (asset: Asset) => {
     openModal({
       component: (
-        <ModalAssetInfo
-          asset={{ ...asset, name: asset.path ? getName(asset.path) : "" }}
-          token={token}
-        />
+        <ModalAssetInfo asset={{ ...asset, name: asset.name }} token={token} />
       ),
     });
   };
@@ -55,10 +49,8 @@ export function AssetsList({
           {index === onMouseImgIndex && (
             <>
               <div className={css.assetPreviewInfo}>
-                <span className={css.assetPreviewName}>
-                  {asset.path && getName(asset.path)}
-                </span>
-                <span>{asset.size && getKbSize(asset.size)}kb</span>
+                <span className={css.assetPreviewName}>{asset.name}</span>
+                <span>{Math.round(asset.size / 1024)}kb</span>
               </div>
               <div className={css.assetPreviewBg} />
             </>
