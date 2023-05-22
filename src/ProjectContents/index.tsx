@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import { SelectBox, CheckDeleteBox } from "../@shared";
 import {
@@ -7,6 +8,7 @@ import {
   useDeleteContentsMutation,
   useProjectQuery,
   useSetConfirmModal,
+  useSetContentsState,
 } from "../@hooks";
 import { NotFoundError } from "../@utils/createError";
 import { ERROR } from "../@config/message";
@@ -17,16 +19,17 @@ import * as css from "./index.css";
 import type { SortMode, OrderMode } from "../@types/cms";
 
 export function ProjectContents() {
-  const { projectName } = useParams();
+  const { userName, projectName } = useParams();
   const navigate = useNavigate();
   const [sortOption, setSortOption] = useState<SortMode>("createdAt");
   const [orderOption, setOrderOption] = useState<OrderMode>("ascending");
+  const { setIsContentChanged, reset } = useSetContentsState();
   const { values: checkboxValues } = useCheckboxState();
   const { openConfirm } = useSetConfirmModal();
   const deleteContents = useDeleteContentsMutation();
 
-  if (!projectName) {
-    throw new NotFoundError(ERROR.NOT_FOUND.PROJECT_NAME);
+  if (!userName || !projectName) {
+    throw new NotFoundError(ERROR.NOT_FOUND.ALL);
   }
 
   const { data: project } = useProjectQuery(projectName);
@@ -41,22 +44,32 @@ export function ProjectContents() {
   );
 
   const [currentSchemaName, setCurrentSchemaName] = useState<string>(
-    schemaList[0].schemaName,
+    schemaList[0]?.schemaName,
   );
 
   const handleAddClick = () => {
+    if (!schemaList.length) {
+      navigate(`/${userName}/${projectName}/schema`);
+
+      return toast.error(
+        "No schema has been created, please create a schema first.",
+      );
+    }
     navigate("new");
   };
 
   const handleDeleteClick = (contentIds: string[]) => {
     openConfirm({
       message: "Do you want to delete the field?",
-      onConfirm: () =>
-        deleteContents.mutate({
+      onConfirm: async () => {
+        await deleteContents.mutateAsync({
           token,
           schemaName: currentSchemaName,
           contentIds,
-        }),
+        });
+        setIsContentChanged();
+        reset();
+      },
     });
   };
 
