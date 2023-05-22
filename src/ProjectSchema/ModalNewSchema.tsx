@@ -27,7 +27,7 @@ export function ModalNewSchema({ projectName }: { projectName: string }) {
     addProperty,
     editProperty,
     deleteProperty,
-    reset,
+    setIsSchemaChanged,
   } = useSetSchemaState();
   const schema = useSchemaState();
   const currentEditProperty = useCurrentEditProperty();
@@ -78,13 +78,17 @@ export function ModalNewSchema({ projectName }: { projectName: string }) {
   };
 
   const handleClickSave = async () => {
-    createSchema.mutate({ projectName });
+    await createSchema.mutateAsync({ projectName });
+
+    setIsSchemaChanged();
   };
 
   const handleClickDelete = ({ propertyName }: { propertyName: string }) => {
     openConfirm({
       message: "Do you want to delete the field?",
-      onConfirm: () => deleteProperty({ propertyName }),
+      onConfirm: () => {
+        deleteProperty({ propertyName });
+      },
     });
   };
 

@@ -4,16 +4,18 @@ import { BsFillTrashFill } from "react-icons/bs";
 import { toast } from "react-toastify";
 
 import { TextField, SelectBox } from "../@shared";
+import { ModalNewSchema } from "./ModalNewSchema";
+import { ModalSchemaInfoSkeleton } from "./ModalSchemaInfo";
+import { SchemaList, SchemaListSkeleton } from "./SchemaList";
 import {
   useModal,
   useCheckboxState,
   useSetConfirmModal,
   useDeleteSchemaMutation,
+  useSetSchemaState,
+  useSetCheckboxState,
 } from "../@hooks";
 import { NotFoundError } from "../@utils/createError";
-import { ModalNewSchema } from "./ModalNewSchema";
-import { ModalSchemaInfoSkeleton } from "./ModalSchemaInfo";
-import { SchemaList, SchemaListSkeleton } from "./SchemaList";
 import { AsyncBoundary } from "../Error/AsyncBoundary";
 import * as css from "./index.css";
 
@@ -23,7 +25,9 @@ export function ProjectSchema() {
   const { projectName } = useParams();
   const [searchword, setSearchword] = useState<string>("");
   const [orderMode, setOrderMode] = useState<OrderMode>("ascending");
+  const { setIsSchemaChanged } = useSetSchemaState();
   const { values: checkboxValues } = useCheckboxState();
+  const { reset } = useSetCheckboxState();
   const { openModal } = useModal();
   const { openConfirm } = useSetConfirmModal();
 
@@ -52,7 +56,11 @@ export function ProjectSchema() {
 
     openConfirm({
       message: "Do you want to delete the field?",
-      onConfirm: () => deleteSchema.mutate({ projectName, schemaNames }),
+      onConfirm: async () => {
+        await deleteSchema.mutateAsync({ projectName, schemaNames });
+        setIsSchemaChanged();
+        reset();
+      },
     });
   };
 

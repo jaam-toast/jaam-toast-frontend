@@ -21,6 +21,7 @@ type SchemaStore = {
   type: string;
   properties: JaamSchema["properties"];
   currentEditProperty: Property;
+  isSchemaChanged: boolean;
 
   actions: {
     setSchema: (schema: JsonSchema) => void;
@@ -35,6 +36,7 @@ type SchemaStore = {
       updateData?: Exclude<Property, "originalNameForEditing">;
       propertyName?: string;
     }) => void;
+    setIsSchemaChanged: () => void;
     addProperty: () => void;
     editProperty: () => void;
     deleteProperty: ({ propertyName }: { propertyName: string }) => void;
@@ -53,6 +55,7 @@ const initialState: Omit<SchemaStore, "actions"> = {
     options: { type: "text" },
     warningMessage: "",
   },
+  isSchemaChanged: false,
 };
 
 export const useSchemaStore = create<SchemaStore>((set, get) => ({
@@ -138,6 +141,9 @@ export const useSchemaStore = create<SchemaStore>((set, get) => ({
         }
       }
     },
+    setIsSchemaChanged: () => {
+      set(state => ({ isSchemaChanged: !state.isSchemaChanged }));
+    },
     addProperty: () => {
       const { options, name } = get().currentEditProperty;
 
@@ -159,12 +165,12 @@ export const useSchemaStore = create<SchemaStore>((set, get) => ({
         delete updatedProperties[originalNameForEditing];
       }
 
-      set(state => ({
+      set({
         properties: {
           ...updatedProperties,
           [name]: options,
         },
-      }));
+      });
       set({ currentEditProperty: initialState.currentEditProperty });
     },
     deleteProperty: ({ propertyName }) => {
@@ -189,6 +195,9 @@ export const useSchemaState = (): JaamSchema =>
     }),
     shallow,
   );
+
+export const useIsSchemaChanged = () =>
+  useSchemaStore(state => state.isSchemaChanged);
 
 export const useCurrentEditProperty = () =>
   useSchemaStore(state => state.currentEditProperty);
