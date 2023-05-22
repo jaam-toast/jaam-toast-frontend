@@ -30,40 +30,36 @@ export function useCreateProjectMutation() {
   } = useBuildOptions();
   const { space, repoName } = usePresetBuildOptionStore(state => state);
 
-  return useMutation(
-    ["project-create"],
-    async () => {
-      if (
-        !isAvailableProjectName ||
-        !projectName ||
-        !space ||
-        !repoName ||
-        !projectName ||
-        !nodeVersion ||
-        !framework ||
-        !buildCommand ||
-        !installCommand ||
-        !envList
-      ) {
-        throw new ValidationError(ERROR.NOT_FOUND.PROJECT_DATA);
-      }
+  return useMutation(["project-create"], async () => {
+    if (
+      !isAvailableProjectName ||
+      !projectName ||
+      !space ||
+      !repoName ||
+      !projectName ||
+      !nodeVersion ||
+      !framework ||
+      !buildCommand ||
+      !installCommand ||
+      !envList
+    ) {
+      throw new ValidationError(ERROR.NOT_FOUND.PROJECT_DATA);
+    }
 
-      const createProjectOptions = {
-        space: space.spaceName,
-        repoName,
-        repoCloneUrl: `https://github.com/${space.spaceName}/${repoName}.git`,
-        projectName,
-        nodeVersion,
-        framework: framework,
-        buildCommand,
-        installCommand,
-        envList,
-      };
+    const createProjectOptions = {
+      space: space.spaceName,
+      repoName,
+      repoCloneUrl: `https://github.com/${space.spaceName}/${repoName}.git`,
+      projectName,
+      nodeVersion,
+      framework: framework,
+      buildCommand,
+      installCommand,
+      envList,
+    };
 
-      return createProject(createProjectOptions);
-    },
-    { onSuccess: () => toast.success(SUCCESS.CREATE) },
-  );
+    return createProject(createProjectOptions);
+  });
 }
 
 export function useAddProjectOptionMutaion() {
