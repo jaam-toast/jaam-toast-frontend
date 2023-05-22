@@ -1,4 +1,3 @@
-import { Avatar, AvatarSkeleton } from "../@shared";
 import { useReposQuery } from "../@hooks";
 import * as css from "./RepositoryList.css";
 
@@ -23,9 +22,6 @@ export function RepositoryList({
           .map(repo => (
             <li key={repo.repoName} className={css.repoOption}>
               <div className={css.repoOptionHead}>
-                <Avatar size="small">
-                  <div className={css.packageIcon} />
-                </Avatar>
                 <span>{repo.repoName}</span>
               </div>
               <button
@@ -47,7 +43,6 @@ export function RepositoryListSkeleton() {
       {Array.from({ length: 5 }).map((_, idx) => (
         <li key={idx} className={css.repoOption}>
           <div className={css.repoOptionHead}>
-            <AvatarSkeleton size="small" />
             <div className={css.textSkeleton} />
           </div>
           <div className={css.buttonSkeleton} />
