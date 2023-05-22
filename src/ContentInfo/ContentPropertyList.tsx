@@ -1,5 +1,4 @@
 import { useEffect, useMemo } from "react";
-import { Navigate } from "react-router-dom";
 import { jsonSchemaToJaamSchema } from "@jaam-schema/src";
 
 import {

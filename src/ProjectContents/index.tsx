@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { SelectBox, CheckDeleteBox } from "../@shared";
@@ -60,7 +60,6 @@ export function ProjectContents() {
     });
   };
 
-  // TODO preset 없애기
   return (
     <div className={css.container}>
       <header className={css.header}>
