@@ -27,8 +27,8 @@ export function Portal() {
       <div
         className={`${isOpen || isOpenConfirmModal ? css.container : css.hide}`}
       >
-        {isOpen && <Modal />}
         {isOpenConfirmModal && <ConfirmModal />}
+        {isOpen && <Modal />}
       </div>
     </>
   );
