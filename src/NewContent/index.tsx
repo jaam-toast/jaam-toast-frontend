@@ -40,12 +40,6 @@ export function NewContent() {
     schema => schema.schemaName !== "assets",
   );
 
-  if (!schemaList || !schemaList.length) {
-    // TODO schema 생성 권하는 페이지
-    alert("스키마 없어");
-    // throw new NotFoundError("schema data not found");
-  }
-
   const { schema } = useMemo(
     () => schemaList[currentSchemaIndex],
     [currentSchemaIndex],

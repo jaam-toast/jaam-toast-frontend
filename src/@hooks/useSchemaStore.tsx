@@ -157,7 +157,6 @@ export const useSchemaStore = create<SchemaStore>((set, get) => ({
     },
     editProperty: () => {
       const updatedProperties = { ...get().properties };
-      console.log("1", updatedProperties);
       const { originalNameForEditing, name, options } =
         get().currentEditProperty;
 

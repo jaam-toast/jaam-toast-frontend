@@ -34,7 +34,6 @@ export function NewWebhook() {
   };
 
   const handleSaveClick = async () => {
-    console.log({ webhook, checkboxValues, warningMessage });
     if (
       !webhook.name ||
       !webhook.url ||
