@@ -17,6 +17,7 @@ type ContentsStore = {
   currentSchema: JsonSchema;
   content: JaamSchemaContent;
   contentsErrorMessage: ContentsErrorMessage;
+  isContentChanged: boolean;
 
   actions: {
     setToken: (token: string) => void;
@@ -29,6 +30,7 @@ type ContentsStore = {
       name: string;
       content: T;
     }) => void;
+    setIsContentChanged: () => void;
     reset: () => void;
   };
 };
@@ -43,6 +45,7 @@ const initialState: Omit<ContentsStore, "actions"> = {
   },
   content: {},
   contentsErrorMessage: {},
+  isContentChanged: false,
 };
 
 export const useContentsStore = create<ContentsStore>((set, get) => ({
@@ -80,6 +83,9 @@ export const useContentsStore = create<ContentsStore>((set, get) => ({
         };
       });
     },
+    setIsContentChanged: () => {
+      set(state => ({ isContentChanged: !state.isContentChanged }));
+    },
     reset: () => {
       set(initialState);
     },
@@ -93,6 +99,7 @@ export const useContentsState = () =>
       schema: state.currentSchema,
       content: state.content,
       contentsErrorMessage: state.contentsErrorMessage,
+      isContentChanged: state.isContentChanged,
     };
   }, shallow);
 

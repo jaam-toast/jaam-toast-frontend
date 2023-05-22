@@ -22,7 +22,8 @@ export function NewContent() {
   const { projectName } = useParams();
   const [currentSchemaIndex, setCurrentSchemaIndex] = useState<number>(0);
   const { content, contentsErrorMessage } = useContentsState();
-  const { setContentProperty, reset } = useSetContentsState();
+  const { setContentProperty, setIsContentChanged, reset } =
+    useSetContentsState();
   const createContent = useCreateContentMutation();
 
   if (!projectName) {
@@ -73,6 +74,7 @@ export function NewContent() {
 
     await createContent.mutateAsync({ token, schemaName: schema.title });
 
+    setIsContentChanged();
     navigate(-1);
   };
 

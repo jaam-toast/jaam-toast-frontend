@@ -5,8 +5,8 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { Checkbox } from "../@shared";
 import { sortByMode as sortBy } from "../@utils/sortByMode";
-import { useIsWebhookChangedState, useProjectQuery } from "../@hooks";
 import { NotFoundError } from "../@utils/createError";
+import { useIsWebhookChangedState, useProjectQuery } from "../@hooks";
 import { ERROR } from "../@config/message";
 import * as css from "./WebhookList.css";
 
@@ -25,7 +25,7 @@ export function WebhookList({
 }) {
   const navigate = useNavigate();
   const isWebhookChanged = useIsWebhookChangedState();
-  const { data: project } = useProjectQuery(projectName);
+  const { data: project, refetch } = useProjectQuery(projectName);
   const queryClient = useQueryClient();
 
   if (!project || !project.webhookList) {
@@ -37,6 +37,7 @@ export function WebhookList({
   useEffect(() => {
     if (isWebhookChanged) {
       queryClient.invalidateQueries(["project", projectName]);
+      refetch();
     }
   }, [isWebhookChanged]);
 

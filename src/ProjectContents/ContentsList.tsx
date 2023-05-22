@@ -1,11 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 dayjs.extend(utc);
 
 import { Checkbox } from "../@shared";
-import { useContentsListQuery } from "../@hooks";
+import {
+  useContentsListQuery,
+  useContentsState,
+  useSetContentsState,
+} from "../@hooks";
 
 import { Pagination } from "./Pagination";
 import { sortByMode as sortBy } from "../@utils/sortByMode";
@@ -30,8 +35,10 @@ export function ContentsList({
 }: ContentsListProps) {
   const navigate = useNavigate();
   const [page, setPage] = useState<number>(1);
+  const { isContentChanged } = useContentsState();
+  const { setIsContentChanged } = useSetContentsState();
   const pageLength = 10;
-  const { data } = useContentsListQuery({
+  const { data, refetch } = useContentsListQuery({
     schemaName,
     token,
     page,
@@ -39,9 +46,23 @@ export function ContentsList({
     sort: sortOption,
     order: orderOption,
   });
+  const queryClient = useQueryClient();
 
   const contentsList = data?.contents;
   const contentsCount = data?.totalCounts;
+
+  useEffect(() => {
+    if (isContentChanged) {
+      queryClient.invalidateQueries([
+        "contentsList",
+        schemaName,
+        sortOption,
+        orderOption,
+      ]);
+      refetch();
+      setIsContentChanged();
+    }
+  }, [isContentChanged]);
 
   const handleContentClick = ({ id }: { id: string }) => {
     navigate(`${schemaName}/${id}`);
