@@ -1,4 +1,4 @@
-import { style, styleVariants } from "@vanilla-extract/css";
+import { style } from "@vanilla-extract/css";
 import { s } from "../@styles";
 import { COLORS } from "../@config/colors";
 
@@ -14,6 +14,7 @@ export const container = style([
     marginTop: "1rem",
     width: "30rem",
     height: "10rem",
+    zIndex: 999,
     backgroundColor: COLORS.WHITE,
   },
 ]);
@@ -29,10 +30,7 @@ export const wrapper = style([
   },
 ]);
 
-export const messageWrapper = style([
-  s.flexColumn,
-  s.full,
-]);
+export const messageWrapper = style([s.flexColumn, s.full]);
 
 export const typeBox = style({ marginTop: "1rem" });
 

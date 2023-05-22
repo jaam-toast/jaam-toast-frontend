@@ -84,6 +84,8 @@ export const useModalStore = create<ModalStore>((set, get) => ({
 
 export const useModalState = () => useModalStore();
 
+export const useModal = () => useModalStore(state => state.actions);
+
 export const useConfirmModalState = () =>
   useModalStore(
     state => ({
@@ -101,5 +103,3 @@ export const useSetConfirmModal = () =>
       closeConfirm: state.actions.closeConfirm,
     };
   }, shallow);
-
-export const useModal = () => useModalStore(state => state.actions);
