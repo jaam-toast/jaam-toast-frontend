@@ -67,11 +67,12 @@ export type Content = {
  * Asset
  */
 export type Asset = {
-  _id?: string;
-  url?: string;
-  path?: string;
-  size?: number;
-};
+  _id: string;
+  name: string;
+  url: string;
+  path: string;
+  size: number;
+} & Pick<Content, "_id" | "_createdAt" | "_updatedAt">;
 
 export const WEBHOOK_EVENTS_RECORD = {
   DEPLOYMENT_UPDATED: "Deployment Updated",

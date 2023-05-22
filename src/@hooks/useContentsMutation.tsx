@@ -7,6 +7,7 @@ import {
   deleteContents,
   updateContent,
   addAssets,
+  deleteAsset,
 } from "../@utils/contentsAPI";
 import { ValidationError } from "../@utils/createError";
 import { ERROR, SUCCESS } from "../@config/message";
@@ -23,25 +24,6 @@ export function useCreateContentMutation() {
       }
 
       return createContent({ token, schemaName, content });
-    },
-    {
-      onSuccess: () => toast.success(SUCCESS.CREATE),
-    },
-  );
-}
-
-export function useCreateAssetContentMutation() {
-  return useMutation(
-    ["asset-create"],
-    async ({ token, assets }: { token: string; assets: FormData }) => {
-      if (!assets) {
-        throw new ValidationError("Cannot find assets data");
-      }
-
-      return addAssets({
-        token,
-        assets,
-      });
     },
     {
       onSuccess: () => toast.success(SUCCESS.CREATE),
@@ -104,42 +86,44 @@ export function useDeleteContentsMutation() {
   );
 }
 
-// TODO delete asset
-export function useDeleteAssetContentMutation() {
+export function useCreateAssetContentMutation() {
   return useMutation(
     ["asset-create"],
+    async ({ token, assets }: { token: string; assets: FormData }) => {
+      if (!assets) {
+        throw new ValidationError("Cannot find assets data");
+      }
+
+      return addAssets({
+        token,
+        assets,
+      });
+    },
+    {
+      onSuccess: () => toast.success(SUCCESS.CREATE),
+    },
+  );
+}
+
+export function useDeleteAssetContentMutation() {
+  return useMutation(
+    ["asset-delete"],
     async ({
       token,
-      path,
-      assetId,
+      assetPath,
+      contentId,
     }: {
       token: string;
-      path: string;
-      assetId: string;
-    }) => {
-      // if (!token) {
-      //   throw new ValidationError("Cannot find api key.");
-      // }
-
-      // if (!path || !assetId) {
-      //   throw new ValidationError("Cannot find asset data");
-      // }
-
-      // const assetAPI = new AssetAPIClient();
-      // assetAPI.connect();
-      // const result = await assetAPI.deleteAsset({
-      //   path,
-      // });
-
-      // if (!result) {
-      //   throw new ValidationError("삭제 실패");
-      // }
-
-      return deleteContents({
+      assetPath: string;
+      contentId: string;
+    }) =>
+      deleteAsset({
         token,
-        schemaName: "assets",
-        contentIds: [assetId],
-      });
+        assetPath,
+        contentId,
+      }),
+    {
+      onSuccess: () => toast.success(SUCCESS.DELETE),
     },
   );
 }

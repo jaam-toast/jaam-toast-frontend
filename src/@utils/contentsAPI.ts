@@ -167,4 +167,27 @@ export async function addAssets({
   }
 }
 
-// TODO DELETE ASSET
+export async function deleteAsset({
+  token,
+  contentId,
+  assetPath,
+}: {
+  token: string;
+  contentId: string;
+  assetPath: string;
+}): Promise<string> {
+  try {
+    const { data } = await getClient(token).delete<Response<string>>(
+      `/assets/contents/${contentId}`,
+      {
+        data: {
+          assetPath,
+        },
+      },
+    );
+
+    return data.message;
+  } catch (error) {
+    throw error;
+  }
+}
