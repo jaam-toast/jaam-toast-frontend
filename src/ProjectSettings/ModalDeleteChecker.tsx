@@ -12,10 +12,10 @@ export function ModalDeleteChecker({ projectName }: { projectName: string }) {
     closeModal();
   };
 
-  const handleDeleteClick = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleDeleteClick = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (userCode !== projectName) {
+    if (userCode !== `delete ${projectName}`) {
       return;
     }
 
