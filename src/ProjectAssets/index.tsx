@@ -25,7 +25,6 @@ export function ProjectAssets() {
     throw new ValidationError("project data not found");
   }
 
-  // asset 진행 중
   const handleFilesUpLoad = () => {
     if (!assetInput.current || !assetInput.current.files) {
       return toast.error("File not found.");
