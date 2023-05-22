@@ -1,8 +1,13 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 
 import { ColorBox, Checkbox } from "../@shared";
-import { useModal, useProjectQuery } from "../@hooks";
+import {
+  useIsSchemaChanged,
+  useModal,
+  useProjectQuery,
+  useSetSchemaState,
+} from "../@hooks";
 import { ModalSchemaInfo, ModalSchemaInfoSkeleton } from "./ModalSchemaInfo";
 import { sortByMode as sortBy } from "../@utils/sortByMode";
 import { NotFoundError } from "../@utils/createError";
@@ -12,6 +17,7 @@ import * as css from "./SchemaList.css";
 import type { JsonSchema } from "@jaam-schema/src";
 import type { SchemaData } from "../@types/cms";
 import type { OrderMode } from "../@types/cms";
+import { useQueryClient } from "@tanstack/react-query";
 
 type SchemaListProps = {
   projectName: string;
@@ -27,11 +33,22 @@ export function SchemaList({
   onDelete,
 }: SchemaListProps) {
   const { openModal } = useModal();
-  const { data } = useProjectQuery(projectName);
+  const { setIsSchemaChanged } = useSetSchemaState();
+  const isSchemaChanged = useIsSchemaChanged();
+  const { data, refetch } = useProjectQuery(projectName);
+  const queryClient = useQueryClient();
 
   if (!data) {
     throw new NotFoundError("project data not found");
   }
+
+  useEffect(() => {
+    if (isSchemaChanged) {
+      queryClient.invalidateQueries(["project", projectName]);
+      refetch();
+      setIsSchemaChanged();
+    }
+  }, [isSchemaChanged]);
 
   const { schemaList: schemaListData, storageKey } = data;
   const schemaList = useMemo(
@@ -40,9 +57,16 @@ export function SchemaList({
         mode: orderOption,
         data: schemaListData,
         fieldName: "schemaName",
-      }).filter((data: SchemaData) =>
-        searchword ? data.schema.title.includes(searchword) : true,
-      ),
+      }).filter((data: SchemaData) => {
+        if (searchword) {
+          return (
+            data.schema.title.includes(searchword) &&
+            data.schemaName !== "assets"
+          );
+        }
+
+        return data.schemaName !== "assets";
+      }),
     [orderOption, schemaListData, searchword],
   );
 
