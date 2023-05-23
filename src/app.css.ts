@@ -13,12 +13,17 @@ export const container = style([
   },
 ]);
 
-export const mobileViewWrapper = style([
+export const mobileViewContainer = style([
   s.flex,
   s.justifyContentCenter,
   s.alignItemsCenter,
-  s.full,
+  { height: "100vh", width: "100vw" },
 ]);
 
-export const containerSkeleton = style([s.full, { padding: "2rem 15vw" }]);
+export const mobileDefenseText = style({ textAlign: "center" });
+
+export const containerSkeleton = style([
+  s.full,
+  { minHeight: "30rem", padding: "2rem 15vw" },
+]);
 export const pageSkeleton = style([s.full, s.skeleton]);

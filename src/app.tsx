@@ -96,82 +96,85 @@ export function App() {
   }
 
   return (
-    <div className={css.container}>
+    <>
       <BrowserView>
-        <Header />
-        {createPortal(<Portal />, portalRoot)}
-        <AsyncBoundary suspenseFallback={<PageSkeleton />}>
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/projects" element={<ProjectList />} />
-            <Route path="/new/:userName" element={<RepositorySelect />} />
-            <Route
-              path="/new/:userName/:repository"
-              element={<BuildOptionSelect />}
-            />
-            <Route
-              path="/new/:userName/:repository/deploy"
-              element={<ProjectDeploy />}
-            />
-            <Route element={<ProjectInfoLayout />}>
+        <div className={css.container}>
+          <Header />
+          {createPortal(<Portal />, portalRoot)}
+          <AsyncBoundary suspenseFallback={<PageSkeleton />}>
+            <Routes>
+              <Route path="/" element={<Landing />} />
+              <Route path="/projects" element={<ProjectList />} />
+              <Route path="/new/:userName" element={<RepositorySelect />} />
               <Route
-                path="/:userName/:projectName/dashboard"
-                element={<ProjectDashboard />}
+                path="/new/:userName/:repository"
+                element={<BuildOptionSelect />}
               />
               <Route
-                path="/:userName/:projectName/schema"
-                element={<ProjectSchema />}
+                path="/new/:userName/:repository/deploy"
+                element={<ProjectDeploy />}
               />
+              <Route element={<ProjectInfoLayout />}>
+                <Route
+                  path="/:userName/:projectName/dashboard"
+                  element={<ProjectDashboard />}
+                />
+                <Route
+                  path="/:userName/:projectName/schema"
+                  element={<ProjectSchema />}
+                />
+                <Route
+                  path="/:userName/:projectName/contents"
+                  element={<ProjectContents />}
+                />
+                <Route
+                  path="/:userName/:projectName/contents/new"
+                  element={<NewContent />}
+                />
+                <Route
+                  path="/:userName/:projectName/contents/:schemaName/:contentId"
+                  element={<ContentInfo />}
+                />
+                <Route
+                  path="/:userName/:projectName/assets"
+                  element={<ProjectAssets />}
+                />
+                <Route
+                  path="/:userName/:projectName/webhook"
+                  element={<ProjectWebhook />}
+                />
+                <Route
+                  path="/:userName/:projectName/webhook/new"
+                  element={<NewWebhook />}
+                />
+                <Route
+                  path="/:userName/:projectName/webhook/:webhookId"
+                  element={<WebhookInfo />}
+                />
+                <Route
+                  path="/:userName/:projectName/settings"
+                  element={<ProjectSettings />}
+                />
+              </Route>
               <Route
-                path="/:userName/:projectName/contents"
-                element={<ProjectContents />}
+                path="/error"
+                element={<Error code={state?.code} message={state?.message} />}
               />
-              <Route
-                path="/:userName/:projectName/contents/new"
-                element={<NewContent />}
-              />
-              <Route
-                path="/:userName/:projectName/contents/:schemaName/:contentId"
-                element={<ContentInfo />}
-              />
-              <Route
-                path="/:userName/:projectName/assets"
-                element={<ProjectAssets />}
-              />
-              <Route
-                path="/:userName/:projectName/webhook"
-                element={<ProjectWebhook />}
-              />
-              <Route
-                path="/:userName/:projectName/webhook/new"
-                element={<NewWebhook />}
-              />
-              <Route
-                path="/:userName/:projectName/webhook/:webhookId"
-                element={<WebhookInfo />}
-              />
-              <Route
-                path="/:userName/:projectName/settings"
-                element={<ProjectSettings />}
-              />
-            </Route>
-            <Route
-              path="/error"
-              element={<Error code={state?.code} message={state?.message} />}
-            />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </AsyncBoundary>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AsyncBoundary>
+        </div>
       </BrowserView>
       <MobileView>
-        <div className={css.mobileViewWrapper}>
-          <p>
+        <div className={css.mobileViewContainer}>
+          <p className={css.mobileDefenseText}>
+            😭 <br />
             Not supported in mobile environment. <br />
             Please run it in a desktop environment.
           </p>
         </div>
       </MobileView>
-    </div>
+    </>
   );
 }
 
