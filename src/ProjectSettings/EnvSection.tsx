@@ -36,10 +36,7 @@ export function EnvSection({ projectName }: { projectName: string }) {
       <div className={css.sectionHead}>
         <span className={css.sectionTitle}>Environtment Variables</span>
         <button
-          disabled={
-            !envList.length ||
-            JSON.stringify(envList) == JSON.stringify(project.envList)
-          }
+          disabled={!(project?.envList.length !== envList.length)}
           onClick={() => handleSaveClick({ envList })}
           className={css.saveButton}
         >
