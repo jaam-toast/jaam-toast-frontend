@@ -5,7 +5,7 @@ export async function getPageScreenshot(url: string): Promise<string> {
   try {
     const { data } = await axios<Blob>({
       method: "GET",
-      url: `//${Config.SCREENSHOT_API_URL}`,
+      url: Config.SCREENSHOT_API_URL,
       timeout: 2500,
       params: {
         url,

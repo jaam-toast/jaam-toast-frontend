@@ -109,9 +109,9 @@ export function ProjectDeploy() {
             >
               go to dashboard
             </Link>
-            <Link className={css.previewOptionButton} to="/projects">
+            {/* <Link className={css.previewOptionButton} to="/projects">
               go to main
-            </Link>
+            </Link> */}
           </div>
         </div>
       </section>

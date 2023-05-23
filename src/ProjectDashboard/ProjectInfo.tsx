@@ -23,7 +23,7 @@ export function ProjectInfo({ projectName }: { projectName: string }) {
     <div className={css.projectInfoContainer}>
       <section className={css.projectPreviewSection}>
         <Suspense fallback={<PreviewSkeleton />}>
-          <Preview url={domain ?? ""} />
+          <Preview url={`https://${domain}` ?? ""} />
         </Suspense>
       </section>
       <section className={css.projectInfoSection}>
@@ -36,7 +36,7 @@ export function ProjectInfo({ projectName }: { projectName: string }) {
             <span className={css.projectInfoFieldTitle}>url</span>
             <a
               className={css.projectInfoText}
-              href={`//${domain}` ?? ""}
+              href={domain ?? ""}
               target="_blank"
             >
               {domain ?? ""}
