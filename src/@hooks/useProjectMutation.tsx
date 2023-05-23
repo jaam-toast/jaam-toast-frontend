@@ -134,7 +134,7 @@ export function useUpdateBuildOptionMutation() {
         updateBuildOption: option,
       });
     },
-    { onSuccess: () => toast.success(SUCCESS.DELETE) },
+    { onSuccess: () => toast.success(SUCCESS.UPDATE) },
   );
 }
 
