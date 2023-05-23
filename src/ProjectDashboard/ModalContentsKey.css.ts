@@ -88,14 +88,20 @@ export const contentsKey = style([
 
 export const contentsApiExample = style([
   s.border,
+  s.scroll,
+  s.pointer,
   {
+    maxHeight: "5rem",
     backgroundColor: COLORS.WHITE,
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap",
+    whiteSpace: "normal",
+    wordWrap: "break-word",
     padding: "0.7rem 1.4rem",
     userSelect: "none",
     color: COLORS.GREY,
+
+    ":hover": {
+      backgroundColor: COLORS.LEMON,
+    },
   },
 ]);
 

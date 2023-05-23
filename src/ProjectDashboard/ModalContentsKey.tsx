@@ -90,7 +90,7 @@ export function ModalContentsKey({ projectName }: { projectName: string }) {
               handleApiCopy("https://api.jaamtoast.click/api/[yourSchemaName]")
             }
           >
-            {"https://api.jaamtoast.click/api/[yourSchemaName]"}
+            {`https://api.${project.projectName}jaamtoast.click/storage/[yourSchemaName]/contents`}
           </div>
         </div>
       </div>
