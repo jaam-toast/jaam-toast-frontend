@@ -41,10 +41,14 @@ const client = axios.create({
   timeout: 2500,
 });
 
-export function logout() {
-  Cookies.remove("userId");
-  Cookies.remove("accessToken");
-  Cookies.remove("githubAccessToken");
+export async function logout(): Promise<string> {
+  try {
+    const { data } = await client.get<Response<string>>(`/logout`);
+
+    return data.message;
+  } catch (error) {
+    throw error;
+  }
 }
 
 export async function getSpaces(): Promise<Space[]> {

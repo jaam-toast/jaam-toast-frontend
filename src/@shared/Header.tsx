@@ -15,8 +15,8 @@ export function Header() {
       {isLogin && (
         <button
           className={css.logoutButton}
-          onClick={() => {
-            logout();
+          onClick={async () => {
+            await logout();
             navigate("/");
           }}
         >
