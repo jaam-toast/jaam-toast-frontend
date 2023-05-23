@@ -32,6 +32,7 @@ export const header = style([
 export const assetInfo = style([
   s.flex,
   s.flexSpaceBetween,
+  s.alignItemsCenter,
   {
     padding: "1rem",
     flexWrap: "wrap",
@@ -54,6 +55,20 @@ export const assetName = style({
   textOverflow: "ellipsis",
   whiteSpace: "nowrap",
 });
+
+export const assetUrl = style([
+  s.pointer,
+  {
+    maxWidth: "40rem",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+
+    ":hover": {
+      color: COLORS.STRAWBERRY,
+    },
+  },
+]);
 
 export const assetInfoDeleteIcon = style([s.pointer, { zIndex: 9 }]);
 

@@ -7,6 +7,7 @@ import {
 import * as css from "./ModalAssetInfo.css";
 
 import type { Asset } from "../@types/cms";
+import { useState } from "react";
 
 export function ModalAssetInfo({
   asset,
@@ -15,6 +16,7 @@ export function ModalAssetInfo({
   asset: Asset & { name?: string };
   token: string;
 }) {
+  const [isUrlCopied, setIsUrlCopied] = useState<boolean>(false);
   const { closeModal } = useModal();
   const { openConfirm } = useSetConfirmModal();
   const deleteAsset = useDeleteAssetContentMutation();
@@ -34,14 +36,28 @@ export function ModalAssetInfo({
     });
   };
 
+  const handleUrlCopy = () => {
+    setIsUrlCopied(true);
+
+    navigator.clipboard.writeText(asset.url);
+
+    setTimeout(() => {
+      setIsUrlCopied(false);
+    }, 700);
+  };
+
   return (
     <section className={css.container}>
       <div className={css.header}>
         <div className={css.assetInfo}>
           <div className={css.assetInfoWrapper}>
             <span className={css.assetName}>name: {asset.name}</span>
+            <span onClick={handleUrlCopy} className={css.assetUrl}>
+              url: {asset.url}
+            </span>
             <span>size: {Math.round(asset.size / 1024)}KB</span>
           </div>
+          {isUrlCopied && <span>copied!</span>}
           <BsFillTrashFill
             onClick={handleDeleteClick}
             className={css.assetInfoDeleteIcon}

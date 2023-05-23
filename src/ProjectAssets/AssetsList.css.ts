@@ -36,7 +36,7 @@ export const assetPreviewName = style([
     width: "10rem",
     maxHeight: "5rem",
     padding: "0 1rem",
-    textAlign: "left",
+    textAlign: "center",
     whiteSpace: "normal",
     wordWrap: "break-word",
     display: "-webkit-box",
@@ -64,7 +64,7 @@ export const assetPreviewInfo = style([
     zIndex: 99,
     color: COLORS.WHITE,
     textOverflow: "ellipsis",
-    textAlign: "left",
+    textAlign: "center",
     fontSize: "0.8rem",
   },
 ]);
