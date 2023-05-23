@@ -51,6 +51,9 @@ export const envValue = style([
     backgroundColor: COLORS.BLACK,
     color: COLORS.WHITE,
     fontSize: "1.1rem",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
   },
 ]);
 
