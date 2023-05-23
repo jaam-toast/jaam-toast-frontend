@@ -43,7 +43,6 @@ const client = axios.create({
 
 export function logout() {
   Cookies.remove("userId");
-  Cookies.remove("loginData");
   Cookies.remove("accessToken");
   Cookies.remove("githubAccessToken");
 }
