@@ -30,7 +30,7 @@ export function useBuildingLog({
   const [socket, setSocket] = useState<Socket | null>(null);
 
   useEffect(() => {
-    const socketIO = io(`${Config.SERVER_URL}`);
+    const socketIO = io(Config.SERVER_URL);
 
     setSocket(socketIO);
 

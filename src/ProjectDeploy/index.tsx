@@ -8,7 +8,7 @@ import * as css from "./index.css";
 
 export function ProjectDeploy() {
   const navigate = useNavigate();
-  const { userName } = useParams();
+  const { userName, repository } = useParams();
   const logListRef = useRef<HTMLUListElement>(null);
   const [buildingLog, setBuildingLog] = useState<string[]>([]);
   const [isBuildLogFold, setIsBuildLogFold] = useState<boolean>(false);
@@ -41,16 +41,16 @@ export function ProjectDeploy() {
     onComplete: (data: string) => {
       const regExp = /\{([^}]+)\}/g;
       const resultMessage = data.match(regExp)?.pop() as string;
-      const { buildOriginalDomain } = JSON.parse(resultMessage);
+      const { originalBuildDomain } = JSON.parse(resultMessage);
 
       setIsBuildLogFold(true);
 
       setTimeout(() => {
-        setDeployedUrl(`https://${buildOriginalDomain}`);
+        setDeployedUrl(`https://${originalBuildDomain}`);
       }, 500);
 
       setTimeout(() => {
-        window.location.href = "#complete";
+        window.location.href = `new/${userName}/${repository}/deploy#complete`;
       }, 1000);
     },
     onError: () => {
@@ -109,9 +109,9 @@ export function ProjectDeploy() {
             >
               go to dashboard
             </Link>
-            {/* <Link className={css.previewOptionButton} to="/projects">
+            <Link className={css.previewOptionButton} to="/projects">
               go to main
-            </Link> */}
+            </Link>
           </div>
         </div>
       </section>
