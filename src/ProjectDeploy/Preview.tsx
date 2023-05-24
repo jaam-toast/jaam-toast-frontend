@@ -10,7 +10,7 @@ export function Preview({ url }: { url: string }) {
 
   return (
     <div className={css.preview}>
-      <a href={url} className={css.previewFilter}>
+      <a href={url} className={css.previewFilter} target="_blank">
         <img
           alt="jaam-toast-preview"
           src={previwImageSrc ?? ""}

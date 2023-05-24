@@ -36,10 +36,10 @@ export function ProjectInfo({ projectName }: { projectName: string }) {
             <span className={css.projectInfoFieldTitle}>url</span>
             <a
               className={css.projectInfoText}
-              href={domain ?? ""}
+              href={`https://${domain}` ?? ""}
               target="_blank"
             >
-              {domain ?? ""}
+              {`https://${domain}` ?? ""}
             </a>
           </li>
           <li className={css.projectInfo}>
