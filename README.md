@@ -20,6 +20,7 @@ Jaam Toast는 릴레이 프로젝트입니다. 기존에 있던 프로젝트를 
 - [당근마켓 Frontend Lead 원지혁님 멘토링 기록](https://vanillacoding.notion.site/23-04-01-d88dce3e966e4b0c82a9fde0ffc4a3cb)
 - [카카오모빌리티 Backend 이영교님 멘토링 기록](https://vanillacoding.notion.site/23-04-08-81fdc846ebc84416823b0ca713ad62af)
 - [와이어드컴퍼니 Frontend 장명재님 멘토링 기록](https://vanillacoding.notion.site/23-04-15-cb8c375b2c8e44b89719f3968ddba554)
+<br />
 
 # 목차
 
@@ -48,8 +49,32 @@ Jaam Toast는 릴레이 프로젝트입니다. 기존에 있던 프로젝트를 
 - [기술 스택](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D)
 - [작업 기록](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EC%9E%91%EC%97%85-%EA%B8%B0%EB%A1%9D)
 - [팀원](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%ED%8C%80%EC%9B%90)
+<br />
 
 # **서비스 화면**
+
+## **Deployment**
+<p align="center">
+  <img src="https://github.com/h-alex2/imgaes/blob/main/jaam-cms-%EC%8B%9C%EC%97%B0.gif?raw=true" alt="deployment-demo" width="800"/>
+</p>
+<a href="https://www.youtube.com/watch?v=OVwu7LXL3Jo" target="_blank">
+영상으로 확인하고 싶다면 여기를 클릭해주세요.
+</a>
+<br />
+<br />
+
+## **Headless CMS**
+<p align="center">
+  <img src="https://github.com/h-alex2/imgaes/blob/main/deployment4.gif?raw=true" alt="cms-demo" width="800"/>
+</p>
+
+<a href="https://www.youtube.com/watch?v=jdSHSlmhc8g" target="_blank">
+영상으로 확인하고 싶다면 여기를 클릭해주세요.
+</a>
+<br />
+<br />
+
+</details>
 
 # **고민한 부분**
 
