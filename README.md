@@ -20,56 +20,107 @@ Jaam Toast는 릴레이 프로젝트입니다. 기존에 있던 프로젝트를 
 - [당근마켓 Frontend Lead 원지혁님 멘토링 기록](https://vanillacoding.notion.site/23-04-01-d88dce3e966e4b0c82a9fde0ffc4a3cb)
 - [카카오모빌리티 Backend 이영교님 멘토링 기록](https://vanillacoding.notion.site/23-04-08-81fdc846ebc84416823b0ca713ad62af)
 - [와이어드컴퍼니 Frontend 장명재님 멘토링 기록](https://vanillacoding.notion.site/23-04-15-cb8c375b2c8e44b89719f3968ddba554)
+
 <br />
 
 # 목차
 
-- [서비스 화면](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EC%84%9C%EB%B9%84%EC%8A%A4-%ED%99%94%EB%A9%B4)
-- [고민한 부분](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EA%B3%A0%EB%AF%BC%ED%95%9C-%EB%B6%80%EB%B6%84)
-  - [배포 기능 개선하기](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EB%B0%B0%ED%8F%AC-%EA%B8%B0%EB%8A%A5-%EA%B0%9C%EC%84%A0%ED%95%98%EA%B8%B0)
-    - [SSH 프로토콜로 접속해서 배포 시간을 단축해보기](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#ssh-%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C%EB%A1%9C-%EC%A0%91%EC%86%8D%ED%95%B4%EC%84%9C-%EB%B0%B0%ED%8F%AC-%EC%8B%9C%EA%B0%84%EC%9D%84-%EB%8B%A8%EC%B6%95%ED%95%B4%EB%B3%B4%EA%B8%B0)
-    - [정적 웹 호스팅에 집중하기](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EC%A0%95%EC%A0%81-%EC%9B%B9-%ED%98%B8%EC%8A%A4%ED%8C%85%EC%97%90-%EC%A7%91%EC%A4%91%ED%95%98%EA%B8%B0)
-    - [정적 웹 호스팅으로 전환하면서 얻게 된 문제](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EC%A0%95%EC%A0%81-%EC%9B%B9-%ED%98%B8%EC%8A%A4%ED%8C%85%EC%9C%BC%EB%A1%9C-%EC%A0%84%ED%99%98%ED%95%98%EB%A9%B4%EC%84%9C-%EC%96%BB%EA%B2%8C-%EB%90%9C-%EB%AC%B8%EC%A0%9C)
-  - [효율적인 스타일링 구조 제작](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%ED%9A%A8%EC%9C%A8%EC%A0%81%EC%9D%B8-%EC%8A%A4%ED%83%80%EC%9D%BC%EB%A7%81-%EA%B5%AC%EC%A1%B0-%EC%A0%9C%EC%9E%91)
-  - [이벤트 기반 구조 도입](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EA%B8%B0%EB%B0%98-%EA%B5%AC%EC%A1%B0-%EB%8F%84%EC%9E%85)
-  - [Next.js에서 React로 Migration](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#nextjs%EC%97%90%EC%84%9C-react%EB%A1%9C-migration)
-  - [사용자 경험 개선](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EC%82%AC%EC%9A%A9%EC%9E%90-%EA%B2%BD%ED%97%98-%EA%B0%9C%EC%84%A0)
-    - [Suspense, Lazy import 적용하기](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#suspense-lazy-import-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0)
-    - [에러를 효율적으로 관리할 수 있는 커스텀 컴포넌트 만들기](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EC%97%90%EB%9F%AC%EB%A5%BC-%ED%9A%A8%EC%9C%A8%EC%A0%81%EC%9C%BC%EB%A1%9C-%EA%B4%80%EB%A6%AC%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8A%94-%EC%BB%A4%EC%8A%A4%ED%85%80-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0)
-    - [React Query로 렌더링 이후의 에러 대응하기](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#react-query%EB%A1%9C-%EB%A0%8C%EB%8D%94%EB%A7%81-%EC%9D%B4%ED%9B%84%EC%9D%98-%EC%97%90%EB%9F%AC-%EB%8C%80%EC%9D%91%ED%95%98%EA%B8%B0)
-  - [Headless CMS 제작](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#headless-cms-%EC%A0%9C%EC%9E%91)
-    - [JSON Schema를 이용해 Jaam Schema 만들기](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#json-schema%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%B4-jaam-schema-%EB%A7%8C%EB%93%A4%EA%B8%B0)
-    - [CMS에 접근할 수 있는 API 제공하기](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#cms%EC%97%90-%EC%A0%91%EA%B7%BC%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8A%94-api-%EC%A0%9C%EA%B3%B5%ED%95%98%EA%B8%B0)
-    - [페이지네이션 적용하기](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%ED%8E%98%EC%9D%B4%EC%A7%80%EB%84%A4%EC%9D%B4%EC%85%98-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0)
-  - [보안, 유저 권한 최소화](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EB%B3%B4%EC%95%88-%EC%9C%A0%EC%A0%80-%EA%B6%8C%ED%95%9C-%EC%B5%9C%EC%86%8C%ED%99%94)
-    - [Github 유저 권한](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#github-%EC%9C%A0%EC%A0%80-%EA%B6%8C%ED%95%9C)
-    - [S3 Public Access 차단](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#s3-public-access-%EC%B0%A8%EB%8B%A8)
-    - [Route 별 CORS 설정](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#route-%EB%B3%84-cors-%EC%84%A4%EC%A0%95)
-  - [타입스크립트로 개발자(DX) 경험 향상시키기](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%ED%83%80%EC%9E%85%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%EB%A1%9C-%EA%B0%9C%EB%B0%9C%EC%9E%90dx-%EA%B2%BD%ED%97%98-%ED%96%A5%EC%83%81%EC%8B%9C%ED%82%A4%EA%B8%B0)
-- [기술 스택](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D)
-- [작업 기록](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%EC%9E%91%EC%97%85-%EA%B8%B0%EB%A1%9D)
-- [팀원](https://github.com/jaam-toast/jaam-toast-frontend/tree/docs/readme#%ED%8C%80%EC%9B%90)
-<br />
+- [서비스 화면](https://github.com/jaam-toast/jaam-toast-frontend#서비스-화면)
+- [고민한 부분](https://github.com/jaam-toast/jaam-toast-frontend#고민한-부분)
+  - [배포 기능 개선하기](https://github.com/jaam-toast/jaam-toast-frontend#배포-기능-개선하기)
+    - [SSH 프로토콜로 접속해서 배포 시간을 단축해보기](https://github.com/jaam-toast/jaam-toast-frontend#ssh-프로토콜로-접속해서-배포-시간을-단축해보기)
+    - [정적 웹 호스팅에 집중하기](https://github.com/jaam-toast/jaam-toast-frontend#정적-웹-호스팅에-집중하기)
+    - [정적 웹 호스팅으로 전환하면서 얻게 된 문제](https://github.com/jaam-toast/jaam-toast-frontend#정적-웹-호스팅으로-전환하면서-얻게-된-문제)
+  - [효율적인 스타일링 구조 제작](https://github.com/jaam-toast/jaam-toast-frontend#효율적인-스타일링-구조-제작)
+  - [이벤트 기반 구조 도입](https://github.com/jaam-toast/jaam-toast-frontend#이벤트-기반-구조-도입)
+  - [Next.js에서 React로 Migration](https://github.com/jaam-toast/jaam-toast-frontend#nextjs에서-react로-migration)
+  - [사용자 경험 개선](https://github.com/jaam-toast/jaam-toast-frontend#사용자-경험-개선)
+    - [Suspense, Lazy import 적용하기](https://github.com/jaam-toast/jaam-toast-frontend#suspense-lazy-import-적용하기)
+    - [에러를 효율적으로 관리할 수 있는 커스텀 컴포넌트 만들기](https://github.com/jaam-toast/jaam-toast-frontend#에러를-효율적으로-관리할-수-있는-커스텀-컴포넌트-만들기)
+    - [React Query로 렌더링 이후의 에러 대응하기](https://github.com/jaam-toast/jaam-toast-frontend#react-query로-렌더링-이후의-에러-대응하기)
+  - [Headless CMS 제작](https://github.com/jaam-toast/jaam-toast-frontend#headless-cms-제작)
+    - [JSON Schema를 이용해 Jaam Schema 만들기](https://github.com/jaam-toast/jaam-toast-frontend#json-schema를-이용해-jaam-schema-만들기)
+    - [CMS에 접근할 수 있는 API 제공하기](https://github.com/jaam-toast/jaam-toast-frontend#cms에-접근할-수-있는-api-제공하기)
+    - [페이지네이션 적용하기](https://github.com/jaam-toast/jaam-toast-frontend#페이지네이션-적용하기)
+  - [보안, 유저 권한 최소화](https://github.com/jaam-toast/jaam-toast-frontend#보안-유저-권한-최소화)
+    - [Github 유저 권한](https://github.com/jaam-toast/jaam-toast-frontend#github-유저-권한)
+    - [S3 Public Access 차단](https://github.com/jaam-toast/jaam-toast-frontend#s3-public-access-차단)
+    - [Route 별 CORS 설정](https://github.com/jaam-toast/jaam-toast-frontend#route-별-cors-설정)
+  - [타입스크립트로 개발자(DX) 경험 향상시키기](https://github.com/jaam-toast/jaam-toast-frontend#타입스크립트로-개발자dx-경험-향상시키기)
+- [기술 스택](https://github.com/jaam-toast/jaam-toast-frontend#기술-스택)
+- [작업 기록](https://github.com/jaam-toast/jaam-toast-frontend#작업-기록)
+- [팀원](https://github.com/jaam-toast/jaam-toast-frontend#팀원)
+  <br />
 
 # **서비스 화면**
 
+<details>
+  <summary>
+	  
+  ### 기능 및 작업 기여도
+	  
+  </summary>
+
+## Frontend
+
+|                               | 공재혁 | 임현정 |
+| ----------------------------- | -----: | -----: |
+| Github Repository 선택 페이지 |    70% |    30% |
+| Project Option 페이지         |    80% |    20% |
+| 배포 Log 및 Preview 페이지    |   100% |        |
+| 프로젝트 리스트 페이지        |    80% |    20% |
+| 프로젝트 대시보드 페이지      |    20% |    80% |
+| 스키마 생성 페이지            |        |   100% |
+| 스키마 리스트 페이지          |        |   100% |
+| 콘텐츠 생성 페이지            |        |   100% |
+| 콘텐츠 리스트 페이지          |        |   100% |
+| Assets 페이지                 |        |   100% |
+| Webhook 페이지                |        |   100% |
+| Project Setting 페이지        |    90% |    10% |
+| Jaam Schema 변환 패키지       |    10% |    90% |
+| Preview 생성 기능             |   100% |        |
+| Favicon 추출 기능             |        |   100% |
+
+<br/>
+	
+## Backend
+<br/>
+
+|                               | 공재혁 | 임현정 |
+| ----------------------------- | -----: | -----: |
+| 정적 웹 호스팅 기능           |    30% |    70% |
+| Build Log 전송 기능           |    50% |    50% |
+| Github Apps 연동              |   100% |        |
+| 이벤트 기반 구조 적용         |   100% |        |
+| 사용자 CMS 스토리지 생성 기능 |   100% |        |
+| Assets 업로드 기능            |        |   100% |
+| 도메인 연결 기능              |    30% |    70% |
+| 의존성 주입 적용              |    50% |    50% |
+
+</details>
+<br/>
+
 ## **Deployment**
+
 <p align="center">
   <img src="https://github.com/h-alex2/imgaes/blob/main/deployment4.gif?raw=true" alt="cms-demo" width="800"/>
 </p>
 <a href="https://www.youtube.com/watch?v=OVwu7LXL3Jo" target="_blank">
 영상으로 확인하고 싶다면 여기를 클릭해주세요.
 </a>
+
 <br />
 <br />
 
 ## **Headless CMS**
+
 <p align="center">
   <img src="https://github.com/h-alex2/imgaes/blob/main/jaam-cms-%EC%8B%9C%EC%97%B0.gif?raw=true" alt="deployment-demo" width="800"/>
 </p>
 <a href="https://www.youtube.com/watch?v=jdSHSlmhc8g" target="_blank">
 영상으로 확인하고 싶다면 여기를 클릭해주세요.
 </a>
+
 <br />
 <br />
 
@@ -78,6 +129,8 @@ Jaam Toast는 릴레이 프로젝트입니다. 기존에 있던 프로젝트를 
 # **고민한 부분**
 
 ## **배포 기능 개선하기**
+
+<sup> 기여도 - 공재혁 30%, 임현정 70% </sup>
 
 프로젝트 진행 중 제일 먼저 고민했던 부분은 배포 기능을 어떻게 개선할지였습니다.
 
@@ -191,6 +244,8 @@ S3를 이용한 방법으로 HTTPS를 직접 적용할 수 없기 때문에, AWS
 <br />
 
 ## **효율적인 스타일링 구조 제작**
+
+<sup> 기여도 - 공재혁 70% 임현정 30% </sup>
 
 기존 웹 페이지는 MUI를 기반으로 이루어져 있었습니다. MUI는 미리 작성된 Component들을 가져다 손쉽게 사용할 수 있는 컴포넌트 라이브러리인데요. 일일이 CSS를 작성할 필요 없이 원하는 페이지를 빠르게 만들 수 있는 장점이 있습니다. 반면 MUI는 기본적으로 제공하는 스타일에서 커스텀하기가 용이하지 않은 단점이 있습니다. MUI에서 Component를 커스텀하려면 `createTheme` 함수에 Component Option을 인자로 넣어 설정해줄 수 있습니다. 문제는 점점 커스텀할 수록 `createTheme`가 거대해진다는 것입니다.
 
@@ -313,6 +368,8 @@ export const flexCenter = style({
 
 ## **이벤트 기반 구조 도입**
 
+<sup> 기여도 - 공재혁 100% </sup>
+
 <p align='center'>
   <img width="642" alt="jaamtoast-original-structure" src="https://github.com/jaam-toast/jaam-toast-frontend/assets/84281505/e7b4408d-5672-4b12-b0d5-8c0191faf59c" />
 </p>
@@ -398,6 +455,8 @@ Jaam Toast는 프로젝트의 배포가 업데이트될 때, 사용자의 콘텐
 
 ## **Next.js에서 React로 Migration**
 
+<sup> 기여도 - 공재혁 100% </sup>
+
 원래 저희 프로젝트는 Next.js로 제작되었습니다. Next.js는 React를 기반으로 Server Side Rendering(SSR)을 더 용이하게 해주는 Framework인데요.
 
 프로젝트와 Next.js를 사용하면서 힘들었던 점은 Hydration Error를 처리하는 부분이었습니다. 특히 React-Query와 Suspense를 쓰는 상황에서 예상치 못한 에러가 발생하는 경우가 많았습니다.
@@ -451,6 +510,8 @@ SSR의 장점이라고 한다면, 서버에서 static html을 만들어서 제�
 <br />
 
 ## **사용자 경험 개선**
+
+<sup> 기여도 - 공재혁 20%, 임현정 80% </sup>
 
 ### **Suspense, Lazy import 적용하기**
 
@@ -573,6 +634,8 @@ export class HttpError extends AxiosError {
 <br />
 
 ## **Headless CMS 제작**
+
+<sup> 기여도 - 공재혁 50%, 임현정 50% </sup>
 
 이번 프로젝트에서 새로운 기능으로 Headless CMS 기능을 추가하게 되었습니다.
 
@@ -700,6 +763,8 @@ pagination을 구현하는 방법은 크게 두 가지를 들 수 있습니다. 
 
 ## **보안, 유저 권한 최소화**
 
+<sup> 기여도 - 공재혁 50%, 임현정 50% </sup>
+
 ### **Github 유저 권한**
 
 <table>
@@ -742,6 +807,8 @@ Webhook에 대한 권한을 요구하는 이유는, 프로젝트의 Repository�
 <br />
 
 ## **타입스크립트로 개발자(DX) 경험 향상시키기**
+
+<sup> 기여도 - 공재혁 70% 임현정 30% </sup>
 
 타입스크립트는 단순히 정적 타입을 검사하는 깐깐한 언어가 아닌, 개발자들을 도와주는 똑똑한 도구로 사용할 수도 있게 됩니다.
 
